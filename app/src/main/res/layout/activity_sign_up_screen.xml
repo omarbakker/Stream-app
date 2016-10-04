@@ -5,25 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="64dp"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     android:background="#FFFFFF"
-    tools:context="com.example.rohinigoyal.loginstream.SignUpScreen">
-
-
+    tools:context="com.test.stream.stream.UI.SignUpScreen">
 
         <View android:id="@+id/rectangle_at_the_top"
             android:layout_width="match_parent"
             android:layout_height="175dp"
             android:layout_alignParentTop="true"
-            android:background="#DDDDDD"
+            android:background="#087bb9"
             android:visibility="visible"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_below="@+id/rectangle_at_the_top"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -124,9 +124,9 @@
 
     <TextView
         android:text="Create Your Own Stream"
-        android:textSize="24dp"
+        android:textSize="22dp"
         android:layout_gravity="center"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
