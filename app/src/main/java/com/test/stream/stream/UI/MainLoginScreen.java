@@ -145,7 +145,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 //startActivity(new Intent(MainLoginScreen.this, ForgotPassword.class));
                 break;
             case R.id.loginWithFacebook:
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
                 break;
             case R.id.login:
                 attemptLogin();
@@ -155,7 +155,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -163,9 +162,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(MainLoginScreen.this, "Authentication failed.",
