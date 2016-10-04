@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@mipmap/chat"
+            android:title="Chat" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@mipmap/calendar"
+            android:title="Calendar" />
+        <item
+            android:id="@+id/nav_pinboard"
+            android:icon="@mipmap/pin"
+            android:title="Pin Board" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@mipmap/settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/nav_tasks"
+            android:icon="@mipmap/list"
+            android:title="Tasks" />
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_projects"
+            android:icon="@mipmap/misc"
+            android:title="Projects" />
+    </group>
+
+</menu>

@@ -38,6 +38,9 @@
     <activity android:name=".UI.VerificationCode"></activity>
     <activity android:name=".UI.SignUpScreen"></activity>
     <activity android:name=".UI.SetUpMeeting"></activity>
+    <activity android:name=".UI.ToolbarActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
 </application>
 
 
