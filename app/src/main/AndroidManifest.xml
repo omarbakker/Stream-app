@@ -2,19 +2,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.test.stream.stream" >
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name="com.test.stream.stream.UI.MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+<uses-permission android:name="android.permission.READ_PROFILE" />
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+<uses-permission android:name="android.permission.INTERNET" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+<application
+    android:allowBackup="true"
+    android:icon="@mipmap/stream_curvy_logo"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <meta-data
+        android:name="com.facebook.sdk.ApplicationId"
+        android:value="@string/facebook_app_id" />
+
+    <activity android:name=".MainLoginScreen">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="@string/fb_login_protocol_scheme" />
+        </intent-filter>
+    </activity>
+    <activity android:name=".VerificationCode"></activity>
+    <activity android:name=".SignUpScreen"></activity>
+    <activity
+        android:name=".todelete"
+        android:label="@string/title_activity_todelete" />
+    <activity android:name=".SetUpMeeting"></activity>
+</application>
+
 
 </manifest>
