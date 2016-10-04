@@ -1,13 +1,15 @@
-package com.example.rohinigoyal.loginstream;
+package com.test.stream.stream.UI;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.test.stream.stream.R;
+
 import org.w3c.dom.Text;
 
-import static com.example.rohinigoyal.loginstream.R.id.enterEmail;
+//import static com.test.stream.stream.UI.SignUpScreen.R.id.enterEmail;
 
 public class VerificationCode extends AppCompatActivity {
 
@@ -23,7 +25,7 @@ public class VerificationCode extends AppCompatActivity {
         emailEntered = (TextView) findViewById(R.id.emailEntered);
 
         whichEmail.setText("We just sent you an email at");
-        emailEntered.setText(SignUpScreen.getEmail());
+        emailEntered.setText(com.test.stream.stream.UI.SignUpScreen.getEmail());
 
 
         //Syncopate

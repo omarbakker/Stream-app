@@ -1,4 +1,4 @@
-package com.example.rohinigoyal.loginstream;
+package com.test.stream.stream.UI;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,6 +29,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.test.stream.stream.R;
 
 import java.util.Arrays;
 

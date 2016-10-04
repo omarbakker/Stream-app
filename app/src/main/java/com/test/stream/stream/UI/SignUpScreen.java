@@ -1,4 +1,4 @@
-package com.example.rohinigoyal.loginstream;
+package com.test.stream.stream.UI;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.test.stream.stream.R;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
