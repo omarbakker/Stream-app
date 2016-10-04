@@ -97,12 +97,12 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onCancel() {
-
+                startActivity(new Intent(MainLoginScreen.this, MainLoginScreen.class));
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                startActivity(new Intent(MainLoginScreen.this, MainLoginScreen.class));
             }
         });
 
@@ -145,19 +145,19 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            enterPassword.setError("Password is not valid");
+            enterPassword.setError("@string/password_not_valid");
             focusView = enterPassword;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            enterEmail.setError("This field is required");
+            enterEmail.setError("@string/error_field_required");
             focusView = enterEmail;
             cancel = true;
         }
         else if (!isEmailValid(email)) {
-            enterEmail.setError("This email or username is invalid");
+            enterEmail.setError("@string/email_username_not_valid");
             focusView = enterEmail;
             cancel = true;
         }

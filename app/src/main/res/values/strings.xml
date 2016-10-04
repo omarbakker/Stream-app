@@ -1,23 +1,35 @@
 <resources>
-    <string name="app_name">LoginSTREAM</string>
-    <string name="title_activity_login_to_delete">Sign in</string>
-
-    <!-- Strings related to login -->
+    <string name="signup_verification_message">To complete your sign-up, enter the verification code.</string>
+    <string name="enterName">Name</string>
+    <string name="continueButton">Continue</string>
+    <string name="signup_screen_title">Create your own stream</string>
     <string name="prompt_email">Email</string>
+    <string name="enterNewUsername">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="forgot_password">Forgot your password</string>
+    <string name="not_a_user_signup">Not a user? Signup</string>
+    <string name="loginButton">Login</string>
+    <string name="remember_me_switch">Remember me</string>
+    <string name="main_login_screen_or">OR</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="title_activity_todelete">Sign in</string>
     <string name="facebook_app_id">159885764463088</string>
     <string name="fb_login_protocol_scheme">fb159885764463088</string>
+    <string name="password_not_valid">Password is not valid</string>
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="email_username_not_valid">This email or usename is invalid</string>
+    <string name="verification_email_sent_description">We just sent you an email at</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+
+
+
+
+
+    <string name="app_name">LoginSTREAM</string>
+
+    <!-- Strings related to login -->
+
 </resources>

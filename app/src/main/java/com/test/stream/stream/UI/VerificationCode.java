@@ -9,6 +9,8 @@ import com.test.stream.stream.R;
 
 import org.w3c.dom.Text;
 
+import static com.test.stream.stream.R.string.verification_email_sent_description;
+
 //import static com.test.stream.stream.UI.SignUpScreen.R.id.enterEmail;
 
 public class VerificationCode extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class VerificationCode extends AppCompatActivity {
         verificationCodeExplanation = (TextView) findViewById(R.id.textView2);
         emailEntered = (TextView) findViewById(R.id.emailEntered);
 
-        whichEmail.setText("We just sent you an email at");
+        whichEmail.setText(verification_email_sent_description);
         emailEntered.setText(com.test.stream.stream.UI.SignUpScreen.getEmail());
 
 

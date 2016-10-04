@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,5 +57,33 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     public static String getEmail() {
         return newEmail = enterNewEmail.getText().toString();
+    }
+
+    public void verifyInformation(){
+        View focusView = null;
+        String email = enterNewEmail.getText().toString();
+        String password = enterNewPassword.getText().toString();
+
+        if(!TextUtils.isEmpty(email)) {
+            enterNewEmail.setError("@string/error_field_required");
+            focusView = enterNewEmail;
+        }
+        else if (!TextUtils.isEmpty(password)) {
+            enterNewPassword.setError("@string/error_field_required");
+            focusView = enterNewPassword;
+        }
+        else if (!isPasswordValid(password)) {
+            enterNewPassword.setError("@string/password_not_valid");
+        }
+        else if (!isEmailValid(email)) {
+            enterNewEmail.setError("@string/email_not_valid");
+        }
+    }
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() > 4;
     }
 }
