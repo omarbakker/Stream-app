@@ -11,7 +11,7 @@
 <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
+    android:label="Stream-app"
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,7 +20,7 @@
         android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/facebook_app_id" />
 
-    <activity android:name="UI.MainLoginScreen">
+    <activity android:name=".UI.MainLoginScreen">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -35,9 +35,9 @@
             <data android:scheme="@string/fb_login_protocol_scheme" />
         </intent-filter>
     </activity>
-    <activity android:name="UI.VerificationCode"></activity>
-    <activity android:name="UI.SignUpScreen"></activity>
-    <activity android:name="UI.SetUpMeeting"></activity>
+    <activity android:name=".UI.VerificationCode"></activity>
+    <activity android:name=".UI.SignUpScreen"></activity>
+    <activity android:name=".UI.SetUpMeeting"></activity>
 </application>
 
 
