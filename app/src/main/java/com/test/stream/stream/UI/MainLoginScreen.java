@@ -39,15 +39,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.Arrays;
 
 public class MainLoginScreen extends AppCompatActivity implements View.OnClickListener {
-
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    String TAG;
 
     TextView signup, forgotPassword, orDifferentLogin;
     Button login;
@@ -60,6 +64,11 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     CallbackManager callbackManager;
     Profile userProfile;
     String userName;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    String TAG;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +107,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         login.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -111,13 +119,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                //if login succeeds, the loginResult has the new AccessToken and most recently granted or declined permissions
-                AccessToken accessToken = loginResult.getAccessToken();
+                AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
-
-               // Toast.makeText(MainLoginScreen.this,  "User: " +  mUser.getUid(), Toast.LENGTH_SHORT).show();
-                //userName = userProfile.getFirstName() + " " + userProfile.getLastName(); //Catherine: This line is causing the crash.
-                //startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
             }
 
             @Override
@@ -133,7 +136,25 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode,data);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -152,29 +173,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
                 break;
         }
-    }
-
-    private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainLoginScreen.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-                            Toast.makeText(MainLoginScreen.this,  "User: " +  mUser.getUid(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     private boolean isEmailValid(String email) {
@@ -257,27 +255,55 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode,data);
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        }
+                        else
+                        {
+                            Toast.makeText(MainLoginScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+    private void createUser()
+    {
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        User user = new User(mUser.getUid(), "Merinoe");
+        DatabaseManager.getInstance().writeObject("users", user);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
+    private void getUser(String uid){
+        DatabaseReference myRef = DatabaseManager.getInstance().getReference("users");
+        Query usernameQuery = myRef.orderByChild("uid").equalTo(uid);
+
+        usernameQuery.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.exists())
+                        {
+                            createUser();
+                        }
+                        else
+                        {
+                            Toast.makeText(MainLoginScreen.this, "User already exists",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                    }
+                });
+
     }
-
-
-
-
 }
