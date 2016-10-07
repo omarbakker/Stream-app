@@ -19,18 +19,18 @@ public class DatabaseManager {
         return instance;
     }
 
-    public String writeObject(String objectType, Object itemToWrite)
+    public String writeObject(DatabaseFolders objectType, Object itemToWrite)
     {
-        DatabaseReference myRef = database.getReference(objectType);
+        DatabaseReference myRef = database.getReference(objectType.toString());
         DatabaseReference newRef = myRef.push();
         newRef.setValue(itemToWrite);
 
         return newRef.getKey();
     }
 
-    public String updateObject(String objectType, String objectID, Object itemToWrite)
+    public String updateObject(DatabaseFolders objectType, String objectID, Object itemToWrite)
     {
-        DatabaseReference myRef = database.getReference(objectType);
+        DatabaseReference myRef = database.getReference(objectType.toString());
         myRef.child(objectID).setValue(itemToWrite);
 
         return myRef.getKey();

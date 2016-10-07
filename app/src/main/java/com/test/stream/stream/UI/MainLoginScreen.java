@@ -47,6 +47,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.Arrays;
@@ -284,7 +285,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     {
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         User user = new User(mUser.getUid(), mUser.getDisplayName());
-        DatabaseManager.getInstance().writeObject("users", user);
+        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
     }
 
     private void getUser(String uid){
