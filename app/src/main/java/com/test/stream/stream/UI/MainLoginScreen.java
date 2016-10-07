@@ -57,6 +57,13 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     Button login;
     AppCompatEditText enterEmail;
     EditText enterPassword;
+
+
+
+
+
+
+
     Switch rememberMe;
     LoginButton loginWithFacebook;
     private View mLoginFormView;
@@ -276,7 +283,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     private void createUser()
     {
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(mUser.getUid(), "Merinoe");
+        User user = new User(mUser.getUid(), mUser.getDisplayName());
         DatabaseManager.getInstance().writeObject("users", user);
     }
 
