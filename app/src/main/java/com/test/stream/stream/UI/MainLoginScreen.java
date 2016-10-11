@@ -49,6 +49,7 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.ReadDataCallback;
 
 import java.util.Arrays;
 
@@ -58,13 +59,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     Button login;
     AppCompatEditText enterEmail;
     EditText enterPassword;
-
-
-
-
-
-
-
     Switch rememberMe;
     LoginButton loginWithFacebook;
     private View mLoginFormView;
@@ -289,29 +283,20 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getUser(String uid){
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference("users");
-        Query usernameQuery = myRef.orderByChild("uid").equalTo(uid);
-
-        usernameQuery.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.exists())
-                        {
-                            createUser();
-                        }
-                        else
-                        {
-                            Toast.makeText(MainLoginScreen.this, "User already exists",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                    }
-                });
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid, new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+                if(!result.exists())
+                {
+                    createUser();
+                }
+                else
+                {
+                    Toast.makeText(MainLoginScreen.this, "User already exists",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 }
