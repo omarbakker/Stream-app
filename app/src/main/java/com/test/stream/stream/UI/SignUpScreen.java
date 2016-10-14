@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import com.test.stream.stream.R;
 
+import static com.test.stream.stream.R.string.email_not_valid;
+import static com.test.stream.stream.R.string.error_field_required;
+import static com.test.stream.stream.R.string.password_not_valid;
+
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
     EditText enterNewName, enterNewUsername,  enterNewPassword;
@@ -50,8 +54,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.continueWithSignUp:
-                //newEmail = enterNewEmail.getText().toString();
-                startActivity(new Intent(SignUpScreen.this, VerificationCode.class));
+               verifyInformation();
         }
     }
 
@@ -61,22 +64,40 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     public void verifyInformation(){
         View focusView = null;
+        boolean informationCorrect = true;
         String email = enterNewEmail.getText().toString();
         String password = enterNewPassword.getText().toString();
+        String name = enterNewName.getText().toString();
+        String username = enterNewUsername.getText().toString();
 
         if(!TextUtils.isEmpty(email)) {
-            enterNewEmail.setError("@string/error_field_required");
+            enterNewEmail.setError(getText(error_field_required));
             focusView = enterNewEmail;
+            informationCorrect = false;
         }
-        else if (!TextUtils.isEmpty(password)) {
-            enterNewPassword.setError("@string/error_field_required");
+        if (!isEmailValid(email)) {
+            enterNewEmail.setError(getText(email_not_valid));
+            informationCorrect = false;
+        }
+        if (!TextUtils.isEmpty(password)) {
+            enterNewPassword.setError(getText(error_field_required));
             focusView = enterNewPassword;
+            informationCorrect = false;
         }
-        else if (!isPasswordValid(password)) {
-            enterNewPassword.setError("@string/password_not_valid");
+        if (!isPasswordValid(password)) {
+            enterNewPassword.setError(getText(password_not_valid));
+            informationCorrect = false;
         }
-        else if (!isEmailValid(email)) {
-            enterNewEmail.setError("@string/email_not_valid");
+        if (!TextUtils.isEmpty((name))) {
+            enterNewName.setError(getText(error_field_required));
+            informationCorrect = false;
+        }
+        if (!TextUtils.isEmpty((username))) {
+            enterNewUsername.setError(getText(error_field_required));
+            informationCorrect = false;
+        }
+        if(informationCorrect){
+            startActivity(new Intent (SignUpScreen.this, VerificationCode.class));
         }
     }
     private boolean isEmailValid(String email) {

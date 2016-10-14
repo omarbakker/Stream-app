@@ -5,14 +5,11 @@ import android.os.Bundle;
 
 import com.test.stream.stream.R;
 
-public class SetUpMeeting extends AppCompatActivity {
+public class SetNewMeetingTimeAndDate extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_up_meeting);
+        setContentView(R.layout.activity_set_new_meeting_time_and_date);
     }
-
-    //need to make a call to the database and see if there are any meetings set up
-    
 }

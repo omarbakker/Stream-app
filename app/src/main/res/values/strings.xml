@@ -22,13 +22,25 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-
-
-
-
+    <string name="current_meetings">Meetings</string>
+    <string name="no_current_meetings">You have no meetings set up</string>
+    <string name="past_meetings">Past meetings</string>
+    <string name="create_new_meeting">Create a new meeting</string>
+    <string name="new_meeting">New meeting</string>
+    <string name="save_new_meeting">Save</string>
+    <string name="MeetingName">Meeting name</string>
+    <string name="newMeetingInstructions">Choose a few times to have the meeting</string>
+    <string name="sendMeetingRequest">Send meeting request</string>
+    <string name="meetingLocation">Location</string>
 
 
     <string name="app_name">LoginSTREAM</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_create_new_meeting">CreateNewMeeting</string>
 
     <!-- Strings related to login -->
 

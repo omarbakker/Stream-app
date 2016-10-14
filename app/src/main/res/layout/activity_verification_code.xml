@@ -27,6 +27,7 @@
         android:textColor="#087bb9"
         android:layout_marginTop="50dp"
         android:gravity="center"
+        android:text="@string/verification_email_sent_description"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

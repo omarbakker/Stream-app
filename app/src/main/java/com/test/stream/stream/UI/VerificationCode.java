@@ -26,7 +26,6 @@ public class VerificationCode extends AppCompatActivity {
         verificationCodeExplanation = (TextView) findViewById(R.id.textView2);
         emailEntered = (TextView) findViewById(R.id.emailEntered);
 
-        whichEmail.setText(verification_email_sent_description);
         emailEntered.setText(com.test.stream.stream.UI.SignUpScreen.getEmail());
 
 
