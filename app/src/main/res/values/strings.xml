@@ -2,6 +2,8 @@
     <string name="app_name">LoginSTREAM</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
+    <!-- Strings related to projects-->
+    <string name="Projects_activity_title">Your Projects</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
