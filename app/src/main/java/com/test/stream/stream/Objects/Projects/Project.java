@@ -2,6 +2,7 @@ package com.test.stream.stream.Objects.Projects;
 
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class Project {
         administrators.put(projectOwner.getUid(), ownerKey);
     //    boardId = DatabaseManager.getInstance().writeObject("boards", new Board());
     //    chatId = DatabaseManager.getInstance().writeObject("chatGroups", new ChatGroup());
-        taskGroupId = DatabaseManager.getInstance().writeObject("taskGroups", new TaskGroup(key, "TG"+key));
+        taskGroupId = DatabaseManager.getInstance().writeObject(DatabaseFolders.TaskGroups, new TaskGroup(key, "TG"+key));
     }
 
 
