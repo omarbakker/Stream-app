@@ -289,6 +289,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 if(!result.exists())
                 {
                     createUser();
+                    User user = (User)result.getValue();
                 }
                 else
                 {

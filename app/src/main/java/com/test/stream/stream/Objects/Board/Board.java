@@ -5,4 +5,5 @@ package com.test.stream.stream.Objects.Board;
  */
 
 public class Board {
+
 }
