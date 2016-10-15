@@ -35,9 +35,9 @@ public class ProjectsAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<Project> mDataSource;
+    private ArrayList<String> mDataSource;
 
-    public ProjectsAdapter(Context context, ArrayList<Project> list){
+    public ProjectsAdapter(Context context, ArrayList<String> list){
         mContext = context;
         mDataSource = list;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
