@@ -11,6 +11,7 @@ public enum DatabaseFolders {
     Projects,
     ChatGroups,
     Channels,
+    messages,
     Boards,
     Files
 }

@@ -20,24 +20,21 @@
         android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/facebook_app_id" />
 
-    <activity android:name=".UI.MainLoginScreen"></activity>
-    <activity android:name=".UI.ChatScreen">   <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
+    <activity android:name=".UI.MainLoginScreen">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
-
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-
             <data android:scheme="@string/fb_login_protocol_scheme" />
         </intent-filter></activity>
+    <activity android:name=".UI.ChatScreen" android:theme="@style/Theme.AppCompat.Light.DarkActionBar">  <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" /></intent-filter></activity>
     <activity android:name=".UI.VerificationCode"></activity>
     <activity android:name=".UI.SignUpScreen"></activity>
     <activity android:name=".UI.SetUpMeeting"></activity>
     <activity android:name=".UI.ToolbarActivity"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
     </activity>
 </application>
 

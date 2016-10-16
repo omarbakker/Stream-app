@@ -40,6 +40,15 @@ public class DatabaseManager {
         return newRef.getKey();
     }
 
+
+    public String writeObjectByReference(DatabaseReference myRef, Object itemToWrite)
+    {
+        DatabaseReference newRef = myRef.push();
+        newRef.setValue(itemToWrite);
+
+        return newRef.getKey();
+    }
+
     public String updateObject(DatabaseFolders objectType, String objectID, Object itemToWrite)
     {
         DatabaseReference myRef = database.getReference(objectType.toString());
