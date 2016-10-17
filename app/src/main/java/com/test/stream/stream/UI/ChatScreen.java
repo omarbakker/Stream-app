@@ -21,12 +21,17 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Chat.Message;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Controllers.ChatManager;
+import com.test.stream.stream.Utilities.FetchUserCallback;
 
 /**
  * Created by cathe on 2016-10-14.
+ * Note: Several parts of this class are based on the friendly chat tutorial from Firebase:
+ * https://github.com/firebase/friendlychat. Mainly UI.
  */
 
 public class ChatScreen extends AppCompatActivity {
@@ -41,20 +46,16 @@ public class ChatScreen extends AppCompatActivity {
         }
     }
 
-    // Firebase instance variables
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-
-    private String username = "anonymous";
+    private String username;
 
     private Button sendButton;
     private RecyclerView messageRecyclerView;
+    private RecyclerView.AdapterDataObserver dataObserver;
     private LinearLayoutManager linearLayoutManager;
     private ProgressBar progressBar;
     private EditText messageEditor;
 
     // Firebase instance variables
- //   private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Message, MessageViewHolder>
             mFirebaseAdapter;
 
@@ -63,17 +64,18 @@ public class ChatScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // Initialize User
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
+        if(!UserManager.getInstance().isUserLoggedin())
+        {
             startActivity(new Intent(this, MainLoginScreen.class));
             finish();
             return;
-        } else {
-            username = mFirebaseUser.getDisplayName();
         }
+        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
+            @Override
+            public void onDataRetrieved(User result) {
+                username = result.getUsername();
+            }
+        });
 
         // Initialize ProgressBar and RecyclerView.
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -83,17 +85,14 @@ public class ChatScreen extends AppCompatActivity {
         messageRecyclerView.setLayoutManager(linearLayoutManager);
 
         //Initialize the ChatManager
-        ChatManager.getInstance().registerGroupChatByID("chatGroup1", this);
-        ChatManager.getInstance().registerChannel("-channel1");
-
-        // Get new content
-        registerContent();
+        ChatManager.getInstance().registerGroupChatByID("chatGroup1", this); //TODO: Register by project instead
+        ChatManager.getInstance().registerChannel("-channel1", this); //TODO: Enter a default channel for all chats.
 
         registerMessageEditor();
         initializeSendButton();
     }
 
-    private void registerContent() {
+    public void registerContent() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Message,
                 MessageViewHolder>(
                 Message.class,
@@ -117,23 +116,26 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     private void registerFirebaseObserver() {
-        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+        dataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
+                int messageCount = mFirebaseAdapter.getItemCount();
                 int lastVisiblePosition =
                         linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 // If the recycler view is initially being loaded or the
                 // user is at the bottom of the list, scroll to the bottom
                 // of the list to show the newly added message.
                 if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
+                        (positionStart >= (messageCount - 1) &&
                                 lastVisiblePosition == (positionStart - 1))) {
                     messageRecyclerView.scrollToPosition(positionStart);
                 }
             }
-        });
+        };
+
+        mFirebaseAdapter.registerAdapterDataObserver(dataObserver);
     }
 
     private void registerMessageEditor() {
@@ -226,8 +228,7 @@ public class ChatScreen extends AppCompatActivity {
         else
         {
             String channelID = ChatManager.getInstance().getChannels().get(item.getTitle());
-            ChatManager.getInstance().registerChannel(channelID);
-            registerContent();
+            ChatManager.getInstance().registerChannel(channelID, this);
         }
 
         return super.onOptionsItemSelected(item);

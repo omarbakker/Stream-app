@@ -35,22 +35,9 @@ public class ChatManager {
 
     public static ChatManager getInstance() { return instance; }
 
-    public void registerChatGroup(Project project)
+    public void registerChatGroup(Project project, final ChatScreen context)
     {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.ChatGroups.toString());
-        Query query = myRef.orderByKey().equalTo(project.getChatId());
-
-            query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                currentChatGroup = dataSnapshot.getValue((ChatGroup.class));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        registerGroupChatByID(project.getChatId(), context);
     }
 
     //Remove later or make private. Only for testing.
@@ -106,7 +93,7 @@ public class ChatManager {
         return null;
     }
 
-    public void registerChannel(String channelId)
+    public void registerChannel(String channelId, final ChatScreen context)
     {
         currentChannelId = channelId;
 
@@ -121,6 +108,7 @@ public class ChatManager {
                 if(dataSnapshot.exists())
                 {
                     currentChannel = dataSnapshot.getValue(Channel.class);
+                    context.registerContent();
                 }
             }
 
