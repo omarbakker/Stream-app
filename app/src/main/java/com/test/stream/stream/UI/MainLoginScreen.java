@@ -271,7 +271,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         // WE AREN'T ACTUALLY USING ANY OF THIS AT THIS MOMENT, SO THIS WILL BE COMMENTED OUT AS TIME BEING
-        
+
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 //            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 //

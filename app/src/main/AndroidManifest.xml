@@ -40,8 +40,9 @@
         <activity android:name=".UI.SetUpMeeting" />
         <activity
             android:name=".UI.ToolbarActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".UI.DummyDashboard"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UI.DummyDashboard" />
+        <activity android:name=".UI.emailSignup"></activity>
     </application>
 
 </manifest>
