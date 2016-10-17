@@ -1,4 +1,4 @@
-package com.test.stream.stream.Utilities;
+package com.test.stream.stream.Utilities.Callbacks;
 
 import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Objects.Users.User;

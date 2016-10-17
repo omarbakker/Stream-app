@@ -10,8 +10,7 @@ import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.FetchUserCallback;
-import com.test.stream.stream.Utilities.ReadDataCallback;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 
 /**
  * Created by cathe on 2016-10-16.
@@ -39,13 +38,41 @@ public class UserManager {
 
     public void getCurrentUser(final FetchUserCallback callback)
     {
-        if(currentUser == null && isUserLoggedin())
+        if(!isUserLoggedin())
         {
-            fetchUser(new ReadDataCallback() {
+            return;
+        }
+
+        if(currentUser == null)
+        {
+            DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Users.toString());
+            Query query = myRef.orderByChild("uid").equalTo(mFirebaseUser.getUid());
+
+            query.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataRetrieved(DataSnapshot result) {
-                    currentUser = result.getValue(User.class);
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    currentUser = dataSnapshot.getValue(User.class);
                     callback.onDataRetrieved(currentUser);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    currentUser = dataSnapshot.getValue(User.class);
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
                 }
             });
         }
@@ -53,39 +80,6 @@ public class UserManager {
         {
             callback.onDataRetrieved(currentUser);
         }
-    }
-
-    private void fetchUser(ReadDataCallback callback)
-    {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Users.toString());
-        Query query = myRef.orderByChild("uid").equalTo(mFirebaseUser.getUid());
-
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                currentUser = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                currentUser = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void logout()

@@ -1,17 +1,12 @@
 package com.test.stream.stream.Utilities;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
 /**
  * Created by cathe on 2016-10-01.
