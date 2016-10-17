@@ -22,6 +22,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="project_page">"Welcome to the project page"</string>
     <string name="chat_page">"Welcome to the chat page"</string>
@@ -41,4 +42,6 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
+
+    <string name="reminder_notification_dialog_title">Want to send a friendly reminder?</string>
 </resources>
