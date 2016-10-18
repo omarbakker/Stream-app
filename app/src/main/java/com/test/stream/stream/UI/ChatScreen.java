@@ -97,6 +97,11 @@ public class ChatScreen extends AppCompatActivity {
     }
 
     public void registerContent() {
+        if(mFirebaseAdapter != null)
+        {
+            mFirebaseAdapter.cleanup();
+        }
+
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Message,
                 MessageViewHolder>(
                 Message.class,
@@ -193,7 +198,11 @@ public class ChatScreen extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        mFirebaseAdapter.cleanup();
+        ChatManager.getInstance().destroyAllListeners();
+
         super.onDestroy();
+
     }
 
     @Override
@@ -226,14 +235,12 @@ public class ChatScreen extends AppCompatActivity {
 
         if(item.getTitle().equals(getString(R.string.create_channel)))
         {
-            CreateNewChannelDialog(new GetTextCallback() {
+           CreateNewChannelDialog(new GetTextCallback() {
                 @Override
                 public void onInputComplete(String text) {
                     ChatManager.getInstance().createChannel(text);
                 }
             });
-
-
         }
         else
         {

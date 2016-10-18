@@ -17,7 +17,9 @@ import com.test.stream.stream.UI.ChatScreen;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by cathe on 2016-10-15.
@@ -30,6 +32,9 @@ public class ChatManager {
     private String currentChatGroupId;
     private Channel currentChannel;
     private String currentChannelId;
+
+    private ConcurrentHashMap<Query, ChildEventListener> channelListeners = new ConcurrentHashMap<Query, ChildEventListener>();;
+    private ConcurrentHashMap<Query, ChildEventListener> chatGroupListeners =  new ConcurrentHashMap<Query, ChildEventListener>();;
 
     private ChatManager(){};
 
@@ -46,7 +51,7 @@ public class ChatManager {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.ChatGroups.toString());
         Query query = myRef.orderByKey().equalTo(chatId);
 
-        query.addChildEventListener(new ChildEventListener() {
+        ChildEventListener listener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot.exists())
@@ -80,7 +85,12 @@ public class ChatManager {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        query.addChildEventListener(listener);
+
+        chatGroupListeners.put(query, listener);
+
     }
 
     public Map<String, String> getChannels()
@@ -102,10 +112,10 @@ public class ChatManager {
 
         Query query = myRef.orderByKey().equalTo(channelId);
 
-        query.addChildEventListener(new ChildEventListener() {
+        ChildEventListener listener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
+                if(dataSnapshot.exists() && dataSnapshot.getKey().equals(currentChannelId))
                 {
                     currentChannel = dataSnapshot.getValue(Channel.class);
                     context.registerContent();
@@ -114,7 +124,7 @@ public class ChatManager {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
+                if(dataSnapshot.exists() && dataSnapshot.getKey().equals(currentChannelId))
                 {
                     currentChannel = dataSnapshot.getValue(Channel.class);
                 }
@@ -134,7 +144,11 @@ public class ChatManager {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        query.addChildEventListener(listener);
+
+        channelListeners.put(query, listener);
 
     }
 
@@ -187,6 +201,22 @@ public class ChatManager {
         DatabaseManager.getInstance().updateObject(DatabaseFolders.ChatGroups, currentChatGroupId, currentChatGroup);
 
         return true;
+    }
+
+    public void destroyAllListeners()
+    {
+        for(Query query: channelListeners.keySet())
+        {
+            query.removeEventListener(channelListeners.get(query));
+        }
+
+        for(Query query: chatGroupListeners.keySet())
+        {
+            query.removeEventListener(chatGroupListeners.get(query));
+        }
+
+        chatGroupListeners.clear();
+        channelListeners.clear();
     }
 
 }
