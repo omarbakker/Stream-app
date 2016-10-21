@@ -33,13 +33,15 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
     EditText messageToSend;
     TextView sendReminderAlertTitle;
     CheckBox sendAnonymously;
+    View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_notification);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View v = inflater.inflate(R.layout.send_reminder_notification, null);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        v = inflater.inflate(R.layout.send_reminder_notification, null);
         messageToSend = (EditText) v.findViewById(R.id.reminderMessageToSend);
 
         getNotification = (Button) findViewById(R.id.getNotification);
@@ -51,10 +53,11 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.send_reminder_notification);
+        builder.setView(v);
         builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                getnotification();
+                String message = messageToSend.getText().toString();
+                getnotification(message);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -66,10 +69,10 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
 
     }
 
-    public void getnotification() {
+    public void getnotification(String message) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
         nBuilder.setContentTitle("Here's a friendly reminder for you to complete your task!");
-        nBuilder.setContentText(messageToSend.getText().toString());
+        nBuilder.setContentText(message);
         nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
         Notification notification = nBuilder.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
