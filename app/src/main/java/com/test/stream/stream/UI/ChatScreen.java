@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
+import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Chat.Message;
 import com.test.stream.stream.Objects.Users.User;
@@ -28,6 +29,8 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.Controllers.ChatManager;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.Callbacks.GetTextCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 /**
  * Created by cathe on 2016-10-14.
@@ -39,11 +42,13 @@ public class ChatScreen extends AppCompatActivity {
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageTextView;
         public TextView messengerTextView;
+        public TextView messengerTimeView;
 
         public MessageViewHolder(View v) {
             super(v);
             messageTextView = (TextView) itemView.findViewById(R.id.messageTextView);
             messengerTextView = (TextView) itemView.findViewById(R.id.messengerTextView);
+            messengerTimeView = (TextView) itemView.findViewById(R.id.messengerTimeView);
         }
     }
 
@@ -115,10 +120,12 @@ public class ChatScreen extends AppCompatActivity {
                 progressBar.setVisibility(ProgressBar.INVISIBLE);
                 viewHolder.messageTextView.setText(friendlyMessage.getText());
                 viewHolder.messengerTextView.setText(friendlyMessage.getName());
+                viewHolder.messengerTimeView.setText("time");
             }
         };
 
         registerFirebaseObserver();
+
 
         messageRecyclerView.setLayoutManager(linearLayoutManager);
         messageRecyclerView.setAdapter(mFirebaseAdapter);
