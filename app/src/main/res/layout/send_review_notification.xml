@@ -17,7 +17,7 @@
         android:hint="Enter Message"
         android:ems="10"
         android:layout_marginTop="17dp"
-        android:id="@+id/reminderMessageToSend"
+        android:id="@+id/reviewMessageToSend"
         android:layout_below="@+id/rectangle_at_the_top"
         android:layout_centerHorizontal="true" />
 
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/reminderTitle"
+        android:id="@+id/reviewTitle"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:layout_marginTop="21dp"
@@ -39,8 +39,8 @@
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/reminderTitle"
+        android:id="@+id/informationText"
+        android:layout_below="@+id/reviewTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />
 
