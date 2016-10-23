@@ -127,6 +127,9 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
+                Log.d("login","successfully logged in with email");
+                Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -240,7 +243,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                             }
                         } else if (task.isSuccessful()) {
                             Log.d("login","successfully logged in with email");
-                            Intent intent = new Intent(MainLoginScreen.this, DummyDashboard.class);
+                            Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
                             startActivity(intent);
                         }
 

@@ -1,8 +1,10 @@
 package com.test.stream.stream.UI;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,13 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 import com.test.stream.stream.R;
+import com.test.stream.stream.UIFragments.BoardFragment;
+import com.test.stream.stream.UIFragments.CalendarFragment;
+import com.test.stream.stream.UIFragments.ChatFragment;
+import com.test.stream.stream.UIFragments.ProjectFragment;
+import com.test.stream.stream.UIFragments.ProjectHomeFragment;
+import com.test.stream.stream.UIFragments.SettingsFragment;
+import com.test.stream.stream.UIFragments.TasksFragment;
 
 import static java.security.AccessController.getContext;
 
@@ -29,18 +38,10 @@ public class ToolbarActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -91,21 +92,51 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager manager = getSupportFragmentManager();
 
-        if (id == R.id.nav_chat) {
-            // Handle the camera action
-        } else if (id == R.id.nav_calendar) {
-
-        } else if (id == R.id.nav_pinboard) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_tasks) {
-
-        } else if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_projects) {
-
+        switch(id){
+            case R.id.nav_chat:
+                ChatFragment chatFragment = new ChatFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        chatFragment,
+                        chatFragment.getTag()).commit();
+                break;
+            case R.id.nav_calendar:
+                CalendarFragment calendarFragment = new CalendarFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        calendarFragment,
+                        calendarFragment.getTag()).commit();
+                break;
+            case R.id.nav_pinboard:
+                BoardFragment boardFragment = new BoardFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        boardFragment,
+                        boardFragment.getTag()).commit();
+                break;
+            case R.id.nav_settings:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        settingsFragment,
+                        settingsFragment.getTag()).commit();
+                break;
+            case R.id.nav_tasks:
+                TasksFragment taskFragment = new TasksFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        taskFragment,
+                        taskFragment.getTag()).commit();
+                break;
+            case R.id.nav_home:
+                ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        projectHomeFragment,
+                        projectHomeFragment.getTag()).commit();
+                break;
+            case R.id.nav_projects:
+                ProjectFragment projectFragment = new ProjectFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        projectFragment,
+                        projectFragment.getTag()).commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
