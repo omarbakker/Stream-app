@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.stream.stream" >
+    package="com.test.stream.stream">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-<uses-permission android:name="android.permission.READ_PROFILE" />
-<uses-permission android:name="android.permission.READ_CONTACTS" />
-<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="Stream-app"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Stream-app"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <meta-data
-        android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-    <activity android:name=".UI.MainLoginScreen">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".UI.MainLoginScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-            <data android:scheme="@string/fb_login_protocol_scheme" />
-        </intent-filter>
-    </activity>
-    <activity android:name=".UI.VerificationCode"></activity>
-    <activity android:name=".UI.SignUpScreen"></activity>
-    <activity android:name=".UI.SetUpMeeting"></activity>
-    <activity android:name=".UI.ToolbarActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
-</application>
-
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UI.VerificationCode" />
+        <activity android:name=".UI.SignUpScreen" />
+        <activity android:name=".UI.SetUpMeeting" />
+        <activity
+            android:name=".UI.ToolbarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UI.DummyDashboard" />
+        <activity android:name=".UI.emailSignup"></activity>
+    </application>
 
 </manifest>

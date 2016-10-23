@@ -11,6 +11,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="action_create_user">Create New User</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -20,4 +21,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="project_page">"Welcome to the project page"</string>
+    <string name="chat_page">"Welcome to the chat page"</string>
+    <string name="board_page">"Welcome to the board page"</string>
+    <string name="project_home_page_">"Welcome to the home page"</string>
+    <string name="settings_page">"Welcome to the settings page"</string>
+    <string name="tasks_page">"Welcome to the tasks page"</string>
+    <string name="calendar_page">"Welcome to the calendar page"</string>
+
 </resources>
