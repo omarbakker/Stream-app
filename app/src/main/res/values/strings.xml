@@ -30,5 +30,10 @@
     <string name="settings_page">"Welcome to the settings page"</string>
     <string name="tasks_page">"Welcome to the tasks page"</string>
     <string name="calendar_page">"Welcome to the calendar page"</string>
-
+    <string name="dialog_description">Description</string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_subtitle">Subtitle</string>
+    <string name="dialog_add">Add Pin</string>
+    <string name="dialog_submit">Submit</string>
+    <string name="dialog_cancel">cancel</string>
 </resources>

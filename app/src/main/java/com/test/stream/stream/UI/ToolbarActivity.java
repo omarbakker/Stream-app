@@ -1,6 +1,7 @@
 package com.test.stream.stream.UI;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
+import com.test.stream.stream.UIFragments.PinActivity;
 import com.test.stream.stream.UIFragments.ProjectFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
@@ -93,7 +95,7 @@ public class ToolbarActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager manager = getSupportFragmentManager();
-
+        Intent myIntent = new Intent(ToolbarActivity.this, PinActivity.class);
         switch(id){
             case R.id.nav_chat:
                 ChatFragment chatFragment = new ChatFragment();
@@ -108,10 +110,11 @@ public class ToolbarActivity extends AppCompatActivity
                         calendarFragment.getTag()).commit();
                 break;
             case R.id.nav_pinboard:
-                BoardFragment boardFragment = new BoardFragment();
+                /*BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
-                        boardFragment.getTag()).commit();
+                        boardFragment.getTag()).commit();*/
+                ToolbarActivity.this.startActivity(myIntent);
                 break;
             case R.id.nav_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();

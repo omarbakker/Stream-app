@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.stream.stream">
+    package="com.test.stream.stream"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -11,9 +12,10 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        tools:replace="label"
         android:label="Stream-app"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
         <meta-data
@@ -39,10 +41,14 @@
         <activity android:name=".UI.SignUpScreen" />
         <activity android:name=".UI.SetUpMeeting" />
         <activity
+            android:name=".UIFragments.PinActivity"
+            android:parentActivityName=".UI.ToolbarActivity"/>
+        <activity
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />
         <activity android:name=".UI.emailSignup"></activity>
+
     </application>
 
 </manifest>
