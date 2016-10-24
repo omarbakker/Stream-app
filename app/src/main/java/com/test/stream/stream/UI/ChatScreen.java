@@ -21,8 +21,11 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Chat.Message;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Controllers.ChatManager;
@@ -65,6 +68,11 @@ public class ChatScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        Project projectTest =  new Project();
+        projectTest.setTaskGroupId("testId");
+        ProjectManager.currentProject = projectTest;
+        TaskManager.getInstance().InitializeTasks(this);
+
         if(!UserManager.getInstance().isUserLoggedin())
         {
             startActivity(new Intent(this, MainLoginScreen.class));
@@ -79,6 +87,8 @@ public class ChatScreen extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         messageRecyclerView.setLayoutManager(linearLayoutManager);
+
+
 
         //Initialize the ChatManager
         ChatManager.getInstance().registerGroupChatByID("chatGroup1", this); //TODO: Register by project instead

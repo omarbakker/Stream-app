@@ -26,8 +26,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 public class TaskManager {
+    private static TaskManager instance = new TaskManager();
+    public static TaskManager getInstance() { return instance; }
+
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<Task, String> tasksInCurrentProject = new ConcurrentHashMap<Task, String>(); //Task - task I
+
+    private TaskManager(){};
 
     public void InitializeTasks(Context context) //Note: Change context to your activity class & do it for the private functions
     {
@@ -46,6 +51,7 @@ public class TaskManager {
                 if(dataSnapshot.exists())
                 {
                     currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
+                   // CreateTask("TestTaskName", "description", "Merinoe", new int[]{1, 2, 1995}, false);
                     registerTasks(context);
                 }
             }
@@ -80,18 +86,16 @@ public class TaskManager {
         };
 
         query.addChildEventListener(listener);
-
     }
 
     private void registerTasks(Context context)
     {
-        for(String id : currentTaskGroup.getTasks().keySet())
+        for(String id : currentTaskGroup.getTasks().keySet()) //Ensure that each task only is register once.
         {
             if(!tasksInCurrentProject.containsValue(id))
             {
                 registerTask(id, context);
             }
-
         }
     }
 
@@ -108,7 +112,7 @@ public class TaskManager {
                     Task task = dataSnapshot.getValue(Task.class);
                     tasksInCurrentProject.put(task, taskId);
                     //Do whatever you need with the "context" ie. call the updateUI function
-
+                    //Probably pass in tasksInCurrentProject.keySet() for your keys
                 }
             }
 
@@ -118,6 +122,7 @@ public class TaskManager {
                 {
                     Task task = dataSnapshot.getValue(Task.class);
                     tasksInCurrentProject.put(task, taskId);
+
                     //Do whatever you need with the "context" ie. call the updateUI function
                 }
             }
@@ -144,8 +149,6 @@ public class TaskManager {
         };
 
         query.addChildEventListener(listener);
-
-
     }
 
     public boolean UpdateTask(Task task)
@@ -169,7 +172,6 @@ public class TaskManager {
         Task task = new Task();
 
         //Set inputted information
-        task.setTaskDueDate(dueDate);
         task.setName(taskName);
         task.setDescription(description);
         task.setAssignee(user);

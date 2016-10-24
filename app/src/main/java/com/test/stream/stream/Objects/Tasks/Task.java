@@ -20,7 +20,7 @@ public class Task {
     private int dueYear = 0;
 
     private boolean complete = false;
-    private String assignee = "";
+    private String assignee;
 
     //endregion
 
@@ -35,14 +35,14 @@ public class Task {
         return assignee;
     }
 
-    public int[] getTaskDueDate() {
+   /* public int[] getTaskDueDate() {
         int[] due_date = new int[3];
         due_date[0] = dueDay;
         due_date[1] = dueMonth;
         due_date[2] = dueYear;
 
         return due_date;
-    }
+    }*/
 
     public int getDueDay()
     {
@@ -76,14 +76,14 @@ public class Task {
         this.name = name;
     }
 
-    public void setTaskDueDate(int[] dueDate)
+   /* public void setTaskDueDate(int[] dueDate)
     {
         dueDay = dueDate[0];
         dueMonth = dueDate[1];
         dueYear = dueDate[2];
-    }
+    }*/
 
-    public void setComplete(boolean complete) {
+   public void setComplete(boolean complete) {
         this.complete = complete;
     }
 
