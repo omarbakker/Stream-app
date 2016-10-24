@@ -30,7 +30,9 @@ public class TaskManager {
     public static TaskManager getInstance() { return instance; }
 
     private TaskGroup currentTaskGroup;
-    private ConcurrentHashMap<Task, String> tasksInCurrentProject = new ConcurrentHashMap<Task, String>(); //Task - task I
+    private ConcurrentHashMap<Task, String> tasksInCurrentProject = new ConcurrentHashMap<Task, String>(); //Task - task ID
+
+    private ConcurrentHashMap<Query, ChildEventListener> listenerCollection = new ConcurrentHashMap<Query, ChildEventListener>();;
 
     private TaskManager(){};
 
@@ -67,11 +69,7 @@ public class TaskManager {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                    currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
-                    registerTasks(context);
-                }
+                    currentTaskGroup = null;
             }
 
             @Override
@@ -86,6 +84,7 @@ public class TaskManager {
         };
 
         query.addChildEventListener(listener);
+        listenerCollection.put(query, listener);
     }
 
     private void registerTasks(Context context)
@@ -122,7 +121,8 @@ public class TaskManager {
                 {
                     Task task = dataSnapshot.getValue(Task.class);
                     tasksInCurrentProject.put(task, taskId);
-
+                    System.out.println("Changed " + taskId);
+                    DeleteTask(task);
                     //Do whatever you need with the "context" ie. call the updateUI function
                 }
             }
@@ -132,7 +132,9 @@ public class TaskManager {
                 if(dataSnapshot.exists())
                 {
                     Task task = dataSnapshot.getValue(Task.class);
-                    tasksInCurrentProject.put(task, taskId);
+                    tasksInCurrentProject.remove(task);
+
+                    System.out.println("Deleted " + taskId);
                     //Do whatever you need with the "context" ie. call the updateUI function
                 }
             }
@@ -149,6 +151,7 @@ public class TaskManager {
         };
 
         query.addChildEventListener(listener);
+        listenerCollection.put(query, listener);
     }
 
     public boolean UpdateTask(Task task)
@@ -159,6 +162,7 @@ public class TaskManager {
         }
 
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks, tasksInCurrentProject.get(task), task);
+
         return true;
     }
 
@@ -187,18 +191,37 @@ public class TaskManager {
         return true;
     }
 
-    public void DeleteTask(Task task)
+    public boolean DeleteTask(Task task)
     {
+        if(!tasksInCurrentProject.containsKey(task))
+        {
+            return false;
+        }
+
+        String taskId = tasksInCurrentProject.get(task);
+
+        DatabaseReference refToDelete = DatabaseManager.getInstance()
+                .getReference(DatabaseFolders.Tasks.toString())
+                .child(tasksInCurrentProject.get(task));
+
+        refToDelete.removeValue();
+
+        currentTaskGroup.removeTask(taskId);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+
+        return true;
 
     }
 
     public void Destroy() //Call only when you don't need the tasks anymore.
     {
+        //De-register all listeners
+        for(Query query: listenerCollection.keySet())
+        {
+            query.removeEventListener(listenerCollection.get(query));
+        }
+
+        instance = new TaskManager(); //Refresh the instance
 
     }
-
-
-
-
-
 }

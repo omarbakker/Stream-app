@@ -32,6 +32,7 @@ public class DatabaseManager {
         DatabaseReference newRef = myRef.push();
         newRef.setValue(itemToWrite);
 
+
         return newRef.getKey();
     }
 
