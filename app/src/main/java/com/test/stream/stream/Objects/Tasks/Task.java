@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class Task {
     //region Variables
+    private String id;
+
     private String taskGroupId;
     private String name;
     private String description;
@@ -29,20 +31,15 @@ public class Task {
         return name;
     }
 
+    public String getId ()
+    {
+        return id;
+    }
 
     public String getAssignee()
     {
         return assignee;
     }
-
-   /* public int[] getTaskDueDate() {
-        int[] due_date = new int[3];
-        due_date[0] = dueDay;
-        due_date[1] = dueMonth;
-        due_date[2] = dueYear;
-
-        return due_date;
-    }*/
 
     public int getDueDay()
     {
@@ -76,13 +73,6 @@ public class Task {
         this.name = name;
     }
 
-   /* public void setTaskDueDate(int[] dueDate)
-    {
-        dueDay = dueDate[0];
-        dueMonth = dueDate[1];
-        dueYear = dueDate[2];
-    }*/
-
    public void setComplete(boolean complete) {
         this.complete = complete;
     }
@@ -101,6 +91,10 @@ public class Task {
         this.taskGroupId = id;
     }
 
+    public void setId(String id)
+    {
+        this.id = id;
+    }
     //endregion
 
     //region Constructors
