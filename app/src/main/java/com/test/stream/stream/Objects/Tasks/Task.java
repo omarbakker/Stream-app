@@ -15,11 +15,12 @@ public class Task {
     private String taskGroupId;
     private String name;
     private String description;
-    private Date dueDate;
-    private int progress;
+    private int dueDay = 0;
+    private int dueMonth = 0;
+    private int dueYear = 0;
 
     private boolean complete = false;
-    private Map<String, String> assignees = new HashMap<String, String>();
+    private String assignee = "";
 
     //endregion
 
@@ -28,12 +29,35 @@ public class Task {
         return name;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+
+    public String getAssignee()
+    {
+        return assignee;
     }
 
-    public int getProgress() {
-        return progress;
+    public int[] getTaskDueDate() {
+        int[] due_date = new int[3];
+        due_date[0] = dueDay;
+        due_date[1] = dueMonth;
+        due_date[2] = dueYear;
+
+        return due_date;
+    }
+
+    public int getDueDay()
+    {
+        return dueDay;
+    }
+
+    public int getDueMonth()
+    {
+        return dueMonth;
+    }
+
+
+    public int getDueYear()
+    {
+        return dueYear;
     }
 
     public String getDescription() {
@@ -44,16 +68,19 @@ public class Task {
         return complete;
     }
 
-    public Map<String, String> getAssignees() {
-        return assignees;
-    }
-
     public String getTaskGroupId() {
         return taskGroupId;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTaskDueDate(int[] dueDate)
+    {
+        dueDay = dueDate[0];
+        dueMonth = dueDate[1];
+        dueYear = dueDate[2];
     }
 
     public void setComplete(boolean complete) {
@@ -64,12 +91,14 @@ public class Task {
         this.description = description;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setAssignee(String userName)
+    {
+        this.assignee = userName;
     }
 
-    public void setProgress(int progress) {
-        this.progress = progress;
+    public void setTaskGroupId(String id)
+    {
+        this.taskGroupId = id;
     }
 
     //endregion
@@ -79,51 +108,8 @@ public class Task {
     {
         name = "";
         description = "";
-        dueDate = new Date(); //TODO: Find something better to record the date.
-        progress = 0;
-    }
-
-    public Task(String name, String description, Date dueDate, String taskGroupId)
-    {
-        this.taskGroupId = taskGroupId;
-        this.name = name;
-        this.description = description;
-        this.dueDate = dueDate;
-        progress = 0;
     }
 
     //endregion
-
-    //region Core Functions
-    public boolean addAssignee(String userKey, User user)
-    {
-        if(isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.put(user.getUid(), userKey);
-        return true;
-    }
-
-    public boolean removeAssignee(String userKey, User user)
-    {
-        if(!isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.remove(user);
-        return true;
-    }
-
-    public boolean isAssigned(User user)
-    {
-        return assignees.containsKey(user.getUid());
-    }
-
-    //endregion
-
-
 
 }

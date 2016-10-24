@@ -20,9 +20,11 @@ public class Project {
     private String boardId;
     private String chatId;
     private String taskGroupId;
+    private String id;
     //endregion
 
     //region Setters and Getters
+    public String getId() { return id;}
     public String getName() { return name; }
     public Map<String, String> getAdministrators() { return administrators; }
     public Map<String, String> getMembers() { return  members; }
