@@ -37,20 +37,11 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".UIFragments.TaskMain"
+                android:parentActivityName=".UI.ToolbarActivity" />
+        <activity android:name=".UIFragments.expand_task"
+                  android:parentActivityName=".UIFragments.TaskMain" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".expand_task">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".UI.VerificationCode" />
         <activity android:name=".UI.SignUpScreen" />
         <activity android:name=".UI.SetUpMeeting" />
@@ -61,7 +52,7 @@
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />
-        <activity android:name=".UI.emailSignup"></activity>
+        <!--<activity android:name=".UI.emailSignup"></activity>-->
 
     </application>
 

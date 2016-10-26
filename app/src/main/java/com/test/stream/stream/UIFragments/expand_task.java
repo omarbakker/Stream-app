@@ -1,4 +1,4 @@
-package com.example.janemacgillivray.task_manager;
+package com.test.stream.stream.UIFragments;
 
 /**
  * Created by janemacgillivray on 2016-10-23.
@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
-
+import com.test.stream.stream.Objects.Tasks.*;
+import com.test.stream.stream.R;
+import com.test.stream.stream.UIFragments.TaskMain;
 
 public class expand_task extends Activity {
     ArrayList<Task> tasks = new ArrayList<>();
     int current_task;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = TaskMain.class.getSimpleName();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class expand_task extends Activity {
     }
 
     public void backToHome(){
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        Intent intent = new Intent(getBaseContext(), TaskMain.class);
         startActivity(intent);
 
     }

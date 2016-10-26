@@ -36,7 +36,7 @@
     <string name="dialog_add">Add Pin</string>
     <string name="dialog_submit">Submit</string>
     <string name="dialog_cancel">cancel</string>
-     <string name="app_name">Tasks</string>
+    <string name="title">Tasks</string>
     <string name="task_name">Task Name</string>
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>

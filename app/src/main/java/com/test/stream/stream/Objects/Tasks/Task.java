@@ -1,129 +1,75 @@
 package com.test.stream.stream.Objects.Tasks;
-
-import com.test.stream.stream.Objects.Users.User;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * Created by catherine on 2016-10-01.
+ * Created by janemacgillivray on 2016-10-02.
  */
 
-public class Task {
-    //region Variables
-    private String taskGroupId;
-    private String name;
-    private String description;
-    private Date dueDate;
-    private int progress;
+public class Task implements Serializable{
+    String TASK_NAME = "task name";
+    int TASK_DUE_DATE_DAY = 0;
+    int TASK_DUE_DATE_MONTH = 0;
+    int TASK_DUE_DATE_YEAR = 0;
+    String TASK_DESCRIPTION = "description of task";
+    String TASK_USER = "user assigned to task";
+    int COMPLETE = 0;
 
-    private boolean complete = false;
-    private Map<String, String> assignees = new HashMap<String, String>();
-
-    //endregion
-
-    //region Getters and Setters
-    public String getName() {
-        return name;
+    public Task( ) {
+        this.TASK_NAME = TASK_NAME;
+        this.TASK_DUE_DATE_MONTH = TASK_DUE_DATE_MONTH;
+        this.TASK_DUE_DATE_DAY = TASK_DUE_DATE_DAY;
+        this.TASK_DUE_DATE_YEAR = TASK_DUE_DATE_YEAR;
+        this.TASK_DESCRIPTION = TASK_DESCRIPTION;
+        this.TASK_USER = TASK_USER;
+        this.COMPLETE = COMPLETE;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public String getTASK_NAME() {
+        return TASK_NAME;
     }
 
-    public int getProgress() {
-        return progress;
+    public int[] getTASK_DUE_DATE() {
+        int[] due_date = new int[3];
+        due_date[0] = TASK_DUE_DATE_DAY;
+        due_date[1] = TASK_DUE_DATE_MONTH;
+        due_date[2] = TASK_DUE_DATE_YEAR;
+        return due_date;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTASK_DESCRIPTION() {
+        return TASK_DESCRIPTION;
     }
 
-    public boolean getComplete() {
-        return complete;
+    public String getTASK_USER() {
+        return TASK_USER;
     }
 
-    public Map<String, String> getAssignees() {
-        return assignees;
+    public int getCOMPLETE(){
+        return COMPLETE;
     }
 
-    public String getTaskGroupId() {
-        return taskGroupId;
+    public void setTASK_NAME(String TASK_NAME) {
+        this.TASK_NAME = TASK_NAME;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTASK_DUE_DATE(int[] due_date){
+        this.TASK_DUE_DATE_DAY = due_date[0];
+        this.TASK_DUE_DATE_MONTH = due_date[1];
+        this.TASK_DUE_DATE_YEAR = due_date[2];
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+
+    public void setTASK_DESCRIPTION(String TASK_DESCRIPTION) {
+        this.TASK_DESCRIPTION = TASK_DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTASK_USER(String TASK_USER) {
+        this.TASK_USER = TASK_USER;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setCOMPLETE(int COMPLETE){
+        this.COMPLETE = COMPLETE;
     }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-    //endregion
-
-    //region Constructors
-    public Task()
-    {
-        name = "";
-        description = "";
-        dueDate = new Date(); //TODO: Find something better to record the date.
-        progress = 0;
-    }
-
-    public Task(String name, String description, Date dueDate, String taskGroupId)
-    {
-        this.taskGroupId = taskGroupId;
-        this.name = name;
-        this.description = description;
-        this.dueDate = dueDate;
-        progress = 0;
-    }
-
-    //endregion
-
-    //region Core Functions
-    public boolean addAssignee(String userKey, User user)
-    {
-        if(isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.put(user.getUid(), userKey);
-        return true;
-    }
-
-    public boolean removeAssignee(String userKey, User user)
-    {
-        if(!isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.remove(user);
-        return true;
-    }
-
-    public boolean isAssigned(User user)
-    {
-        return assignees.containsKey(user.getUid());
-    }
-
-    //endregion
-
-
-
 }
+

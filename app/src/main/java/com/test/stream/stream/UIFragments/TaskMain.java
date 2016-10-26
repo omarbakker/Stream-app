@@ -1,11 +1,11 @@
-package com.example.janemacgillivray.task_manager;
+package com.test.stream.stream.UIFragments;
+
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -16,19 +16,19 @@ import android.support.design.widget.FloatingActionButton;
 import java.util.ArrayList;
 import android.util.Log;
 import android.content.Intent;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
+import com.test.stream.stream.Objects.Tasks.Task;
+//import com.google.android.gms.appindexing.Action;
+//import com.google.android.gms.appindexing.AppIndex;
+//import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.test.stream.stream.R;
 
-
-public class MainActivity extends AppCompatActivity {
+public class TaskMain extends AppCompatActivity {
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
     private int current_task;
     ArrayList<Task> tasks = new ArrayList<>();
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = TaskMain.class.getSimpleName();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -36,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.task_main);
         mTaskListView = (ListView) findViewById(R.id.list_todo);
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
         final FloatingActionButton addTaskButton = (FloatingActionButton) findViewById(R.id.create_new_task);
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         updateUI();
     }
 
