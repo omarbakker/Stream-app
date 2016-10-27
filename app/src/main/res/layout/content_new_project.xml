@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_new_project"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,5 +12,95 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.test.stream.stream.UI.newProjectActivity"
     tools:showIn="@layout/activity_new_project">
+
+    <TextView
+        android:text="New Project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/newProjectPageTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="28sp"
+        android:textStyle="normal|bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/projectNameWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/newProjectPageTitle"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/Project_name_Field"
+            android:hint="New Project Name"
+            android:textSize="24sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:text="Don't sail Solo! Add Team Members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Add_collaborator_description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/projectNameWrapper"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="textStart"
+        android:gravity="start"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/Add_collaborator_description"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/doneAddingProject">
+
+        <ListView
+            android:id="@+id/newProjectUsersList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/projectNewUserWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/newUserField"
+                android:hint="New team member email/username" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/check"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/doneAddingProject"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:rippleColor="?attr/colorBackgroundFloating"
+        android:tint="@android:color/white"
+        android:foregroundTint="@android:color/white" />
 
 </RelativeLayout>
