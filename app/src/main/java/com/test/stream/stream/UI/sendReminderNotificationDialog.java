@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.test.stream.stream.UI.sendReviewNotificationDialog;
+
 import com.test.stream.stream.R;
 
 public class sendReminderNotificationDialog extends AppCompatActivity  implements View.OnClickListener{
@@ -40,6 +42,7 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_notification);
+
         Intent intent = new Intent(this, MyFirebaseInstanceIDService.class);
         startService(intent);
 

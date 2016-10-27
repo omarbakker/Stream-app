@@ -52,6 +52,7 @@
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />
+
         <activity android:name=".UI.sendReminderNotificationDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
