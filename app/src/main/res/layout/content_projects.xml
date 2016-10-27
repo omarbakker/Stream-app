@@ -10,7 +10,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.cpen321.stream.streamprojectspage.ProjectsActivity"
     tools:showIn="@layout/activity_projects">
 
     <RelativeLayout
@@ -24,13 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:id="@+id/textView"
+            android:id="@+id/yourProjectsTitle"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif"
-            android:textSize="36sp"
+            android:textSize="28sp"
             android:textAlignment="center"
-            android:typeface="normal"
+            android:maxLines="1"
             android:textColor="@android:color/black"
             android:textStyle="normal|bold" />
 
@@ -38,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/yourProjectsTitle"
             android:layout_above="@+id/addProjectButton"
             android:id="@+id/ProjectsList" />
 

@@ -1,5 +1,7 @@
 package com.test.stream.stream.Objects.Projects;
 
+import android.provider.ContactsContract;
+
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.DatabaseFolders;
@@ -45,8 +47,8 @@ public class Project {
     public void setTaskGroupId(String taskGroupId) {
         this.taskGroupId = taskGroupId;
     }
-    //endregion
 
+    //endregion
     //region Constructors
     public Project()
     {

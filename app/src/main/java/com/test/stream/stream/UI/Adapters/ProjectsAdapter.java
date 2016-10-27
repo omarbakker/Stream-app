@@ -37,12 +37,18 @@ public class ProjectsAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private ArrayList<String> mDataSource;
 
+
     public ProjectsAdapter(Context context, ArrayList<String> list){
         mContext = context;
         mDataSource = list;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public ProjectsAdapter(Context context){
+        mContext = context;
+        mDataSource = new ArrayList<String>();
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
     /**
      * How many items (projects) are in the data set represented by this Adapter.
@@ -108,16 +114,14 @@ public class ProjectsAdapter extends BaseAdapter {
 
             // create a new "Holder" with subviews
             holder = new ViewHolder();
-            holder.titleTextView = (TextView) convertView.findViewById(R.id.Project_Title);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.ProjectList_Title);
             holder.infoTextView = (TextView) convertView.findViewById(R.id.Project_Info_Text);
             holder.dueDateTextView = (TextView) convertView.findViewById(R.id.Duedate_Text);
             holder.teamMatesTextView = (TextView) convertView.findViewById(R.id.TeamMates_Text);
 
             // hang onto this holder for future recyclage
             convertView.setTag(holder);
-        }
-        else {
-
+        }else{
             // skip all the expensive inflation/findViewById and just get the holder you already made
             holder = (ViewHolder) convertView.getTag();
         }
@@ -133,9 +137,6 @@ public class ProjectsAdapter extends BaseAdapter {
 
         // Update row view's textviews to display recipe information
         titleTextView.setText(project.getName());
-        //teamMatesTextView.setText(project.description);
-        //infoTextView.setText(P);
-
 
         return convertView;
     }
@@ -146,10 +147,4 @@ public class ProjectsAdapter extends BaseAdapter {
         public TextView dueDateTextView;
         public TextView teamMatesTextView;
     }
-
-    //private Task getUpcomingTask(String taskGroupID){
-    //TaskGroup mTaskGroup = new TaskGroup(taskGroupID);
-    //}
-
-
 }
