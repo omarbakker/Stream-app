@@ -19,7 +19,7 @@ import com.test.stream.stream.UIFragments.PinActivity;
 import com.test.stream.stream.UIFragments.ProjectFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
-
+import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TaskMain;
 
 public class ToolbarActivity extends AppCompatActivity
