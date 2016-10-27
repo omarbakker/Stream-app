@@ -14,8 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.util.Log;
 import android.content.Intent;
+
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 //import com.google.android.gms.appindexing.Action;
 //import com.google.android.gms.appindexing.AppIndex;
@@ -50,10 +56,13 @@ public class TaskMain extends AppCompatActivity {
                 createTask();
             }
         });
+        Project projectTest = new Project();
+        projectTest.setTaskGroupId("janeId");
+        ProjectManager.currentProject = projectTest;
+        TaskManager.getInstance().InitializeTasks(this);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        updateUI();
     }
 
 
@@ -66,23 +75,25 @@ public class TaskMain extends AppCompatActivity {
                 .setView(v)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Task task = new Task();
+
+                        //Task task = new Task();
                         EditText input_name = (EditText) v.findViewById(R.id.task_name);
-                        task.setTASK_NAME(input_name.getText().toString());
+                        //task.setName(input_name.getText().toString());
                         Log.d(TAG, input_name.getText().toString());
                         EditText description = (EditText) v.findViewById(R.id.description);
-                        task.setTASK_DESCRIPTION(description.getText().toString());
+                        //task.setDescription(description.getText().toString());
 
                         EditText user = (EditText) v.findViewById(R.id.user);
-                        task.setTASK_USER(user.getText().toString());
+                        //task.setTASK_USER(user.getText().toString());
                         Log.d(TAG, "pre-datePicker \n");
                         //int[] date = datePicker();
                         //Log.d("DATE", String.valueOf(date[0]));
                         //.setTASK_DUE_DATE(date);
-                        task.setCOMPLETE(0);
+                        //task.setCOMPLETE(0);
+                        int[] date = new int[]{0, 0, 0};
                         Log.d(TAG, "hi\n");
-                        tasks.add(task);
-                        updateUI();
+                        //tasks.add(task);
+                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), date, false);
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
@@ -117,14 +128,15 @@ public class TaskMain extends AppCompatActivity {
 //    }
 
 
-    private void updateUI() {
-        sortArraybyComplete(tasks);
+    public void updateUI() {
+        List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
         int i = tasks.size() - 1;
         Log.d(TAG, String.valueOf(i));
         while (i >= 0) {
             Task task = tasks.get(i);
-            taskList.add(task.getTASK_NAME());
+            Log.d(TAG, "writing to the tasks list");
+            taskList.add(task.getName());
             i--;
         }
 
@@ -153,7 +165,7 @@ public class TaskMain extends AppCompatActivity {
         String taskName = String.valueOf(taskTextView.getText());
         Intent intent = new Intent(this, expand_task.class);
         Log.d(TAG, "so fucked up oh my god");
-        intent.putExtra("tasks",tasks);
+        //intent.putExtra("tasks",tasks);
         intent.putExtra("taskName", taskName);
         Log.d(TAG, "everything is awful");
         startActivity(intent);
@@ -203,7 +215,7 @@ public class TaskMain extends AppCompatActivity {
 
     public void sortArraybyComplete(ArrayList<Task> tasks){
         for(int i = 0; i < tasks.size()-1; i++){
-            if(tasks.get(i).getCOMPLETE()==1){
+            if(tasks.get(i).getComplete()==true){
                 Task task = tasks.get(i);
                 tasks.set(i, tasks.get(i+1));
                 tasks.set(tasks.size()-1, task);

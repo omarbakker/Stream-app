@@ -66,7 +66,8 @@
             android:layout_toEndOf="@+id/imageView5"
             android:layout_marginLeft="23dp"
             android:layout_marginStart="23dp"
-            android:layout_alignBottom="@+id/imageView5" />
+            android:layout_alignBottom="@+id/imageView5"
+            android:textColor="@color/black_button" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -86,7 +87,8 @@
             android:layout_alignLeft="@+id/description_expanded"
             android:layout_alignStart="@+id/description_expanded"
             android:id="@+id/due_date_expanded"
-            android:layout_alignBottom="@+id/imageView6" />
+            android:layout_alignBottom="@+id/imageView6"
+            android:textColor="@color/black_button" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -108,7 +110,8 @@
             android:id="@+id/user_expanded"
             android:layout_alignBottom="@+id/imageView7"
             android:layout_alignLeft="@+id/due_date_expanded"
-            android:layout_alignStart="@+id/due_date_expanded" />
+            android:layout_alignStart="@+id/due_date_expanded"
+            android:textColor="@color/black_button" />
 
         <CheckBox
             android:text="Mark task as done"

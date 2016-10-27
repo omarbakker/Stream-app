@@ -1,75 +1,109 @@
 package com.test.stream.stream.Objects.Tasks;
-import java.io.Serializable;
-import java.util.List;
+
+import com.test.stream.stream.Objects.Users.User;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by janemacgillivray on 2016-10-02.
+ * Created by catherine on 2016-10-01.
  */
 
-public class Task implements Serializable{
-    String TASK_NAME = "task name";
-    int TASK_DUE_DATE_DAY = 0;
-    int TASK_DUE_DATE_MONTH = 0;
-    int TASK_DUE_DATE_YEAR = 0;
-    String TASK_DESCRIPTION = "description of task";
-    String TASK_USER = "user assigned to task";
-    int COMPLETE = 0;
+public class Task {
+    //region Variables
+    private String id;
 
-    public Task( ) {
-        this.TASK_NAME = TASK_NAME;
-        this.TASK_DUE_DATE_MONTH = TASK_DUE_DATE_MONTH;
-        this.TASK_DUE_DATE_DAY = TASK_DUE_DATE_DAY;
-        this.TASK_DUE_DATE_YEAR = TASK_DUE_DATE_YEAR;
-        this.TASK_DESCRIPTION = TASK_DESCRIPTION;
-        this.TASK_USER = TASK_USER;
-        this.COMPLETE = COMPLETE;
+    private String taskGroupId;
+    private String name;
+    private String description;
+    private int dueDay = 0;
+    private int dueMonth = 0;
+    private int dueYear = 0;
+
+    private boolean complete = false;
+    private String assignee;
+
+    //endregion
+
+    //region Getters and Setters
+    public String getName() {
+        return name;
     }
 
-    public String getTASK_NAME() {
-        return TASK_NAME;
+    public String getId ()
+    {
+        return id;
     }
 
-    public int[] getTASK_DUE_DATE() {
-        int[] due_date = new int[3];
-        due_date[0] = TASK_DUE_DATE_DAY;
-        due_date[1] = TASK_DUE_DATE_MONTH;
-        due_date[2] = TASK_DUE_DATE_YEAR;
-        return due_date;
+    public String getAssignee()
+    {
+        return assignee;
     }
 
-    public String getTASK_DESCRIPTION() {
-        return TASK_DESCRIPTION;
+    public int getDueDay()
+    {
+        return dueDay;
     }
 
-    public String getTASK_USER() {
-        return TASK_USER;
-    }
-
-    public int getCOMPLETE(){
-        return COMPLETE;
-    }
-
-    public void setTASK_NAME(String TASK_NAME) {
-        this.TASK_NAME = TASK_NAME;
-    }
-
-    public void setTASK_DUE_DATE(int[] due_date){
-        this.TASK_DUE_DATE_DAY = due_date[0];
-        this.TASK_DUE_DATE_MONTH = due_date[1];
-        this.TASK_DUE_DATE_YEAR = due_date[2];
+    public int getDueMonth()
+    {
+        return dueMonth;
     }
 
 
-    public void setTASK_DESCRIPTION(String TASK_DESCRIPTION) {
-        this.TASK_DESCRIPTION = TASK_DESCRIPTION;
+    public int getDueYear()
+    {
+        return dueYear;
     }
 
-    public void setTASK_USER(String TASK_USER) {
-        this.TASK_USER = TASK_USER;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCOMPLETE(int COMPLETE){
-        this.COMPLETE = COMPLETE;
+    public boolean getComplete() {
+        return complete;
     }
+
+    public String getTaskGroupId() {
+        return taskGroupId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAssignee(String userName)
+    {
+        this.assignee = userName;
+    }
+
+    public void setTaskGroupId(String id)
+    {
+        this.taskGroupId = id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+    //endregion
+
+    //region Constructors
+    public Task()
+    {
+        name = "";
+        description = "";
+    }
+
+    //endregion
+
 }
-
