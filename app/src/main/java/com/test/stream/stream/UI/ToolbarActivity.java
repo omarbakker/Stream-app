@@ -110,11 +110,11 @@ public class ToolbarActivity extends AppCompatActivity
                         calendarFragment.getTag()).commit();
                 break;
             case R.id.nav_pinboard:
-                /*BoardFragment boardFragment = new BoardFragment();
+                BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
-                        boardFragment.getTag()).commit();*/
-                ToolbarActivity.this.startActivity(myIntent);
+                        boardFragment.getTag()).commit();
+               // ToolbarActivity.this.startActivity(myIntent);
                 break;
             case R.id.nav_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
@@ -145,5 +145,9 @@ public class ToolbarActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setTitle(CharSequence title) {
+
     }
 }
