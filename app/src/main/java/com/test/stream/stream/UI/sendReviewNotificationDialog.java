@@ -22,7 +22,7 @@ import com.test.stream.stream.R;
  */
 
 public class sendReviewNotificationDialog extends AppCompatActivity {
-    
+
     final Context context = this;
     AlertDialog Reviewdialog;
     EditText reviewMessageToSend;

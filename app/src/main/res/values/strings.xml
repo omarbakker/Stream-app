@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginSTREAM</string>
+    <string name="app_name">Stream</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
     <!-- Strings related to login -->
