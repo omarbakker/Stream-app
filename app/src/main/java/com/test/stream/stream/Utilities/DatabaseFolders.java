@@ -13,5 +13,6 @@ public enum DatabaseFolders {
     Channels,
     messages,
     Boards,
+    Pins,
     Files
 }

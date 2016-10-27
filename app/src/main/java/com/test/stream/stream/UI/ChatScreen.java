@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
+import com.test.stream.stream.Controllers.BoardManager;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
@@ -69,9 +70,9 @@ public class ChatScreen extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Project projectTest =  new Project();
-        projectTest.setTaskGroupId("testId");
+        projectTest.setBoardId("testId");
         ProjectManager.currentProject = projectTest;
-        TaskManager.getInstance().InitializeTasks(this);
+        BoardManager.getInstance().InitializePins(this);
 
         if(!UserManager.getInstance().isUserLoggedin())
         {
