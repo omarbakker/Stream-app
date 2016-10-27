@@ -24,6 +24,12 @@ import com.dexafree.materialList.card.OnActionClickListener;
 import com.dexafree.materialList.card.action.WelcomeButtonAction;
 import com.dexafree.materialList.view.MaterialListView;
 import com.squareup.picasso.RequestCreator;
+import com.test.stream.stream.Controllers.BoardManager;
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Objects.Board.Pin;
+import com.test.stream.stream.Objects.Board.PinMessage;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 
 import java.util.ArrayList;
@@ -44,9 +50,28 @@ public class BoardFragment extends Fragment {
     private int position = 0;
     ImageButton floatButton;
 
+    public void updateUI(){
+        //System.out.println("Called in BoardFragmment");
+        List<Pin> allPins = BoardManager.getInstance().GetPinsInProject();
+        for(Pin currentPin: allPins)
+        {
+            if(currentPin.getClass() == PinMessage.class)
+            {
+                PinMessage currentMessage = (PinMessage) currentPin;
+                fillArray(position, 1, currentMessage.getTitle(), currentMessage.getSubtitle(), currentMessage.getDescription());
+                position++;
+            }
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("In OnCreate");
+        Project projectTest = new Project();
+        projectTest.setBoardId("kevinId");
+        ProjectManager.currentProject = projectTest;
+        BoardManager.getInstance().InitializePins(this);
     }
 
     @Override
@@ -59,7 +84,6 @@ public class BoardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-
         mListView = (MaterialListView) getView().findViewById(R.id.material_listview);
 
         final ImageView emptyView = (ImageView) getView().findViewById(R.id.imageView);
@@ -95,6 +119,7 @@ public class BoardFragment extends Fragment {
                                 String subtitle = subtitleText.getText().toString();
                                 String description = descriptionText.getText().toString();
                                 fillArray(position, 1, title, subtitle, description);
+                                BoardManager.getInstance().CreateMessagePin(title, subtitle,description);
                                 position++;
                             }
                         })
