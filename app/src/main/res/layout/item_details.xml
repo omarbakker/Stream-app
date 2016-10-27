@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:id="@+id/task_name_expanded"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:textSize="40dp"
+             />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_menu_send"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/floatingActionButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="180dp"
+            app:backgroundTint="@color/background" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_dialog_info"
+            android:layout_below="@+id/task_name_expanded"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="34dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="36dp"
+            android:id="@+id/imageView5"
+            android:background="@color/common_google_signin_btn_text_dark_default" />
+
+        <TextView
+            android:text="@string/task_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/description_expanded"
+            android:gravity ="left"
+            android:layout_alignTop="@+id/imageView5"
+            android:layout_toRightOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageView5"
+            android:layout_marginLeft="23dp"
+            android:layout_marginStart="23dp"
+            android:layout_alignBottom="@+id/imageView5"
+            android:textColor="@color/black_button" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar"
+            android:layout_below="@+id/imageView5"
+            android:layout_alignLeft="@+id/imageView5"
+            android:layout_alignStart="@+id/imageView5"
+            android:layout_marginTop="65dp"
+            android:id="@+id/imageView6" />
+
+        <TextView
+            android:text="@string/task_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView6"
+            android:layout_alignLeft="@+id/description_expanded"
+            android:layout_alignStart="@+id/description_expanded"
+            android:id="@+id/due_date_expanded"
+            android:layout_alignBottom="@+id/imageView6"
+            android:textColor="@color/black_button" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_myplaces"
+            android:layout_below="@+id/imageView6"
+            android:layout_alignRight="@+id/imageView6"
+            android:layout_alignEnd="@+id/imageView6"
+            android:layout_marginTop="40dp"
+            android:id="@+id/imageView7" />
+
+        <TextView
+            android:text="@string/task_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView7"
+            android:layout_alignRight="@+id/due_date_expanded"
+            android:layout_alignEnd="@+id/due_date_expanded"
+            android:id="@+id/user_expanded"
+            android:layout_alignBottom="@+id/imageView7"
+            android:layout_alignLeft="@+id/due_date_expanded"
+            android:layout_alignStart="@+id/due_date_expanded"
+            android:textColor="@color/black_button" />
+
+        <CheckBox
+            android:text="Mark task as done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/floatingActionButton"
+            android:layout_alignEnd="@+id/floatingActionButton"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/checkBox2"
+            app:buttonTint="@color/colorAccent"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:onClick= "markAsComplete"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="?android:attr/homeAsUpIndicator"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/imageView7"
+            android:layout_alignEnd="@+id/imageView7"
+            android:id="@+id/imageButton5"
+            android:backgroundTint="?attr/colorBackgroundFloating"
+            android:tint="@color/background"
+            android:onClick= "backToHome"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

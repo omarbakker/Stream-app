@@ -1,12 +1,8 @@
 package com.test.stream.stream.UI;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,20 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.Typeface;
-import android.widget.TextView;
 
 import com.test.stream.stream.R;
-import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
 import com.test.stream.stream.UIFragments.PinActivity;
 import com.test.stream.stream.UIFragments.ProjectFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
-import com.test.stream.stream.UIFragments.TasksFragment;
 
-import static java.security.AccessController.getContext;
+import com.test.stream.stream.UIFragments.TaskMain;
 
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,6 +88,7 @@ public class ToolbarActivity extends AppCompatActivity
         int id = item.getItemId();
         FragmentManager manager = getSupportFragmentManager();
         Intent myIntent = new Intent(ToolbarActivity.this, PinActivity.class);
+        Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
         switch(id){
             case R.id.nav_chat:
                 ChatFragment chatFragment = new ChatFragment();
@@ -123,10 +116,11 @@ public class ToolbarActivity extends AppCompatActivity
                         settingsFragment.getTag()).commit();
                 break;
             case R.id.nav_tasks:
-                TasksFragment taskFragment = new TasksFragment();
-                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                        taskFragment,
-                        taskFragment.getTag()).commit();
+//                TasksFragment taskFragment = new TasksFragment();
+//                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+//                        taskFragment,
+//                        taskFragment.getTag()).commit();
+                ToolbarActivity.this.startActivity(taskIntent);
                 break;
             case R.id.nav_home:
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();

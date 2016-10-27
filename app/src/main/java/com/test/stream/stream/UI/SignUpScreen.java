@@ -116,7 +116,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         } else if(task.isSuccessful()){
-                            Intent intent = new Intent(SignUpScreen.this, DummyDashboard.class);
+                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
                             startActivity(intent);
                         }
 
