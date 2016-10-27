@@ -1,4 +1,5 @@
-package com.test.stream.stream.Objects.Tasks;
+package com.example.janemacgillivray.task_manager;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,9 +55,9 @@ public class Task implements Serializable{
     }
 
     public void setTASK_DUE_DATE(int[] due_date){
-        this.TASK_DUE_DATE_DAY = due_date[0];
-        this.TASK_DUE_DATE_MONTH = due_date[1];
-        this.TASK_DUE_DATE_YEAR = due_date[2];
+            this.TASK_DUE_DATE_DAY = due_date[0];
+            this.TASK_DUE_DATE_MONTH = due_date[1];
+            this.TASK_DUE_DATE_YEAR = due_date[2];
     }
 
 
@@ -72,4 +73,3 @@ public class Task implements Serializable{
         this.COMPLETE = COMPLETE;
     }
 }
-
