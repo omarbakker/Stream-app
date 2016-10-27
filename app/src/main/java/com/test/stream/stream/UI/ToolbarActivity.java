@@ -9,8 +9,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
@@ -21,9 +24,13 @@ import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TaskMain;
+import com.test.stream.stream.UIFragments.TasksFragment;
+import com.test.stream.stream.UIFragments.expand_task;
 
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "Toolbar Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +114,7 @@ public class ToolbarActivity extends AppCompatActivity
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
                         boardFragment.getTag()).commit();
-               // ToolbarActivity.this.startActivity(myIntent);
+
                 break;
             case R.id.nav_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
@@ -116,11 +123,11 @@ public class ToolbarActivity extends AppCompatActivity
                         settingsFragment.getTag()).commit();
                 break;
             case R.id.nav_tasks:
-//                TasksFragment taskFragment = new TasksFragment();
-//                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-//                        taskFragment,
-//                        taskFragment.getTag()).commit();
-                ToolbarActivity.this.startActivity(taskIntent);
+                TasksFragment taskFragment = new TasksFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        taskFragment,
+                        taskFragment.getTag()).commit();
+               // ToolbarActivity.this.startActivity(taskIntent);
                 break;
             case R.id.nav_home:
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
@@ -143,5 +150,16 @@ public class ToolbarActivity extends AppCompatActivity
 
     public void setTitle(CharSequence title) {
 
+    }
+    public void expandTaskView(View view) {
+        View parent = (View) view.getParent();
+        TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);
+        String taskName = String.valueOf(taskTextView.getText());
+        Intent intent = new Intent(this, expand_task.class);
+        Log.d(TAG, "so fucked up oh my god");
+        //intent.putExtra("tasks",tasks);
+        intent.putExtra("taskName", taskName);
+        Log.d(TAG, "everything is awful");
+        startActivity(intent);
     }
 }

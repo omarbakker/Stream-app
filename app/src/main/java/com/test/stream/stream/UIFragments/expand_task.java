@@ -6,6 +6,7 @@ package com.test.stream.stream.UIFragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,9 +16,10 @@ import java.util.List;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.UIFragments.TaskMain;
 
-public class expand_task extends Activity {
+public class expand_task extends AppCompatActivity {
     List<Task> tasks = new ArrayList<>();
     int current_task;
     private static final String TAG = TaskMain.class.getSimpleName();
@@ -73,7 +75,7 @@ public class expand_task extends Activity {
     }
 
     public void backToHome(){
-        Intent intent = new Intent(getBaseContext(), TaskMain.class);
+        Intent intent = new Intent(expand_task.this, ToolbarActivity.class);
         startActivity(intent);
 
     }

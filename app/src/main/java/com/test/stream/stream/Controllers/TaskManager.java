@@ -12,7 +12,7 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.UIFragments.TaskMain;
+import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
@@ -46,13 +46,14 @@ public class TaskManager {
         return tasks;
     }
 
-    public void InitializeTasks(TaskMain context) //Note: Change context to your activity class & do it for the private functions
+    public void InitializeTasks(TasksFragment context) //Note: Change context to your activity class & do it for the private functions
     {
         registerTaskGroup(context);
+
     }
 
     //Assumes a project exists.
-    private void registerTaskGroup(final TaskMain context)
+    private void registerTaskGroup(final TasksFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.TaskGroups.toString());
         Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getTaskGroupId());
@@ -99,7 +100,7 @@ public class TaskManager {
         listenerCollection.put(query, listener);
     }
 
-    private void registerTasks(TaskMain context)
+    private void registerTasks(TasksFragment context)
     {
         for(String id : currentTaskGroup.getTasks().keySet()) //Ensure that each task only is register once.
         {
@@ -110,7 +111,7 @@ public class TaskManager {
         }
     }
 
-    private void registerTask(final String taskId, final TaskMain context)
+    private void registerTask(final String taskId, final TasksFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Tasks.toString());
         Query query = myRef.orderByKey().equalTo(taskId);
@@ -122,6 +123,7 @@ public class TaskManager {
                 {
                     Task task = dataSnapshot.getValue(Task.class);
                     tasksInCurrentProject.put(taskId, task);
+                    context.updateUI();
                     //Do whatever you need with the "context" ie. call the updateUI function
                     //Probably pass in tasksInCurrentProject.keySet() for your keys
                 }
@@ -134,6 +136,7 @@ public class TaskManager {
                     Task task = dataSnapshot.getValue(Task.class);
                     tasksInCurrentProject.put(taskId, task);
                     System.out.println("Changed " + taskId);
+                    context.updateUI();
                     //Do whatever you need with the "context" ie. call the updateUI function
                 }
             }
@@ -144,6 +147,7 @@ public class TaskManager {
                 {
                     tasksInCurrentProject.remove(taskId);
                     System.out.println("Deleted " + taskId);
+                    context.updateUI();
                     //Do whatever you need with the "context" ie. call the updateUI function
                 }
             }
