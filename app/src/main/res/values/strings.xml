@@ -44,5 +44,9 @@
     <string name="task_description">Description</string>
 
 
-    <string name="reminder_notification_dialog_title">Want to send a friendly reminder?</string>
+    <!-- Notification strings -->
+    <string name ="reminder_notification_dialog_title">Want to remind </string>
+    <string name="review_notification_dialog_title1">Need </string>
+    <string name="review_notification_dialog_title2"> to make a chance?</string>
+    <string name="reminder_notification_dialog_titles">Want to send a friendly reminder?</string>
 </resources>

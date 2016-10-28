@@ -23,11 +23,13 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".UI.MainLoginScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -38,7 +40,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".UIFragments.TaskMain"
-                android:parentActivityName=".UI.ToolbarActivity" />
+                android:parentActivityName=".UI.ToolbarActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".UIFragments.expand_task"
                   android:parentActivityName=".UIFragments.TaskMain" />
 
@@ -54,11 +62,6 @@
         <activity android:name=".UI.DummyDashboard" />
 
         <activity android:name=".UI.sendReminderNotificationDialog">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <service
             android:name=".UI.FirebaseMessagingService">

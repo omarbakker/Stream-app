@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,8 +34,8 @@ public class sendReviewNotificationDialog extends AppCompatActivity {
         // Initializes views for review alert dialog
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
-        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
-        reviewTitle = (TextView) findViewById(R.id.reviewTitle);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewTitle = (TextView) findViewById(R.id.reminderTitle);
 
         //Initialize AlertDialog for Review
         AlertDialog.Builder Reviewbuilder = new AlertDialog.Builder(this);
@@ -69,5 +67,6 @@ public class sendReviewNotificationDialog extends AppCompatActivity {
         //Clear contents of the EditText
         reviewMessageToSend.setText("");
     }
+
 
 }

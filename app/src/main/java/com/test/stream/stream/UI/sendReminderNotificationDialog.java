@@ -11,50 +11,52 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.test.stream.stream.UI.sendReviewNotificationDialog;
-
 import com.test.stream.stream.R;
 
-public class sendReminderNotificationDialog extends AppCompatActivity  implements View.OnClickListener{
+public class sendReminderNotificationDialog extends AppCompatActivity  {
 
-    Button getNotification, sendReview;
     final Context context = this;
 
     //Reminder notification
-    AlertDialog dialog;
+    static AlertDialog dialog;
     EditText messageToSend;
     TextView sendReminderAlertTitle;
     CheckBox sendAnonymously;
     View reminderDialogView;
 
     //Review notification
-    AlertDialog Reviewdialog;
+    static AlertDialog Reviewdialog;
     EditText reviewMessageToSend;
     TextView reviewTitle;
     View reviewDialogView;
 
+    //Task is complete
+    boolean taskComplete = false;
+    String Assignee;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_notification);
-
         Intent intent = new Intent(this, MyFirebaseInstanceIDService.class);
         startService(intent);
 
-        sendReview = (Button) findViewById(R.id.button2);
+        //Obtain "complete" boolean from the task
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            taskComplete = b.getBoolean("ifTaskIsComplete");
+            Assignee = b.getString("taskAssignedTo");
+        }
+
+
         // Initializes views for reminder alert dialog
         LayoutInflater ReminderInflater = LayoutInflater.from(context);
         reminderDialogView = ReminderInflater.inflate(R.layout.send_reminder_notification, null);
-        messageToSend = (EditText) reminderDialogView.findViewById(R.id.reviewMessageToSend);
-        getNotification = (Button) findViewById(R.id.getNotification);
-        getNotification.setOnClickListener(this);
-        sendReview.setOnClickListener(this);
-        sendReminderAlertTitle = (TextView) findViewById(R.id.reviewTitle);
+        messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
+        sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
+        sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title + Assignee);
         sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
 
         //Initialize AlertDialog for Reminder
@@ -80,8 +82,9 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
         // Initializes views for review alert dialog
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
-        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
-        reviewTitle = (TextView) findViewById(R.id.reviewTitle);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewTitle = (TextView) findViewById(R.id.reminderTitle);
+        reviewTitle.setText(R.string.review_notification_dialog_title1 + Assignee + R.string.review_notification_dialog_title2);
 
         //Initialize AlertDialog for Review
         AlertDialog.Builder Reviewbuilder = new AlertDialog.Builder(this);
@@ -98,6 +101,14 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
             }
         });
         Reviewdialog = Reviewbuilder.create();
+
+
+        //Display a dialog depending on whether the activity is complete or not
+        if(taskComplete)
+            appearReviewDialog();
+        else
+            appearReminderDialog();
+
 
     }
 
@@ -127,15 +138,12 @@ public class sendReminderNotificationDialog extends AppCompatActivity  implement
         reviewMessageToSend.setText("");
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.getNotification:
-                dialog.show();
-                break;
-            case R.id.button2:
-                Reviewdialog.show();
-                break;
-        }
+
+    public static void appearReminderDialog() {
+        dialog.show();
+    }
+
+    public static void appearReviewDialog() {
+        Reviewdialog.show();
     }
 }

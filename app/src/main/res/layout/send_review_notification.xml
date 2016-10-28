@@ -17,17 +17,17 @@
         android:hint="Enter Message"
         android:ems="10"
         android:layout_marginTop="17dp"
-        android:id="@+id/reviewMessageToSend"
+        android:id="@+id/reminderMessageToSend"
         android:layout_below="@+id/rectangle_at_the_top"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Need Sally to make a change?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/reviewTitle"
         android:textColor="#FFFFFF"
+        android:text="HELLO"
         android:textSize="20dp"
         android:layout_marginTop="21dp"
         android:layout_alignParentTop="true"

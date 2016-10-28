@@ -3,11 +3,21 @@ package com.test.stream.stream.UIFragments;
 /**
  * Created by janemacgillivray on 2016-10-23.
  */
-import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +25,27 @@ import java.util.List;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UIFragments.TaskMain;
 
-public class expand_task extends Activity {
+import static com.test.stream.stream.R.string.reminder_notification_dialog_title;
+
+public class expand_task extends AppCompatActivity implements View.OnClickListener {
     List<Task> tasks = new ArrayList<>();
     int current_task;
     private static final String TAG = TaskMain.class.getSimpleName();
+    final Context context = this;
+
+    //Reminder notification
+    static AlertDialog dialog;
+    EditText messageToSend;
+    static TextView sendReminderAlertTitle;
+    CheckBox sendAnonymously;
+    View reminderDialogView;
+
+    //Review notification
+    static AlertDialog Reviewdialog;
+    EditText reviewMessageToSend;
+    TextView reviewTitle;
+    static View reviewDialogView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +80,8 @@ public class expand_task extends Activity {
         //Log.d(TAG, "pre-content view set");
         setContentView(R.layout.item_details);
 
+        FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
+        sendNotification.setOnClickListener(this);
 
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         task_name.setText(expandTask.getName());
@@ -70,17 +97,115 @@ public class expand_task extends Activity {
 
         Log.d(TAG, "finished");
 
+        //----------------------------------------------------------------------------------------
+
+        //initializes views for reminder alert dialog
+        LayoutInflater ReminderInflater = LayoutInflater.from(context);
+        reminderDialogView = ReminderInflater.inflate(R.layout.send_reminder_notification, null);
+        messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
+        sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
+        Task task = tasks.get(current_task);
+        String title = getString(R.string.reminder_notification_dialog_title);
+        //sendReminderAlertTitle.setText(title);
+        //sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title);
+        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
+
+
+        //Initializes views for review alert dialog
+        LayoutInflater ReviewInflater = LayoutInflater.from(context);
+        reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewTitle = (TextView) findViewById(R.id.reviewTitle);
+        CharSequence title2 = getString(R.string.review_notification_dialog_title1);
+        //reviewTitle.setText(title2);
+        //reviewTitle.setText(R.string.review_notification_dialog_title1 + R.string.review_notification_dialog_title2);
+        //reviewTitle.setText("Hello");
+
+
     }
 
     public void backToHome(){
         Intent intent = new Intent(getBaseContext(), TaskMain.class);
         startActivity(intent);
-
     }
 
     public void markAsComplete(View view){
         Task task = tasks.get(current_task);
         task.setComplete(true);
+    }
+
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.sendTaskNotification:
+                Task task = tasks.get(current_task);
+                if(task.getComplete())
+                    appearReviewDialog();
+                else
+                    appearReminderDialog();
+        }
+    }
+
+    public void appearReminderDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(reminderDialogView);
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String message = reviewMessageToSend.getText().toString();
+                getReminderNotification(message);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    public void appearReviewDialog() {
+        //Initialize AlertDialog for Review
+        AlertDialog.Builder Reviewbuilder = new AlertDialog.Builder(this);
+        Reviewbuilder.setView(reviewDialogView);
+        Reviewbuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String message = sendReminderAlertTitle.getText().toString();
+                getReviewNotification(message);
+            }
+        });
+        Reviewbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        Reviewdialog = Reviewbuilder.create();
+        Reviewdialog.show();
+    }
+
+    public void getReminderNotification(String message) {
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        nBuilder.setContentTitle("Here's a friendly reminder for you to complete your task!");
+        nBuilder.setContentText(message);
+        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
+        Notification notification = nBuilder.build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+
+        //Clear contents of the EditText
+        messageToSend.setText("");
+    }
+
+    public void getReviewNotification(String message) {
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        nBuilder.setContentTitle("Here's a suggestion!");
+        nBuilder.setContentText(message);
+        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
+        Notification notification = nBuilder.build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+
+        //Clear contents of the EditText
+        reviewMessageToSend.setText("");
     }
 
 }
