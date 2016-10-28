@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,12 @@ import java.util.List;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
-
 import static com.test.stream.stream.R.string.reminder_notification_dialog_title;
+import com.test.stream.stream.UI.ToolbarActivity;
+import com.test.stream.stream.UIFragments.TaskMain;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
+
     List<Task> tasks = new ArrayList<>();
     int current_task;
     private static final String TAG = TaskMain.class.getSimpleName();
@@ -125,7 +128,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     public void backToHome(){
-        Intent intent = new Intent(getBaseContext(), TaskMain.class);
+        Intent intent = new Intent(expand_task.this, ToolbarActivity.class);
         startActivity(intent);
     }
 

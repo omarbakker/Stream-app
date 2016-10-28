@@ -30,7 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.test.stream.stream.R;
 
 public class TaskMain extends AppCompatActivity {
-    private ListView mTaskListView;
+//*   private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
     private int current_task;
     ArrayList<Task> tasks = new ArrayList<>();
@@ -42,7 +42,7 @@ public class TaskMain extends AppCompatActivity {
     private GoogleApiClient client;
 
 
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,5 +223,5 @@ public class TaskMain extends AppCompatActivity {
         }
 
     }
-
+*/
 }
