@@ -44,6 +44,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     CheckBox sendAnonymously;
     View reminderDialogView;
     TextView reminderInfo;
+    AlertDialog.Builder builder;
 
     //Review notification
     static AlertDialog Reviewdialog;
@@ -51,6 +52,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     TextView reviewTitle;
     static View reviewDialogView;
     TextView reviewInfo;
+    AlertDialog.Builder Reviewbuilder;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,20 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
         reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
         sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
+        builder = new AlertDialog.Builder(this);
+        builder.setView(reminderDialogView);
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String message = messageToSend.getText().toString();
+                getReminderNotification(message);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
 
 
         //Initializes views for review alert dialog
@@ -125,6 +141,21 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         reviewTitle.setText(getString(R.string.review_notification_dialog_title1) + task.getAssignee() + getString(R.string.review_notification_dialog_title2));
         reviewInfo = (TextView) reviewDialogView.findViewById(R.id.ReviewNotificationInfo);
         reviewInfo.setText(getString(R.string.review_notification_info) + task.getAssignee() + getString(R.string.review_notification_info2));
+        Reviewbuilder = new AlertDialog.Builder(this);
+        Reviewbuilder.setView(reviewDialogView);
+        //Initialize AlertDialog for Review
+        Reviewbuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String message = reviewMessageToSend.getText().toString();
+                getReviewNotification(message);
+            }
+        });
+        Reviewbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Reviewdialog.dismiss();
+            }
+        });
+        Reviewdialog = Reviewbuilder.create();
 
 
 
@@ -152,39 +183,12 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     public void appearReminderDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(reminderDialogView);
-        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                String message = messageToSend.getText().toString();
-                getReminderNotification(message);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-        dialog = builder.create();
+
         dialog.show();
     }
 
     public void appearReviewDialog() {
-        //Initialize AlertDialog for Review
-        AlertDialog.Builder Reviewbuilder = new AlertDialog.Builder(this);
-        Reviewbuilder.setView(reviewDialogView);
-        Reviewbuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                String message = reviewMessageToSend.getText().toString();
-                getReviewNotification(message);
-            }
-        });
-        Reviewbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Reviewdialog.dismiss();
-            }
-        });
-        Reviewdialog = Reviewbuilder.create();
+
         Reviewdialog.show();
     }
 
