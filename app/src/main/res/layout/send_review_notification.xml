@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View android:id="@+id/rectangle_at_the_top"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:background="#36d4c6"
+        android:visibility="visible"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Enter Message"
+        android:ems="10"
+        android:layout_marginTop="17dp"
+        android:id="@+id/reminderMessageToSend"
+        android:layout_below="@+id/rectangle_at_the_top"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/reviewTitle"
+        android:textColor="#FFFFFF"
+        android:text="HELLO"
+        android:textSize="20dp"
+        android:layout_marginTop="21dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Send a notification to suggest a change"
+        android:textSize="12dp"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ReviewNotificationInfo"
+        android:layout_below="@+id/reviewTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
+
+</RelativeLayout>

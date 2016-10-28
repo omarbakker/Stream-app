@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginSTREAM</string>
+    <string name="app_name">Stream</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
     <!-- Strings related to login -->
@@ -22,6 +22,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="project_page">"Welcome to the project page"</string>
     <string name="chat_page">"Welcome to the chat page"</string>
@@ -41,4 +42,17 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
+
+
+    <!-- Notification strings -->
+    <string name ="reminder_notification_dialog_title">"Want to remind "</string>
+    <string name="review_notification_dialog_title1">"Need "</string>
+    <string name="review_notification_dialog_title2">" to make a change?"</string>
+    <string name="reminder_notification_dialog_titles">"Want to send a friendly reminder?"</string>
+    <string name="reminder_notification_title">"Here's a friendly reminder for you to complete your task!"</string>
+    <string name="review_notification_title">"Here's a suggestion"</string>
+    <string name="reminder_notification_info">"Send a notification to remind "</string>
+    <string name="reminder_notification_info2">" to complete this task"</string>
+    <string name="review_notification_info">"Send a notification to "</string>
+    <string name="review_notification_info2">" to suggest a change"</string>
 </resources>
