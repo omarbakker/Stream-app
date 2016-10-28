@@ -181,7 +181,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         });
         Reviewbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
+                Reviewdialog.dismiss();
             }
         });
         Reviewdialog = Reviewbuilder.create();
