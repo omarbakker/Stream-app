@@ -1,47 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.stream.stream" >
+    package="com.test.stream.stream"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-<uses-permission android:name="android.permission.READ_PROFILE" />
-<uses-permission android:name="android.permission.READ_CONTACTS" />
-<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="Stream-app"
-    android:supportsRtl="true"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        tools:replace="label"
+        android:label="Stream-app"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <meta-data
-        android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-    <activity android:name=".UI.MainLoginScreen">
+        <activity android:name=".UI.MainLoginScreen">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UIFragments.TaskMain"
+                android:parentActivityName=".UI.ToolbarActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
+        </activity>
+        <activity android:name=".UIFragments.expand_task"
+                  android:parentActivityName=".UIFragments.TaskMain" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
+        <activity android:name=".UI.VerificationCode" />
+        <activity android:name=".UI.SignUpScreen" />
+        <activity android:name=".UI.SetUpMeeting" />
+        <activity
+            android:name=".UIFragments.PinActivity"
+            android:parentActivityName=".UI.ToolbarActivity"/>
+        <activity
+            android:name=".UI.ToolbarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".UI.DummyDashboard" />
 
-            <data android:scheme="@string/fb_login_protocol_scheme" />
-        </intent-filter>
-    </activity>
-    <activity android:name=".UI.VerificationCode"></activity>
-    <activity android:name=".UI.SignUpScreen"></activity>
-    <activity android:name=".UI.SetUpMeeting"></activity>
-    <activity android:name=".UI.ToolbarActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-    </activity>
-</application>
-
+        <activity android:name=".UI.sendReminderNotificationDialog">
+        </activity>
+        <service
+            android:name=".UI.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".UI.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+    </application>
 
 </manifest>

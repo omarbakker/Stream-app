@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginSTREAM</string>
+    <string name="app_name">Stream</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
     <!-- Strings related to login -->
@@ -11,6 +11,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="action_create_user">Create New User</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -20,4 +21,38 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="project_page">"Welcome to the project page"</string>
+    <string name="chat_page">"Welcome to the chat page"</string>
+    <string name="board_page">"Welcome to the board page"</string>
+    <string name="project_home_page_">"Welcome to the home page"</string>
+    <string name="settings_page">"Welcome to the settings page"</string>
+    <string name="tasks_page">"Welcome to the tasks page"</string>
+    <string name="calendar_page">"Welcome to the calendar page"</string>
+    <string name="dialog_description">Description</string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_subtitle">Subtitle</string>
+    <string name="dialog_add">Add Pin</string>
+    <string name="dialog_submit">Submit</string>
+    <string name="dialog_cancel">cancel</string>
+    <string name="title">Tasks</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_due_date">Due date</string>
+    <string name="task_user">User</string>
+    <string name="task_description">Description</string>
+
+
+    <!-- Notification strings -->
+    <string name ="reminder_notification_dialog_title">"Want to remind "</string>
+    <string name="review_notification_dialog_title1">"Need "</string>
+    <string name="review_notification_dialog_title2">" to make a change?"</string>
+    <string name="reminder_notification_dialog_titles">"Want to send a friendly reminder?"</string>
+    <string name="reminder_notification_title">"Here's a friendly reminder for you to complete your task!"</string>
+    <string name="review_notification_title">"Here's a suggestion"</string>
+    <string name="reminder_notification_info">"Send a notification to remind "</string>
+    <string name="reminder_notification_info2">" to complete this task"</string>
+    <string name="review_notification_info">"Send a notification to "</string>
+    <string name="review_notification_info2">" to suggest a change"</string>
 </resources>

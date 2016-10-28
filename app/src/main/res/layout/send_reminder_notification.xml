@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <View android:id="@+id/rectangle_at_the_top"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:background="#087bb9"
+        android:visibility="visible"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Enter Message"
+        android:ems="10"
+        android:layout_marginTop="17dp"
+        android:id="@+id/reminderMessageToSend"
+        android:layout_below="@+id/rectangle_at_the_top"
+        android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:text="Send Anonymously"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendAnonymously"
+        android:layout_below="@+id/reminderMessageToSend"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="71dp"
+        android:layout_marginStart="71dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/reminderTitle"
+        android:text="HELLO"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:layout_marginTop="21dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Send a notification to remind Sally to complete a task"
+        android:textSize="12dp"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reminderNotificationInfo"
+        android:layout_below="@+id/reminderTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
+
+</RelativeLayout>

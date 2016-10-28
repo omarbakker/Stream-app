@@ -38,6 +38,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -123,6 +127,9 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
+                Log.d("login","successfully logged in with email");
+                Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -172,7 +179,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.login:
                 attemptLogin();
-                startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
+                //startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
                 break;
         }
     }
@@ -212,6 +219,43 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             cancel = true;
         }
 
+        // Attempts login with firebase authentication (email+password)
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthInvalidUserException e) {
+                                Toast.makeText(MainLoginScreen.this, R.string.error_invalid_email,
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(MainLoginScreen.this, R.string.error_incorrect_password,
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(Exception e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                        } else if (task.isSuccessful()) {
+                            Log.d("login","successfully logged in with email");
+                            Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
+                            startActivity(intent);
+                        }
+
+                        // [START_EXCLUDE]
+//                        if (!task.isSuccessful()) {
+//                            mStatusTextView.setText(R.string.auth_failed);
+//                        }
+                        //hideProgressDialog();
+                        // [END_EXCLUDE]
+                    }
+                });
+
         if(cancel) {
             focusView.requestFocus();
         }
@@ -229,32 +273,34 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        // WE AREN'T ACTUALLY USING ANY OF THIS AT THIS MOMENT, SO THIS WILL BE COMMENTED OUT AS TIME BEING
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+//
+//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//                }
+//            });
+//
+//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//            mProgressView.animate().setDuration(shortAnimTime).alpha(
+//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//                }
+//            });
+//        } else {
+//            // The ViewPropertyAnimator APIs are not available, so simply show
+//            // and hide the relevant UI components.
+//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//        }
     }
 
     private void handleFacebookAccessToken(AccessToken token) {

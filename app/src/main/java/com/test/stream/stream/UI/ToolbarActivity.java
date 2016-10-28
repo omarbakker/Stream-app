@@ -1,26 +1,36 @@
 package com.test.stream.stream.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.Typeface;
+import android.view.View;
 import android.widget.TextView;
 
 import com.test.stream.stream.R;
-
-import static java.security.AccessController.getContext;
+import com.test.stream.stream.UIFragments.CalendarFragment;
+import com.test.stream.stream.UIFragments.ChatFragment;
+import com.test.stream.stream.UIFragments.PinActivity;
+import com.test.stream.stream.UIFragments.ProjectFragment;
+import com.test.stream.stream.UIFragments.ProjectHomeFragment;
+import com.test.stream.stream.UIFragments.SettingsFragment;
+import com.test.stream.stream.UIFragments.BoardFragment;
+import com.test.stream.stream.UIFragments.TaskMain;
+import com.test.stream.stream.UIFragments.TasksFragment;
+import com.test.stream.stream.UIFragments.expand_task;
 
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "Toolbar Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +39,10 @@ public class ToolbarActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -91,25 +93,73 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager manager = getSupportFragmentManager();
+        Intent myIntent = new Intent(ToolbarActivity.this, PinActivity.class);
+        Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
+        switch(id){
+            case R.id.nav_chat:
+                ChatFragment chatFragment = new ChatFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        chatFragment,
+                        chatFragment.getTag()).commit();
+                break;
+            case R.id.nav_calendar:
+                CalendarFragment calendarFragment = new CalendarFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        calendarFragment,
+                        calendarFragment.getTag()).commit();
+                break;
+            case R.id.nav_pinboard:
+                BoardFragment boardFragment = new BoardFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        boardFragment,
+                        boardFragment.getTag()).commit();
 
-        if (id == R.id.nav_chat) {
-            // Handle the camera action
-        } else if (id == R.id.nav_calendar) {
-
-        } else if (id == R.id.nav_pinboard) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_tasks) {
-
-        } else if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_projects) {
-
+                break;
+            case R.id.nav_settings:
+                SettingsFragment settingsFragment = new SettingsFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        settingsFragment,
+                        settingsFragment.getTag()).commit();
+                break;
+            case R.id.nav_tasks:
+                TasksFragment taskFragment = new TasksFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        taskFragment,
+                        taskFragment.getTag()).commit();
+               // ToolbarActivity.this.startActivity(taskIntent);
+                break;
+            case R.id.nav_home:
+                ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        projectHomeFragment,
+                        projectHomeFragment.getTag()).commit();
+                break;
+            case R.id.nav_projects:
+                ProjectFragment projectFragment = new ProjectFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        projectFragment,
+                        projectFragment.getTag()).commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setTitle(CharSequence title) {
+
+    }
+    public void expandTaskView(View view) {
+        View parent = (View) view.getParent();
+        TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);
+        String taskName = String.valueOf(taskTextView.getText());
+        Intent intent = new Intent(this, expand_task.class);
+        Log.d(TAG, "so fucked up oh my god");
+        //intent.putExtra("tasks",tasks);
+        intent.putExtra("taskName", taskName);
+        Log.d(TAG, "everything is awful");
+        startActivity(intent);
     }
 }

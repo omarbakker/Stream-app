@@ -12,14 +12,17 @@ import java.util.Map;
 
 public class Task {
     //region Variables
+    private String id;
+
     private String taskGroupId;
     private String name;
     private String description;
-    private Date dueDate;
-    private int progress;
+    private int dueDay = 0;
+    private int dueMonth = 0;
+    private int dueYear = 0;
 
     private boolean complete = false;
-    private Map<String, String> assignees = new HashMap<String, String>();
+    private String assignee;
 
     //endregion
 
@@ -28,12 +31,30 @@ public class Task {
         return name;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public String getId ()
+    {
+        return id;
     }
 
-    public int getProgress() {
-        return progress;
+    public String getAssignee()
+    {
+        return assignee;
+    }
+
+    public int getDueDay()
+    {
+        return dueDay;
+    }
+
+    public int getDueMonth()
+    {
+        return dueMonth;
+    }
+
+
+    public int getDueYear()
+    {
+        return dueYear;
     }
 
     public String getDescription() {
@@ -42,10 +63,6 @@ public class Task {
 
     public boolean getComplete() {
         return complete;
-    }
-
-    public Map<String, String> getAssignees() {
-        return assignees;
     }
 
     public String getTaskGroupId() {
@@ -64,14 +81,20 @@ public class Task {
         this.description = description;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setAssignee(String userName)
+    {
+        this.assignee = userName;
     }
 
-    public void setProgress(int progress) {
-        this.progress = progress;
+    public void setTaskGroupId(String id)
+    {
+        this.taskGroupId = id;
     }
 
+    public void setId(String id)
+    {
+        this.id = id;
+    }
     //endregion
 
     //region Constructors
@@ -79,51 +102,8 @@ public class Task {
     {
         name = "";
         description = "";
-        dueDate = new Date(); //TODO: Find something better to record the date.
-        progress = 0;
-    }
-
-    public Task(String name, String description, Date dueDate, String taskGroupId)
-    {
-        this.taskGroupId = taskGroupId;
-        this.name = name;
-        this.description = description;
-        this.dueDate = dueDate;
-        progress = 0;
     }
 
     //endregion
-
-    //region Core Functions
-    public boolean addAssignee(String userKey, User user)
-    {
-        if(isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.put(user.getUid(), userKey);
-        return true;
-    }
-
-    public boolean removeAssignee(String userKey, User user)
-    {
-        if(!isAssigned(user))
-        {
-            return false;
-        }
-
-        assignees.remove(user);
-        return true;
-    }
-
-    public boolean isAssigned(User user)
-    {
-        return assignees.containsKey(user.getUid());
-    }
-
-    //endregion
-
-
 
 }
