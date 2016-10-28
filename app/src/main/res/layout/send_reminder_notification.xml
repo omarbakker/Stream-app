@@ -50,7 +50,7 @@
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/reminderNotificationInfo"
         android:layout_below="@+id/reminderTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />

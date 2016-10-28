@@ -39,7 +39,7 @@
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/informationText"
+        android:id="@+id/ReviewNotificationInfo"
         android:layout_below="@+id/reviewTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />

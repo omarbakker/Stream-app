@@ -43,12 +43,14 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     static TextView sendReminderAlertTitle;
     CheckBox sendAnonymously;
     View reminderDialogView;
+    TextView reminderInfo;
 
     //Review notification
     static AlertDialog Reviewdialog;
     EditText reviewMessageToSend;
     TextView reviewTitle;
     static View reviewDialogView;
+    TextView reviewInfo;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +104,16 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         //----------------------------------------------------------------------------------------
 
+        Task task = tasks.get(current_task);
+
         //initializes views for reminder alert dialog
         LayoutInflater ReminderInflater = LayoutInflater.from(context);
         reminderDialogView = ReminderInflater.inflate(R.layout.send_reminder_notification, null);
         messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
-        sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
-        Task task = tasks.get(current_task);
-        String title = getString(R.string.reminder_notification_dialog_title);
-        //sendReminderAlertTitle.setText(title);
-        //sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title);
+        sendReminderAlertTitle = (TextView) reminderDialogView.findViewById(R.id.reminderTitle);
+        sendReminderAlertTitle.setText(getString(R.string.reminder_notification_dialog_title) + task.getAssignee() + "?");
+        reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
+        reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
         sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
 
 
@@ -118,11 +121,11 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
         reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
-        reviewTitle = (TextView) findViewById(R.id.reviewTitle);
-        CharSequence title2 = getString(R.string.review_notification_dialog_title1);
-        //reviewTitle.setText(title2);
-        //reviewTitle.setText(R.string.review_notification_dialog_title1 + R.string.review_notification_dialog_title2);
-        //reviewTitle.setText("Hello");
+        reviewTitle = (TextView) reviewDialogView.findViewById(R.id.reviewTitle);
+        reviewTitle.setText(getString(R.string.review_notification_dialog_title1) + task.getAssignee() + getString(R.string.review_notification_dialog_title2));
+        reviewInfo = (TextView) reviewDialogView.findViewById(R.id.ReviewNotificationInfo);
+        reviewInfo.setText(getString(R.string.review_notification_info) + task.getAssignee() + getString(R.string.review_notification_info2));
+
 
 
     }
@@ -153,7 +156,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         builder.setView(reminderDialogView);
         builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                String message = reviewMessageToSend.getText().toString();
+                String message = messageToSend.getText().toString();
                 getReminderNotification(message);
             }
         });
@@ -172,7 +175,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         Reviewbuilder.setView(reviewDialogView);
         Reviewbuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                String message = sendReminderAlertTitle.getText().toString();
+                String message = reviewMessageToSend.getText().toString();
                 getReviewNotification(message);
             }
         });
@@ -187,7 +190,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     public void getReminderNotification(String message) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setContentTitle("Here's a friendly reminder for you to complete your task!");
+        nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
         nBuilder.setContentText(message);
         nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
         Notification notification = nBuilder.build();
@@ -200,7 +203,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     public void getReviewNotification(String message) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setContentTitle("Here's a suggestion!");
+        nBuilder.setContentTitle(getString(R.string.review_notification_title));
         nBuilder.setContentText(message);
         nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
         Notification notification = nBuilder.build();
