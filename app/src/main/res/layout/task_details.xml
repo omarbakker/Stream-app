@@ -104,17 +104,17 @@
             android:text="@string/task_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/taskAssigneeIcon"
+            android:layout_alignTop="@+id/imageView7"
             android:layout_alignRight="@+id/due_date_expanded"
             android:layout_alignEnd="@+id/due_date_expanded"
             android:id="@+id/user_expanded"
-            android:layout_alignBottom="@+id/taskAssigneeIcon"
+            android:layout_alignBottom="@+id/imageView7"
             android:layout_alignLeft="@+id/due_date_expanded"
             android:layout_alignStart="@+id/due_date_expanded"
             android:textColor="@color/black_button" />
 
         <CheckBox
-            android:text="Mark task as done"
+            android:text="@string/task_markAsComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -122,7 +122,6 @@
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"
             android:id="@+id/checkBox">
-
         </CheckBox>
 
         <ImageButton
