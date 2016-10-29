@@ -11,7 +11,7 @@
         android:layout_height="77dp"
         android:background="@color/background"
         app:srcCompat="@drawable/create_new_task"
-        android:id="@+id/imageView" />
+        android:id="@+id/createNewTaskDialogTitle" />
 
     <EditText
         android:id="@+id/task_name"
