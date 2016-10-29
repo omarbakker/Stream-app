@@ -34,7 +34,7 @@ public class sendReviewNotificationDialog extends AppCompatActivity {
         // Initializes views for review alert dialog
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
-        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
         reviewTitle = (TextView) findViewById(R.id.reminderTitle);
 
         //Initialize AlertDialog for Review

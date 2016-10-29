@@ -54,7 +54,7 @@ public class sendReminderNotificationDialog extends AppCompatActivity  {
         // Initializes views for reminder alert dialog
         LayoutInflater ReminderInflater = LayoutInflater.from(context);
         reminderDialogView = ReminderInflater.inflate(R.layout.send_reminder_notification, null);
-        messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
+        messageToSend = (EditText) reminderDialogView.findViewById(R.id.reviewMessageToSend);
         sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
         sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title + Assignee);
         sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
@@ -82,7 +82,7 @@ public class sendReminderNotificationDialog extends AppCompatActivity  {
         // Initializes views for review alert dialog
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
-        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
         reviewTitle = (TextView) findViewById(R.id.reminderTitle);
         reviewTitle.setText(R.string.review_notification_dialog_title1 + Assignee + R.string.review_notification_dialog_title2);
 
