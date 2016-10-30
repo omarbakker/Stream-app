@@ -22,6 +22,7 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.PinAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BoardFragment extends ListFragment {
@@ -64,6 +65,7 @@ public class BoardFragment extends ListFragment {
                 pins.add(currentMessage);
             }
         }
+        Collections.reverse(pins);
         if (pinAdapter == null) {
 
             pinAdapter = new PinAdapter(getActivity(), pinMessages);
