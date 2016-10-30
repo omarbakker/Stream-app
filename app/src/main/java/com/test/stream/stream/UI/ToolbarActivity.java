@@ -34,12 +34,12 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_TITLE_EXTRA = "com.test.stream.stream Title";
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
+    FragmentManager manager;
 
     /**
      * On create the ToolbarActivity, all initializations
      * @param savedInstanceState
      */
-    FragmentManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
