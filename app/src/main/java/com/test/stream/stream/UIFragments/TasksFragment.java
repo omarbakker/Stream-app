@@ -74,7 +74,7 @@ public class TasksFragment extends Fragment {
         Project projectTest = new Project();
         projectTest.setTaskGroupId("janeId");
         ProjectManager.sharedInstance().setCurrentProject(projectTest);
-        TaskManager.getInstance().Initialize(this);
+        TaskManager.getInstance().Initialize(this);gi
     }
 
     public void createTask() {
