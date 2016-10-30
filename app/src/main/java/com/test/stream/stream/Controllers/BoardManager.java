@@ -50,7 +50,7 @@ public class BoardManager {
     private void registerBoard(final BoardFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Boards.toString());
-        Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getBoardId());
+        Query query = myRef.orderByKey().equalTo(ProjectManager.sharedInstance().getCurrentProject().getBoardId());
 
         ChildEventListener listener = new ChildEventListener() {
             @Override
@@ -209,7 +209,7 @@ public class BoardManager {
 
         //Store the pins in the board.
         currentBoard.addPin(message.getId(), PinType.Message);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId(), currentBoard);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;
     }
@@ -229,7 +229,7 @@ public class BoardManager {
 
         refToDelete.removeValue();
         currentBoard.removePin(pinId);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId(), currentBoard);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;
 

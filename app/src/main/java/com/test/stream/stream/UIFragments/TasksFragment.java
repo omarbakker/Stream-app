@@ -73,8 +73,7 @@ public class TasksFragment extends Fragment {
         });
         Project projectTest = new Project();
         projectTest.setTaskGroupId("janeId");
-        ProjectManager.currentProject = projectTest;
-
+        ProjectManager.sharedInstance().setCurrentProject(projectTest);
         TaskManager.getInstance().InitializeTasks(this);
     }
 
@@ -233,7 +232,6 @@ public class TasksFragment extends Fragment {
                 tasks.set(tasks.size()-1, task);
             }
         }
-
     }
 
 }

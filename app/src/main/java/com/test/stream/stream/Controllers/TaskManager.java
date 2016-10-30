@@ -56,7 +56,7 @@ public class TaskManager {
     private void registerTaskGroup(final TasksFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.TaskGroups.toString());
-        Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getTaskGroupId());
+        Query query = myRef.orderByKey().equalTo(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
 
         ChildEventListener listener = new ChildEventListener() {
             @Override
@@ -197,7 +197,7 @@ public class TaskManager {
         task.setAssignee(user);
         task.setComplete(complete);
 
-        task.setTaskGroupId(ProjectManager.currentProject.getTaskGroupId());
+        task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);
 
         //Store the firebase object key as the object id.
@@ -206,7 +206,7 @@ public class TaskManager {
 
         //Store the task in the taskgroup.
         currentTaskGroup.addTask(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
     }
@@ -228,7 +228,7 @@ public class TaskManager {
 
         currentTaskGroup.removeTask(taskId);
         tasksInCurrentProject.remove(task);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
 

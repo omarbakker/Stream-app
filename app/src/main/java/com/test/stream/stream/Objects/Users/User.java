@@ -13,9 +13,10 @@ public class User {
     //region Variables
     private String username;
     private String uid;
-    private Map<String, String> projects =  new HashMap<>();
-    private Map<String, String> tasks  =  new HashMap<>();
 
+    // projects String: id, Boolean: project active
+    private Map<String, Boolean> projects =  new HashMap<>();
+    private Map<String, String> tasks  =  new HashMap<>();
     //endregion
 
     //region Setters and getters
@@ -27,7 +28,7 @@ public class User {
         return username;
     }
 
-    public Map<String, String> getProjects() {
+    public Map<String, Boolean> getProjects() {
         return projects;
     }
 
@@ -62,13 +63,13 @@ public class User {
     //endregion
 
     //region Core Functions
-    public boolean addProject(String projectID, String projectName) {
+    public boolean addProject(String projectID) {
         if(isInProject(projectID))
         {
             return false;
         }
 
-        projects.put(projectID, projectName);
+        projects.put(projectID, true);
         return true;
     }
 
