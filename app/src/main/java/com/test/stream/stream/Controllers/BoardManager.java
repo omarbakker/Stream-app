@@ -23,14 +23,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by cathe on 2016-10-26.
  */
 
-public class BoardManager {
+public class BoardManager extends DataManager{
     private static BoardManager instance = new BoardManager();
     public static BoardManager getInstance() { return instance; }
 
+    private BoardFragment context;
     private Board currentBoard;
     private ConcurrentHashMap<String, Pin> pins = new ConcurrentHashMap<String, Pin>();
 
-    private ConcurrentHashMap<Query, ChildEventListener> listenerCollection = new ConcurrentHashMap<Query, ChildEventListener>();;
     private BoardManager(){};
 
     public List<Pin> GetPinsInProject()
@@ -43,132 +43,59 @@ public class BoardManager {
 
     public void InitializePins(BoardFragment context) //Note: Change context to your activity class & do it for the private functions
     {
-        registerBoard(context);
+        this.context = context;
+        super.registerParent(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId());
     }
 
-    //Assumes a project exists.
-    private void registerBoard(final BoardFragment context)
-    {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Boards.toString());
-        Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getBoardId());
-
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    currentBoard = dataSnapshot.getValue(Board.class);
-                    registerPins(context);
-                    context.updateUI();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    currentBoard = dataSnapshot.getValue(Board.class);
-                    registerPins(context);
-                    context.updateUI();
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                currentBoard = null;
-                context.updateUI();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        query.addChildEventListener(listener);
-        listenerCollection.put(query, listener);
+    @Override
+    public void parentUpdated(DataSnapshot dataSnapshot) {
+        currentBoard = dataSnapshot.getValue(Board.class);
+        registerPins();
+        context.updateUI();
     }
 
-    private void registerPins(BoardFragment context)
+    @Override
+    public void parentDeleted() {
+        currentBoard = null;
+        context.updateUI();
+    }
+
+    @Override
+    public void childUpdated(DataSnapshot dataSnapshot) {
+        String pinType = dataSnapshot.child("pinType").getValue().toString();
+
+        if(pinType.equals(PinType.Message.toString()))
+        {
+            PinMessage pin = dataSnapshot.getValue(PinMessage.class);
+            pins.put(pin.getId(), pin);
+        }
+        else
+        {
+            System.out.println("Error, did not get pin");
+        }
+
+        if(currentBoard.getPins().size() == pins.size())
+        {
+            context.updateUI();
+        }
+
+        //Do whatever you need with the "context" ie. call the updateUI function
+    }
+
+    @Override
+    public void childDeleted(String id) {
+        pins.remove(id);
+    }
+
+    private void registerPins()
     {
         for(String id :  currentBoard.getPins().keySet()) //Ensure that each pin only is register once.
         {
             if(!pins.containsKey(id))
             {
-                registerPins(id, context);
+                super.registerChild(id, DatabaseFolders.Pins);
             }
         }
-    }
-
-    private void registerPins(final String pinId, final BoardFragment context)
-    {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Pins.toString());
-        Query query = myRef.orderByKey().equalTo(pinId);
-
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    String pinType = dataSnapshot.child("pinType").getValue().toString();
-
-                    if(pinType.equals(PinType.Message.toString()))
-                    {
-                        PinMessage pin = dataSnapshot.getValue(PinMessage.class);
-                        pins.put(pinId, pin);
-                        context.updateUI();
-                    }
-                    else
-                    {
-                        System.out.println("Error, did not get pin");
-                    }
-
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    Pin parentPin = dataSnapshot.getValue(Pin.class);
-
-                    if(parentPin.getPinType().equals(PinType.Message))
-                    {
-                        PinMessage pin = dataSnapshot.getValue(PinMessage.class);
-                        pins.put(pinId, pin);
-                    }
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                    pins.remove(pinId);
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        query.addChildEventListener(listener);
-        listenerCollection.put(query, listener);
     }
 
     public boolean UpdatePin(Pin pin)
@@ -232,18 +159,6 @@ public class BoardManager {
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId(), currentBoard);
 
         return true;
-
-    }
-
-    public void Destroy() //Call only when you don't need the pins anymore.
-    {
-        //De-register all listeners
-        for(Query query: listenerCollection.keySet())
-        {
-            query.removeEventListener(listenerCollection.get(query));
-        }
-
-        instance = new BoardManager(); //Refresh the instance
 
     }
 }

@@ -14,5 +14,7 @@ public enum DatabaseFolders {
     messages,
     Boards,
     Pins,
-    Files
+    Files,
+    Calendars,
+    Meetings
 }
