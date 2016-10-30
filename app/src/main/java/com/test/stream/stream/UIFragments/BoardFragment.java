@@ -71,7 +71,7 @@ public class BoardFragment extends Fragment {
         Project projectTest = new Project();
         projectTest.setBoardId("kevinId");
         ProjectManager.currentProject = projectTest;
-        BoardManager.getInstance().InitializePins(this);
+        //BoardManager.getInstance().InitializePins(this);
     }
 
     @Override

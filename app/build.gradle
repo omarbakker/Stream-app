@@ -30,10 +30,12 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.google.firebase:firebase-messaging:9.6.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.github.dexafree:materiallist:3.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    testCompile 'junit:junit:4.12'
 }
+
 
 
 

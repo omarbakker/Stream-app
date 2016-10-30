@@ -19,6 +19,7 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
 import com.test.stream.stream.UIFragments.PinActivity;
+import com.test.stream.stream.UIFragments.PinFragment;
 import com.test.stream.stream.UIFragments.ProjectFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
@@ -110,7 +111,7 @@ public class ToolbarActivity extends AppCompatActivity
                         calendarFragment.getTag()).commit();
                 break;
             case R.id.nav_pinboard:
-                BoardFragment boardFragment = new BoardFragment();
+                PinFragment boardFragment = new PinFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
                         boardFragment.getTag()).commit();

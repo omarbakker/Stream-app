@@ -11,6 +11,7 @@ import com.test.stream.stream.Objects.Board.Board;
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.Objects.Board.PinMessage;
 import com.test.stream.stream.UIFragments.BoardFragment;
+import com.test.stream.stream.UIFragments.PinFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.PinType;
@@ -41,13 +42,13 @@ public class BoardManager {
         return pins;
     }
 
-    public void InitializePins(BoardFragment context) //Note: Change context to your activity class & do it for the private functions
+    public void InitializePins(PinFragment context) //Note: Change context to your activity class & do it for the private functions
     {
         registerBoard(context);
     }
 
     //Assumes a project exists.
-    private void registerBoard(final BoardFragment context)
+    private void registerBoard(final PinFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Boards.toString());
         Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getBoardId());
@@ -94,7 +95,7 @@ public class BoardManager {
         listenerCollection.put(query, listener);
     }
 
-    private void registerPins(BoardFragment context)
+    private void registerPins(PinFragment context)
     {
         for(String id :  currentBoard.getPins().keySet()) //Ensure that each pin only is register once.
         {
@@ -105,7 +106,7 @@ public class BoardManager {
         }
     }
 
-    private void registerPins(final String pinId, final BoardFragment context)
+    private void registerPins(final String pinId, final PinFragment context)
     {
         DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Pins.toString());
         Query query = myRef.orderByKey().equalTo(pinId);
@@ -193,12 +194,12 @@ public class BoardManager {
             return false; //Cannot create a pin without the project selected.
         }
 
-        PinMessage message = new PinMessage();
+        PinMessage message = new PinMessage(title, subtitle, description);
 
         //Set inputted information
-        message.setDescription(description);
-        message.setSubtitle(subtitle);
-        message.setTitle(title);
+        //message.setDescription(description);
+        //message.setSubtitle(subtitle);
+        //message.setTitle(title);
         message.setPinType(PinType.Message);
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);

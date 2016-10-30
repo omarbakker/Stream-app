@@ -42,4 +42,14 @@ public class PinMessage extends Pin{
     {
         this.description = description;
     }
+
+    public PinMessage(String title, String subtitle, String description){
+        this.title = title;
+        this.subtitle = subtitle;
+        this.description = description;
+    }
+
+    public PinMessage(){
+
+    }
 }
