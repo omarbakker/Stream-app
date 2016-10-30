@@ -39,6 +39,7 @@ public class ToolbarActivity extends AppCompatActivity
      * On create the ToolbarActivity, all initializations
      * @param savedInstanceState
      */
+    FragmentManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,11 @@ public class ToolbarActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        this.manager = getSupportFragmentManager();
+        ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+        manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                projectHomeFragment,
+                projectHomeFragment.getTag()).commit();
     }
 
     /**
@@ -115,9 +121,6 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        // Create fragment manager so it can launch fragment
-        FragmentManager manager = getSupportFragmentManager();
-        Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
         switch(id){
             // If chat is clicked, launch chatFragment
             case R.id.nav_chat:
