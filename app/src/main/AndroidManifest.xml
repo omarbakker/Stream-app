@@ -53,9 +53,6 @@
         <activity android:name=".UI.SignUpScreen" />
         <activity android:name=".UI.SetUpMeeting" />
         <activity
-            android:name=".UIFragments.PinActivity"
-            android:parentActivityName=".UI.ToolbarActivity" />
-        <activity
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />

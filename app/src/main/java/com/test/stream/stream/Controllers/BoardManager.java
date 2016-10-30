@@ -193,12 +193,12 @@ public class BoardManager {
             return false; //Cannot create a pin without the project selected.
         }
 
-        PinMessage message = new PinMessage();
+        PinMessage message = new PinMessage(title, subtitle, description);
 
         //Set inputted information
-        message.setDescription(description);
-        message.setSubtitle(subtitle);
-        message.setTitle(title);
+        //message.setDescription(description);
+        //message.setSubtitle(subtitle);
+        //message.setTitle(title);
         message.setPinType(PinType.Message);
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);
