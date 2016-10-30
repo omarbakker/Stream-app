@@ -62,8 +62,6 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".UI.ProjectsActivity" />
         
-        <activity android:name=".UI.sendReminderNotificationDialog">
-        </activity>
         <service
             android:name=".UI.FirebaseMessagingService">
             <intent-filter>
