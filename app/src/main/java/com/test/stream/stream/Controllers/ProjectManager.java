@@ -22,11 +22,7 @@ import static com.test.stream.stream.R.id.user;
  * Created by OmarEyad on 2016-10-26.
  * This class uses the singleton method of instantiation.
  * Note: if the user is signed in, use the getCurrentproject method to retrieve a Project object for the current project
-<<<<<<< HEAD
  * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current user
-=======
- * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current project
->>>>>>> 72c58c796a8184f15567eea10cd39252dfc64e7b
  */
 
 public class ProjectManager {
