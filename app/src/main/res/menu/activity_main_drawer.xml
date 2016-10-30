@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/home_button"
+           android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_chat"
-            android:icon="@mipmap/chat"
-            android:title="Chat" />
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/home"
+            android:title="Home" />
+    </group>
+    <group android:id="@+id/project_features"
+           android:checkableBehavior="single">
         <item
             android:id="@+id/nav_calendar"
             android:icon="@mipmap/calendar"
             android:title="Calendar" />
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@mipmap/chat"
+            android:title="Chat" />
         <item
             android:id="@+id/nav_pinboard"
             android:icon="@mipmap/pin"
@@ -22,14 +30,15 @@
             android:id="@+id/nav_tasks"
             android:icon="@mipmap/list"
             android:title="Tasks" />
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@mipmap/home"
-            android:title="Home" />
+    </group>
+    <group android:id="@+id/project_exit"
+           android:checkableBehavior="single">
         <item
             android:id="@+id/nav_projects"
             android:icon="@mipmap/misc"
             android:title="Projects" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout" />
     </group>
-
 </menu>
