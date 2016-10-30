@@ -34,6 +34,8 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
+    FragmentManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +52,11 @@ public class ToolbarActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        /*Typeface Syncopate = Typeface.createFromAsset(getAssets(),  "fonts/Syncopate-Regular.ttf");
-        Typeface SyncopateBold = Typeface.createFromAsset(getAssets(),  "fonts/Syncopate-Bold.ttf");
-
-        TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
-        toolbarText.setTypeface(Syncopate);*/
+        this.manager = getSupportFragmentManager();
+        ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+        manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                projectHomeFragment,
+                projectHomeFragment.getTag()).commit();
     }
 
     @Override
@@ -95,7 +96,6 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager manager = getSupportFragmentManager();
         Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
         switch(id){
             case R.id.nav_chat:
