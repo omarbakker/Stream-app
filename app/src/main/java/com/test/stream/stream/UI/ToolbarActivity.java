@@ -36,6 +36,8 @@ public class ToolbarActivity extends AppCompatActivity
 
     FragmentManager manager;
 
+    FragmentManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
