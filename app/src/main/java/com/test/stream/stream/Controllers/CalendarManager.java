@@ -11,6 +11,7 @@ import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
+import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
@@ -28,7 +29,7 @@ public class CalendarManager  extends DataManager{
     private static CalendarManager instance = new CalendarManager();
     public static CalendarManager getInstance() { return instance; }
 
-    public Context context; //Note: replace the Context object with your UI class
+    public CalendarFragment context; //Note: replace the Context object with your UI class
     private Calendar currentCalendar;
     private ConcurrentHashMap<String, Meeting> meetingsInCalendar = new ConcurrentHashMap<String, Meeting>(); //Task Id - task
 
@@ -135,6 +136,11 @@ public class CalendarManager  extends DataManager{
 
         return true;
 
+    }
+
+    public void Initialize(CalendarFragment context) {
+        this.context = context;
+        super.registerParent(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId());;
     }
 
 }

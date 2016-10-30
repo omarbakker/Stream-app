@@ -2,6 +2,7 @@ package com.test.stream.stream.UIFragments;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.support.v7.app.AlertDialog;
+import android.widget.TextView;
 
+import com.google.firebase.auth.api.model.GetAccountInfoUser;
+import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,7 +63,8 @@ public class CalendarFragment extends Fragment {
                 createMeeting();
             }
         });
-        //TODO: SOME STUFF
+
+        CalendarManager.getInstance().Initialize(this);
 
     }
 
@@ -80,7 +89,36 @@ public class CalendarFragment extends Fragment {
     }
 
     public void updateUI() {
+        List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
+        ArrayList<String> meetingList = new ArrayList<>();
+        int i = meetings.size() - 1;
+        while(i >= 0) {
+            Meeting meeting = meetings.get(i);
+            meetingList.add(meeting.getName());
+            i--;
+        }
+
+        if (mAdapter == null) {
+            mAdapter = new ArrayAdapter<>(getActivity(),
+                    R.layout.calendar_small,
+                    R.id.meeting_name,
+                    meetingList);
+            mCalendarListView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.clear();
+            mAdapter.addAll(meetingList);
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 
+    public void expandMeetingView(View v) {
+        View parent = (View) v.getParent();
+        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
+        String meetingName = String.valueOf(meetingTextview.getText());
+        Intent intent = new Intent(getActivity(), ExpandMeeting.class);
+        intent.putExtra("meetingName", meetingName);
+        startActivity(intent);
+    }
 }

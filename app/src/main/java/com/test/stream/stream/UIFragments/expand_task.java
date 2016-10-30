@@ -73,13 +73,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                 break;
             }
         }
-<<<<<<< HEAD
-        setContentView(R.layout.item_details);
-=======
-        //Log.d(TAG, "pre-content view set");
         setContentView(R.layout.task_details);
->>>>>>> Added files for calendar UI. Changed task code by changing id for views
-
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);
 

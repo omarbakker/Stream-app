@@ -61,7 +61,7 @@
             android:name=".UI.newProjectActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".UI.ProjectsActivity" />
-        
+
         <service
             android:name=".UI.FirebaseMessagingService">
             <intent-filter>
