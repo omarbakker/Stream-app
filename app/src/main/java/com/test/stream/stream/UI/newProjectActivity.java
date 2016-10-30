@@ -1,25 +1,17 @@
 package com.test.stream.stream.UI;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
@@ -28,18 +20,9 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.newProjectUsersAdapter;
-import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.ReadDataCallback;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import static android.R.attr.key;
-import static android.R.attr.name;
-import static android.os.Build.VERSION_CODES.M;
 
 
 public class newProjectActivity extends AppCompatActivity implements View.OnClickListener,EditText.OnEditorActionListener{
@@ -165,7 +148,6 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
             default:
                 break;
         }
-
         return true;
     }
 
@@ -251,6 +233,5 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
         doneButton.setTypeface(Syncopate);
         addUserButton.setTypeface(Syncopate);
     }
-
 
 }

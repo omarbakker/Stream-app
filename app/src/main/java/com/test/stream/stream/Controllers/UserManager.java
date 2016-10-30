@@ -12,7 +12,6 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.ReadDataCallback;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -42,6 +41,7 @@ public class UserManager {
 
     public void getCurrentUser(final FetchUserCallback callback)
     {
+
         if(!isUserLoggedin()) {
             return;
         }
@@ -75,6 +75,7 @@ public class UserManager {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
+
             });
         }
         else
@@ -119,7 +120,6 @@ public class UserManager {
             });
         }
     }
-
 
 
 }

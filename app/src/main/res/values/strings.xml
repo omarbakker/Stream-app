@@ -16,7 +16,6 @@
     <string name="new_project_add_user_button_title">ADD</string>
     <string name="new_project_create_project_button_title">CREATE</string>
 
-
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -56,5 +55,6 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
+
     <string name="title_activity_new_project">newProjectActivity</string>
 </resources>

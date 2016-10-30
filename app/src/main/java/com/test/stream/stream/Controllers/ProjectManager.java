@@ -17,11 +17,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static android.R.attr.key;
 import static com.test.stream.stream.R.id.user;
 
+
 /**
  * Created by OmarEyad on 2016-10-26.
  * This class uses the singleton method of instantiation.
  * Note: if the user is signed in, use the getCurrentproject method to retrieve a Project object for the current project
+<<<<<<< HEAD
  * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current user
+=======
+ * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current project
+>>>>>>> 72c58c796a8184f15567eea10cd39252dfc64e7b
  */
 
 public class ProjectManager {
@@ -31,6 +36,7 @@ public class ProjectManager {
     private ProjectsActivity projectsActivity;
 
     public void setProjectsActivity(ProjectsActivity projectsActivity) { this.projectsActivity = projectsActivity; }
+
 
     /**
      * Exists only to prevent external initialization.
@@ -42,6 +48,7 @@ public class ProjectManager {
      *  The one and only ProjectManager instance (singleton)
      */
     public static ProjectManager sharedInstance(){
+
         if (instance == null)
             instance = new ProjectManager();
         return instance;
@@ -53,6 +60,7 @@ public class ProjectManager {
      * Return a Project object for the current project, or the first project from the users list if no project is currently 'open'.
      */
     public Project getCurrentProject(){
+
         if (currentProject == null)
             currentProject = new Project();
         return currentProject;
@@ -151,7 +159,6 @@ public class ProjectManager {
             }
         });
     }
-
 
 
 }

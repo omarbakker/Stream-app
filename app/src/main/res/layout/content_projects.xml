@@ -12,7 +12,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_projects">
 
-
     <TextView
         android:text="@string/Projects_activity_title"
         android:layout_width="match_parent"
@@ -56,4 +55,5 @@
         app:rippleColor="?attr/colorBackgroundFloating"
         android:tint="@android:color/background_light"
         app:elevation="2dp" />
+
 </RelativeLayout>

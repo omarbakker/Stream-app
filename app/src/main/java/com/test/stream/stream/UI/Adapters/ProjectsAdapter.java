@@ -6,20 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.test.stream.stream.Objects.Projects.Project;
-import com.test.stream.stream.Objects.Tasks.Task;
-import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.R;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.data;
+
 
 /**
  * Created by OmarEyad on 2016-10-13.

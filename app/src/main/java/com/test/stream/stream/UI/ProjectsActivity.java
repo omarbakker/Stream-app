@@ -9,18 +9,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.test.stream.stream.R.id.addProjectButton;
 
 
 public class ProjectsActivity extends AppCompatActivity implements View.OnClickListener,ListView.OnItemClickListener{
@@ -58,7 +53,8 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v)
     {
         switch (v.getId()){
-            case addProjectButton:
+            case R.id.addProjectButton:
+
                 startActivity(new Intent(ProjectsActivity.this,newProjectActivity.class));
                 break;
             default:
@@ -106,4 +102,5 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
         }
 
     }
+
 }

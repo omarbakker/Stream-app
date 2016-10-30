@@ -1,5 +1,9 @@
 package com.test.stream.stream.Objects.Projects;
+import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +74,6 @@ public class Project {
     public void setTaskGroupId(String taskGroupId) {
         this.taskGroupId = taskGroupId;
     }
-    //endregion
 
     public Project()
     {
