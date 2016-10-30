@@ -16,6 +16,7 @@ import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.PinType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +37,14 @@ public class BoardManager extends DataManager{
     public List<Pin> GetPinsInProject()
     {
         List<Pin> pins = new ArrayList();
+        List<String> keys = new ArrayList();
+        keys.addAll(this.pins.keySet());
+        Collections.sort(keys);
+
+        for(String key: keys)
+        {
+            pins.add(this.pins.get(key));
+        }
         pins.addAll(this.pins.values());
 
         return pins;

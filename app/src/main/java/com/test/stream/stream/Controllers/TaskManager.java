@@ -17,6 +17,7 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,15 @@ public class TaskManager extends DataManager{
     public List<Task> GetTasksInProject()
     {
         List<Task> tasks = new ArrayList();
-        tasks.addAll(tasksInCurrentProject.values());
+
+        List<String> keys = new ArrayList();
+        keys.addAll(tasksInCurrentProject.keySet());
+        Collections.sort(keys);
+
+        for(String key: keys)
+        {
+            tasks.add(tasksInCurrentProject.get(key));
+        }
 
         return tasks;
     }
