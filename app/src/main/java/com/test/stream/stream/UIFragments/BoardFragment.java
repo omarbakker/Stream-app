@@ -70,7 +70,7 @@ public class BoardFragment extends Fragment {
         System.out.println("In OnCreate");
         Project projectTest = new Project();
         projectTest.setBoardId("kevinId");
-        ProjectManager.currentProject = projectTest;
+        ProjectManager.sharedInstance().setCurrentProject(projectTest);
         BoardManager.getInstance().InitializePins(this);
     }
 

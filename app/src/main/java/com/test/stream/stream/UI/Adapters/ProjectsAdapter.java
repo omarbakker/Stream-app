@@ -17,6 +17,7 @@ import com.test.stream.stream.R;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.data;
 
@@ -35,10 +36,10 @@ public class ProjectsAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<String> mDataSource;
+    private List<Project> mDataSource;
 
 
-    public ProjectsAdapter(Context context, ArrayList<String> list){
+    public ProjectsAdapter(Context context, ArrayList<Project> list){
         mContext = context;
         mDataSource = list;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,8 +47,18 @@ public class ProjectsAdapter extends BaseAdapter {
 
     public ProjectsAdapter(Context context){
         mContext = context;
-        mDataSource = new ArrayList<String>();
+        mDataSource = new ArrayList<Project>();
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    /**
+     * Update the data source with a new list updatedList
+     * @param updatedList
+     * the updated list
+     */
+    public void updateData(List<Project> updatedList){
+        mDataSource = updatedList;
+        this.notifyDataSetChanged();
     }
 
     /**
@@ -132,11 +143,17 @@ public class ProjectsAdapter extends BaseAdapter {
         TextView dueDateTextView = holder.dueDateTextView;
         TextView teamMatesTextView = holder.teamMatesTextView;
 
-        //Get corresponding recipe for row
+        //Get corresponding project for row
         Project project = (Project) getItem(position);
 
-        // Update row view's textviews to display recipe information
+        // Update row view's textviews to display projext information
         titleTextView.setText(project.getName());
+        String members = project.getMembers().size() + " memebers";
+        teamMatesTextView.setText(members);
+        String info = project.getNumberOfActiveTasks() + " active tasks";
+        infoTextView.setText(info);
+        dueDateTextView.setText(project.dueDateRepresentation());
+        titleTextView.setTypeface(Typeface.createFromAsset(this.mContext.getAssets(), "Syncopate-Regular.ttf"));
 
         return convertView;
     }

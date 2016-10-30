@@ -35,6 +35,7 @@ public class DatabaseManager {
     {
         DatabaseReference myRef = database.getReference(objectType.toString());
         DatabaseReference newRef = myRef.push();
+        System.out.println(newRef.getKey());
         newRef.setValue(itemToWrite);
 
         return newRef.getKey();

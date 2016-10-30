@@ -6,57 +6,59 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.test.stream.stream.R.id.addProjectButton;
 
-public class ProjectsActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class ProjectsActivity extends AppCompatActivity implements View.OnClickListener,ListView.OnItemClickListener{
 
     private TextView titleText;
-    private ListView mProjectsList;
-    private FloatingActionButton addProjectButton;
+    private ListView mProjectsListView;
+    private ProjectsAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
 
+        // pass 'this' to the projectsManager so it can call updateUI when a project is added
+        ProjectManager.sharedInstance().setProjectsActivity(this);
+
         // Initialize view elements
-        mProjectsList = (ListView) findViewById(R.id.ProjectsList);
+        mProjectsListView = (ListView) findViewById(R.id.ProjectsList);
+        mAdapter = new ProjectsAdapter(this);
+        mProjectsListView.setAdapter(mAdapter);
+        mProjectsListView.setOnItemClickListener(this);
         titleText = (TextView) findViewById(R.id.yourProjectsTitle);
-        addProjectButton = (FloatingActionButton) findViewById(R.id.addProjectButton);
+        final FloatingActionButton addProjectButton = (FloatingActionButton) findViewById(R.id.addProjectButton);
         addProjectButton.setOnClickListener(this);
 
         // Set font
         setFont();
 
-        // User manager contains userID and all the projects. Should also contain
-        // the username, but haven't included it yet.
-        // UserManager userManager = UserManager.getInstance();
-        List<String> projectList = new ArrayList<>();
-/*
-        // Adds all the projects into projectList
-        Iterator projectIterator = userManager.getProjects().entrySet().iterator();
-            while(projectIterator.hasNext()) {
-                Map.Entry projectPair = (Map.Entry) projectIterator.next();
-                projectList.add((String)projectPair.getValue());
-            }
-*/
-
-
+        // populate list view with data
+        updateUI();
     }
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v)
+    {
         switch (v.getId()){
-            case R.id.addProjectButton:
-                System.out.println("Hello!");
+            case addProjectButton:
                 startActivity(new Intent(ProjectsActivity.this,newProjectActivity.class));
                 break;
             default:
@@ -64,22 +66,44 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
-
-    @Override
-    public void onStart() {
+    @Override public void onStart() {
         super.onStart();
     }
-
-    @Override
-    public void onStop() {
+    @Override public void onStop() {
         super.onStop();
     }
 
-    private void setFont(){
+    /**
+     * updates the list view to reflect changes in the project list fetched from ProjectManager.
+     */
+    public void updateUI()
+    {
+        ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
+            @Override
+            public void onUserProjectsListRetrieved(List<Project> projects) {
+                mAdapter.updateData(projects);
+            }
+        });
+    }
+
+    private void setFont()
+    {
         //Changing font to Syncopate
         //Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
         Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         titleText.setTypeface(SyncopateBold);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        System.out.println("AYYYYYYY LMAO!");
+        if (parent == mProjectsListView){
+            Project selectedProject = (Project) mAdapter.getItem(position);
+            ProjectManager.sharedInstance().setCurrentProject(selectedProject);
+            Intent intent = new Intent(this,ToolbarActivity.class);
+            startActivity(intent);
+        }
+
     }
 }

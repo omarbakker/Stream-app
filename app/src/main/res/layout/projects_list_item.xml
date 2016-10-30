@@ -34,7 +34,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/ProjectList_Title"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@+id/ProjectList_Title"
+        android:layout_toRightOf="@+id/ProjectList_Title"
+        android:layout_alignTop="@+id/ProjectList_Title"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:maxLines="1"
         android:id="@+id/TeamMates_Text" />
 
 </RelativeLayout>

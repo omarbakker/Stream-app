@@ -14,14 +14,14 @@
     tools:showIn="@layout/activity_new_project">
 
     <TextView
-        android:text="New Project"
+        android:text="@string/new_project_activity_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/newProjectPageTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@android:color/black"
         android:textSize="28sp"
         android:textStyle="normal|bold" />
 
@@ -39,23 +39,42 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/Project_name_Field"
-            android:hint="New Project Name"
+            android:hint="@string/new_project_name_hint"
             android:textSize="24sp" />
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/projectDueDateWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projectNameWrapper"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="datetime"
+            android:ems="10"
+            android:hint="@string/new_project_due_date_hint"
+            android:id="@+id/newProjectDueDateField"
+            android:textSize="24sp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
     <TextView
-        android:text="Don't sail Solo! Add Team Members"
+        android:text="@string/new_project_add_team_members_nautical_pun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Add_collaborator_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_below="@+id/projectNameWrapper"
+        android:layout_below="@+id/projectDueDateWrapper"
         android:layout_centerHorizontal="true"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:gravity="start"/>
 
     <LinearLayout
@@ -65,42 +84,58 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/Add_collaborator_description"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/doneAddingProject">
+        android:id="@+id/addProjectAddNewUserslinearLayout">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/projectNewUserWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/newUserField"
+                    android:hint="@string/new_project_add_user_hint" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:text="@string/new_project_add_user_button_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:id="@+id/newProjectAddUserButton"
+                android:background="@android:color/holo_green_light"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
 
         <ListView
             android:id="@+id/newProjectUsersList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/projectNewUserWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/newUserField"
-                android:hint="New team member email/username" />
-
-        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
+    <Button
+        android:text="@string/new_project_create_project_button_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/check"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:id="@+id/doneAddingProject"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        app:rippleColor="?attr/colorBackgroundFloating"
-        android:tint="@android:color/white"
-        android:foregroundTint="@android:color/white" />
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
 
 </RelativeLayout>
