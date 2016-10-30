@@ -71,10 +71,10 @@ public class TasksFragment extends Fragment {
                 createTask();
             }
         });
-        Project projectTest = new Project();
-        projectTest.setTaskGroupId("janeId");
-        ProjectManager.sharedInstance().setCurrentProject(projectTest);
-        TaskManager.getInstance().Initialize(this);gi
+//        Project projectTest = new Project();
+//        projectTest.setTaskGroupId("janeId");
+//        ProjectManager.sharedInstance().setCurrentProject(projectTest);
+        TaskManager.getInstance().Initialize(this);
     }
 
     public void createTask() {
