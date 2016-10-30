@@ -33,7 +33,6 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_TITLE_EXTRA = "com.test.stream.stream Title";
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
-    FragmentManager manager;
 
     FragmentManager manager;
 
@@ -97,7 +96,6 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         switch(id){
             case R.id.nav_chat:
                 ChatFragment chatFragment = new ChatFragment();
