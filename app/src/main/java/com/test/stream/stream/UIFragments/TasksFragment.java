@@ -135,7 +135,7 @@ public class TasksFragment extends Fragment {
         intent.putExtra("taskName", taskName);
         startActivity(intent);
     }
-    
+
     public void sortArraybyComplete(ArrayList<Task> tasks){
         for(int i = 0; i < tasks.size()-1; i++){
             if(tasks.get(i).getComplete()==true){
