@@ -45,7 +45,6 @@ public class BoardManager extends DataManager{
         {
             pins.add(this.pins.get(key));
         }
-        pins.addAll(this.pins.values());
 
         return pins;
     }
