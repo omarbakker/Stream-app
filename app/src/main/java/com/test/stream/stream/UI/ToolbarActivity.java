@@ -18,8 +18,6 @@ import android.widget.TextView;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
-import com.test.stream.stream.UIFragments.PinActivity;
-import com.test.stream.stream.UIFragments.ProjectFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
@@ -94,7 +92,6 @@ public class ToolbarActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager manager = getSupportFragmentManager();
-        Intent myIntent = new Intent(ToolbarActivity.this, PinActivity.class);
         Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
         switch(id){
             case R.id.nav_chat:
@@ -136,10 +133,8 @@ public class ToolbarActivity extends AppCompatActivity
                         projectHomeFragment.getTag()).commit();
                 break;
             case R.id.nav_projects:
-                ProjectFragment projectFragment = new ProjectFragment();
-                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                        projectFragment,
-                        projectFragment.getTag()).commit();
+
+                finish();
                 break;
         }
 

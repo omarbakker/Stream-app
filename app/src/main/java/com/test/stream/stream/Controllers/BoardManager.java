@@ -53,7 +53,7 @@ public class BoardManager extends DataManager{
     public void InitializePins(BoardFragment context) //Note: Change context to your activity class & do it for the private functions
     {
         this.context = context;
-        super.registerParent(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId());
+        super.registerParent(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId());
     }
 
     @Override
@@ -129,12 +129,12 @@ public class BoardManager extends DataManager{
             return false; //Cannot create a pin without the project selected.
         }
 
-        PinMessage message = new PinMessage();
+        PinMessage message = new PinMessage(title, subtitle, description);
 
         //Set inputted information
-        message.setDescription(description);
-        message.setSubtitle(subtitle);
-        message.setTitle(title);
+        //message.setDescription(description);
+        //message.setSubtitle(subtitle);
+        //message.setTitle(title);
         message.setPinType(PinType.Message);
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);
@@ -145,7 +145,7 @@ public class BoardManager extends DataManager{
 
         //Store the pins in the board.
         currentBoard.addPin(message.getId(), PinType.Message);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId(), currentBoard);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;
     }
@@ -165,7 +165,7 @@ public class BoardManager extends DataManager{
 
         refToDelete.removeValue();
         currentBoard.removePin(pinId);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.currentProject.getBoardId(), currentBoard);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;
 

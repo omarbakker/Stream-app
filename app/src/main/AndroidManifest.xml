@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.stream.stream"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.test.stream.stream">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -12,10 +12,10 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        tools:replace="label"
         android:label="Stream-app"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:replace="label">
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
         <meta-data
@@ -26,7 +26,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -54,13 +53,15 @@
         <activity android:name=".UI.SignUpScreen" />
         <activity android:name=".UI.SetUpMeeting" />
         <activity
-            android:name=".UIFragments.PinActivity"
-            android:parentActivityName=".UI.ToolbarActivity"/>
-        <activity
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />
 
+        <activity
+            android:name=".UI.newProjectActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".UI.ProjectsActivity" />
+        
         <activity android:name=".UI.sendReminderNotificationDialog">
         </activity>
         <service

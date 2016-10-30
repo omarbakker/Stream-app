@@ -57,7 +57,7 @@ public class TaskManager extends DataManager{
     public void Initialize(TasksFragment context) //Note: Change context to your activity class & do it for the private functions
     {
         this.context = context;
-        super.registerParent(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId());
+        super.registerParent(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
     }
 
     @Override
@@ -131,7 +131,7 @@ public class TaskManager extends DataManager{
         task.setAssignee(user);
         task.setComplete(complete);
 
-        task.setTaskGroupId(ProjectManager.currentProject.getTaskGroupId());
+        task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);
 
         //Store the firebase object key as the object id.
@@ -140,7 +140,7 @@ public class TaskManager extends DataManager{
 
         //Store the task in the taskgroup.
         currentTaskGroup.addTask(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
     }
@@ -162,7 +162,7 @@ public class TaskManager extends DataManager{
 
         currentTaskGroup.removeTask(taskId);
         tasksInCurrentProject.remove(task);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
 

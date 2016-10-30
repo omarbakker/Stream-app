@@ -2,6 +2,20 @@
     <string name="app_name">Stream</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
+    <!-- Strings related to projects-->
+    <string name="Projects_activity_title">Your Projects</string>
+
+    <!-- Strings related to new project -->
+    <string name="new_project_activity_title">New Project</string>
+    <string name="new_project_prompt_name">"Please enter name"</string>
+    <string name="new_project_prompt_date">""Please enter date: dd/mm/yyyy""</string>
+    <string name="new_project_name_hint">Project Name</string>
+    <string name="new_project_due_date_hint">Due Date</string>
+    <string name="new_project_add_team_members_nautical_pun"><string>"Don't sail Solo! Add Team Members" </string></string>
+    <string name="new_project_add_user_hint">email/username</string>
+    <string name="new_project_add_user_button_title">ADD</string>
+    <string name="new_project_create_project_button_title">CREATE</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -43,7 +57,6 @@
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
 
-
     <!-- Notification strings -->
     <string name ="reminder_notification_dialog_title">"Want to remind "</string>
     <string name="review_notification_dialog_title1">"Need "</string>
@@ -55,4 +68,5 @@
     <string name="reminder_notification_info2">" to complete this task"</string>
     <string name="review_notification_info">"Send a notification to "</string>
     <string name="review_notification_info2">" to suggest a change"</string>
+    <string name="title_activity_new_project">newProjectActivity</string>
 </resources>
