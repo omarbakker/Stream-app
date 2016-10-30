@@ -218,8 +218,7 @@ public class BoardManager {
     {
         String pinId = pin.getId();
 
-        if(!pins.containsKey(pinId))
-        {
+        if(!pins.containsKey(pinId)) {
             return false;
         }
 
@@ -238,8 +237,7 @@ public class BoardManager {
     public void Destroy() //Call only when you don't need the pins anymore.
     {
         //De-register all listeners
-        for(Query query: listenerCollection.keySet())
-        {
+        for(Query query: listenerCollection.keySet()) {
             query.removeEventListener(listenerCollection.get(query));
         }
 

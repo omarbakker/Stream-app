@@ -10,7 +10,7 @@
     <string name="new_project_prompt_name">"Please enter name"</string>
     <string name="new_project_prompt_date">""Please enter date: dd/mm/yyyy""</string>
     <string name="new_project_name_hint">Project Name</string>
-    <string name="new_project_due_date_hint">Due Date</string>
+    <string name="new_project_due_date_hint">Due Date dd/mm/yyyy</string>
     <string name="new_project_add_team_members_nautical_pun"><string>"Don't sail Solo! Add Team Members" </string></string>
     <string name="new_project_add_user_hint">email/username</string>
     <string name="new_project_add_user_button_title">ADD</string>
@@ -35,7 +35,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="project_page">"Welcome to the project page"</string>

@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class TaskGroup {
     //region Variables
-    private String name;
     private String parentProjectId;
     private int numActiveTasks = 0;
     private int numTasksCompleted = 0;
@@ -17,9 +16,6 @@ public class TaskGroup {
     //endregion
 
     //region Setters and Getters
-    public String getName() {
-        return name;
-    }
 
     public String getParentProjectId() {
         return parentProjectId;
@@ -48,15 +44,11 @@ public class TaskGroup {
     //endregion
 
     //region Constructors
-    public TaskGroup()
-    {
-        name = "";
+    public TaskGroup() {
         parentProjectId = "";
     }
 
-    public TaskGroup(String parentId, String name)
-    {
-        this.name = name;
+    public TaskGroup(String parentId) {
         this.parentProjectId = parentId;
     }
 
@@ -65,8 +57,7 @@ public class TaskGroup {
     //region Core Functions
     public boolean addTask(String taskId)
     {
-        if(hasTask(taskId))
-        {
+        if(hasTask(taskId)) {
             return false;
         }
 
@@ -76,8 +67,7 @@ public class TaskGroup {
 
     public boolean removeTask(String taskId)
     {
-        if(!hasTask(taskId))
-        {
+        if(!hasTask(taskId)) {
             return false;
         }
 

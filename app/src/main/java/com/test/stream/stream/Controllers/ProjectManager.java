@@ -1,6 +1,8 @@
 package com.test.stream.stream.Controllers;
 import com.google.firebase.database.DataSnapshot;
+import com.test.stream.stream.Objects.Board.Board;
 import com.test.stream.stream.Objects.Projects.Project;
+import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.UI.ProjectsActivity;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
@@ -80,19 +82,26 @@ public class ProjectManager {
      */
     public void CreateProject(Project project) {
 
-        for (String key:project.getMembers().keySet())
-                System.out.println(key + "is the key");
-
         //Set inputted information
-        String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Projects, project);
+        String projectID = DatabaseManager.getInstance().writeObject(DatabaseFolders.Projects, project);
 
-        //Store the firebase object key as the object id.
-        project.setId(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects, objectKey, project);
+        // Create a new pin board id for the project
+        Board newBoard = new Board();
+        newBoard.setParentProjectId(projectID);
+        String pinBoardKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Boards,newBoard);
+
+        // Create a new Task group id for the project
+        TaskGroup newTaskGroup = new TaskGroup(projectID);
+        String taskGroupID = DatabaseManager.getInstance().writeObject(DatabaseFolders.TaskGroups,newTaskGroup);
+
+        // update the project with the new IDs
+        project.setId(projectID);
+        project.setBoardId(pinBoardKey);
+        project.setTaskGroupId(taskGroupID);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,projectID,project);
 
         // update the users list of projects, and the projects list view
         addToCurrentUserProjects(project.getId());
-
     }
 
     /**

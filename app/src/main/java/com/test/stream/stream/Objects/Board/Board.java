@@ -10,6 +10,8 @@ import java.util.Map;
  */
 
 public class Board {
+
+
     //region Variables
     private String parentProjectId;
     private Map<String, String> pins = new HashMap<String, String>();  //pin Id - pin type (message or file)
@@ -23,6 +25,8 @@ public class Board {
     public Map<String, String> getPins() {
         return pins;
     }
+    public void setParentProjectId(String parentProjectId) { this.parentProjectId = parentProjectId; }
+
 
     //endregion
 
@@ -36,8 +40,7 @@ public class Board {
     //region Core Functions
     public boolean addPin(String pinId, PinType type)
     {
-        if(hasPin(pinId))
-        {
+        if(hasPin(pinId)) {
             return false;
         }
 
