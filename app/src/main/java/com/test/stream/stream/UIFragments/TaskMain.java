@@ -59,7 +59,7 @@ public class TaskMain extends AppCompatActivity {
         Project projectTest = new Project();
         projectTest.setTaskGroupId("janeId");
         ProjectManager.currentProject = projectTest;
-        TaskManager.getInstance().InitializeTasks(this);
+        TaskManager.getInstance().InitializeCalendar(this);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -129,7 +129,7 @@ public class TaskMain extends AppCompatActivity {
 
 
     public void updateUI() {
-        List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
+        List<Task> tasks = TaskManager.getInstance().GetMeetingsInProject();
         ArrayList<String> taskList = new ArrayList<>();
         int i = tasks.size() - 1;
         Log.d(TAG, String.valueOf(i));

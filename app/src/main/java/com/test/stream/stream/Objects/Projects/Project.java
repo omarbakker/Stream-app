@@ -22,6 +22,7 @@ public class Project {
 
     private String boardId;
     private String chatId;
+    private String calendarId;
     private String taskGroupId;
     private String id;
     private int numberOfActiveTasks;
@@ -56,7 +57,7 @@ public class Project {
     public String getBoardId() { return boardId; }
 
     public String getChatId() { return chatId; }
-
+    public String getCalendarId() { return calendarId; }
     public String getTaskGroupId() { return taskGroupId; }
 
     public void setName(String name) {
@@ -66,6 +67,8 @@ public class Project {
     public void setBoardId(String boardId) {
         this.boardId = boardId;
     }
+
+    public void setCalendarId(String calendarId) { this.calendarId = calendarId; }
 
     public void setChatId(String chatId) {
         this.chatId = chatId;
