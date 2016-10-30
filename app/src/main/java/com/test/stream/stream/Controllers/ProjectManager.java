@@ -29,6 +29,7 @@ public class ProjectManager {
     private static ProjectManager instance = null;
     private static Project currentProject;
 
+
     private ProjectsActivity projectsActivity;
 
     public void setProjectsActivity(ProjectsActivity projectsActivity) { this.projectsActivity = projectsActivity; }
