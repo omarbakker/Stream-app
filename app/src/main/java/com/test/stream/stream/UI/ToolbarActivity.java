@@ -35,6 +35,8 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
     FragmentManager manager;
 
+    FragmentManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
