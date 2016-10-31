@@ -3,6 +3,7 @@ package com.test.stream.stream.UIFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +52,6 @@ public class ProjectHomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         View view = getView();
-        System.out.println("On Activity Created");
 
         teamProgress = (CircleProgress) view.findViewById(R.id.team_progress);
         userProgress = (CircleProgress) view.findViewById(R.id.user_progress);
