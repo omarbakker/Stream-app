@@ -132,6 +132,29 @@ public class TasksFragment extends Fragment
         cancel.setOnClickListener(this);
         newtaskDateField.addTextChangedListener(this);
         newTaskDialog.show();
+
+        AlertDialog hi = new AlertDialog.Builder(getActivity())
+
+                .setView(v)
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+                        taskDateField = (EditText) v.findViewById(R.id.newTaskDueDateField);
+                        EditText input_name = (EditText) v.findViewById(R.id.task_name);
+                        EditText description = (EditText) v.findViewById(R.id.description);
+
+                        EditText user = (EditText) v.findViewById(R.id.user);
+                        if(!getValidDate(taskDateField.getText().toString()))
+                            handleInvalidDate();
+                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
+                        //currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+                        //DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+
+                    }
+                }).setNegativeButton("Cancel", null)
+                .create();
+        hi.show();
+
     }
 
 
