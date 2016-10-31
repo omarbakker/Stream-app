@@ -146,6 +146,7 @@ public class ProjectManager {
     public void addToCurrentUserProjects(String projectId){
         // TODO: get actual user object after login/UserManager issues are resolved
         User user = UserManager.getInstance().getCurrentUser();
+        user.addProject(projectId);
         UserManager.getInstance().updateUser(user);
 
         if (projectsActivity != null)

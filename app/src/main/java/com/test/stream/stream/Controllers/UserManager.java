@@ -119,7 +119,9 @@ public class UserManager {
                 {
                     if (!oneUserHandled.getAndSet(true)) {
                         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-                        User user = new User(mUser.getUid(), mUser.getDisplayName());
+                        User newUser = new User();
+                        newUser.setUid(mUser.getUid());
+                        newUser.setName(mUser.getDisplayName());
                         DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
                     }
                 }
