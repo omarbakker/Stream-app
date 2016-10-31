@@ -97,21 +97,10 @@ public class BoardFragment extends ListFragment {
                 final EditText titleText = (EditText) view.findViewById(R.id.dialog_title);
                 final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
                 final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_description);
-                final ImageButton mPhotoButton = (ImageButton) view.findViewById(R.id.crime_camera);
 
-
-                final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                mPhotoButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivityForResult(captureImage, 2);
-                    }
-                });
-                final ImageView mPhotoView = (ImageView) view.findViewById(R.id.crime_photo);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                builder.setTitle("Add Pin")
-                        .setView(view)
+                builder.setView(view)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 String title = titleText.getText().toString();
@@ -134,6 +123,10 @@ public class BoardFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView i, View v, int position, long id){
         launchPinDetailAcitivty(position);
+    }
+
+    private void launchPinDetailDialog(int position){
+        PinMessage pin = (PinMessage) getListAdapter().getItem(position);
     }
 
 

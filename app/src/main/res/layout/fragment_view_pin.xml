@@ -9,49 +9,82 @@
     android:paddingBottom="10dp"
     android:background="#f9f9f9">
 
-    <ScrollView
+    <!--ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:id="@+id/pinTitleScrollView"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_alignParentTop="true"
+            android:text="Title"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:id="@+id/titleText"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:id="@+id/viewPinTitle"/>
-    </ScrollView>
+            android:textSize="50dp"
+            android:id="@+id/viewPinTitle"
+            android:layout_below="@+id/titleText"/>
+    <!--/ScrollView-->
 
-    <ScrollView
+    <!--ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pinSubtitleScrollView"
         android:layout_below="@+id/pinTitleScrollView"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:text="Subtitle"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/subtitleText"
+        android:layout_below="@+id/viewPinTitle"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:id="@+id/viewPinSubtitle"/>
-    </ScrollView>
+            android:textSize="50dp"
+            android:id="@+id/viewPinSubtitle"
+            android:layout_below="@+id/subtitleText"/>
+    <!--/ScrollView-->
 
-    <ScrollView
+    <!--ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pinDescriptionScrollView"
         android:layout_below="@+id/pinSubtitleScrollView"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:text="Description"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/descriptionText"
+        android:layout_below="@+id/viewPinSubtitle"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:id="@+id/viewPinDescription"/>
-    </ScrollView>
+            android:textSize="50dp"
+            android:id="@+id/viewPinDescription"
+            android:layout_below="@+id/descriptionText"
+            />
+    <!--/ScrollView-->
 
 </RelativeLayout>

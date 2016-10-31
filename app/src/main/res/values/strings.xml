@@ -69,6 +69,8 @@
     <string name="review_notification_info2">" to suggest a change"</string>
     <string name="title_activity_new_project">newProjectActivity</string>
 
+    <!-- Pin String -->
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="pin_add_name">Add Pin</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
