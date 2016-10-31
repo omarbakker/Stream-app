@@ -97,7 +97,7 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
+
         switch(id){
             case R.id.nav_chat:
                 ChatFragment chatFragment = new ChatFragment();
