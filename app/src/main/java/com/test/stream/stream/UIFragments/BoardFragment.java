@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.test.stream.stream.Controllers.BoardManager;
 import com.test.stream.stream.Controllers.ProjectManager;
@@ -19,6 +20,8 @@ import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.Objects.Board.PinMessage;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.PinDetailActivity;
+import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.PinAdapter;
 
 import java.util.ArrayList;
@@ -127,5 +130,25 @@ public class BoardFragment extends ListFragment {
         });
 
     }
+
+    @Override
+    public void onListItemClick(ListView i, View v, int position, long id){
+        launchPinDetailAcitivty(position);
+    }
+
+
+    private void launchPinDetailAcitivty(int position){
+        PinMessage pin = (PinMessage) getListAdapter().getItem(position);
+        // Create Intent
+        Intent intent = new Intent(getActivity(), PinDetailActivity.class);
+        // Pass data from PinMessage to new Activity
+        intent.putExtra(ToolbarActivity.PIN_TITLE_EXTRA, pin.getTitle());
+        intent.putExtra(ToolbarActivity.PIN_SUBTITLE_EXTRA, pin.getSubtitle());
+        intent.putExtra(ToolbarActivity.PIN_DESCRIPTION_EXTRA, pin.getDescription());
+        intent.putExtra(ToolbarActivity.PIN_ID_EXTRA, pin.getId());
+        // Start Activity
+        startActivity(intent);
+    }
+
 
 }

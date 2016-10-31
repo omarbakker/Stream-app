@@ -57,7 +57,7 @@
     <string name="task_description">Description</string>
 
     <!-- Notification strings -->
-    <string name ="reminder_notification_dialog_title">"Want to remind "</string>
+    <string name="reminder_notification_dialog_title">"Want to remind "</string>
     <string name="review_notification_dialog_title1">"Need "</string>
     <string name="review_notification_dialog_title2">" to make a change?"</string>
     <string name="reminder_notification_dialog_titles">"Want to send a friendly reminder?"</string>
@@ -68,4 +68,7 @@
     <string name="review_notification_info">"Send a notification to "</string>
     <string name="review_notification_info2">" to suggest a change"</string>
     <string name="title_activity_new_project">newProjectActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

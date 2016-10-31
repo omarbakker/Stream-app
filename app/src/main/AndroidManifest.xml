@@ -23,12 +23,11 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".UI.MainLoginScreen">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -38,17 +37,18 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".UIFragments.TaskMain"
-                android:parentActivityName=".UI.ToolbarActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".UIFragments.TaskMain"
+            android:parentActivityName=".UI.ToolbarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".UIFragments.expand_task"
-                  android:parentActivityName=".UIFragments.TaskMain" />
-
+        <activity
+            android:name=".UIFragments.expand_task"
+            android:parentActivityName=".UIFragments.TaskMain" />
         <activity android:name=".UI.VerificationCode" />
         <activity android:name=".UI.SignUpScreen" />
         <activity android:name=".UI.SetUpMeeting" />
@@ -56,26 +56,26 @@
             android:name=".UI.ToolbarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.DummyDashboard" />
-
         <activity
             android:name=".UI.newProjectActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".UI.ProjectsActivity" />
-        
-        <activity android:name=".UI.sendReminderNotificationDialog">
+        <activity android:name=".UI.sendReminderNotificationDialog"></activity>
+
+        <service android:name=".UI.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".UI.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".UI.PinDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <service
-            android:name=".UI.FirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-        <service
-            android:name=".UI.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
