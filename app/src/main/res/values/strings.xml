@@ -55,9 +55,10 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
+    <string name="task_markAsComplete">Mark task as done</string>
 
-    <!-- Notification strings -->
-    <string name="reminder_notification_dialog_title">"Want to remind "</string>
+    <!-- Task notification strings -->
+    <string name ="reminder_notification_dialog_title">"Want to remind "</string>
     <string name="review_notification_dialog_title1">"Need "</string>
     <string name="review_notification_dialog_title2">" to make a change?"</string>
     <string name="reminder_notification_dialog_titles">"Want to send a friendly reminder?"</string>
@@ -73,4 +74,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="pin_add_name">Add Pin</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Calendar strings -->
+    <string name="meeting_name">Meeting name</string>
+    <string name="meeting_description">Meeting description</string>
+    <string name="meeting_location">Meeting location</string>
+    <string name="meeting_time">Meeting time</string>
+    <string name="meeting_markAsComplete">Mark meeting as complete</string>
+    <string name="meeting_reminder_notification_title">Have a meeting coming up?</string>
+    <string name="meeting_reminder_notification_info">Send a notification to remind everyone</string>
+
+    <!-- General strings used in multiple places -->
+    <string name="enter_message">Enter message</string>
+
 </resources>
