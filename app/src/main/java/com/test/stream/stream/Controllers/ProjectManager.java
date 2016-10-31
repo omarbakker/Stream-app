@@ -13,11 +13,7 @@ import com.test.stream.stream.Utilities.ReadDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static android.R.attr.key;
-import static com.test.stream.stream.R.id.user;
 
 
 /**
@@ -115,24 +111,24 @@ public class ProjectManager {
      */
     public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback){
         // TODO: get actual user object after login/UserManager issues are resolved
+        System.out.println("Trying to get user");
 
-        UserManager.getInstance().tempFetchHardCodedUser(new ReadDataCallback() {
+        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
             @Override
-            public void onDataRetrieved(DataSnapshot result) {
-
-                User omar = result.getValue(User.class);
+            public void onDataRetrieved(User result) {
+                System.out.println("Getting projects now");
                 final List<Project> projects = new ArrayList<Project>();
                 final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
-                final int numOfProjectsToFetch = omar.getProjects().size();
-                for (String id:omar.getProjects().keySet()){
+                final int numOfProjectsToFetch = result.getProjects().size();
+                for (String id : result.getProjects().keySet()) {
 
                     DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Projects, id, new ReadDataCallback() {
                         @Override
                         public void onDataRetrieved(DataSnapshot result) {
 
-                            if (result.exists()){
+                            if (result.exists()) {
                                 Project project = null;
-                                for (DataSnapshot snapshot:result.getChildren())
+                                for (DataSnapshot snapshot : result.getChildren())
                                     project = snapshot.getValue(Project.class);
                                 if (project != null)
                                     projects.add(project);
@@ -143,25 +139,26 @@ public class ProjectManager {
                         }
                     });
                 }
-
             }
         });
     }
 
     public void addToCurrentUserProjects(final String projectId){
         // TODO: get actual user object after login/UserManager issues are resolved
-        UserManager.getInstance().tempFetchHardCodedUser(new ReadDataCallback() {
+        System.out.println("Adding current user to projects");
+        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
             @Override
-            public void onDataRetrieved(DataSnapshot result) {
-
-                User user = result.getValue(User.class);
-                user.addProject(projectId);
-                DatabaseManager.getInstance().updateObject(DatabaseFolders.Users,result.getKey(),user);
+            public void onDataRetrieved(User result) {
+                result.addProject(projectId);
+                System.out.println("I got user " + result.getUsername());
+                UserManager.getInstance().updateUser(result);
+                System.out.println("Done. User has " + result.getProjects().size());
 
                 // now that the user has a new project, update the project list view.
                 if (projectsActivity != null)
+                {
                     projectsActivity.updateUI();
-
+                }
             }
         });
     }

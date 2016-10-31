@@ -9,10 +9,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.Objects.Projects.Project;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +39,14 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
 
         // pass 'this' to the projectsManager so it can call updateUI when a project is added
         ProjectManager.sharedInstance().setProjectsActivity(this);
+
+      /*  FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if(mFirebaseUser == null)
+        {
+            System.out.println("Truly not logged in");
+        }*/
 
         // Initialize view elements
         mProjectsListView = (ListView) findViewById(R.id.ProjectsList);

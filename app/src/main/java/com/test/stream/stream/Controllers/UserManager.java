@@ -1,5 +1,8 @@
 package com.test.stream.stream.Controllers;
 
+import android.widget.Toast;
+
+import com.facebook.CallbackManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -8,11 +11,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.UI.MainLoginScreen;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.ReadDataCallback;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.test.stream.stream.R.id.user;
 
 /**
  * Created by cathe on 2016-10-16.
@@ -26,6 +32,7 @@ public class UserManager {
     private FirebaseUser mFirebaseUser;
 
     private User currentUser;
+    private String userKey;
 
     private UserManager(){};
 
@@ -41,47 +48,42 @@ public class UserManager {
 
     public void getCurrentUser(final FetchUserCallback callback)
     {
-
-        if(!isUserLoggedin()) {
+        if(!isUserLoggedin())
+        {
             return;
         }
 
-        if(currentUser == null) {
-
-            DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Users.toString());
-            Query query = myRef.orderByChild("uid").equalTo(mFirebaseUser.getUid());
-
-            query.addChildEventListener(new ChildEventListener() {
+        if (currentUser == null) {
+            DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", mFirebaseUser.getUid(), new ReadDataCallback() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    currentUser = dataSnapshot.getValue(User.class);
-                    callback.onDataRetrieved(currentUser);
+                public void onDataRetrieved(DataSnapshot result) {
+                    if(result.exists())
+                    {
+                        System.out.println("Got user");
+                        System.out.println("Child count: " + result.getChildrenCount());
+                        for(DataSnapshot user: result.getChildren())
+                        {
+                            currentUser = user.getValue(User.class);
+                            userKey = user.getKey();
+                        }
+
+                        callback.onDataRetrieved(currentUser);
+                    }
                 }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    currentUser = dataSnapshot.getValue(User.class);
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) { }
-
             });
         }
         else
         {
+            System.out.println("here?");
             callback.onDataRetrieved(currentUser);
         }
+    }
+
+    public void updateUser(User user)
+    {
+        currentUser = user;
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Users, userKey, currentUser);
+
     }
 
     public void logout()
@@ -101,24 +103,31 @@ public class UserManager {
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", uDescription,callback);
     }
 
-    /**
-     * TEMPORARY
-     * TODO: GET THE ACTUAL USER
-     */
-    public void tempFetchHardCodedUser(final ReadDataCallback callback){
-        if (currentUser == null) {
-            final AtomicBoolean oneUserHandled = new AtomicBoolean(false);
-            DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", "Omar AbuBaker", new ReadDataCallback() {
-                @Override
-                public void onDataRetrieved(DataSnapshot result) {
-                    for (DataSnapshot snapshot : result.getChildren()) {
-                        if (!oneUserHandled.getAndSet(true)) {
-                            callback.onDataRetrieved(snapshot);
-                        }
+    public static void createUserIfNotExist()
+    {
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if(mFirebaseUser == null)
+        {
+            return;
+        }
+
+        final AtomicBoolean oneUserHandled = new AtomicBoolean(false);
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", mFirebaseUser.getUid(), new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+                if(!result.exists())
+                {
+                    if (!oneUserHandled.getAndSet(true)) {
+                        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+                        User user = new User(mUser.getUid(), mUser.getDisplayName());
+                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
                     }
                 }
-            });
-        }
+            }
+        });
+
     }
 
 
