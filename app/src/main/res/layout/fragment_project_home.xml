@@ -6,20 +6,12 @@
     tools:context="com.test.stream.stream.UIFragments.ProjectHomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <ScrollView
+    <ListView android:id="@+id/task_list"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:id="@+id/task">
-
-        <ListView android:id="@+id/task_list"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-
-    </ScrollView>
+        android:layout_marginBottom="45dp" />
 
     <com.github.lzyzsd.circleprogress.CircleProgress
         android:id="@+id/team_progress"
@@ -29,8 +21,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/task"
-        android:layout_alignStart="@+id/task"
+        android:layout_alignLeft="@+id/task_list"
+        android:layout_alignStart="@+id/task_list"
         android:layout_marginTop="50dp" />
 
     <com.github.lzyzsd.circleprogress.CircleProgress
@@ -38,8 +30,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/task"
-        android:layout_alignEnd="@+id/task"
+        android:layout_alignRight="@+id/task_list"
+        android:layout_alignEnd="@+id/task_list"
         android:layout_marginRight="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginTop="50dp"/>
