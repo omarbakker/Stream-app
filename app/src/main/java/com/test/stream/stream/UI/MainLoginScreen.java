@@ -59,6 +59,12 @@ import java.util.Arrays;
 
 public class MainLoginScreen extends AppCompatActivity implements View.OnClickListener {
 
+    private enum LaunchActivities{
+        LoginScreen,
+        ProjectsScreen,
+        defaultProject
+    }
+
     TextView signup, forgotPassword, orDifferentLogin;
     Button login;
     AppCompatEditText enterEmail;
@@ -94,7 +100,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         rememberMe = (Switch) findViewById(R.id.rememberMe);
         orDifferentLogin = (TextView) findViewById(R.id.orDifferentLogin);
 
-
+        System.out.println(getString(R.string.permission_rationale));
         //Changing font to Syncopate
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
         Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
@@ -117,6 +123,10 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                    startActivity(intent);
+                }
             }
         };
 
@@ -127,8 +137,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
-                Log.d("login","successfully logged in with email");
-                Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
+                Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
                 startActivity(intent);
             }
 
@@ -213,6 +222,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             focusView = enterEmail;
             cancel = true;
         }
+
         else if (!isEmailValid(email)) {
             enterEmail.setError("This email or username is invalid");
             focusView = enterEmail;
@@ -243,7 +253,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                             }
                         } else if (task.isSuccessful()) {
                             Log.d("login","successfully logged in with email");
-                            Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
                             startActivity(intent);
                         }
 
@@ -303,6 +313,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 //        }
     }
 
+
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -345,4 +356,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         });
 
     }
+
+
+
 }

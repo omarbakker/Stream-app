@@ -17,6 +17,9 @@ public class Task {
     private String taskGroupId;
     private String name;
     private String description;
+
+
+
     private int dueDay = 0;
     private int dueMonth = 0;
     private int dueYear = 0;
@@ -27,6 +30,19 @@ public class Task {
     //endregion
 
     //region Getters and Setters
+
+    public void setDueDay(int dueDay) {
+        this.dueDay = dueDay;
+    }
+
+    public void setDueMonth(int dueMonth) {
+        this.dueMonth = dueMonth;
+    }
+
+    public void setDueYear(int dueYear) {
+        this.dueYear = dueYear;
+    }
+
     public String getName() {
         return name;
     }

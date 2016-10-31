@@ -2,6 +2,20 @@
     <string name="app_name">Stream</string>
     <string name="title_activity_login_to_delete">Sign in</string>
 
+    <!-- Strings related to projects-->
+    <string name="Projects_activity_title">Your Projects</string>
+
+    <!-- Strings related to new project -->
+    <string name="new_project_activity_title">New Project</string>
+    <string name="new_project_prompt_name">"Please enter name"</string>
+    <string name="new_project_prompt_date">""Please enter date: dd/mm/yyyy""</string>
+    <string name="new_project_name_hint">Project Name</string>
+    <string name="new_project_due_date_hint">Due Date dd/mm/yyyy</string>
+    <string name="new_project_add_team_members_nautical_pun"><string>"Don't sail Solo! Add Team Members" </string></string>
+    <string name="new_project_add_user_hint">email/username</string>
+    <string name="new_project_add_user_button_title">ADD</string>
+    <string name="new_project_create_project_button_title">CREATE</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -22,7 +36,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="project_page">"Welcome to the project page"</string>
     <string name="chat_page">"Welcome to the chat page"</string>
@@ -42,9 +55,9 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
+    <string name="task_markAsComplete">Mark task as done</string>
 
-
-    <!-- Notification strings -->
+    <!-- Task notification strings -->
     <string name ="reminder_notification_dialog_title">"Want to remind "</string>
     <string name="review_notification_dialog_title1">"Need "</string>
     <string name="review_notification_dialog_title2">" to make a change?"</string>
@@ -55,4 +68,24 @@
     <string name="reminder_notification_info2">" to complete this task"</string>
     <string name="review_notification_info">"Send a notification to "</string>
     <string name="review_notification_info2">" to suggest a change"</string>
+    <string name="title_activity_new_project">newProjectActivity</string>
+
+    <!-- Pin String -->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="pin_add_name">Add Pin</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Calendar strings -->
+    <string name="meeting_name">Meeting name</string>
+    <string name="meeting_description">Meeting description</string>
+    <string name="meeting_location">Meeting location</string>
+    <string name="meeting_time">Meeting time</string>
+    <string name="meeting_markAsComplete">Mark meeting as complete</string>
+    <string name="meeting_reminder_notification_title">Have a meeting coming up?</string>
+    <string name="meeting_reminder_notification_info">Send a notification to remind everyone</string>
+
+    <!-- General strings used in multiple places -->
+    <string name="enter_message">Enter message</string>
+
 </resources>

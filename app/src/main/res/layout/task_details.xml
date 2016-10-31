@@ -52,7 +52,7 @@
             android:layout_marginLeft="34dp"
             android:layout_marginStart="34dp"
             android:layout_marginTop="36dp"
-            android:id="@+id/imageView5"
+            android:id="@+id/taskDescInfoIcon"
             android:background="@color/common_google_signin_btn_text_dark_default" />
 
         <TextView
@@ -61,42 +61,42 @@
             android:layout_height="wrap_content"
             android:id="@+id/description_expanded"
             android:gravity ="left"
-            android:layout_alignTop="@+id/imageView5"
-            android:layout_toRightOf="@+id/imageView5"
-            android:layout_toEndOf="@+id/imageView5"
+            android:layout_alignTop="@+id/taskDescInfoIcon"
+            android:layout_toRightOf="@+id/taskDescInfoIcon"
+            android:layout_toEndOf="@+id/taskDescInfoIcon"
             android:layout_marginLeft="23dp"
             android:layout_marginStart="23dp"
-            android:layout_alignBottom="@+id/imageView5"
+            android:layout_alignBottom="@+id/taskDescInfoIcon"
             android:textColor="@color/black_button" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_menu_my_calendar"
-            android:layout_below="@+id/imageView5"
-            android:layout_alignLeft="@+id/imageView5"
-            android:layout_alignStart="@+id/imageView5"
+            android:layout_below="@+id/taskDescInfoIcon"
+            android:layout_alignLeft="@+id/taskDescInfoIcon"
+            android:layout_alignStart="@+id/taskDescInfoIcon"
             android:layout_marginTop="65dp"
-            android:id="@+id/imageView6" />
+            android:id="@+id/taskDueDateIcon" />
 
         <TextView
             android:text="@string/task_due_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView6"
+            android:layout_alignTop="@+id/taskDueDateIcon"
             android:layout_alignLeft="@+id/description_expanded"
             android:layout_alignStart="@+id/description_expanded"
             android:id="@+id/due_date_expanded"
-            android:layout_alignBottom="@+id/imageView6"
+            android:layout_alignBottom="@+id/taskDueDateIcon"
             android:textColor="@color/black_button" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_menu_myplaces"
-            android:layout_below="@+id/imageView6"
-            android:layout_alignRight="@+id/imageView6"
-            android:layout_alignEnd="@+id/imageView6"
+            android:layout_below="@+id/taskDueDateIcon"
+            android:layout_alignRight="@+id/taskDueDateIcon"
+            android:layout_alignEnd="@+id/taskDueDateIcon"
             android:layout_marginTop="40dp"
             android:id="@+id/imageView7" />
 
@@ -114,31 +114,27 @@
             android:textColor="@color/black_button" />
 
         <CheckBox
-            android:text="Mark task as done"
+            android:text="@string/task_markAsComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/sendTaskNotification"
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"
-            android:id="@+id/checkBox2"
-            app:buttonTint="@color/colorAccent"
-            android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:onClick= "markAsComplete"/>
+            android:id="@+id/checkBox">
+        </CheckBox>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="?android:attr/homeAsUpIndicator"
+            app:srcCompat="@android:drawable/ic_menu_delete"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/imageView7"
             android:layout_alignEnd="@+id/imageView7"
-            android:id="@+id/imageButton5"
-            android:backgroundTint="?attr/colorBackgroundFloating"
-            android:tint="@color/background"
-            android:onClick= "backToHome"/>
-
+            android:id="@+id/deleteTask"
+            android:tint="@color/black_button"
+            android:backgroundTint="@color/cardview_shadow_end_color"
+            android:onClick = "deleteTask"/>
 
     </RelativeLayout>
 </LinearLayout>

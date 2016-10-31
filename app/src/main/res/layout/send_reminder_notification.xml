@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:hint="Enter Message"
+        android:hint="@string/enter_message"
         android:ems="10"
         android:layout_marginTop="17dp"
         android:id="@+id/reminderMessageToSend"

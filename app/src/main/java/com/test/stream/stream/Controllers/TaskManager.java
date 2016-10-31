@@ -17,6 +17,7 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,144 +28,77 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by cathe on 2016-10-23.
  */
 
-public class TaskManager {
+public class TaskManager extends DataManager{
     private static TaskManager instance = new TaskManager();
     public static TaskManager getInstance() { return instance; }
 
+    private TasksFragment context;
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<String, Task> tasksInCurrentProject = new ConcurrentHashMap<String, Task>(); //Task Id - task
-
-    private ConcurrentHashMap<Query, ChildEventListener> listenerCollection = new ConcurrentHashMap<Query, ChildEventListener>();;
 
     private TaskManager(){};
 
     public List<Task> GetTasksInProject()
     {
         List<Task> tasks = new ArrayList();
-        tasks.addAll(tasksInCurrentProject.values());
+
+        List<String> keys = new ArrayList();
+        keys.addAll(tasksInCurrentProject.keySet());
+        Collections.sort(keys);
+
+        for(String key: keys)
+        {
+            tasks.add(tasksInCurrentProject.get(key));
+        }
 
         return tasks;
     }
 
-    public void InitializeTasks(TasksFragment context) //Note: Change context to your activity class & do it for the private functions
+    public void Initialize(TasksFragment context) //Note: Change context to your activity class & do it for the private functions
     {
-        registerTaskGroup(context);
-
+        this.context = context;
+        super.registerParent(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
     }
 
-    //Assumes a project exists.
-    private void registerTaskGroup(final TasksFragment context)
-    {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.TaskGroups.toString());
-        Query query = myRef.orderByKey().equalTo(ProjectManager.currentProject.getTaskGroupId());
-
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
-                    registerTasks(context);
-                    context.updateUI();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
-                    registerTasks(context);
-                    context.updateUI();
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                currentTaskGroup = null;
-                context.updateUI();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        query.addChildEventListener(listener);
-        listenerCollection.put(query, listener);
+    @Override
+    public void parentUpdated(DataSnapshot dataSnapshot) {
+        currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
+        registerTasks();
+        context.updateUI();
     }
 
-    private void registerTasks(TasksFragment context)
+    @Override
+    public void parentDeleted() {
+        currentTaskGroup = null;
+        context.updateUI();
+    }
+
+    @Override
+    public void childUpdated(DataSnapshot dataSnapshot) {
+        Task task = dataSnapshot.getValue(Task.class);
+        tasksInCurrentProject.put(task.getId(), task);
+
+        if(tasksInCurrentProject.size() == currentTaskGroup.getTasks().size())
+        {
+            context.updateUI();
+        }
+    }
+
+    @Override
+    public void childDeleted(String id) {
+        tasksInCurrentProject.remove(id);
+        context.updateUI();
+    }
+
+    private void registerTasks()
     {
         for(String id : currentTaskGroup.getTasks().keySet()) //Ensure that each task only is register once.
         {
             if(!tasksInCurrentProject.containsValue(id))
             {
-                registerTask(id, context);
+                super.registerChild(id, DatabaseFolders.Tasks);
             }
         }
-    }
-
-    private void registerTask(final String taskId, final TasksFragment context)
-    {
-        DatabaseReference myRef = DatabaseManager.getInstance().getReference(DatabaseFolders.Tasks.toString());
-        Query query = myRef.orderByKey().equalTo(taskId);
-
-        ChildEventListener listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    Task task = dataSnapshot.getValue(Task.class);
-                    tasksInCurrentProject.put(taskId, task);
-                    context.updateUI();
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                    //Probably pass in tasksInCurrentProject.keySet() for your keys
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.exists())
-                {
-                    Task task = dataSnapshot.getValue(Task.class);
-                    tasksInCurrentProject.put(taskId, task);
-                    System.out.println("Changed " + taskId);
-                    context.updateUI();
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                    tasksInCurrentProject.remove(taskId);
-                    System.out.println("Deleted " + taskId);
-                    context.updateUI();
-                    //Do whatever you need with the "context" ie. call the updateUI function
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        query.addChildEventListener(listener);
-        listenerCollection.put(query, listener);
     }
 
     public boolean UpdateTask(Task task)
@@ -196,8 +130,11 @@ public class TaskManager {
         task.setDescription(description);
         task.setAssignee(user);
         task.setComplete(complete);
+        task.setDueDay(dueDate[0]);
+        task.setDueMonth(dueDate[1]);
+        task.setDueYear(dueDate[2]);
 
-        task.setTaskGroupId(ProjectManager.currentProject.getTaskGroupId());
+        task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);
 
         //Store the firebase object key as the object id.
@@ -206,7 +143,7 @@ public class TaskManager {
 
         //Store the task in the taskgroup.
         currentTaskGroup.addTask(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
     }
@@ -228,21 +165,9 @@ public class TaskManager {
 
         currentTaskGroup.removeTask(taskId);
         tasksInCurrentProject.remove(task);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.currentProject.getTaskGroupId(), currentTaskGroup);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
-
-    }
-
-    public void Destroy() //Call only when you don't need the tasks anymore.
-    {
-        //De-register all listeners
-        for(Query query: listenerCollection.keySet())
-        {
-            query.removeEventListener(listenerCollection.get(query));
-        }
-
-        instance = new TaskManager(); //Refresh the instance
 
     }
 }

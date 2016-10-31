@@ -11,7 +11,7 @@
         android:layout_height="77dp"
         android:background="@color/background"
         app:srcCompat="@drawable/create_new_task"
-        android:id="@+id/imageView" />
+        android:id="@+id/createNewTaskDialogTitle" />
 
     <EditText
         android:id="@+id/task_name"
@@ -36,6 +36,15 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="sans-serif"
         android:hint="Description"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="datetime"
+        android:ems="10"
+        android:hint="@string/new_project_due_date_hint"
+        android:id="@+id/newTaskDueDateField"
+         />
 
     <EditText
         android:id="@+id/user"
