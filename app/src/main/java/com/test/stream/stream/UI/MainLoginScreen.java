@@ -332,12 +332,12 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
-    private void createUser()
-    {
-        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        User user = new User(mUser.getUid(), mUser.getDisplayName());
-        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
-    }
+//    private void createUser()
+//    {
+//        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+//        User user = new User(mUser.getUid(), mUser.getDisplayName());
+//        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+//    }
 
     private void getUser(String uid){
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid, new ReadDataCallback() {
@@ -345,7 +345,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onDataRetrieved(DataSnapshot result) {
                 if(!result.exists())
                 {
-                    createUser();
+                    //createUser();
                 }
                 else
                 {

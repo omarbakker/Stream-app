@@ -23,6 +23,8 @@ import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,9 @@ public class TasksFragment extends Fragment {
 
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
+    EditText taskDateField;
     private int current_task;
+    int[] DueDate = {0,0,0};
     ArrayList<Task> tasks = new ArrayList<>();
     private static final String TAG = TaskMain.class.getSimpleName();
     /**
@@ -62,7 +66,7 @@ public class TasksFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        mTaskListView = (ListView) getView().findViewById(R.id.list_todo);
+        mTaskListView = (ListView) getView().findViewById(R.id.list_task);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Regular.ttf");
         final FloatingActionButton addTaskButton = (FloatingActionButton) getView().findViewById(R.id.create_new_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -71,9 +75,7 @@ public class TasksFragment extends Fragment {
                 createTask();
             }
         });
-        Project projectTest = new Project();
-        projectTest.setTaskGroupId("janeId");
-        ProjectManager.sharedInstance().setCurrentProject(projectTest);
+
         TaskManager.getInstance().Initialize(this);
     }
 
@@ -86,13 +88,17 @@ public class TasksFragment extends Fragment {
                 .setView(v)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+                        taskDateField = (EditText) v.findViewById(R.id.newTaskDueDateField);
                         EditText input_name = (EditText) v.findViewById(R.id.task_name);
                         EditText description = (EditText) v.findViewById(R.id.description);
 
                         EditText user = (EditText) v.findViewById(R.id.user);
-                        int[] date = new int[]{0, 0, 0};
-                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), date, false);
+                        if(!getValidDate(taskDateField.getText().toString()))
+                            handleInvalidDate();
+                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
+                        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+                        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
@@ -113,7 +119,7 @@ public class TasksFragment extends Fragment {
 
         if (mAdapter == null) {
             mAdapter = new ArrayAdapter<>(getActivity(),
-                    R.layout.item_small,
+                    R.layout.task_small,
                     R.id.task_name,
                     taskList);
 
@@ -144,6 +150,25 @@ public class TasksFragment extends Fragment {
                 tasks.set(tasks.size()-1, task);
             }
         }
+    }
+
+    private void handleInvalidDate(){
+        taskDateField.setText(R.string.new_project_prompt_date);
+        taskDateField.selectAll();
+    }
+
+    private boolean getValidDate(String date){
+        String[] vals = date.split("/");
+        if (vals.length != 3)
+            return false;
+        for (int i = 0; i < vals.length; i++){
+            try{
+                DueDate[i] = Integer.parseInt(vals[i]);
+            }catch (NumberFormatException e){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
