@@ -109,58 +109,44 @@ public class ProjectManager {
      * @param callback
      * Result will be delivered in this callback.
      */
-    public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback){
+    public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback) {
         // TODO: get actual user object after login/UserManager issues are resolved
-        System.out.println("Trying to get user");
+        User currentUser = UserManager.getInstance().getCurrentUser();
 
-        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
-            @Override
-            public void onDataRetrieved(User result) {
-                System.out.println("Getting projects now");
-                final List<Project> projects = new ArrayList<Project>();
-                final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
-                final int numOfProjectsToFetch = result.getProjects().size();
-                for (String id : result.getProjects().keySet()) {
+        final List<Project> projects = new ArrayList<Project>();
+        final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
+        final int numOfProjectsToFetch = currentUser.getProjects().size();
+        for (String id : currentUser.getProjects().keySet()) {
 
-                    DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Projects, id, new ReadDataCallback() {
-                        @Override
-                        public void onDataRetrieved(DataSnapshot result) {
+            DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Projects, id, new ReadDataCallback() {
+                @Override
+                public void onDataRetrieved(DataSnapshot result) {
 
-                            if (result.exists()) {
-                                Project project = null;
-                                for (DataSnapshot snapshot : result.getChildren())
-                                    project = snapshot.getValue(Project.class);
-                                if (project != null)
-                                    projects.add(project);
-                            }
-                            // if done fetching all projects, callback
-                            if (numOfProjectsToFetch == numOfProjectsFetched.incrementAndGet())
-                                callback.onUserProjectsListRetrieved(projects);
-                        }
-                    });
+                    if (result.exists()) {
+                        Project project = null;
+                        for (DataSnapshot snapshot : result.getChildren())
+                            project = snapshot.getValue(Project.class);
+                        if (project != null)
+                            projects.add(project);
+                    }
+                    // if done fetching all projects, callback
+                    if (numOfProjectsToFetch == numOfProjectsFetched.incrementAndGet())
+                        callback.onUserProjectsListRetrieved(projects);
+
                 }
-            }
-        });
+            });
+        }
     }
 
-    public void addToCurrentUserProjects(final String projectId){
+    public void addToCurrentUserProjects(String projectId){
         // TODO: get actual user object after login/UserManager issues are resolved
-        System.out.println("Adding current user to projects");
-        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
-            @Override
-            public void onDataRetrieved(User result) {
-                result.addProject(projectId);
-                System.out.println("I got user " + result.getUsername());
-                UserManager.getInstance().updateUser(result);
-                System.out.println("Done. User has " + result.getProjects().size());
+        User user = UserManager.getInstance().getCurrentUser();
+        UserManager.getInstance().updateUser(user);
 
-                // now that the user has a new project, update the project list view.
-                if (projectsActivity != null)
-                {
-                    projectsActivity.updateUI();
-                }
-            }
-        });
+        if (projectsActivity != null)
+        {
+            projectsActivity.updateUI();
+        }
     }
 
 

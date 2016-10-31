@@ -70,14 +70,12 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
 
         // TODO: Replace with actual logged in user
         System.out.println("Create project");
-        UserManager.getInstance().getCurrentUser(new FetchUserCallback() {
-            @Override
-            public void onDataRetrieved(User result) {
-                newProject.addMember(result, true);
-                System.out.println("Putting user " + result.getUsername());
-            }
-        });
 
+        User user = UserManager.getInstance().getCurrentUser();
+        if(user != null)
+        {
+            newProject.addMember(UserManager.getInstance().getCurrentUser(), true);
+        }
 
         // set font
         setSyncopateFont();

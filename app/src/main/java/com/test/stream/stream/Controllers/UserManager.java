@@ -38,6 +38,11 @@ public class UserManager {
 
     public static UserManager getInstance(){ return instance; }
 
+    public User getCurrentUser()
+    {
+        return currentUser;
+    }
+
     public boolean isUserLoggedin()
     {
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -46,7 +51,7 @@ public class UserManager {
         return (mFirebaseUser != null);
     }
 
-    public void getCurrentUser(final FetchUserCallback callback)
+    public void InitializeUser(final ReadDataCallback callback)
     {
         if(!isUserLoggedin())
         {
@@ -59,23 +64,16 @@ public class UserManager {
                 public void onDataRetrieved(DataSnapshot result) {
                     if(result.exists())
                     {
-                        System.out.println("Got user");
-                        System.out.println("Child count: " + result.getChildrenCount());
                         for(DataSnapshot user: result.getChildren())
                         {
                             currentUser = user.getValue(User.class);
                             userKey = user.getKey();
                         }
 
-                        callback.onDataRetrieved(currentUser);
+                        callback.onDataRetrieved(result);
                     }
                 }
             });
-        }
-        else
-        {
-            System.out.println("here?");
-            callback.onDataRetrieved(currentUser);
         }
     }
 
