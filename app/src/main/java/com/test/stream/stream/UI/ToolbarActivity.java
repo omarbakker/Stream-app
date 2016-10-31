@@ -29,11 +29,11 @@ public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Toolbar Activity";
+
     public static final String PIN_ID_EXTRA = "com.test.stream.stream identifier";
     public static final String PIN_TITLE_EXTRA = "com.test.stream.stream Title";
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
-
     FragmentManager manager;
 
     @Override
