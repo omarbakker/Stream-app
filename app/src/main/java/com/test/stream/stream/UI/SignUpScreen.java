@@ -21,7 +21,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -80,15 +83,16 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         };
     }
 
-    private void createAccount(String email, String password) {
+    private boolean createAccount(String email, String password, String name, String username) {
+        boolean valid = false;
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
-            return;
+            return valid;
         }
 
         //showProgressDialog();
 
-        // [START create_user_with_email]
+        // [START create_user_with_email] firebase users
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,8 +120,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         } else if(task.isSuccessful()){
-                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
-                            startActivity(intent);
+
                         }
 
                         // [START_EXCLUDE]
@@ -125,7 +128,18 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         // [END_EXCLUDE]
                     }
                 });
-        // [END create_user_with_email]
+
+        // create user object in firebase real time database
+        String newUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        User newUserObject = new User(newUserID, username, email, name);
+
+        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);
+        valid = true;
+        //TODO: in the future a callback function from writeObject must be used to check validity of write
+
+        return valid;
+
     }
 
     private boolean validateForm() {
@@ -147,6 +161,23 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             enterNewPassword.setError(null);
         }
 
+        String name = enterNewName.getText().toString();
+        if(TextUtils.isEmpty(name)){
+            enterNewName.setError("Required.");
+            valid = false;
+        } else{
+            enterNewName.setError(null);
+        }
+
+        String username = enterNewUsername.getText().toString();
+        //TODO: Enforce username duplicate error
+        if(TextUtils.isEmpty(name)){
+            enterNewUsername.setError("Required.");
+            valid = false;
+        }else{
+            enterNewUsername.setError(null);
+        }
+
         return valid;
     }
 
@@ -157,7 +188,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 //newEmail = enterNewEmail.getText().toString();
                 //startActivity(new Intent(SignUpScreen.this, VerificationCode.class));
                 Log.v("click","creating new email-user");
-                createAccount(enterNewEmail.getText().toString(), enterNewPassword.getText().toString());
+                if(createAccount(enterNewEmail.getText().toString(), enterNewPassword.getText().toString(), enterNewName.getText().toString(), enterNewUsername.getText().toString())){
+                    Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
+                    startActivity(intent);
+                }
+
         }
     }
 
