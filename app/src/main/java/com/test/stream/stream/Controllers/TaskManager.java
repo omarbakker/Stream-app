@@ -130,6 +130,9 @@ public class TaskManager extends DataManager{
         task.setDescription(description);
         task.setAssignee(user);
         task.setComplete(complete);
+        task.setDueDay(dueDate[0]);
+        task.setDueMonth(dueDate[1]);
+        task.setDueYear(dueDate[2]);
 
         task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);

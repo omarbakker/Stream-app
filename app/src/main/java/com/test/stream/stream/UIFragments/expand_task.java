@@ -89,6 +89,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         Log.d(TAG, expandTask.getAssignee());
         user.setText(expandTask.getAssignee());
 
+        TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
+        String due = String.valueOf(expandTask.getDueDay())+"/"+String.valueOf(expandTask.getDueMonth())+"/"+String.valueOf(expandTask.getDueYear());
+        dueDate.setText(due);
+
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         if(expandTask.getComplete() == true)
             checkBox.setChecked(true);

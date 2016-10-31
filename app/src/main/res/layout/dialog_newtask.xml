@@ -38,6 +38,15 @@
         android:hint="Description"/>
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="datetime"
+        android:ems="10"
+        android:hint="@string/new_project_due_date_hint"
+        android:id="@+id/newTaskDueDateField"
+         />
+
+    <EditText
         android:id="@+id/user"
         android:inputType="text"
         android:layout_width="match_parent"
