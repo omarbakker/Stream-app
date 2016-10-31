@@ -73,10 +73,13 @@ public class ProjectHomeFragment extends Fragment {
 
     // Function that updates the Adapter of the ListFragment
     public void updateUI() {
-        // Get all user tasks from the database
-        List<Task> allTasks = new LinkedList<>();
 
         System.out.println("UPDATING TASKS UI");
+
+        // Get all user tasks from the database
+        List<Task> allTasks = new LinkedList<>();
+        int adapterCount;
+
         allTasks.add(createTask());
         allTasks.add(createTask());
         allTasks.add(createTask());
@@ -95,12 +98,14 @@ public class ProjectHomeFragment extends Fragment {
             System.out.println("taskAdapter == null");
             taskAdapter = new TaskAdapter(getActivity(), taskMessages);
             listView.setAdapter(taskAdapter);
-        } else {
+            adapterCount = taskAdapter.getCount();
+        }
+
             System.out.println("taskAdapter != null");
             taskAdapter.clear();
             taskAdapter.addAll(tasks);
             taskAdapter.notifyDataSetChanged();
-        }
+
     }
 
     private Task createTask(){
@@ -110,8 +115,8 @@ public class ProjectHomeFragment extends Fragment {
         newTask.setDueMonth(10);
         newTask.setDueYear(1990);
 
-        newTask.setDescription("Test description");
-        newTask.setName("Test name");
+        newTask.setDescription("Task Description");
+        newTask.setName("Task name");
         return newTask;
     }
 }
