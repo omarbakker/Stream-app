@@ -23,6 +23,8 @@ import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,7 @@ public class TasksFragment extends Fragment {
                 createTask();
             }
         });
+
         TaskManager.getInstance().Initialize(this);
     }
 
@@ -85,6 +88,7 @@ public class TasksFragment extends Fragment {
                 .setView(v)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
                         taskDateField = (EditText) v.findViewById(R.id.newTaskDueDateField);
                         EditText input_name = (EditText) v.findViewById(R.id.task_name);
                         EditText description = (EditText) v.findViewById(R.id.description);
@@ -93,6 +97,8 @@ public class TasksFragment extends Fragment {
                         if(!getValidDate(taskDateField.getText().toString()))
                             handleInvalidDate();
                         TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
+                        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+                        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
