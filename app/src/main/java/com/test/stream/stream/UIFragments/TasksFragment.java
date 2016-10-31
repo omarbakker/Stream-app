@@ -97,8 +97,9 @@ public class TasksFragment extends Fragment {
                         if(!getValidDate(taskDateField.getText().toString()))
                             handleInvalidDate();
                         TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
-                        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
-                        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+                        //currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+                        //DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
@@ -109,11 +110,14 @@ public class TasksFragment extends Fragment {
     public void updateUI() {
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
         Log.d(TAG, String.valueOf(i));
         while (i >= 0) {
             Task task = tasks.get(i);
             taskList.add(task.getName());
+            Log.d(TAG, currentProject.getName());
+            Log.d("Just added new task", "Just added new task");
             i--;
         }
 
