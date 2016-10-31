@@ -8,12 +8,12 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/user_progress"
-        android:layout_marginRight="38dp"
-        android:layout_marginEnd="38dp">
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:id="@+id/task">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,14 +26,44 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         custom:circle_progress="20"
-        android:layout_marginTop="68dp"
-        android:layout_marginLeft="62dp"
-        android:layout_marginStart="62dp" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/task"
+        android:layout_alignStart="@+id/task"
+        android:layout_marginTop="50dp" />
 
     <com.github.lzyzsd.circleprogress.CircleProgress
         android:id="@+id/user_progress"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        custom:circle_progress="20" />
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/task"
+        android:layout_alignEnd="@+id/task"
+        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:text="Your Progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_progress"
+        android:layout_alignRight="@+id/user_progress"
+        android:layout_alignEnd="@+id/user_progress"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView4" />
+
+    <TextView
+        android:text="Team Progress"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/user_progress"
+        android:layout_alignLeft="@+id/team_progress"
+        android:layout_alignStart="@+id/team_progress" />
 
 </RelativeLayout>
