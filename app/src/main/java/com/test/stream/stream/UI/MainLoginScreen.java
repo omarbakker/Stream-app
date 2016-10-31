@@ -49,6 +49,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
@@ -56,6 +57,8 @@ import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.ReadDataCallback;
 
 import java.util.Arrays;
+
+import static com.test.stream.stream.Controllers.UserManager.createUserIfNotExist;
 
 public class MainLoginScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -137,8 +140,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
-                Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                startActivity(intent);
             }
 
             @Override
@@ -321,7 +322,9 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            createUserIfNotExist();
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                            startActivity(intent);
                         }
                         else
                         {

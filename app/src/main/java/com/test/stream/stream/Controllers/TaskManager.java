@@ -58,6 +58,7 @@ public class TaskManager extends DataManager{
     {
         this.context = context;
         super.registerParent(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
+
     }
 
     @Override
@@ -112,6 +113,44 @@ public class TaskManager extends DataManager{
                 DatabaseFolders.Tasks,
                 task.getId(),
                 task);
+
+        return true;
+    }
+
+    public boolean CreateTask(String taskName, String description, User user, int[] dueDate, boolean complete)
+    {
+        if(currentTaskGroup == null)
+        {
+            return false; //Cannot create a task without the project selected.
+        }
+
+        Task task = new Task();
+
+        //Set inputted information
+        task.setName(taskName);
+        task.setDescription(description);
+        task.setUser(user);
+        task.setComplete(complete);
+        task.setDueDay(dueDate[0]);
+        task.setDueMonth(dueDate[1]);
+        task.setDueYear(dueDate[2]);
+
+
+        task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
+        String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);
+
+        //Store the firebase object key as the object id.
+        task.setId(objectKey);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks, objectKey, task);
+
+        //Update the user with the task
+        //TODO: support adding other users, not just current user.
+        user.addTask(objectKey, ProjectManager.sharedInstance().getCurrentProject().getId());
+        UserManager.getInstance().updateUser(user); //Note: we're assuming we're handling the correct user here.
+
+        //Store the task in the taskgroup.
+        currentTaskGroup.addTask(objectKey);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
     }

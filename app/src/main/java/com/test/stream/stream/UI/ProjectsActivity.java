@@ -56,14 +56,20 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
         setFont();
 
         //Populate with user data
-        UserManager.getInstance().InitializeUser(new ReadDataCallback() {
-            @Override
-            public void onDataRetrieved(DataSnapshot result) {
-                updateUI();
-            }
-        });
 
-
+        if(UserManager.getInstance().getCurrentUser() != null)
+        {
+            updateUI();
+        }
+        else
+        {
+            UserManager.getInstance().InitializeUser(new ReadDataCallback() {
+                @Override
+                public void onDataRetrieved(DataSnapshot result) {
+                    updateUI();
+                }
+            });
+        }
     }
 
     @Override

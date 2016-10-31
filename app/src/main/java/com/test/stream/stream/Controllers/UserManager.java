@@ -31,6 +31,8 @@ public class UserManager {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
+   // final static AtomicBoolean oneUserHandled = new AtomicBoolean(false);
+
     private User currentUser;
     private String userKey;
 
@@ -111,10 +113,12 @@ public class UserManager {
             return;
         }
 
-        final AtomicBoolean oneUserHandled = new AtomicBoolean(false);
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", mFirebaseUser.getUid(), new ReadDataCallback() {
             @Override
             public void onDataRetrieved(DataSnapshot result) {
+
+                final AtomicBoolean oneUserHandled = new AtomicBoolean(false);
+
                 if(!result.exists())
                 {
                     if (!oneUserHandled.getAndSet(true)) {
@@ -122,8 +126,8 @@ public class UserManager {
                         User newUser = new User();
                         newUser.setUid(mUser.getUid());
                         newUser.setName(mUser.getDisplayName());
-                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
-                    }
+                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUser);
+                   }
                 }
             }
         });

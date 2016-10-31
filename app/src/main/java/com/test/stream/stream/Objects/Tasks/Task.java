@@ -26,6 +26,7 @@ public class Task {
 
     private boolean complete = false;
     private String assignee;
+    private String assigneeUid;
 
     //endregion
 
@@ -56,6 +57,8 @@ public class Task {
     {
         return assignee;
     }
+
+    public String getAssigneeUid() { return assigneeUid; }
 
     public int getDueDay()
     {
@@ -100,6 +103,12 @@ public class Task {
     public void setAssignee(String userName)
     {
         this.assignee = userName;
+    }
+
+    public void setUser(User user)
+    {
+        this.assigneeUid = user.getUid();
+        this.assignee = user.getUsername();
     }
 
     public void setTaskGroupId(String id)
