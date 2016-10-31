@@ -28,8 +28,10 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
@@ -136,11 +138,14 @@ public class TasksFragment extends Fragment
     public void updateUI() {
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
         Log.d(TAG, String.valueOf(i));
         while (i >= 0) {
             Task task = tasks.get(i);
             taskList.add(task.getName());
+            Log.d(TAG, currentProject.getName());
+            Log.d("Just added new task", "Just added new task");
             i--;
         }
 
