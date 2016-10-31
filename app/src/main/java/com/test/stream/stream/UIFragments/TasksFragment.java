@@ -64,7 +64,7 @@ public class TasksFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        mTaskListView = (ListView) getView().findViewById(R.id.list_item);
+        mTaskListView = (ListView) getView().findViewById(R.id.list_task);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Regular.ttf");
         final FloatingActionButton addTaskButton = (FloatingActionButton) getView().findViewById(R.id.create_new_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
