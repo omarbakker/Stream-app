@@ -49,8 +49,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.ReadDataCallback;
@@ -73,7 +77,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    String TAG;
+    private static final String TAG = "MainLoginScreen";
 
 
     @Override
@@ -242,7 +246,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                                 Log.e(TAG, e.getMessage());
                             }
                         } else if (task.isSuccessful()) {
-                            Log.d("login","successfully logged in with email");
+                            Log.d(TAG,"successfully logged in with email");
+
                             Intent intent = new Intent(MainLoginScreen.this, ToolbarActivity.class);
                             startActivity(intent);
                         }

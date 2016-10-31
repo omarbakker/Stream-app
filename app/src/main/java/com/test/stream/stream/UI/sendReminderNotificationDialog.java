@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 
 public class sendReminderNotificationDialog extends AppCompatActivity  {
 

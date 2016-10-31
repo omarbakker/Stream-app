@@ -23,6 +23,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
@@ -65,6 +67,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         String taskName = (String) a.getSerializableExtra("taskName");
         View view = (View) a.getSerializableExtra("view");
         setContentView(R.layout.item_details);
+
+        //register device token
+        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        FirebaseInstanceId.getInstance().getToken();
 
         Log.d(TAG, "print statements for the win");
         Task expandTask = new Task();
