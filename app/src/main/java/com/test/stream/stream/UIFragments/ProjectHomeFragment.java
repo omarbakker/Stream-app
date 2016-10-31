@@ -3,6 +3,7 @@ package com.test.stream.stream.UIFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
-import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Utilities.TaskAdapter;
 
 import java.util.ArrayList;
@@ -48,7 +49,6 @@ public class ProjectHomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         View view = getView();
-        System.out.println("On Activity Created");
 
         teamProgress = (CircleProgress) view.findViewById(R.id.team_progress);
         userProgress = (CircleProgress) view.findViewById(R.id.user_progress);
@@ -61,7 +61,6 @@ public class ProjectHomeFragment extends Fragment {
 
         updateProgressBar(userProgress, 90);
         updateUI();
-
     }
 
     private void updateProgressBar(CircleProgress progress, int newProgress){
