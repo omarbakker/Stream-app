@@ -26,6 +26,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         Task task = getItem(position);
 
+        System.out.println("GETTING VIEW");
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_task,parent, false);
         }

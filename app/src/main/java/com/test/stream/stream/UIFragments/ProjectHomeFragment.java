@@ -3,7 +3,6 @@ package com.test.stream.stream.UIFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +16,7 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import android.widget.ListView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
-import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Objects.Tasks.Task;
-import com.test.stream.stream.Objects.Tasks.TaskMessage;
 import com.test.stream.stream.R;
 
 import com.test.stream.stream.Objects.Tasks.Task;
