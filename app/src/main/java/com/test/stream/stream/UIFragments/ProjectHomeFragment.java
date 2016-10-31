@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Objects.Tasks.Task;
+import com.test.stream.stream.Objects.Tasks.TaskMessage;
 import com.test.stream.stream.R;
+
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Utilities.TaskAdapter;
 
@@ -40,8 +45,11 @@ public class ProjectHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        System.out.println("OnCreateView");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_project_home, container, false);
+        System.out.println("After view fetch");
+
         return view;
     }
 
@@ -49,6 +57,7 @@ public class ProjectHomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstance){
         super.onActivityCreated(savedInstance);
         View view = getView();
+        System.out.println("On Activity Created");
 
         teamProgress = (CircleProgress) view.findViewById(R.id.team_progress);
         userProgress = (CircleProgress) view.findViewById(R.id.user_progress);
