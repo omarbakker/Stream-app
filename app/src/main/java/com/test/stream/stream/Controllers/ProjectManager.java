@@ -1,6 +1,7 @@
 package com.test.stream.stream.Controllers;
 import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Objects.Board.Board;
+import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
@@ -21,21 +22,19 @@ import static com.test.stream.stream.R.id.user;
 
 
 /**
- * Created by OmarEyad on 2016-10-26.
+ * Created by OmarBakker on 2016-10-26.
  * This class uses the singleton method of instantiation.
  * Note: if the user is signed in, use the getCurrentproject method to retrieve a Project object for the current project
  * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current user
  */
 
 public class ProjectManager {
+
     private static ProjectManager instance = null;
     private static Project currentProject;
 
-
     private ProjectsActivity projectsActivity;
-
     public void setProjectsActivity(ProjectsActivity projectsActivity) { this.projectsActivity = projectsActivity; }
-
 
     /**
      * Exists only to prevent external initialization.
@@ -95,10 +94,16 @@ public class ProjectManager {
         TaskGroup newTaskGroup = new TaskGroup(projectID);
         String taskGroupID = DatabaseManager.getInstance().writeObject(DatabaseFolders.TaskGroups,newTaskGroup);
 
+        // Create a new Calender object for the project
+        Calendar newCalender = new Calendar();
+        newCalender.setParentProjectId(projectID);
+        String calenderID = DatabaseManager.getInstance().writeObject(DatabaseFolders.Calendars,newCalender);
+
         // update the project with the new IDs
         project.setId(projectID);
         project.setBoardId(pinBoardKey);
         project.setTaskGroupId(taskGroupID);
+        project.setCalendarId(calenderID);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,projectID,project);
 
         // update the users list of projects, and the projects list view

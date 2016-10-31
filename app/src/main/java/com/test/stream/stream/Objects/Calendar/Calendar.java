@@ -18,6 +18,7 @@ public class Calendar {
     public String getParentProjectId() {
         return parentProjectId;
     }
+    public void setParentProjectId(String parentID) { this.parentProjectId = parentID; }
 
     public Map<String, Boolean> getMeetings() {
         return meetings;
