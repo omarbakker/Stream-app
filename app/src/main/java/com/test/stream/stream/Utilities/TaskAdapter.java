@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.test.stream.stream.Objects.Tasks.TaskMessage;
+import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 
 import java.util.ArrayList;
@@ -16,16 +16,18 @@ import java.util.ArrayList;
  * Created by robyn on 2016-10-30.
  */
 
-public class TaskAdapter extends ArrayAdapter<TaskMessage> {
+public class TaskAdapter extends ArrayAdapter<Task> {
 
-    public TaskAdapter(Context context, ArrayList<TaskMessage> tasks){
+    public TaskAdapter(Context context, ArrayList<Task> tasks){
         super(context, 0, tasks);
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent){
 
-        TaskMessage task = getItem(position);
+        Task task = getItem(position);
 
+        System.out.println("GETTING VIEW");
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
         }
