@@ -15,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
@@ -25,6 +28,14 @@ import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TaskMain;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
+
+import java.io.IOException;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,12 +47,18 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
+    boolean thread_running = true;
+
+
     FragmentManager manager;
 
     /**
      * On create the ToolbarActivity, all initializations
      * @param savedInstanceState
      */
+//    String deviceToken;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +67,48 @@ public class ToolbarActivity extends AppCompatActivity
         // Set how the toolbar will look like
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //register device token
+        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        FirebaseInstanceId.getInstance().getToken();
+//        Log.d(TAG, deviceToken);
+
+//
+//        Thread t = new Thread(new Runnable(){
+//            @Override
+//            public void run(){
+//                while(thread_running){
+//                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
+//                    if(deviceToken != null){
+//                        OkHttpClient client = new OkHttpClient();
+//                        RequestBody body = new FormBody.Builder()
+//                                .add("Token",  deviceToken)
+//                                .build();
+//                        Request request = new Request.Builder()
+//                                //.url("http://128.189.196.101/fcm/register.php")
+//                                .url("http://128.189.196.101/fcm/register.php")
+//                                .post(body)
+//                                .build();
+//                        Response response = null;
+//                        try {
+////            response = client.newCall(request).execute();
+//                            response = client.newCall(request).execute();
+////            System.out.println(response.body().string());
+//                            Log.d(TAG, response.body().string());
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        thread_running = false;
+//                    }
+//                    try{
+//                        Thread.sleep(1000);
+//                    } catch(InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });t.start();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +125,7 @@ public class ToolbarActivity extends AppCompatActivity
         manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                 projectHomeFragment,
                 projectHomeFragment.getTag()).commit();
+
     }
 
     /**

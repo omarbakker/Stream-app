@@ -134,14 +134,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-
-
-                            /*      // create user object in firebase real time database
-        String newUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("User is " + newUserID);
-
-        User newUserObject = new User(newUserID, username, email, name);
-        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);*/
+        
 
 
                         // [START_EXCLUDE]
