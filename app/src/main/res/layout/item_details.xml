@@ -121,7 +121,7 @@
             android:layout_alignRight="@+id/sendTaskNotification"
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBox"
             app:buttonTint="@color/colorAccent"
             android:button="@null"
             android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
@@ -130,14 +130,14 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="?android:attr/homeAsUpIndicator"
+            app:srcCompat="@android:drawable/ic_menu_delete"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/imageView7"
             android:layout_alignEnd="@+id/imageView7"
-            android:id="@+id/imageButton5"
-            android:backgroundTint="?attr/colorBackgroundFloating"
-            android:tint="@color/background"
-            android:onClick= "backToHome"/>
+            android:id="@+id/deleteTask"
+            android:tint="@color/black_button"
+            android:backgroundTint="@color/cardview_shadow_end_color"
+            android:onClick = "deleteTask"/>
 
 
     </RelativeLayout>

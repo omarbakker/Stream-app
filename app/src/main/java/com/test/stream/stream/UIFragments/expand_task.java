@@ -13,7 +13,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +25,12 @@ import java.util.List;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
-import static com.test.stream.stream.R.string.reminder_notification_dialog_title;
 import com.test.stream.stream.UI.ToolbarActivity;
-import com.test.stream.stream.UIFragments.TaskMain;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
     List<Task> tasks = new ArrayList<>();
+    Task expandTask = new Task();
     int current_task;
     private static final String TAG = TaskMain.class.getSimpleName();
     final Context context = this;
@@ -56,8 +54,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
 
     protected void onCreate(Bundle savedInstanceState) {
-        //View parent = (View) view.getParent();
-        Log.d(TAG, "Enter expand_task");
         super.onCreate(savedInstanceState);
 
         Intent a = getIntent();
@@ -66,25 +62,17 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         View view = (View) a.getSerializableExtra("view");
         setContentView(R.layout.item_details);
 
-        Log.d(TAG, "print statements for the win");
-        Task expandTask = new Task();
-        Log.d(TAG, "fuck everything");
+
         int size = tasks.size();
         Log.d(TAG, String.valueOf(size));
         for (int i = 0; i < size; i++) {
-            //Log.d(TAG, "about to get it");
             Task task = tasks.get(i);
-            //Log.d(TAG, "got it");
             if (taskName.equals(task.getName())) {
-                Log.d(TAG, "task name comparisons");
-                Log.d(TAG, taskName);
-                Log.d(TAG, task.getName());
                 expandTask = task;
                 current_task = i;
                 break;
             }
         }
-        //Log.d(TAG, "pre-content view set");
         setContentView(R.layout.item_details);
 
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
@@ -101,6 +89,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         TextView user = (TextView) findViewById(R.id.user_expanded);
         Log.d(TAG, expandTask.getAssignee());
         user.setText(expandTask.getAssignee());
+
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        if(expandTask.getComplete() == true)
+            checkBox.setChecked(true);
 
         Log.d(TAG, "finished");
 
@@ -161,14 +153,12 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    public void backToHome(){
-        Intent intent = new Intent(expand_task.this, ToolbarActivity.class);
-        startActivity(intent);
-    }
-
-    public void markAsComplete(View view){
+    public void markAsComplete(View view) {
         Task task = tasks.get(current_task);
-        task.setComplete(true);
+        if(task.getComplete() == false)
+            task.setComplete(true);
+        else
+            task.setComplete(false);
     }
 
     public void onClick(View v){
@@ -216,6 +206,12 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         //Clear contents of the EditText
         reviewMessageToSend.setText("");
+    }
+
+    public void deleteTask(View view){
+        TaskManager.getInstance().DeleteTask(expandTask);
+        Log.d(TAG, "successfully deleted");
+        super.onBackPressed();
     }
 
 }
