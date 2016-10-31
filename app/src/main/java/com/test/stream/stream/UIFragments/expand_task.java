@@ -60,7 +60,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         tasks = TaskManager.getInstance().GetTasksInProject();
         String taskName = (String) a.getSerializableExtra("taskName");
         View view = (View) a.getSerializableExtra("view");
-        setContentView(R.layout.item_details);
+        setContentView(R.layout.task_details);
 
 
         int size = tasks.size();
@@ -73,8 +73,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                 break;
             }
         }
-        setContentView(R.layout.item_details);
-
+        setContentView(R.layout.task_details);
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);
 
@@ -128,7 +127,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //Initializes views for review alert dialog
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
-        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reminderMessageToSend);
+        reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
         reviewTitle = (TextView) reviewDialogView.findViewById(R.id.reviewTitle);
         reviewTitle.setText(getString(R.string.review_notification_dialog_title1) + task.getAssignee() + getString(R.string.review_notification_dialog_title2));
         reviewInfo = (TextView) reviewDialogView.findViewById(R.id.ReviewNotificationInfo);

@@ -12,9 +12,10 @@
         android:background="@color/background"
         app:srcCompat="@drawable/create_new_task"
         android:id="@+id/createNewTaskDialogTitle" />
+    <!-- TODO: Change image that is on the dialog to say "New meeting" -->
 
     <EditText
-        android:id="@+id/task_name"
+        android:id="@+id/new_meeting_name"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,10 +24,10 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:textSize="25sp"
-        android:hint="Task name" />
+        android:hint="@string/meeting_name" />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/new_meeting_description"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,10 +36,10 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:fontFamily="sans-serif"
-        android:hint="Description"/>
+        android:hint="@string/meeting_description"/>
 
     <EditText
-        android:id="@+id/user"
+        android:id="@+id/new_meeting_location"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,6 +48,6 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:fontFamily="sans-serif"
-        android:hint="Whose task is this?"/>
+        android:hint="@string/meeting_location"/>
 
 </LinearLayout>
