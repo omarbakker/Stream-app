@@ -82,6 +82,7 @@ public class ProjectHomeFragment extends Fragment {
 
         // Get all user tasks from the database
         List<Task> allTasks = new LinkedList<>();
+        int adapterCount;
 
         allTasks.add(createTask());
         allTasks.add(createTask());
