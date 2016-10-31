@@ -20,6 +20,7 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.newProjectUsersAdapter;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.ReadDataCallback;
 import java.util.Map;
 
@@ -68,12 +69,13 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
         newProject = new Project();
 
         // TODO: Replace with actual logged in user
-        UserManager.getInstance().tempFetchHardCodedUser(new ReadDataCallback() {
-            @Override
-            public void onDataRetrieved(DataSnapshot result) {
-                newProject.addMember(result.getValue(User.class),true);
-            }
-        });
+        System.out.println("Create project");
+
+        User user = UserManager.getInstance().getCurrentUser();
+        if(user != null)
+        {
+            newProject.addMember(UserManager.getInstance().getCurrentUser(), true);
+        }
 
         // set font
         setSyncopateFont();

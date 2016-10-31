@@ -15,9 +15,6 @@ public class User {
     private String uid;
     private String email;
     private String name;
-    private Map<String, String> projects =  new HashMap<>();
-    private Map<String, String> tasks  =  new HashMap<>();
-
 
     // projects String: id, Boolean: project active
     private Map<String, Boolean> projects =  new HashMap<>();
@@ -43,6 +40,10 @@ public class User {
 
     public String getUid() {
         return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() { return email; }
