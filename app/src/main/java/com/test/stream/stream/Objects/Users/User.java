@@ -18,7 +18,7 @@ public class User {
 
     // projects String: id, Boolean: project active
     private Map<String, Boolean> projects =  new HashMap<>();
-    private Map<String, String> tasks  =  new HashMap<>();
+    private Map<String, String> tasks  =  new HashMap<>(); //Task id - project id
     //endregion
 
     //region Setters and getters

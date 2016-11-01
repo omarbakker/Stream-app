@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
@@ -96,7 +98,14 @@ public class TasksFragment extends Fragment {
                         EditText user = (EditText) v.findViewById(R.id.user);
                         if(!getValidDate(taskDateField.getText().toString()))
                             handleInvalidDate();
-                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
+
+                        User currentUser = UserManager.getInstance().getCurrentUser();
+
+                        if(user != null)
+                        {
+                            TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), currentUser, DueDate, false);
+                        }
+                       // TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
                         currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
                         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
                     }

@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
@@ -83,7 +84,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         };
     }
 
-    private boolean createAccount(String email, String password, String name, String username) {
+    private boolean createAccount(final String email, String password, String name, final String username) {
         boolean valid = false;
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -102,39 +103,45 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            if(!task.isSuccessful()) {
-                                try {
-                                    throw task.getException();
-                                } catch(FirebaseAuthWeakPasswordException e) {
-                                    Toast.makeText(SignUpScreen.this, e.getReason(),
-                                            Toast.LENGTH_SHORT).show();
-                                } catch(FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(SignUpScreen.this, e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                } catch(FirebaseAuthUserCollisionException e) {
-                                    Toast.makeText(SignUpScreen.this, e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                } catch(Exception e) {
-                                    Log.e(TAG, e.getMessage());
-                                }
+                        if (task.isSuccessful()) {
+                            UserManager.createUserIfNotExist(username, email);
+                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
+                            startActivity(intent);
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(SignUpScreen.this, e.getReason(),
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(SignUpScreen.this, e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(SignUpScreen.this, e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Log.e(TAG, e.getMessage());
                             }
-                        } else if(task.isSuccessful()){
 
                         }
+                    }
+                });
+
+
+                            /*      // create user object in firebase real time database
+        String newUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        System.out.println("User is " + newUserID);
+
+        User newUserObject = new User(newUserID, username, email, name);
+        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);*/
+
 
                         // [START_EXCLUDE]
                         //hideProgressDialog();
                         // [END_EXCLUDE]
-                    }
-                });
+               //     }
+                //});
 
-        // create user object in firebase real time database
-        String newUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        User newUserObject = new User(newUserID, username, email, name);
-
-        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);
         valid = true;
         //TODO: in the future a callback function from writeObject must be used to check validity of write
 
@@ -188,13 +195,15 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 //newEmail = enterNewEmail.getText().toString();
                 //startActivity(new Intent(SignUpScreen.this, VerificationCode.class));
                 Log.v("click","creating new email-user");
-                if(createAccount(enterNewEmail.getText().toString(), enterNewPassword.getText().toString(), enterNewName.getText().toString(), enterNewUsername.getText().toString())){
-                    Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
-                    startActivity(intent);
+                createAccount(enterNewEmail.getText().toString(),
+                        enterNewPassword.getText().toString(),
+                        enterNewName.getText().toString(),
+                        enterNewUsername.getText().toString());
+
                 }
 
         }
-    }
+
 
     public static String getEmail() {
         return newEmail = enterNewEmail.getText().toString();
