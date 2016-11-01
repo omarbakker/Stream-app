@@ -103,17 +103,36 @@ public class UserManager {
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", uDescription,callback);
     }
 
+    public static void createUserIfNotExist(String username, String email)
+    {
+        FirebaseUser user = getFirebaseUser();
+
+        if(user != null)
+        {
+            User newUser = new User();
+            newUser.setName(username);
+            newUser.setEmail(email);
+            newUser.setUid(user.getUid());
+
+            createUser(newUser);
+        }
+    }
+
     public static void createUserIfNotExist()
     {
+        FirebaseUser user = getFirebaseUser();
+        createUserIfNotExist(user.getDisplayName(), "");
+    }
+
+    private static FirebaseUser getFirebaseUser()
+    {
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        return mFirebaseAuth.getCurrentUser();
+    }
 
-        if(mFirebaseUser == null)
-        {
-            return;
-        }
-
-        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", mFirebaseUser.getUid(), new ReadDataCallback() {
+    private static void createUser(final User user)
+    {
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", user.getUid(), new ReadDataCallback() {
             @Override
             public void onDataRetrieved(DataSnapshot result) {
 
@@ -122,17 +141,13 @@ public class UserManager {
                 if(!result.exists())
                 {
                     if (!oneUserHandled.getAndSet(true)) {
-                        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-                        User newUser = new User();
-                        newUser.setUid(mUser.getUid());
-                        newUser.setName(mUser.getDisplayName());
-                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUser);
-                   }
+                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+                    }
                 }
             }
         });
-
     }
+
 
 
 }
