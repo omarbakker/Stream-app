@@ -144,9 +144,11 @@ public class TaskManager extends DataManager{
 
         //Update the user with the task
         //TODO: support adding other users, not just current user.
-        user.addTask(objectKey, ProjectManager.sharedInstance().getCurrentProject().getId());
-        UserManager.getInstance().updateUser(user);
-
+        if (user.getUid() == UserManager.getInstance().getCurrentUser().getUid()) {
+            user.addTask(objectKey, ProjectManager.sharedInstance().getCurrentProject().getId());
+            UserManager.getInstance().updateUser(user); //Note: we're assuming we're handling the correct user here.
+        }
+        
         //Store the task in the taskgroup.
         currentTaskGroup.addTask(objectKey);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
