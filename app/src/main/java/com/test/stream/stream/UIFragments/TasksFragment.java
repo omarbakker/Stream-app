@@ -248,7 +248,6 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
     private void createTask(){
         final String name = newTaskNameField.getText().toString();
         final String description = newTaskDescriptionField.getText().toString();
-        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
 
         if (name.isEmpty()){
             newTaskNameField.setText("Please Enter a name");
@@ -272,8 +271,6 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         }
 
         TaskManager.getInstance().CreateTask(name, description, newTaskAssignee, DueDate, false);
-        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
     }
 
 
