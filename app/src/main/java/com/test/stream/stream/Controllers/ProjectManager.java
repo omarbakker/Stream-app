@@ -148,17 +148,14 @@ public class ProjectManager {
         User user = UserManager.getInstance().getCurrentUser();
 
         if(user == null)
-        {
             return;
-        }
 
         user.addProject(projectId);
         UserManager.getInstance().updateUser(user);
 
         if (projectsActivity != null)
-        {
             projectsActivity.updateUI();
-        }
+
     }
 
 

@@ -1,23 +1,31 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
@@ -27,18 +35,30 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.ReadDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static android.R.attr.description;
+import static android.R.attr.name;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TasksFragment extends Fragment {
+public class TasksFragment extends Fragment implements View.OnClickListener, EditText.OnEditorActionListener{
 
+    private AlertDialog newTaskDialog;
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
-    EditText taskDateField;
+
+    TextInputEditText newtaskDateField;
+    TextInputEditText newTaskNameField;
+    TextInputEditText newTaskDescriptionField;
+    TextInputEditText newTaskAssigneeField;
+    User newTaskAssignee;
+
     private int current_task;
     int[] DueDate = {0,0,0};
     ArrayList<Task> tasks = new ArrayList<>();
@@ -69,49 +89,40 @@ public class TasksFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mTaskListView = (ListView) getView().findViewById(R.id.list_task);
-        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Regular.ttf");
         final FloatingActionButton addTaskButton = (FloatingActionButton) getView().findViewById(R.id.create_new_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createTask();
+                showNewTaskDialog();
             }
         });
 
         TaskManager.getInstance().Initialize(this);
     }
 
-    public void createTask() {
+    public void showNewTaskDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
 
-        AlertDialog hi = new AlertDialog.Builder(getActivity())
-
-                .setView(v)
-                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
-                        taskDateField = (EditText) v.findViewById(R.id.newTaskDueDateField);
-                        EditText input_name = (EditText) v.findViewById(R.id.task_name);
-                        EditText description = (EditText) v.findViewById(R.id.description);
-
-                        EditText user = (EditText) v.findViewById(R.id.user);
-                        if(!getValidDate(taskDateField.getText().toString()))
-                            handleInvalidDate();
-
-                        User currentUser = UserManager.getInstance().getCurrentUser();
-
-                        if(user != null)
-                        {
-                            TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), currentUser, DueDate, false);
-                        }
-                       // TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
-                        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
-                        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
-                    }
-                }).setNegativeButton("Cancel", null)
-                .create();
-        hi.show();
+        newTaskDialog = new AlertDialog.Builder(getActivity()).setView(v).create();
+        TextView title = (TextView) v.findViewById(R.id.newTaskPageTitle);
+        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Bold.ttf");
+        title.setTypeface(Syncopate);
+        Button done = (Button) v.findViewById(R.id.doneAddingTask);
+        Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
+        Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
+        newTaskAssigneeField = (TextInputEditText)v.findViewById(R.id.newTaskNewUserField);
+        newtaskDateField = (TextInputEditText)v.findViewById(R.id.newTaskDueDateField);
+        newTaskNameField = (TextInputEditText)v.findViewById(R.id.newTaskNameField);
+        newTaskDescriptionField = (TextInputEditText)v.findViewById(R.id.newTaskDescriptionField);
+        newTaskAssigneeField.setOnEditorActionListener(this);
+        newtaskDateField.setOnEditorActionListener(this);
+        newTaskNameField.setOnEditorActionListener(this);
+        newTaskDescriptionField.setOnEditorActionListener(this);
+        addUser.setOnClickListener(this);
+        done.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        newTaskDialog.show();
     }
 
 
@@ -162,8 +173,8 @@ public class TasksFragment extends Fragment {
     }
 
     private void handleInvalidDate(){
-        taskDateField.setText(R.string.new_project_prompt_date);
-        taskDateField.selectAll();
+        newtaskDateField.setText(R.string.new_project_prompt_date);
+        newtaskDateField.selectAll();
     }
 
     private boolean getValidDate(String date){
@@ -179,5 +190,123 @@ public class TasksFragment extends Fragment {
         }
         return true;
     }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.doneAddingTask:
+                createTask();
+                newTaskDialog.dismiss();
+                break;
+            case R.id.CancelAddingTask:
+                newTaskDialog.dismiss();
+                break;
+            case R.id.newTaskAddUserButton:
+                handleEnteredUser(newTaskAssigneeField.getText().toString());
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+        switch (v.getId()){
+
+            case R.id.newTaskNameField:
+                break;
+
+            case R.id.newTaskDescriptionField:
+                break;
+
+            case R.id.newTaskDueDateField:
+                break;
+
+            case R.id.newTaskNewUserField:
+                handleEnteredUser(newTaskAssigneeField.getText().toString());
+                hideKeyboard();
+                break;
+
+            default:
+                break;
+        }
+        return true;
+    }
+
+
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)newTaskAssigneeField.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(newTaskAssigneeField.getWindowToken(),0);
+    }
+
+
+
+    private void createTask(){
+        final String name = newTaskNameField.getText().toString();
+        final String description = newTaskDescriptionField.getText().toString();
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+
+        if (name.isEmpty()){
+            newTaskNameField.setText("Please Enter a name");
+            return;
+        }
+
+        if (description.isEmpty()){
+            newTaskDescriptionField.setText("Please Enter a Description");
+            return;
+        }
+
+        if(!getValidDate(newtaskDateField.getText().toString())) {
+            handleInvalidDate();
+            return;
+        }
+
+        if(newTaskAssignee == null) {
+            newTaskAssigneeField.setText("Please assign a user");
+            newTaskAssigneeField.selectAll();
+            return;
+        }
+
+        TaskManager.getInstance().CreateTask(name, description, newTaskAssignee, DueDate, false);
+        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+    }
+
+
+
+    /**
+     * Checks if the string passed represents a valid user in the database.
+     * Updates UI accordingly.
+     * Updates users list accordingly.
+     * @param uDescription
+     * The description entered by the user
+     */
+    private void handleEnteredUser(final String uDescription){
+        ReadDataCallback userResult = new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+
+                if (result.exists()){
+                    // user is valid and can be added to the project as a collaborator
+                    newTaskAssigneeField.clearFocus();
+                    GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
+                    Map <String,User> resultMap = result.getValue(genericTypeIndicator);
+                    String id = (String) resultMap.keySet().toArray()[0];
+                    newTaskAssignee = resultMap.get(id);
+                }else{
+                    // user is invalid and cannot be added to the project as a collaborator
+                    String userInvalidHelp = uDescription + " - Invalid user";
+                    newTaskAssigneeField.setText(userInvalidHelp);
+                    newTaskAssigneeField.selectAll();
+                }
+            }
+        };
+        UserManager.getInstance().checkUserExists(uDescription,userResult);
+    }
+
 
 }

@@ -22,10 +22,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.ToolbarActivity;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
@@ -213,7 +217,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     public void deleteTask(View view){
         TaskManager.getInstance().DeleteTask(expandTask);
-        Log.d(TAG, "successfully deleted");
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
         super.onBackPressed();
     }
 
