@@ -18,8 +18,6 @@ import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.ReadDataCallback;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.test.stream.stream.R.id.user;
-
 /**
  * Created by cathe on 2016-10-16.
  * Updated by Omar on 2016-10-28
