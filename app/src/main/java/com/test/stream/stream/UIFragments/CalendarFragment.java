@@ -85,6 +85,7 @@ public class CalendarFragment extends Fragment {
                         EditText meeting_name = (EditText) v.findViewById(R.id.new_meeting_name);
                         EditText meeting_description = (EditText) v.findViewById(R.id.new_meeting_description);
                         EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
+
                         Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
                         CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
                         Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
