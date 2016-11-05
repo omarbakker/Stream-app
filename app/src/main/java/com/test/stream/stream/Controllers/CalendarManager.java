@@ -49,22 +49,28 @@ public class CalendarManager  extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentCalendar = dataSnapshot.getValue(Calendar.class);
         registerMeetings();
+        context.updateUI();
     }
 
     @Override
     public void parentDeleted() {
         currentCalendar = null;
+        context.updateUI();
     }
 
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
         Meeting meeting = dataSnapshot.getValue(Meeting.class);
         meetingsInCalendar.put(meeting.getId(), meeting);
+
+        if(meetingsInCalendar.size() == currentCalendar.getMeetings().size())
+            context.updateUI();
     }
 
     @Override
     public void childDeleted(String id) {
         meetingsInCalendar.remove(id);
+        context.updateUI();
     }
 
     private void registerMeetings()
