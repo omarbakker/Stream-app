@@ -41,9 +41,6 @@ public class BoardFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Project projectTest = new Project();
-        projectTest.setBoardId("kevinId");
-        ProjectManager.sharedInstance().setCurrentProject(projectTest);
         BoardManager.getInstance().InitializePins(this);
     }
 
