@@ -1,9 +1,7 @@
 package com.test.stream.stream.UIFragments;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -26,23 +24,16 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
-import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
-import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-import com.test.stream.stream.Utilities.DatabaseFolders;
-import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.ReadDataCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static android.R.attr.description;
-import static android.R.attr.name;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,25 +1,20 @@
 package com.test.stream.stream.Controllers;
 
-import android.widget.Toast;
-
-import com.facebook.CallbackManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.UI.MainLoginScreen;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
-import com.test.stream.stream.Utilities.ReadDataCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Created by cathe on 2016-10-16.
+ * A manager that ensures that the logged in user is tracked and accessible to
+ * all functionalities in the project. This class also handles user creation in the
+ * database.
+ *
+ * Created by Catherine Lee on 2016-10-16.
  * Updated by Omar on 2016-10-28
  */
 
@@ -29,20 +24,34 @@ public class UserManager {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
-   // final static AtomicBoolean oneUserHandled = new AtomicBoolean(false);
-
     private User currentUser;
     private String userKey;
 
+    /**
+     * Ensure that UserManager can only be instantiated within the class.
+     */
     private UserManager(){};
 
+    /**
+     *
+     * @return the only instance of this class (singleton)
+     */
     public static UserManager getInstance(){ return instance; }
 
+    /**
+     *
+     * @return the only instance of this class (singleton)
+     */
     public User getCurrentUser()
     {
         return currentUser;
     }
 
+    /**
+     * Checks if the user is logged in via Firebase authentication
+     *
+     * @return true if the user is logged into Firebase, false otherwise
+     */
     public boolean isUserLoggedin()
     {
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -51,6 +60,11 @@ public class UserManager {
         return (mFirebaseUser != null);
     }
 
+    /**
+     * Fetches the user from the database
+     *
+     * @param callback An event triggered when the user has been intalized
+     */
     public void InitializeUser(final ReadDataCallback callback)
     {
         if(!isUserLoggedin())
@@ -77,6 +91,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Update the user object
+     *
+     * @param user The updated user object
+     */
     public void updateUser(User user)
     {
         currentUser = user;
@@ -84,6 +103,9 @@ public class UserManager {
 
     }
 
+    /**
+     * Reset variables storing the user to null when the user logs out
+     */
     public void logout()
     {
         mFirebaseAuth = null;
@@ -101,6 +123,13 @@ public class UserManager {
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", uDescription,callback);
     }
 
+    /**
+     * Create a user object for a provided username and email
+     * in the database if the current user is not tracked by the database.
+     *
+     * @param username the username selected by the user
+     * @param email the user's email address
+     */
     public static void createUserIfNotExist(String username, String email)
     {
         FirebaseUser user = getFirebaseUser();
@@ -116,18 +145,32 @@ public class UserManager {
         }
     }
 
+    /**
+     * Create a user object in the database if the current user is not tracked by the database,
+     * assuming all user information is stored in the Firebase user
+     */
     public static void createUserIfNotExist()
     {
         FirebaseUser user = getFirebaseUser();
         createUserIfNotExist(user.getDisplayName(), "");
     }
 
+    /**
+     * Get the user current logged into firebase
+     *
+     * @return the Firebae user object
+     */
     private static FirebaseUser getFirebaseUser()
     {
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         return mFirebaseAuth.getCurrentUser();
     }
 
+    /**
+     * Create a user in the database for the given user object
+     *
+     * @param user the user to write to the database
+     */
     private static void createUser(final User user)
     {
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", user.getUid(), new ReadDataCallback() {

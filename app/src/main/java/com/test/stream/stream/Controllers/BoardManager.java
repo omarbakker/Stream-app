@@ -21,25 +21,41 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by cathe on 2016-10-26.
+ * A controller class for the Board functionality
+ *
+ * Created by Catherine Lee on 2016-10-26.
  */
 
 public class BoardManager extends DataManager{
     private static BoardManager instance = new BoardManager();
-    public static BoardManager getInstance() { return instance; }
 
     private BoardFragment context;
     private Board currentBoard;
     private ConcurrentHashMap<String, Pin> pins = new ConcurrentHashMap<String, Pin>();
 
+    /**
+     * Ensure that BoardManager can only be instantiated within the class.
+     */
     private BoardManager(){};
 
+    /**
+     *
+     * @return the only instance of this class (singleton)
+     */
+    public static BoardManager getInstance() { return instance; }
+
+
+    /**
+     * Fetches a list of pinned items of a project sorted by creation time.
+     *
+     * @return a list of pin objects, sorted by time order
+     */
     public List<Pin> GetPinsInProject()
     {
         List<Pin> pins = new ArrayList();
         List<String> keys = new ArrayList();
         keys.addAll(this.pins.keySet());
-        Collections.sort(keys);
+        Collections.sort(keys); //Keys in Firebase are stored automatically in date time order, so sorting keys will suffice
 
         for(String key: keys)
         {
@@ -49,12 +65,24 @@ public class BoardManager extends DataManager{
         return pins;
     }
 
-    public void InitializePins(BoardFragment context) //Note: Change context to your activity class & do it for the private functions
+    /**
+     * Initializes the BoardManager so that it can maintain updated information of pins in
+     * the current project.
+     *
+     * @param context The java class of the view (ui) controlled by the BoardManager
+     */
+    public void InitializePins(BoardFragment context)
     {
         this.context = context;
         super.registerParent(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId());
     }
 
+    /**
+     * Triggered by an update of the parent board object, this updates the
+     * UI accordingly
+     *
+     * @param dataSnapshot The object returned by Firebase containing the read object and its key.
+     */
     @Override
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentBoard = dataSnapshot.getValue(Board.class);
@@ -62,12 +90,22 @@ public class BoardManager extends DataManager{
         context.updateUI();
     }
 
+    /**
+     * Triggered by the deletion of the parent board object, this updates the UI
+     * accordingly
+     */
     @Override
     public void parentDeleted() {
         currentBoard = null;
         context.updateUI();
     }
 
+    /**
+     * Triggered by an update of a pin object, this updates the
+     * UI accordingly
+     *
+     * @param dataSnapshot The object returned by Firebase containing the read object and its key.
+     */
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
         String pinType = dataSnapshot.child("pinType").getValue().toString();
@@ -86,15 +124,21 @@ public class BoardManager extends DataManager{
         {
             context.updateUI();
         }
-
-        //Do whatever you need with the "context" ie. call the updateUI function
     }
 
+
+    /**
+     * Triggered by the deletion of a pin object, this updates the
+     * UI accordingly
+     */
     @Override
     public void childDeleted(String id) {
         pins.remove(id);
     }
 
+    /**
+     * Registers a listener to each pin not already stored in the BoardManager
+     */
     private void registerPins()
     {
         for(String id :  currentBoard.getPins().keySet()) //Ensure that each pin only is register once.
@@ -106,6 +150,12 @@ public class BoardManager extends DataManager{
         }
     }
 
+    /**
+     * Update a pin.
+     *
+     * @param pin the updated pin object
+     * @return true if the update request was made to Firebase. False otherwise.
+     */
     public boolean UpdatePin(Pin pin)
     {
         if(currentBoard == null || !pins.containsKey(pin.getId()))
@@ -121,6 +171,15 @@ public class BoardManager extends DataManager{
         return true;
     }
 
+    /**
+     * Creates a message-type pin and writes it to the database from
+     * the provided parameters
+     *
+     * @param title the title or name of the pin
+     * @param subtitle a secondary title for the pin
+     * @param description the contents of the message pin
+     * @return true if the pin was created and a the object is written to Firebase. False otherwise.
+     */
     public boolean CreateMessagePin(String title, String subtitle, String description)
     {
         if(currentBoard == null)
@@ -131,9 +190,6 @@ public class BoardManager extends DataManager{
         PinMessage message = new PinMessage(title, subtitle, description);
 
         //Set inputted information
-        //message.setDescription(description);
-        //message.setSubtitle(subtitle);
-        //message.setTitle(title);
         message.setPinType(PinType.Message);
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);
@@ -149,21 +205,32 @@ public class BoardManager extends DataManager{
         return true;
     }
 
+    /**
+     * Removes the provided pin from the database
+     *
+     * @param pin the pin object to remove from Firebase
+     * @return true if the pin exists and a removal request was sent to Firebase. False otherwise.
+     */
     public boolean RemovePin(Pin pin)
     {
         String pinId = pin.getId();
 
+        //Check that we only remove pins that are on the database.
         if(!pins.containsKey(pinId)) {
             return false;
         }
 
+        //Get the reference for the pin on Firebase.
         DatabaseReference refToDelete = DatabaseManager.getInstance()
                 .getReference(DatabaseFolders.Pins.toString())
                 .child(pinId);
 
+        //Delete the pin
         refToDelete.removeValue();
         currentBoard.removePin(pinId);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards,
+                ProjectManager.sharedInstance().getCurrentProject().getBoardId(),
+                currentBoard);
 
         return true;
 

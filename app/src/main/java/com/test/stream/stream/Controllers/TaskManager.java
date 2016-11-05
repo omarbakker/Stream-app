@@ -25,19 +25,34 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by cathe on 2016-10-23.
+ *  A controller class for the Tasks functionality
+ *
+ * Created by Catherine Lee on 2016-10-23.
  */
 
 public class TaskManager extends DataManager{
     private static TaskManager instance = new TaskManager();
-    public static TaskManager getInstance() { return instance; }
 
     private TasksFragment context;
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<String, Task> tasksInCurrentProject = new ConcurrentHashMap<String, Task>(); //Task Id - task
 
+    /**
+     * Ensure that TaskManager can only be instantiated within the class.
+     */
     private TaskManager(){};
 
+    /**
+     *
+     * @return the only instance of this class (singleton)
+     */
+    public static TaskManager getInstance() { return instance; }
+
+    /**
+     * Fetches a list of task items of a project sorted by creation time.
+     *
+     * @return a list of task objects, sorted by time order
+     */
     public List<Task> GetTasksInProject()
     {
         List<Task> tasks = new ArrayList();
@@ -54,13 +69,25 @@ public class TaskManager extends DataManager{
         return tasks;
     }
 
-    public void Initialize(TasksFragment context) //Note: Change context to your activity class & do it for the private functions
+    /**
+     * Initializes the BoardManager so that it can maintain updated information of pins in
+     * the current project.
+     *
+     * @param context The java class of the view (ui) controlled by the TaskManager
+     */
+    public void Initialize(TasksFragment context)
     {
         this.context = context;
         super.registerParent(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
 
     }
 
+    /**
+     * Triggered by an update of the parent taskGroup object, this updates the
+     * UI accordingly
+     *
+     * @param dataSnapshot The object returned by Firebase containing the read object and its key.
+     */
     @Override
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
@@ -68,12 +95,22 @@ public class TaskManager extends DataManager{
         context.updateUI();
     }
 
+    /**
+     * Triggered by the deletion of the parent taskGroup object, this updates the UI
+     * accordingly
+     */
     @Override
     public void parentDeleted() {
         currentTaskGroup = null;
         context.updateUI();
     }
 
+    /**
+     * Triggered by an update of a task object, this updates the
+     * UI accordingly
+     *
+     * @param dataSnapshot The object returned by Firebase containing the read object and its key.
+     */
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
         Task task = dataSnapshot.getValue(Task.class);
@@ -85,12 +122,19 @@ public class TaskManager extends DataManager{
         }
     }
 
+    /**
+     * Triggered by the deletion of a task object, this updates the
+     * UI accordingly
+     */
     @Override
     public void childDeleted(String id) {
         tasksInCurrentProject.remove(id);
         context.updateUI();
     }
 
+    /**
+     * Registers a listener to each task not already stored in the BoardManager
+     */
     private void registerTasks()
     {
         for(String id : currentTaskGroup.getTasks().keySet()) //Ensure that each task only is register once.
@@ -102,6 +146,12 @@ public class TaskManager extends DataManager{
         }
     }
 
+    /**
+     * Update a task.
+     *
+     * @param task the updated task object
+     * @return true if the update request was made to Firebase. False otherwise.
+     */
     public boolean UpdateTask(Task task)
     {
         if(currentTaskGroup == null || !tasksInCurrentProject.containsKey(task))
@@ -117,6 +167,17 @@ public class TaskManager extends DataManager{
         return true;
     }
 
+    /**
+     * Creates task and writes it to the database from
+     * the provided parameters
+     *
+     * @param taskName The name of the task
+     * @param description the contents of the task
+     * @param user User that the task is assigned to
+     * @param dueDate Deadline of the task
+     * @param complete true if the task is complete. False otherwise
+     * @return True if the new task has been created and added to the databae. False otherwise.
+     */
     public boolean CreateTask(String taskName, String description, User user, int[] dueDate, boolean complete)
     {
         if(currentTaskGroup == null)
@@ -161,6 +222,7 @@ public class TaskManager extends DataManager{
         return true;
     }
 
+    //TODO: Remove this overload of create task when create task supports assigned users properly
     public boolean CreateTask(String taskName, String description, String user, int[] dueDate, boolean complete)
     {
         if(currentTaskGroup == null)
@@ -193,6 +255,12 @@ public class TaskManager extends DataManager{
         return true;
     }
 
+    /**
+     * Removes the provided task from the database
+     *
+     * @param task the task object to remove from Firebase
+     * @return true if the pin exists and a removal request was sent to Firebase. False otherwise.
+     */
     public boolean DeleteTask(Task task)
     {
         String taskId = task.getId();
@@ -202,6 +270,7 @@ public class TaskManager extends DataManager{
             return false;
         }
 
+        //Get the database reference of a task
         DatabaseReference refToDelete = DatabaseManager.getInstance()
                 .getReference(DatabaseFolders.Tasks.toString())
                 .child(taskId);

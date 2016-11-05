@@ -20,8 +20,7 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.newProjectUsersAdapter;
-import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
-import com.test.stream.stream.Utilities.ReadDataCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import java.util.Map;
 
 

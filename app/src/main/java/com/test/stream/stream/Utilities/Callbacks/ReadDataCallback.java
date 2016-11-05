@@ -1,8 +1,11 @@
 package com.test.stream.stream.Utilities.Callbacks;
 
+import com.google.firebase.database.DataSnapshot;
+
 /**
- * Created by OmarEyad on 2016-10-26.
+ * Created by cathe on 2016-10-10.
  */
 
-public class ReadDataCallback {
+public interface ReadDataCallback {
+    void onDataRetrieved(DataSnapshot result);
 }

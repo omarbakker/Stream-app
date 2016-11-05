@@ -1,7 +1,9 @@
 package com.test.stream.stream.Utilities;
 
 /**
- * Created by cathe on 2016-10-26.
+ * Enums of types of pins permitted on the Board
+ *
+ * Created by Catherine Lee on 2016-10-26.
  */
 
 public enum PinType {
