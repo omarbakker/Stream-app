@@ -100,7 +100,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         TaskManager.getInstance().Initialize(this);
     }
 
-    public void showNewTaskDialog() {
+    public void showNewTaskDialog() {gi
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
 
@@ -111,10 +111,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
-        newTaskAssigneeField = (TextInputEditText)v.findViewById(R.id.newTaskNewUserField);
-        newtaskDateField = (TextInputEditText)v.findViewById(R.id.newTaskDueDateField);
-        newTaskNameField = (TextInputEditText)v.findViewById(R.id.newTaskNameField);
-        newTaskDescriptionField = (TextInputEditText)v.findViewById(R.id.newTaskDescriptionField);
+        newTaskAssigneeField = (TextInputEditText) v.findViewById(R.id.newTaskNewUserField);
+        newtaskDateField = (TextInputEditText) v.findViewById(R.id.newTaskDueDateField);
+        newTaskNameField = (TextInputEditText) v.findViewById(R.id.newTaskNameField);
+        newTaskDescriptionField = (TextInputEditText) v.findViewById(R.id.newTaskDescriptionField);
         newTaskAssigneeField.setOnEditorActionListener(this);
         newtaskDateField.setOnEditorActionListener(this);
         newTaskNameField.setOnEditorActionListener(this);
@@ -123,31 +123,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
         newTaskDialog.show();
-
-        AlertDialog hi = new AlertDialog.Builder(getActivity())
-
-                .setView(v)
-                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
-                        taskDateField = (EditText) v.findViewById(R.id.newTaskDueDateField);
-                        EditText input_name = (EditText) v.findViewById(R.id.task_name);
-                        EditText description = (EditText) v.findViewById(R.id.description);
-
-                        EditText user = (EditText) v.findViewById(R.id.user);
-                        if(!getValidDate(taskDateField.getText().toString()))
-                            handleInvalidDate();
-                        TaskManager.getInstance().CreateTask(input_name.getText().toString(), description.getText().toString(), user.getText().toString(), DueDate, false);
-                        //currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
-                        //DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
-
-                    }
-                }).setNegativeButton("Cancel", null)
-                .create();
-        hi.show();
-
     }
-
 
     public void updateUI() {
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
