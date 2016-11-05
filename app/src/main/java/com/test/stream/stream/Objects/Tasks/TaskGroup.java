@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by cathe on 2016-10-01.
+ * This is a representation of the TaskGroup datatype, which is the encapsulation of
+ * all tasks within a project
+ *
+ * Created by Catherine Lee on 2016-10-01.
  */
 
 public class TaskGroup {
@@ -16,19 +19,15 @@ public class TaskGroup {
     //endregion
 
     //region Setters and Getters
-
     public String getParentProjectId() {
         return parentProjectId;
     }
-
     public int getNumActiveTasks() {
         return numActiveTasks;
     }
-
     public int getNumTasksCompleted() {
         return numTasksCompleted;
     }
-
     public Map<String, Boolean> getTasks() {
         return tasks;
     }
@@ -36,11 +35,7 @@ public class TaskGroup {
     public void setNumActiveTasks(int numActiveTasks) {
         this.numActiveTasks = numActiveTasks;
     }
-
-    public void setNumTasksCompleted(int numTasksCompleted) {
-        this.numTasksCompleted = numTasksCompleted;
-    }
-
+    public void setNumTasksCompleted(int numTasksCompleted) { this.numTasksCompleted = numTasksCompleted; }
     //endregion
 
     //region Constructors
@@ -54,7 +49,12 @@ public class TaskGroup {
 
     //endregion
 
-    //region Core Functions
+    /**
+     * Add a task to the project
+     *
+     * @param taskId the id of the task to add to this TaskGroup
+     * @return true if the task was added. False otherwise
+     */
     public boolean addTask(String taskId)
     {
         if(hasTask(taskId)) {
@@ -65,6 +65,12 @@ public class TaskGroup {
         return true;
     }
 
+    /**
+     * Remove the specified task from the project
+     *
+     * @param taskId the id of the task to remove
+     * @return true if the task has been removed. False otherwise
+     */
     public boolean removeTask(String taskId)
     {
         if(!hasTask(taskId)) {
@@ -75,21 +81,33 @@ public class TaskGroup {
         return true;
     }
 
+    /**
+     * Check if the specified task is in this TaskGroup
+     *
+     * @param taskId the id of the task to check
+     * @return true if the task exists in the project, false otherwise
+     */
     public boolean hasTask(String taskId)
     {
+
         return tasks.containsKey(taskId);
     }
 
-    public boolean setTaskCompletionStatus(String taskId, boolean status)
+    /**
+     * Mark a task as complete or active
+     *
+     * @param taskId the id of the task to modify
+     * @param complete true if the task is complete. False otherwise.
+     * @return
+     */
+    public boolean setTaskCompletionStatus(String taskId, boolean complete)
     {
         if(tasks.containsKey(taskId))
         {
-            tasks.put(taskId, status);
+            tasks.put(taskId, complete);
         }
 
         return false;
     }
-    //endregion
-
 
 }

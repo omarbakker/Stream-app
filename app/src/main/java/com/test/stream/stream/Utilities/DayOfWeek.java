@@ -1,7 +1,9 @@
 package com.test.stream.stream.Utilities;
 
 /**
- * Created by cathe on 2016-10-29.
+ * Enum representation of days in a week
+ *
+ * Created by Catherine on 2016-10-29.
  */
 
 public enum DayOfWeek {

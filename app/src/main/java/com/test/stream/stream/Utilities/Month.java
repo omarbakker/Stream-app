@@ -1,7 +1,9 @@
 package com.test.stream.stream.Utilities;
 
 /**
- * Created by cathe on 2016-10-29.
+ * Enum representation of calendar months in a year
+ *
+ * Created by Catherine on 2016-10-29.
  */
 
 public enum Month {

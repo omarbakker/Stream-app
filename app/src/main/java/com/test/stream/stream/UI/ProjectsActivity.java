@@ -10,21 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.UserManager;
-import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.Objects.Projects.Project;
-import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
-import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
-import com.test.stream.stream.Utilities.ReadDataCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
