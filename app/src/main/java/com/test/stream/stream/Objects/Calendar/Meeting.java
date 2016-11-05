@@ -44,32 +44,32 @@ public class Meeting {
 
     public String getDescription() {return description; }
 
-    public String getMonth() { return month; }
-
-    public int getDay() { return day; }
-
-    public int getYear() { return year; }
-
-    public String getDayOfWeek() { return dayOfWeek; }
-
-    public Month getMonthAsEnum() {
-        return Month.valueOf(month);
-    }
-
-    public DayOfWeek getDayOfWeekAsEnum()
-    {
-        return DayOfWeek.valueOf(dayOfWeek);
-    }
-
-    public int getHour()
-    {
-        return hour;
-    }
-
-    public int getMinute()
-    {
-        return minute;
-    }
+//    public String getMonth() { return month; }
+//
+//    public int getDay() { return day; }
+//
+//    public int getYear() { return year; }
+//
+//    public String getDayOfWeek() { return dayOfWeek; }
+//
+//    public Month getMonthAsEnum() {
+//        return Month.valueOf(month);
+//    }
+//
+//    public DayOfWeek getDayOfWeekAsEnum()
+//    {
+//        return DayOfWeek.valueOf(dayOfWeek);
+//    }
+//
+//    public int getHour()
+//    {
+//        return hour;
+//    }
+//
+//    public int getMinute()
+//    {
+//        return minute;
+//    }
 
     //Setters
 
@@ -98,70 +98,70 @@ public class Meeting {
         this.description = description;
     }
 
-    public void setDate(Month month, int day, int year, DayOfWeek dayOfWeek)
-    {
-        this.month = month.toString();
-        this.day = day;
-        this.year = year;
-        this.dayOfWeek = dayOfWeek.toString();
+//    public void setDate(Month month, int day, int year, DayOfWeek dayOfWeek)
+//    {
+//        this.month = month.toString();
+//        this.day = day;
+//        this.year = year;
+//        this.dayOfWeek = dayOfWeek.toString();
+//
+//        if(this.day < 1)
+//        {
+//            this.day = 1;
+//        }
+//        else if(day > maxDaysInMonth(month, year))
+//        {
+//            this.day = maxDaysInMonth(month, year);
+//        }
+//    }
 
-        if(this.day < 1)
-        {
-            this.day = 1;
-        }
-        else if(day > maxDaysInMonth(month, year))
-        {
-            this.day = maxDaysInMonth(month, year);
-        }
-    }
-
-    private int maxDaysInMonth(Month month, int year)
-    {
-        if(month == Month.April ||
-                month == Month.June ||
-                month == Month.September ||
-                month == Month.November)
-        {
-            return 30;
-        }
-
-        if(month == Month.February)
-        {
-            return isLeapYear(year)? 29 : 28;
-        }
-
-        return 31;
-    }
-
-    private boolean isLeapYear(int year)
-    {
-        if(year%400 == 0)
-        {
-            return true;
-        }
-        else if(year%4 == 0 && year%100 != 0)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public void setTime(int hour, int minute)
-    {
-        int numAdditionalHours = 0;
-
-        if(minute >= 60)
-        {
-            numAdditionalHours = minute/60;
-            minute = minute%60;
-        }
-
-        hour = (hour + numAdditionalHours)%24; //maximum 24 hours
-
-        this.hour = hour;
-        this.minute = minute;
-    }
+//    private int maxDaysInMonth(Month month, int year)
+//    {
+//        if(month == Month.April ||
+//                month == Month.June ||
+//                month == Month.September ||
+//                month == Month.November)
+//        {
+//            return 30;
+//        }
+//
+//        if(month == Month.February)
+//        {
+//            return isLeapYear(year)? 29 : 28;
+//        }
+//
+//        return 31;
+//    }
+//
+//    private boolean isLeapYear(int year)
+//    {
+//        if(year%400 == 0)
+//        {
+//            return true;
+//        }
+//        else if(year%4 == 0 && year%100 != 0)
+//        {
+//            return true;
+//        }
+//
+//        return false;
+//    }
+//
+//    public void setTime(int hour, int minute)
+//    {
+//        int numAdditionalHours = 0;
+//
+//        if(minute >= 60)
+//        {
+//            numAdditionalHours = minute/60;
+//            minute = minute%60;
+//        }
+//
+//        hour = (hour + numAdditionalHours)%24; //maximum 24 hours
+//
+//        this.hour = hour;
+//        this.minute = minute;
+//    }
 
 
 }
