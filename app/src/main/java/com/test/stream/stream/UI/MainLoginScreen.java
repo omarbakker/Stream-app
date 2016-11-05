@@ -57,9 +57,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
     TextView signup, forgotPassword, orDifferentLogin;
     Button login;
-    AppCompatEditText enterEmail;
+    EditText enterEmail;
     EditText enterPassword;
-    Switch rememberMe;
     LoginButton loginWithFacebook;
     private View mLoginFormView;
     private View mProgressView;
@@ -87,7 +86,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         login = (Button) findViewById(R.id.login);
         enterEmail = (AppCompatEditText) findViewById(R.id.enterEmail);
         enterPassword = (EditText) findViewById(R.id.enterNewPassword);
-        rememberMe = (Switch) findViewById(R.id.rememberMe);
         orDifferentLogin = (TextView) findViewById(R.id.orDifferentLogin);
 
         System.out.println(getString(R.string.permission_rationale));
@@ -99,7 +97,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         login.setTypeface(Syncopate);
         enterEmail.setTypeface(Syncopate);
         enterPassword.setTypeface(Syncopate);
-        rememberMe.setTypeface(Syncopate);
         orDifferentLogin.setTypeface(SyncopateBold);
 
 
