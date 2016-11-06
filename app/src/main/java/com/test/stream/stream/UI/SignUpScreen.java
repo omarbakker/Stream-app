@@ -27,9 +27,9 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
-public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
+public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
-    EditText enterNewName, enterNewUsername,  enterNewPassword;
+    EditText enterNewName, enterNewUsername, enterNewPassword;
     static EditText enterNewEmail;
     TextView signInTitle;
     Button continueSignUp;
@@ -144,11 +144,11 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);*/
 
 
-                        // [START_EXCLUDE]
-                        //hideProgressDialog();
-                        // [END_EXCLUDE]
-               //     }
-                //});
+        // [START_EXCLUDE]
+        //hideProgressDialog();
+        // [END_EXCLUDE]
+        //     }
+        //});
 
         valid = true;
         //TODO: in the future a callback function from writeObject must be used to check validity of write
@@ -181,19 +181,19 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         }
 
         String name = enterNewName.getText().toString();
-        if(TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             enterNewName.setError("Required.");
             valid = false;
-        } else{
+        } else {
             enterNewName.setError(null);
         }
 
         String username = enterNewUsername.getText().toString();
         //TODO: Enforce username duplicate error
-        if(TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             enterNewUsername.setError("Required.");
             valid = false;
-        }else{
+        } else {
             enterNewUsername.setError(null);
         }
 
@@ -202,19 +202,19 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.continueWithSignUp:
                 //newEmail = enterNewEmail.getText().toString();
                 //startActivity(new Intent(SignUpScreen.this, VerificationCode.class));
-                Log.v("click","creating new email-user");
+                Log.v("click", "creating new email-user");
                 createAccount(enterNewEmail.getText().toString(),
                         enterNewPassword.getText().toString(),
                         enterNewName.getText().toString(),
                         enterNewUsername.getText().toString());
 
-                }
-
         }
+
+    }
 
 
     /**
@@ -225,3 +225,4 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         return newEmail = enterNewEmail.getText().toString();
     }
 }
+
