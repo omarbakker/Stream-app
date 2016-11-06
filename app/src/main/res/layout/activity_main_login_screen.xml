@@ -10,7 +10,7 @@ android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="com.test.stream.stream.UI.MainLoginScreen"
-android:background="#FFFFFF"    >
+android:background="#e5e7e8"    >
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -19,16 +19,6 @@ android:background="#FFFFFF"    >
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
-
-    <TextView
-    android:text="Forgot your password?"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="#087bb9"
-    android:id="@+id/forgotPassword"
-    android:layout_above="@+id/signUp"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="11dp" />
 
 
     <ImageView
@@ -61,40 +51,6 @@ android:background="#FFFFFF"    >
 
     </View>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_lock_lock"
-        android:id="@+id/imageView4"
-        android:layout_alignTop="@+id/enterNewPassword"
-        android:layout_alignLeft="@+id/enterEmail"
-        android:layout_alignStart="@+id/enterEmail" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:background="@null"
-        android:hint="@string/prompt_password"
-        android:ems="10"
-        android:id="@+id/enterNewPassword"
-        android:layout_alignTop="@+id/rectangle_at_the_top"
-        android:layout_alignLeft="@+id/loginWithFacebook"
-        android:layout_alignStart="@+id/loginWithFacebook"
-        android:layout_marginTop="20dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/login_enter_email_username"
-        android:ems="10"
-        android:background="@null"
-        android:id="@+id/enterEmail"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/loginWithFacebook"
-        android:layout_alignEnd="@+id/loginWithFacebook" />
-
     <TextView
     android:text="OR"
     android:layout_width="wrap_content"
@@ -109,19 +65,11 @@ android:background="#FFFFFF"    >
         android:id="@+id/loginWithFacebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="22dp"
         android:layout_above="@+id/orDifferentLogin"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signUp"
-        android:text="Not a user? Signup"
-        android:textColor="#087bb9"
-        android:layout_marginBottom="19dp"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -130,7 +78,8 @@ android:background="#FFFFFF"    >
         android:layout_height="wrap_content"
         android:id="@+id/login"
         android:fontFamily="sans-serif-medium"
-        android:background="#087bb9"
+        android:backgroundTint="#087bb9"
+        android:background="@drawable/rounded_edges_button"
         android:elevation="0dp"
         android:textSize="14sp"
         android:textColor="#FFFFFF"
@@ -140,5 +89,69 @@ android:background="#FFFFFF"    >
         android:layout_marginTop="14dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/login_enter_email_username"
+        android:ems="10"
+        android:background="@null"
+        android:id="@+id/enterEmail"
+        android:textSize="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_lock_lock"
+        android:id="@+id/imageView4"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_alignBottom="@+id/enterNewPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:background="@null"
+        android:textSize="16dp"
+        android:hint="@string/prompt_password"
+        android:ems="10"
+        android:id="@+id/enterNewPassword"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/login"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
+
+    <TextView
+    android:text="Forgot your password?"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#087bb9"
+    android:id="@+id/forgotPassword"
+        android:textSize="18dp"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUp"
+        android:text="Not a user? Signup"
+        android:textSize="18dp"
+        android:textColor="#087bb9"
+        android:layout_below="@+id/forgotPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
 
 </RelativeLayout>
