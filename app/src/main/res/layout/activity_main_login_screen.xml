@@ -31,16 +31,98 @@ android:background="#FFFFFF"    >
     android:layout_marginBottom="11dp" />
 
 
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@drawable/stream_logo"
+    android:id="@+id/imageView"
+        android:layout_above="@+id/loginWithFacebook"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <View android:id="@+id/rectangle_at_the_top2"
+        android:layout_height="65dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/custom_rectangle"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    </View>
+
+    <View android:id="@+id/rectangle_at_the_top"
+        android:layout_height="65dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/custom_rectangle"
+        android:layout_below="@+id/rectangle_at_the_top2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp">
+
+    </View>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_lock_lock"
+        android:id="@+id/imageView4"
+        android:layout_alignTop="@+id/enterNewPassword"
+        android:layout_alignLeft="@+id/enterEmail"
+        android:layout_alignStart="@+id/enterEmail" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:background="@null"
+        android:hint="@string/prompt_password"
+        android:ems="10"
+        android:id="@+id/enterNewPassword"
+        android:layout_alignTop="@+id/rectangle_at_the_top"
+        android:layout_alignLeft="@+id/loginWithFacebook"
+        android:layout_alignStart="@+id/loginWithFacebook"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@string/login_enter_email_username"
+        android:ems="10"
+        android:background="@null"
+        android:id="@+id/enterEmail"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/loginWithFacebook"
+        android:layout_alignEnd="@+id/loginWithFacebook" />
+
+    <TextView
+    android:text="OR"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/orDifferentLogin"
+    android:textColor="#000000"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/rectangle_at_the_top2"
+        android:layout_centerHorizontal="true" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/loginWithFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="22dp"
+        android:layout_above="@+id/orDifferentLogin"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/signUp"
         android:text="Not a user? Signup"
         android:textColor="#087bb9"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="19dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
 
     <Button
         android:text="Login"
@@ -52,100 +134,11 @@ android:background="#FFFFFF"    >
         android:elevation="0dp"
         android:textSize="14sp"
         android:textColor="#FFFFFF"
-        android:layout_above="@+id/forgotPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp" />
-
-    <View android:id="@+id/rectangle_at_the_top"
-        android:layout_height="65dp"
-        android:layout_width="match_parent"
-        android:background="@drawable/custom_rectangle"
-        android:layout_marginBottom="11dp"
-        android:layout_above="@+id/login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-    </View>
-
-    <View android:id="@+id/rectangle_at_the_top2"
-        android:layout_height="65dp"
-        android:layout_width="match_parent"
-        android:background="@drawable/custom_rectangle"
-        android:layout_above="@+id/rectangle_at_the_top"
+        android:layout_below="@+id/rectangle_at_the_top"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp">
-
-    </View>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:inputType="textPersonName"
-        android:hint="@string/login_enter_email_username"
-        android:ems="10"
-        android:background="@null"
-        android:id="@+id/enterEmail"
-        android:layout_alignTop="@+id/rectangle_at_the_top2"
+        android:layout_marginTop="14dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:background="@null"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:hint="@string/prompt_password"
-        android:ems="10"
-        android:id="@+id/enterNewPassword"
-        android:layout_alignTop="@+id/rectangle_at_the_top"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/imageView4"
-        android:layout_toEndOf="@+id/imageView4" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_lock_lock"
-        android:layout_marginTop="5dp"
-        android:id="@+id/imageView4"
-        android:layout_alignBottom="@+id/enterNewPassword"
-        android:layout_alignLeft="@+id/enterEmail"
-        android:layout_alignStart="@+id/enterEmail" />
-
-    <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:srcCompat="@drawable/stream_logo"
-    android:id="@+id/imageView"
-        android:layout_above="@+id/loginWithFacebook"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-    android:text="OR"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/orDifferentLogin"
-    android:textColor="#000000"
-        android:layout_marginBottom="49dp"
-        android:layout_above="@+id/rectangle_at_the_top2"
-        android:layout_centerHorizontal="true" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/loginWithFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/orDifferentLogin"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
