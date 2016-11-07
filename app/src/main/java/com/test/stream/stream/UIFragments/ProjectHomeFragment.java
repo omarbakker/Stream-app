@@ -4,8 +4,10 @@ package com.test.stream.stream.UIFragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
@@ -37,11 +39,8 @@ public class ProjectHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("OnCreateView");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_project_home, container, false);
-        System.out.println("After view fetch");
-
         return view;
     }
 
@@ -78,7 +77,6 @@ public class ProjectHomeFragment extends Fragment {
 
         // Get all user tasks from the database
         List<Task> allTasks = new LinkedList<>();
-        int adapterCount;
 
         allTasks.add(createTask());
         allTasks.add(createTask());
@@ -86,6 +84,7 @@ public class ProjectHomeFragment extends Fragment {
 
         ArrayList<Task> tasks = new ArrayList();
         ListView listView = (ListView) getView().findViewById(R.id.task_list);
+
         // Go through each task in database
         for (Task currentTask : allTasks) {
             if (currentTask.getClass() == Task.class) {
@@ -98,13 +97,11 @@ public class ProjectHomeFragment extends Fragment {
             System.out.println("taskAdapter == null");
             taskAdapter = new TaskAdapter(getActivity(), taskMessages);
             listView.setAdapter(taskAdapter);
-            adapterCount = taskAdapter.getCount();
         }
-
-            System.out.println("taskAdapter != null");
             taskAdapter.clear();
             taskAdapter.addAll(tasks);
             taskAdapter.notifyDataSetChanged();
+            setListViewHeightBasedOnChildren(listView);
 
     }
 
@@ -118,5 +115,32 @@ public class ProjectHomeFragment extends Fragment {
         newTask.setDescription("Task Description");
         newTask.setName("Task name");
         return newTask;
+    }
+
+    /**** Method for Setting the Height of the ListView dynamically.
+     **** Hack to fix the issue of not showing all the items of the ListView
+     **** when placed inside a ScrollView  ****/
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            System.out.println("LAYOUTADAPTER NULL");
+            return;
+        }
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        System.out.println("AdapterCount: " + listAdapter.getCount());
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+            System.out.println("Total Height:" +totalHeight);
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }
