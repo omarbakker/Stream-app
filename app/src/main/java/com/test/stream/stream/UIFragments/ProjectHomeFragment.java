@@ -50,7 +50,6 @@ public class ProjectHomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
         View view = getView();
-        System.out.println("On Activity Created");
 
         teamProgress = (CircleProgress) view.findViewById(R.id.team_progress);
         userProgress = (CircleProgress) view.findViewById(R.id.user_progress);
