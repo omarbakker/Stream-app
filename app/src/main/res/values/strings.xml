@@ -87,6 +87,6 @@
     <string name="meeting_reminder_notification_title_send">Heres a reminder about your meeting coming up!</string>
 
     <!-- General strings used in multiple places -->
-    <string name="enter_message">Enter message</string>
+    <string name="enter_message">Enter a message</string>
 
 </resources>
