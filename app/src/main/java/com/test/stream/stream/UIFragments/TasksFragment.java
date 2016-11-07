@@ -93,7 +93,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         TaskManager.getInstance().Initialize(this);
     }
 
-    public void showNewTaskDialog() {
+    public void showNewTaskDialog() {gi
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
 
@@ -104,10 +104,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
-        newTaskAssigneeField = (TextInputEditText)v.findViewById(R.id.newTaskNewUserField);
-        newtaskDateField = (TextInputEditText)v.findViewById(R.id.newTaskDueDateField);
-        newTaskNameField = (TextInputEditText)v.findViewById(R.id.newTaskNameField);
-        newTaskDescriptionField = (TextInputEditText)v.findViewById(R.id.newTaskDescriptionField);
+        newTaskAssigneeField = (TextInputEditText) v.findViewById(R.id.newTaskNewUserField);
+        newtaskDateField = (TextInputEditText) v.findViewById(R.id.newTaskDueDateField);
+        newTaskNameField = (TextInputEditText) v.findViewById(R.id.newTaskNameField);
+        newTaskDescriptionField = (TextInputEditText) v.findViewById(R.id.newTaskDescriptionField);
         newTaskAssigneeField.setOnEditorActionListener(this);
         newtaskDateField.setOnEditorActionListener(this);
         newTaskNameField.setOnEditorActionListener(this);
@@ -140,7 +140,6 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         hi.show();
 
     }
-
 
     public void updateUI() {
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
