@@ -4,6 +4,7 @@ package com.test.stream.stream.UIFragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -112,6 +113,7 @@ public class ProjectHomeFragment extends Fragment {
         newTask.setName("Task name");
         return newTask;
     }
+
 
     /****
      * Method for Setting the Height of the ListView dynamically.
