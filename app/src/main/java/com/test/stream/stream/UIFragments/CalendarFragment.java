@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.api.model.GetAccountInfoUser;
 import com.test.stream.stream.Controllers.CalendarManager;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 
 import java.util.ArrayList;
@@ -32,6 +35,8 @@ public class CalendarFragment extends Fragment {
     private ListView mCalendarListView;
     private ArrayAdapter<String> mAdapter;
     private int current_meeting;
+    ArrayList<Meeting> meetings = new ArrayList<>();
+
 
 
     public CalendarFragment() {
@@ -69,28 +74,33 @@ public class CalendarFragment extends Fragment {
     }
 
     public void createMeeting() {
+        Log.d("PLEASE WORK", "PLEASE WORK");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_new_meeting, null);
 
         AlertDialog newMeeting = new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         EditText meeting_name = (EditText) v.findViewById(R.id.new_meeting_name);
                         EditText meeting_description = (EditText) v.findViewById(R.id.new_meeting_description);
                         EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
-                        int[] date = new int[]{0, 0, 0};
-                        //call taskmanager
+
+                        Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
+                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
+                        Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
+        Log.d("PLEASE WORK", "SSOMETHING WAS CREATED");
         newMeeting.show();
+        Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
     }
 
     public void updateUI() {
         List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = meetings.size() - 1;
         while(i >= 0) {
             Meeting meeting = meetings.get(i);

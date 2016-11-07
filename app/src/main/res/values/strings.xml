@@ -84,8 +84,9 @@
     <string name="meeting_markAsComplete">Mark meeting as complete</string>
     <string name="meeting_reminder_notification_title">Have a meeting coming up?</string>
     <string name="meeting_reminder_notification_info">Send a notification to remind everyone</string>
+    <string name="meeting_reminder_notification_title_send">Heres a reminder about your meeting coming up!</string>
 
     <!-- General strings used in multiple places -->
-    <string name="enter_message">Enter message</string>
+    <string name="enter_message">Enter a message</string>
 
 </resources>

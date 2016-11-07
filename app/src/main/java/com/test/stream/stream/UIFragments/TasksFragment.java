@@ -2,6 +2,7 @@ package com.test.stream.stream.UIFragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -28,8 +29,10 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
@@ -117,10 +120,10 @@ public class TasksFragment extends Fragment
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
         newTaskValidAssigneeIndicator = (ImageView) v.findViewById(R.id.newTaskValidAssigneeIndicator);
-        newTaskAssigneeField = (TextInputEditText)v.findViewById(R.id.newTaskNewUserField);
-        newtaskDateField = (TextInputEditText)v.findViewById(R.id.newTaskDueDateField);
-        newTaskNameField = (TextInputEditText)v.findViewById(R.id.newTaskNameField);
-        newTaskDescriptionField = (TextInputEditText)v.findViewById(R.id.newTaskDescriptionField);
+        newTaskAssigneeField = (TextInputEditText) v.findViewById(R.id.newTaskNewUserField);
+        newtaskDateField = (TextInputEditText) v.findViewById(R.id.newTaskDueDateField);
+        newTaskNameField = (TextInputEditText) v.findViewById(R.id.newTaskNameField);
+        newTaskDescriptionField = (TextInputEditText) v.findViewById(R.id.newTaskDescriptionField);
         newTaskAssigneeField.setOnEditorActionListener(this);
         newtaskDateField.setOnEditorActionListener(this);
         newTaskNameField.setOnEditorActionListener(this);
@@ -132,15 +135,17 @@ public class TasksFragment extends Fragment
         newTaskDialog.show();
     }
 
-
-    public void updateUI() {
+    public void updateUI(){
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
         Log.d(TAG, String.valueOf(i));
         while (i >= 0) {
             Task task = tasks.get(i);
             taskList.add(task.getName());
+            Log.d(TAG, currentProject.getName());
+            Log.d("Just added new task", "Just added new task");
             i--;
         }
 

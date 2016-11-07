@@ -10,28 +10,6 @@
         android:background="#087bb9"
         android:visibility="visible"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/enter_message"
-        android:ems="10"
-        android:layout_marginTop="17dp"
-        android:id="@+id/reminderMessageToSend"
-        android:layout_below="@+id/rectangle_at_the_top"
-        android:layout_centerHorizontal="true" />
-
-    <CheckBox
-        android:text="Send Anonymously"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sendAnonymously"
-        android:layout_below="@+id/reminderMessageToSend"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="71dp"
-        android:layout_marginStart="71dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,5 +32,38 @@
         android:layout_below="@+id/reminderTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />
+
+    <View android:id="@+id/rectangle_at_the_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#e5e7e8"
+        android:visibility="visible"
+        android:layout_below="@+id/rectangle_at_the_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:gravity="top|left"
+        android:hint="@string/enter_message"
+        android:ems="10"
+        android:id="@+id/reminderMessageToSend"
+        android:layout_below="@+id/rectangle_at_the_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/rectangle_at_the_bottom" />
+
+    <CheckBox
+        android:text="Send Anonymously"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendAnonymously"
+        android:layout_below="@+id/rectangle_at_the_bottom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
