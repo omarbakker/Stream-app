@@ -9,6 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,10 +39,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.attr.name;
+import static android.R.id.input;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TasksFragment extends Fragment implements View.OnClickListener, EditText.OnEditorActionListener{
+public class TasksFragment extends Fragment
+        implements
+        View.OnClickListener,
+        EditText.OnEditorActionListener,
+        TextWatcher
+{
 
     private AlertDialog newTaskDialog;
     private ListView mTaskListView;
@@ -49,6 +61,8 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
     TextInputEditText newTaskDescriptionField;
     TextInputEditText newTaskAssigneeField;
     User newTaskAssignee;
+
+    ImageView newTaskValidAssigneeIndicator;
 
     private int current_task;
     int[] DueDate = {0,0,0};
@@ -102,6 +116,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
+        newTaskValidAssigneeIndicator = (ImageView) v.findViewById(R.id.newTaskValidAssigneeIndicator);
         newTaskAssigneeField = (TextInputEditText)v.findViewById(R.id.newTaskNewUserField);
         newtaskDateField = (TextInputEditText)v.findViewById(R.id.newTaskDueDateField);
         newTaskNameField = (TextInputEditText)v.findViewById(R.id.newTaskNameField);
@@ -113,6 +128,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         addUser.setOnClickListener(this);
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        newtaskDateField.addTextChangedListener(this);
         newTaskDialog.show();
     }
 
@@ -165,6 +181,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
 
     private void handleInvalidDate(){
         newtaskDateField.setText(R.string.new_project_prompt_date);
+        newtaskDateField.requestFocus();
         newtaskDateField.selectAll();
     }
 
@@ -187,7 +204,6 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         switch (v.getId()){
             case R.id.doneAddingTask:
                 createTask();
-                newTaskDialog.dismiss();
                 break;
             case R.id.CancelAddingTask:
                 newTaskDialog.dismiss();
@@ -242,11 +258,15 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
 
         if (name.isEmpty()){
             newTaskNameField.setText("Please Enter a name");
+            newTaskNameField.requestFocus();
+            newTaskNameField.selectAll();
             return;
         }
 
         if (description.isEmpty()){
             newTaskDescriptionField.setText("Please Enter a Description");
+            newTaskDescriptionField.requestFocus();
+            newTaskDescriptionField.selectAll();
             return;
         }
 
@@ -262,6 +282,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
         }
 
         TaskManager.getInstance().CreateTask(name, description, newTaskAssignee, DueDate, false);
+        newTaskDialog.dismiss();
     }
 
 
@@ -285,6 +306,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
                     Map <String,User> resultMap = result.getValue(genericTypeIndicator);
                     String id = (String) resultMap.keySet().toArray()[0];
                     newTaskAssignee = resultMap.get(id);
+                    newTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
                 }else{
                     // user is invalid and cannot be added to the project as a collaborator
                     String userInvalidHelp = uDescription + " - Invalid user";
@@ -294,6 +316,28 @@ public class TasksFragment extends Fragment implements View.OnClickListener, Edi
             }
         };
         UserManager.getInstance().checkUserExists(uDescription,userResult);
+    }
+
+
+    /*
+     Omar was here.
+     Monitor text changes, use these to help the user with his input.
+     I will use them to fill in the date '/' for the user.
+     Don't forget to do this for the editText you want to watch:
+        newtaskDateField.addTextChangedListener(this);
+     It may be smart to put this into its own class when refactoring
+    */
+    @Override
+    public void afterTextChanged(Editable s) {}
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if ((s.length() == 2 || s.length() == 5) && count > 0) {
+            newtaskDateField.append("/");
+        }
     }
 
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,7 +27,12 @@ import java.util.Map;
 
 
 
-public class newProjectActivity extends AppCompatActivity implements View.OnClickListener,EditText.OnEditorActionListener{
+public class newProjectActivity extends AppCompatActivity
+        implements
+        View.OnClickListener,
+        EditText.OnEditorActionListener,
+        TextWatcher
+{
 
     // UI Elements
     private TextView titleText;
@@ -51,6 +58,7 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
         projectDateField = (EditText) findViewById(R.id.newProjectDueDateField);
         projectDateField.setOnEditorActionListener(this);
         projectDateField.setImeActionLabel("set",EditorInfo.IME_ACTION_DONE);
+        projectDateField.addTextChangedListener(this);
         addUserField = (EditText) findViewById(R.id.newUserField);
         addUserField.setOnEditorActionListener(this);
         addUserField.setImeActionLabel("Add",EditorInfo.IME_ACTION_DONE);
@@ -233,6 +241,20 @@ public class newProjectActivity extends AppCompatActivity implements View.OnClic
         titleText.setTypeface(SyncopateBold);
         doneButton.setTypeface(Syncopate);
         addUserButton.setTypeface(Syncopate);
+    }
+
+
+    @Override
+    public void afterTextChanged(Editable s) {}
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if ((s.length() == 2 || s.length() == 5) && count > 0) {
+            projectDateField.append("/");
+        }
     }
 
 }

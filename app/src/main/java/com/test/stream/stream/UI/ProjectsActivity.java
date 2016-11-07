@@ -5,8 +5,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +25,10 @@ import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import java.util.List;
 
 
-public class ProjectsActivity extends AppCompatActivity implements View.OnClickListener,ListView.OnItemClickListener{
+public class ProjectsActivity extends AppCompatActivity
+        implements
+        View.OnClickListener,
+        ListView.OnItemClickListener{
 
     private TextView titleText;
     private ListView mProjectsListView;
@@ -115,5 +121,6 @@ public class ProjectsActivity extends AppCompatActivity implements View.OnClickL
         }
 
     }
+
 
 }

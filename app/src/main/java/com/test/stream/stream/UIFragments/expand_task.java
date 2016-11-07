@@ -218,7 +218,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     public void deleteTask(View view){
         TaskManager.getInstance().DeleteTask(expandTask);
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
-        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
+        currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()-1);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
         super.onBackPressed();
     }
