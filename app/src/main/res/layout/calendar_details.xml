@@ -11,6 +11,7 @@
 
         <TextView
             android:text="@string/meeting_name"
+            android:textColor="#FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:id="@+id/meeting_name_expanded"
@@ -66,16 +67,6 @@
             android:layout_alignBottom="@+id/meetingDescInfoIcon"
             android:textColor="@color/black_button" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar"
-            android:layout_below="@+id/meetingDescInfoIcon"
-            android:layout_alignLeft="@+id/meetingDescInfoIcon"
-            android:layout_alignStart="@+id/meetingDescInfoIcon"
-            android:layout_marginTop="65dp"
-            android:id="@+id/meetingTimeIcon" />
-
         <TextView
             android:text="@string/meeting_time"
             android:layout_width="wrap_content"
@@ -110,19 +101,24 @@
             android:layout_alignRight="@+id/meeting_description_expanded"
             android:layout_alignEnd="@+id/meeting_description_expanded" />
 
-        <CheckBox
-            android:text="@string/meeting_markAsComplete"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar"
+            android:layout_marginTop="43dp"
+            android:id="@+id/meetingTimeIcon"
+            android:layout_below="@+id/meetingDescInfoIcon"
+            android:layout_alignLeft="@+id/meetingDescInfoIcon"
+            android:layout_alignStart="@+id/meetingDescInfoIcon" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_edit"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/sendMeetingReminderNotification"
-            android:layout_alignEnd="@+id/sendMeetingReminderNotification"
-            android:layout_marginBottom="20dp"
-            android:id="@+id/MarkMeetingAsComplete"
-            android:buttonTint="@color/colorAccent"
-            android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:onClick= "markAsComplete"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/imageView3" />
 
     </RelativeLayout>
 
