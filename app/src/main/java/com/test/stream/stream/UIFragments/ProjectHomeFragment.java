@@ -42,11 +42,8 @@ public class ProjectHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("OnCreateView");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_project_home, container, false);
-        System.out.println("After view fetch");
-
         return view;
     }
 
@@ -82,7 +79,6 @@ public class ProjectHomeFragment extends Fragment {
 
         // Get all user tasks from the database
         List<Task> allTasks = new LinkedList<>();
-        int adapterCount;
 
         allTasks.add(createTask());
         allTasks.add(createTask());
@@ -149,5 +145,4 @@ public class ProjectHomeFragment extends Fragment {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
-    
 }
