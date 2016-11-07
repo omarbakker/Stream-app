@@ -27,18 +27,17 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         Task task = getItem(position);
 
-        System.out.println("GETTING VIEW");
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_task,parent, false);
         }
 
-        TextView textTitle = (TextView) convertView.findViewById(R.id.item_pin_title);
-        TextView textDescription = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
-        TextView textDueDate = (TextView) convertView.findViewById(R.id.item_pin_description);
+        TextView textTitle = (TextView) convertView.findViewById(R.id.item_task_title);
+        TextView textDescription = (TextView) convertView.findViewById(R.id.item_task_description);
+        TextView textDueDate = (TextView) convertView.findViewById(R.id.item_task_duedate);
 
         textTitle.setText(task.getName());
-        textDescription.setText(task.getDescription());
-        String dueDate = new String(task.getDueMonth() + "/" + task.getDueDay() + "/" + task.getDueYear());
+        textDescription.setText("Description: " + task.getDescription());
+        String dueDate = new String("Due Date: " + task.getDueMonth() + "/" + task.getDueDay() + "/" + task.getDueYear());
         textDueDate.setText(dueDate);
 
         return convertView;
