@@ -77,7 +77,7 @@ public class TasksFragment extends Fragment
     private DataEventListener dataListener = new DataEventListener() {
         @Override
         public void onDataChanged() {
-           updateUI();
+            updateUI();
         }
     };
 
