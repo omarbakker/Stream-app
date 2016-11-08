@@ -57,9 +57,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
     TextView signup, forgotPassword, orDifferentLogin;
     Button login;
-    AppCompatEditText enterEmail;
+    EditText enterEmail;
     EditText enterPassword;
-    Switch rememberMe;
     LoginButton loginWithFacebook;
     private View mLoginFormView;
     private View mProgressView;
@@ -85,21 +84,19 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         loginWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebook);
         login = (Button) findViewById(R.id.login);
-        enterEmail = (AppCompatEditText) findViewById(R.id.enterEmail);
+        enterEmail = (EditText) findViewById(R.id.enterEmail);
         enterPassword = (EditText) findViewById(R.id.enterNewPassword);
-        rememberMe = (Switch) findViewById(R.id.rememberMe);
         orDifferentLogin = (TextView) findViewById(R.id.orDifferentLogin);
 
         System.out.println(getString(R.string.permission_rationale));
         //Changing font to Syncopate
-        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
+        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
         Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         signup.setTypeface(Syncopate);
         forgotPassword.setTypeface(Syncopate);
         login.setTypeface(Syncopate);
         enterEmail.setTypeface(Syncopate);
         enterPassword.setTypeface(Syncopate);
-        rememberMe.setTypeface(Syncopate);
         orDifferentLogin.setTypeface(SyncopateBold);
 
 
