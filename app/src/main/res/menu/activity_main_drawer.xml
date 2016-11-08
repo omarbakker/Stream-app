@@ -15,10 +15,6 @@
             android:icon="@mipmap/calendar"
             android:title="Calendar" />
         <item
-            android:id="@+id/nav_chat"
-            android:icon="@mipmap/chat"
-            android:title="Chat" />
-        <item
             android:id="@+id/nav_pinboard"
             android:icon="@mipmap/pin"
             android:title="Pin Board" />

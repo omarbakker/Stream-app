@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +18,10 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
-import com.test.stream.stream.UIFragments.ChatFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
-import com.test.stream.stream.UIFragments.TaskMain;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
 
@@ -128,14 +125,6 @@ public class ToolbarActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch(id){
-            // If chat is clicked, launch chatFragment
-            case R.id.nav_chat:
-                setTitle("Chat");
-                ChatFragment chatFragment = new ChatFragment();
-                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                        chatFragment,
-                        chatFragment.getTag()).commit();
-                break;
             // If Calendar button is clicked, launch CalendarFragment
             case R.id.nav_calendar:
                 setTitle("Calendar");
