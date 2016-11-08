@@ -2,6 +2,7 @@ package com.test.stream.stream.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.R;
@@ -28,6 +30,7 @@ import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TaskMain;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.io.IOException;
 
@@ -47,6 +50,9 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
+    private FirebaseAuth firebase = FirebaseAuth.getInstance();
+
+//    String deviceToken;
     boolean thread_running = true;
 
 
@@ -71,8 +77,7 @@ public class ToolbarActivity extends AppCompatActivity
         //register device token
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
-//        Log.d(TAG, deviceToken);
-
+        //Log.d(TAG, firebase.getCurrentUser().getDisplayName());
 //
 //        Thread t = new Thread(new Runnable(){
 //            @Override
@@ -109,6 +114,7 @@ public class ToolbarActivity extends AppCompatActivity
 //                }
 //            }
 //        });t.start();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

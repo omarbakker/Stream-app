@@ -34,6 +34,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         //check if the message contains data
         if(remoteMessage.getData().size() > 0){
             Log.d(TAG, "Message data: " + remoteMessage.getData());
+            displayNotification(remoteMessage.getData().toString());
         }
 
         //display notification if message contains notification

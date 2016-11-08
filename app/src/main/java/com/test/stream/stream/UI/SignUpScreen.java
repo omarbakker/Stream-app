@@ -26,6 +26,7 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -40,6 +41,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     //setting up firebase authentication
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseInstanceId firebaseInstance;
+
+    private boolean thread_running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
