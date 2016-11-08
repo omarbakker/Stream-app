@@ -45,12 +45,13 @@ public class TasksTest {
     int[] test_DueDate = {12,12,2012};
     boolean complete = false;
 
-    User user = null;
+    static User user = null;
 
     @Before
     public void userSignInSetup(){
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        // sign out of current possibly logged in user
+
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -72,6 +73,7 @@ public class TasksTest {
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com","123456");
     }
+
     private Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -86,12 +88,13 @@ public class TasksTest {
         assertEquals(user.getEmail(),UserManager.getInstance().getCurrentUser().getEmail());
     }
 
-    @Before
+    @Test
     public void initialize_task(){
-
-        boolean complete = false;
+        TaskManager.getInstance().Initialize(null);
         TaskManager.getInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
+        await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.getInstance().tasksLoaded);
         tasks = TaskManager.getInstance().GetTasksInProject();
+        assert(tasks.size() == 1);
     }
 
 
@@ -104,20 +107,20 @@ public class TasksTest {
     }
 
 
-    @Test
-    public void addTask() throws Exception {
-        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
-        int i = tasks.size()-1;
-        Task test_task = tasks.get(0);
-        assertEquals(test_task.getName(), test_name);
-        assertEquals(test_task.getDescription(), test_description);
-        assertEquals(test_task.getAssignee(), test_newTaskAssignee);
-        assertEquals(test_task.getDueDay(), test_DueDate[0]);
-        assertEquals(test_task.getDueMonth(), test_DueDate[1]);
-        assertEquals(test_task.getDueYear(), test_DueDate[2]);
-        assertEquals(test_task.getComplete(), complete);
-
-    }
+//    @Test
+//    public void addTask() throws Exception {
+//        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+//        int i = tasks.size()-1;
+//        Task test_task = tasks.get(0);
+//        assertEquals(test_task.getName(), test_name);
+//        assertEquals(test_task.getDescription(), test_description);
+//        assertEquals(test_task.getAssignee(), test_newTaskAssignee);
+//        assertEquals(test_task.getDueDay(), test_DueDate[0]);
+//        assertEquals(test_task.getDueMonth(), test_DueDate[1]);
+//        assertEquals(test_task.getDueYear(), test_DueDate[2]);
+//        assertEquals(test_task.getComplete(), complete);
+//
+//    }
 
     @Test
     public void completeTask() throws Exception {
@@ -126,7 +129,7 @@ public class TasksTest {
         Task task = tasks.get(i);
         task.getComplete();
         task.setComplete(true);
-        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         assertEquals(task.getComplete(), true);
 
 
@@ -145,7 +148,7 @@ public class TasksTest {
         Task task = tasks.get(i);
         String name = task.getName();
         TaskManager.getInstance().DeleteTask(task);
-        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
         int a = tasks_new.size()-1;
         assertEquals(i-1, a);
