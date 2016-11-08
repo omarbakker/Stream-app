@@ -116,7 +116,7 @@ public class CalendarManager  extends DataManager{
 
         //Store the task in the Calendar
         currentCalendar.addMeeting(objectKey, true);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentCalendar);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId(), currentCalendar);
 
         return true;
     }

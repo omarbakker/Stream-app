@@ -92,7 +92,7 @@ public class CalendarFragment extends Fragment {
                     }
                 }).setNegativeButton("Cancel", null)
                 .create();
-        Log.d("PLEASE WORK", "SSOMETHING WAS CREATED");
+        Log.d("PLEASE WORK", "SOMETHING WAS CREATED");
         newMeeting.show();
         Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
     }
@@ -100,7 +100,6 @@ public class CalendarFragment extends Fragment {
     public void updateUI() {
         List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
-        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = meetings.size() - 1;
         while(i >= 0) {
             Meeting meeting = meetings.get(i);
