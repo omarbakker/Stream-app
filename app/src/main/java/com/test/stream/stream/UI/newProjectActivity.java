@@ -164,6 +164,15 @@ public class newProjectActivity extends AppCompatActivity
         return !name.isEmpty();
     }
 
+
+    /**
+     *  Checks if the date parameter contains a valid date in the format (dd/mm/yyyy).
+     *  Effects: if the date is valid, the date is set for the newProject.
+     * @param date
+     * The string to test
+     * @return
+     * True if the date is in the valid format, false otherwise
+     */
     private boolean getValidDate(String date){
         String[] vals = date.split("/");
         int[] dateVals = {0,0,0};
