@@ -95,7 +95,10 @@ public class TaskManager extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
         registerTasks();
-        context.updateUI();
+        if (context != null) {
+            context.updateUI();
+        }
+        tasksLoaded.set(true);
     }
 
     /**
@@ -124,8 +127,6 @@ public class TaskManager extends DataManager{
             if (context != null) {
                 context.updateUI();
             }
-            tasksLoaded.set(true);
-
         }
     }
 
@@ -136,7 +137,9 @@ public class TaskManager extends DataManager{
     @Override
     public void childDeleted(String id) {
         tasksInCurrentProject.remove(id);
-        context.updateUI();
+        if (context != null) {
+            context.updateUI();
+        }
     }
 
     /**
