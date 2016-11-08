@@ -82,6 +82,7 @@ public class TaskManager extends DataManager{
 
     }
 
+
     /**
      * Triggered by an update of the parent taskGroup object, this updates the
      * UI accordingly
