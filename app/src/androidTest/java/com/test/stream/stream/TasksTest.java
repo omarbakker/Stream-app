@@ -2,6 +2,7 @@ package com.test.stream.stream;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
 import android.view.View;
 
 import com.test.stream.stream.Controllers.TaskManager;
@@ -11,6 +12,7 @@ import com.test.stream.stream.UIFragments.expand_task;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class TasksTest {
         assertEquals(test_task.getDueMonth(), test_DueDate[1]);
         assertEquals(test_task.getDueYear(), test_DueDate[2]);
         assertEquals(test_task.getComplete(), complete);
+
     }
 
     @Test
@@ -49,6 +52,7 @@ public class TasksTest {
         task.getComplete();
         task.setComplete(true);
         assertEquals(task.getComplete(), true);
+
 
     }
 
@@ -68,5 +72,6 @@ public class TasksTest {
         List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
         int a = tasks_new.size()-1;
         assertEquals(i-1, a);
+
     }
 }
