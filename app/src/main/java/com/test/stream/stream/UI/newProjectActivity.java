@@ -259,6 +259,14 @@ public class newProjectActivity extends AppCompatActivity
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+    /**
+     * Used to append a '/' when the user is entering a date
+     * Changes the text of projectDateField
+     * @param s
+     * @param start
+     * @param before
+     * @param count
+     */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if ((s.length() == 2 || s.length() == 5) && count > 0) {
