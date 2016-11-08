@@ -1,13 +1,94 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black_button"
     tools:context="com.test.stream.stream.UIFragments.ProjectHomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/project_home_page_" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:id="@+id/team_progress"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="60dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="30dp"
+                custom:circle_progress="20" />
+
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:id="@+id/user_progress"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="60dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/user_progress"
+                android:layout_marginEnd="51dp"
+                android:layout_marginRight="51dp"
+                android:layout_marginTop="20dp"
+                android:text="Your Progress"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/user_progress"
+                android:layout_marginLeft="51dp"
+                android:layout_marginStart="51dp"
+                android:layout_marginTop="20dp"
+                android:text="Team Progress"
+                android:textColor="@color/white" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView3"
+                android:layout_marginTop="40dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tasks_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:text="Assigned to Me"
+                    android:textColor="@color/black_button"
+                    android:textSize="20dp" />
+
+                <ListView
+                    android:id="@+id/task_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:layout_below="@id/tasks_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

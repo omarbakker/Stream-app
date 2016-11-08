@@ -35,6 +35,8 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
+    FragmentManager manager;
+
     /**
      * On create the ToolbarActivity, all initializations
      * @param savedInstanceState
@@ -53,10 +55,16 @@ public class ToolbarActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         // Show the details of the navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        this.manager = getSupportFragmentManager();
+        ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+        manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                projectHomeFragment,
+                projectHomeFragment.getTag()).commit();
     }
 
     /**
@@ -115,12 +123,11 @@ public class ToolbarActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        // Create fragment manager so it can launch fragment
-        FragmentManager manager = getSupportFragmentManager();
-        Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
+
         switch(id){
             // If chat is clicked, launch chatFragment
             case R.id.nav_chat:
+                setTitle("Chat");
                 ChatFragment chatFragment = new ChatFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         chatFragment,
@@ -128,6 +135,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Calendar button is clicked, launch CalendarFragment
             case R.id.nav_calendar:
+                setTitle("Calendar");
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
@@ -135,6 +143,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If PinBoard is clicked, launch PinBoard Fragment
             case R.id.nav_pinboard:
+                setTitle("Pin Board");
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
@@ -143,6 +152,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case R.id.nav_settings:
+                setTitle("Settings");
                 SettingsFragment settingsFragment = new SettingsFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         settingsFragment,
@@ -150,6 +160,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case R.id.nav_tasks:
+                setTitle("Tasks");
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
@@ -157,6 +168,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Home button is clicked launch Home Fragment
             case R.id.nav_home:
+                setTitle("My Project");
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,
