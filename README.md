@@ -22,7 +22,7 @@ We are an Android application aimed to help students work efficiently and effect
 # How to check out source code and run project
 1. Install Android Studio on computer
 2. Set up Emulator or have an Android Device
-3. Clone the repo from GitHub by: git clone https://github.com/omarbakker/Stream-app
+3. Clone the repo from GitHub by: git clone https://github.com/omarbakker/Stream-app on Terminal/ Git Bash
 4. Open the project on Android Studio and wait for Gradle to sync
 5. Run the Android app on emulator or plug in Android Device and run app on device.
 
@@ -38,5 +38,6 @@ We are an Android application aimed to help students work efficiently and effect
 - app/src/main/java/com/test/stream/stream/UI contains all the activities of our application. These activities display all the UI such as buttons, lists, popup dialogs and many more so that the users can interact with the application. 
 - app/src/main/java/com/test/stream/stream/UIFragments contains all the fragments for navigation when clicking on the specified button on the toolbar
 - app/src/main/java/com/test/stream/stream/Utilities contains all the enums, callbacks and general database helper functions for the application.
+
 # Design Patterns used
 - We are using the Singleton design pattern
