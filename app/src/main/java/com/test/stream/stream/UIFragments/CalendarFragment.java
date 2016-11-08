@@ -103,7 +103,10 @@ public class CalendarFragment extends Fragment {
         int i = meetings.size() - 1;
         while(i >= 0) {
             Meeting meeting = meetings.get(i);
-            meetingList.add(meeting.getName());
+            if(meeting != null) {
+                meetingList.add(meeting.getName());
+            }
+
             i--;
         }
 
@@ -122,12 +125,4 @@ public class CalendarFragment extends Fragment {
 
     }
 
-    public void expandMeetingView(View v) {
-        View parent = (View) v.getParent();
-        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
-        String meetingName = String.valueOf(meetingTextview.getText());
-        Intent intent = new Intent(getActivity(), ExpandMeeting.class);
-        intent.putExtra("meetingName", meetingName);
-        startActivity(intent);
-    }
 }
