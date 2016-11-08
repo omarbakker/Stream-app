@@ -56,7 +56,7 @@ public class ProjectsTest {
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
+                UserManager.getInstance().InitializeUser(new ReadDataCallback() {
                     @Override
                     public void onDataRetrieved(DataSnapshot result) {
                         AtomicBoolean once = new AtomicBoolean(false);
@@ -87,7 +87,7 @@ public class ProjectsTest {
     public void verifySignedIn(){
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
         assertEquals("unit@test.com",user.getEmail());
-        assertEquals(user.getEmail(),UserManager.sharedInstance().getCurrentUser().getEmail());
+        assertEquals(user.getEmail(),UserManager.getInstance().getCurrentUser().getEmail());
     }
 
     @Test
