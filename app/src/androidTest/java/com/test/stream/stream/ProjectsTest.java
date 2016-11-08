@@ -12,5 +12,24 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ProjectsTest {
+    @Test
+    public void addProject() throws Exception {
+
+    }
+
+    @Test
+    public void deleteProject() throws Exception {
+
+    }
+
+    @Test
+    public void joinProject() throws Exception {
+
+    }
+
+    @Test
+    public void editProject() throws Exception {
+
+    }
 
 }
