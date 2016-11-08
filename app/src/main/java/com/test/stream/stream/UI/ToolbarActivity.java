@@ -192,10 +192,12 @@ public class ToolbarActivity extends AppCompatActivity
     }
 
 
+
     /**
      * Launch the Task view to see details
      * @param view
      */
+
     public void expandTaskView(View view) {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);

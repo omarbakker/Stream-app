@@ -130,7 +130,7 @@ public class CalendarFragment extends Fragment {
         }
 
     }
-
+    
 
     /**
      * Function that is called to display the expanded view of a meeting activity
