@@ -42,6 +42,7 @@ import static org.awaitility.Awaitility.await;
 public class ProjectsTest {
 
     static User user = null;
+    static List<Project> fetchedProjectList;
 
     @Before
     public void userSignInSetup(){
@@ -97,7 +98,7 @@ public class ProjectsTest {
         manager.CreateProject(testProject);
 
         final AtomicBoolean projectFetched = new AtomicBoolean(false);
-        final List<Project> fetchedProjectList = new ArrayList<>();
+        fetchedProjectList = new ArrayList<>();
         manager.fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
@@ -109,10 +110,6 @@ public class ProjectsTest {
         assertEquals(testProject.getName(),fetchedProjectList.get(0).getName());
     }
 
-    @Test
-    public void deleteProject() throws Exception {
-
-    }
 
     @Test
     public void joinProject() throws Exception {
@@ -123,5 +120,14 @@ public class ProjectsTest {
     public void editProject() throws Exception {
 
     }
+
+        /*
+     * Unimplemented
+    @Test
+    public void deleteProject() throws Exception {
+
+    }
+     */
+
 
 }
