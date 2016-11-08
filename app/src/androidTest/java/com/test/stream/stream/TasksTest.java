@@ -124,6 +124,7 @@ public class TasksTest {
      * Verifying the user has signed in
      */
     @Test
+<<<<<<< 46ba7602c2b7dc3664d4474bb6227253d681db01
     public void verifySignedIn() {
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
         assertEquals("unit@test.com", user.getEmail());
@@ -161,7 +162,49 @@ public class TasksTest {
         task.setComplete(true);
         assertEquals(task.getComplete(), true);
         MarkedAsComplete.set(true);
+=======
+    public void initialize_task(){
+        Project project = new Project();
+        project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
+        ProjectManager.sharedInstance().setCurrentProject(project);
+        TaskManager.getInstance().Initialize(null);
+        TaskManager.getInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
+        await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.getInstance().tasksLoaded);
+        tasks = TaskManager.getInstance().GetTasksInProject();
+        assert(tasks.size() >= 1);
+    }
 
+
+    @Test
+    public void addTask() throws Exception {
+        /*
+        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+        int i = tasks.size()-1;
+        Task test_task = tasks.get(0);
+        assertEquals(test_task.getName(), test_name);
+        assertEquals(test_task.getDescription(), test_description);
+        assertEquals(test_task.getAssignee(), test_newTaskAssignee);
+        assertEquals(test_task.getDueDay(), test_DueDate[0]);
+        assertEquals(test_task.getDueMonth(), test_DueDate[1]);
+        assertEquals(test_task.getDueYear(), test_DueDate[2]);
+        assertEquals(test_task.getComplete(), complete);
+*/
+    }
+
+    // Test needs implementation
+    @Test
+    public void completeTask() throws Exception {
+/*
+        tasks = TaskManager.getInstance().GetTasksInProject();
+        int i = tasks.size()-1;
+        Task task = tasks.get(i);
+        task.getComplete();
+        task.setComplete(true);
+        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+        //assertEquals(task.getComplete(), true);
+>>>>>>> Implemented complete test for projects
+
+*/
     }
 
 
@@ -171,6 +214,7 @@ public class TasksTest {
      * @throws Exception
      */
     @Test
+<<<<<<< 46ba7602c2b7dc3664d4474bb6227253d681db01
     public void deleteTask() throws Exception{
 
         await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
@@ -182,5 +226,19 @@ public class TasksTest {
         List<Task> tasks_new = TaskManager.sharedInstance().GetTasksInProject();
         int a = tasks_new.size() - 1;
         //assertEquals(i-1, a);
+=======
+    public void deleteTask() throws Exception {
+/*
+        tasks = TaskManager.getInstance().GetTasksInProject();
+        int i = tasks.size();
+        Task task = tasks.get(i);
+        String name = task.getName();
+        TaskManager.getInstance().DeleteTask(task);
+        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
+        List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
+        int a = tasks_new.size()-1;
+        //assertEquals(i-1, a);
+*/
+>>>>>>> Implemented complete test for projects
     }
 }

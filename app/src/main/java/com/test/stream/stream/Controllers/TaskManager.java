@@ -86,6 +86,7 @@ public class TaskManager extends DataManager{
         currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
         registerTasks();
         listener.onDataChanged();
+
     }
 
     /**
@@ -112,6 +113,7 @@ public class TaskManager extends DataManager{
         if(tasksInCurrentProject.size() == currentTaskGroup.getTasks().size())
         {
             listener.onDataChanged();
+
         }
     }
 
@@ -123,6 +125,7 @@ public class TaskManager extends DataManager{
     public void childDeleted(String id) {
         tasksInCurrentProject.remove(id);
         listener.onDataChanged();
+
     }
     /**
      * Registers a listener to each task not already stored in the BoardManager
