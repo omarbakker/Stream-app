@@ -48,7 +48,7 @@ public class ProjectsTest {
     public void userSignInSetup(){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        // sign out of current possibly logged in user
+
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override

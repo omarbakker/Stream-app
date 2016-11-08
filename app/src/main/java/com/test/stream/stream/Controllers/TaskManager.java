@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *  A controller class for the Tasks functionality
@@ -34,6 +35,7 @@ public class TaskManager extends DataManager{
     private static TaskManager instance = new TaskManager();
 
     private TasksFragment context;
+    public final AtomicBoolean tasksLoaded = new AtomicBoolean(false);
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<String, Task> tasksInCurrentProject = new ConcurrentHashMap<String, Task>(); //Task Id - task
 
@@ -82,6 +84,7 @@ public class TaskManager extends DataManager{
 
     }
 
+
     /**
      * Triggered by an update of the parent taskGroup object, this updates the
      * UI accordingly
@@ -118,7 +121,11 @@ public class TaskManager extends DataManager{
 
         if(tasksInCurrentProject.size() == currentTaskGroup.getTasks().size())
         {
-            context.updateUI();
+            if (context != null) {
+                context.updateUI();
+            }
+            tasksLoaded.set(true);
+
         }
     }
 
