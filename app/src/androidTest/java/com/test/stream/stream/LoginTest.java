@@ -36,6 +36,9 @@ import static org.junit.Assert.*;
 public class LoginTest {
     static User user = null;
 
+    /**
+     * Sign in the user
+     */
     @Before
     public void userSignInSetup(){
 
@@ -63,6 +66,11 @@ public class LoginTest {
         mAuth.signInWithEmailAndPassword("unit@test.com","123456");
     }
 
+    /**
+     * Trigers a callable when a new user is added.
+     *
+     * @return Triggers the callable if a new user has been added. No trigger otherwise.
+     */
     private Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -70,15 +78,22 @@ public class LoginTest {
             }
         };
     }
+
+    /**
+     *  Ensure that the user logged in is the expected user.
+     */
     @Test
-    public void LoginTest () throws Exception{
+    public void LoginTest () {
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
 
         assertEquals(user.getEmail(), "unit@test.com");
     }
 
+    /**
+     * Ensure that the user can successfully log out.
+     */
     @Test
-    public void LogoutTest () throws Exception{
+    public void LogoutTest (){
 
         UserManager.getInstance().logout();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
