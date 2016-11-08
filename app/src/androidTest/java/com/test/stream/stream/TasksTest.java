@@ -12,4 +12,24 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class TasksTest {
+
+    @Test
+    public void addTask() throws Exception {
+
+    }
+
+    @Test
+    public void completeTask() throws Exception {
+
+    }
+
+    @Test
+    public void editTask() throws Exception {
+
+    }
+
+    @Test
+    public void deleteTask() throws Exception {
+
+    }
 }
