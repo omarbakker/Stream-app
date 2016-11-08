@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ToolbarTest {
 
-
     @Test
     public void fromListToHome() throws Exception{
 
@@ -58,6 +57,5 @@ public class ToolbarTest {
     public void logOut() throws Exception {
 
     }
-
 
 }
