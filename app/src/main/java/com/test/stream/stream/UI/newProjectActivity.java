@@ -164,6 +164,15 @@ public class newProjectActivity extends AppCompatActivity
         return !name.isEmpty();
     }
 
+
+    /**
+     *  Checks if the date parameter contains a valid date in the format (dd/mm/yyyy).
+     *  Effects: if the date is valid, the date is set for the newProject.
+     * @param date
+     * The string to test
+     * @return
+     * True if the date is in the valid format, false otherwise
+     */
     private boolean getValidDate(String date){
         String[] vals = date.split("/");
         int[] dateVals = {0,0,0};
@@ -250,6 +259,14 @@ public class newProjectActivity extends AppCompatActivity
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+    /**
+     * Used to append a '/' when the user is entering a date
+     * Changes the text of projectDateField
+     * @param s
+     * @param start
+     * @param before
+     * @param count
+     */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if ((s.length() == 2 || s.length() == 5) && count > 0) {

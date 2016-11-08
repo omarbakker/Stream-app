@@ -94,6 +94,8 @@ public class ProjectManager {
         newCalender.setParentProjectId(projectID);
         String calenderID = DatabaseManager.getInstance().writeObject(DatabaseFolders.Calendars,newCalender);
 
+
+
         // update the project with the new IDs
         project.setId(projectID);
         project.setBoardId(pinBoardKey);
@@ -142,8 +144,15 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Update the users list of projects locally and on the database
+     * updates the ui to reflect the changes.
+     * Requires: User is signed in.
+     * @param projectId
+     * The ID of the new project to add
+     */
     public void addToCurrentUserProjects(String projectId){
-        // TODO: get actual user object after login/UserManager issues are resolved
+
         User user = UserManager.getInstance().getCurrentUser();
 
         if(user == null)
