@@ -13,17 +13,12 @@ import android.widget.ListView;
 import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
-
-import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Utilities.TaskAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ProjectHomeFragment extends Fragment {
 
     private CircleProgress teamProgress;
@@ -42,28 +37,27 @@ public class ProjectHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_project_home, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_project_home, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
-        View view = getView();
 
-        teamProgress = (CircleProgress) view.findViewById(R.id.team_progress);
-        userProgress = (CircleProgress) view.findViewById(R.id.user_progress);
+        teamProgress = (CircleProgress) getView().findViewById(R.id.team_progress);
+        userProgress = (CircleProgress) getView().findViewById(R.id.user_progress);
 
-        System.out.println("TeamProgress:" + teamProgress.getProgress());
-
-        updateProgressBar(teamProgress, 100);
-
-        System.out.println("TeamProgress:" + teamProgress.getProgress());
-
-        updateProgressBar(userProgress, 90);
+        updateProgressBar(teamProgress, 90);
+        updateProgressBar(userProgress, 100);
         updateUI();
     }
 
+    /**
+     * Takes in a certain circle progress, then sets progress to new progress.
+     *
+     * @param progress    CircleProgress to be modified.
+     * @param newProgress what progress will be updated to.
+     */
     private void updateProgressBar(CircleProgress progress, int newProgress) {
         progress.setProgress(0);           // initialize to 0
         progress.setMax(100);              // set max to 100
@@ -72,7 +66,6 @@ public class ProjectHomeFragment extends Fragment {
 
     // Function that updates the Adapter of the ListFragment
     public void updateUI() {
-        System.out.println("UPDATING TASKS UI");
 
         // Get all user tasks from the database
         List<Task> allTasks = new LinkedList<>();
@@ -87,13 +80,10 @@ public class ProjectHomeFragment extends Fragment {
         // Go through each task in database
         for (Task currentTask : allTasks) {
             if (currentTask.getClass() == Task.class) {
-                System.out.println("Retrieving tasks");
-                Task currentMessage = (Task) currentTask;
-                tasks.add(currentMessage);
+                tasks.add(currentTask);
             }
         }
         if (taskAdapter == null) {
-            System.out.println("taskAdapter == null");
             taskAdapter = new TaskAdapter(getActivity(), taskMessages);
             listView.setAdapter(taskAdapter);
         }
@@ -103,6 +93,11 @@ public class ProjectHomeFragment extends Fragment {
         setListViewHeightBasedOnChildren(listView);
     }
 
+    /**
+     * Creates a task with pre-set values
+     *
+     * @return Task
+     */
     private Task createTask() {
         Task newTask = new Task();
 
@@ -123,7 +118,6 @@ public class ProjectHomeFragment extends Fragment {
     public void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
-            System.out.println("LAYOUTADAPTER NULL");
             return;
         }
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
@@ -137,7 +131,6 @@ public class ProjectHomeFragment extends Fragment {
 
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += view.getMeasuredHeight();
-            System.out.println("Total Height:" + totalHeight);
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
