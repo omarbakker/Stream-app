@@ -96,6 +96,10 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         meetingReminderDialog = meetingReminderBuilder.create();
     }
 
+    /**
+     * Determines what should happen next when you click the "send notification" button
+     * @param v current view
+     */
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sendMeetingReminderNotification:
@@ -103,6 +107,9 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Displays the dialog for sending a meeting reminder notification
+     */
     public void reminderMeetingNotification() {
         meetingReminderDialog.show();
     }

@@ -84,6 +84,14 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         };
     }
 
+    /**
+     * Creates a new user using the information that the user has inputted
+     * @param email email that the user has entered for creating their new account
+     * @param password password that the user has entered for creating their new account
+     * @param name the name of the user
+     * @param username username that the user has entered for creating their new account
+     * @return flag that the user was successfully created
+     */
     private boolean createAccount(final String email, String password, String name, final String username) {
         boolean valid = false;
         Log.d(TAG, "createAccount:" + email);
@@ -149,6 +157,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Checks to see that all of the sign-up fields are valid and not empty
+     * @return flag indicated that all of the information is valid
+     */
     private boolean validateForm() {
         boolean valid = true;
 
@@ -205,6 +217,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         }
 
 
+    /**
+     * Returns the email that the user entered
+     * @return String for the email that the user entered
+     */
     public static String getEmail() {
         return newEmail = enterNewEmail.getText().toString();
     }
