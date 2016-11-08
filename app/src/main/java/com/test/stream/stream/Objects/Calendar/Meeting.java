@@ -28,20 +28,40 @@ public class Meeting {
 
     //Getters
 
+    /**
+     * gets the Calendar ID
+     * @return Calendar ID
+     */
     public String getCalendarId()
     {
         return calendarId;
     }
 
+    /**
+     * gets the project ID
+     * @return project ID
+     */
     public String getId()
     {
         return id;
     }
 
+    /**
+     * gets the Meeting name
+     * @return meeting name
+     */
     public String getName() { return name;}
 
+    /**
+     * Gets the location of the meeting
+     * @return meeting location
+     */
     public String getLocation() { return location; }
 
+    /**
+     * Gets the description of the meeting
+     * @return meeting description
+     */
     public String getDescription() {return description; }
 
 //    public String getMonth() { return month; }
@@ -73,26 +93,46 @@ public class Meeting {
 
     //Setters
 
+    /**
+     * Sets the ID
+     * @param id
+     */
     public void setId(String id)
     {
         this.id = id;
     }
 
+    /**
+     * Sets the calendarID
+     * @param calendarId
+     */
     public void setCalendarId(String calendarId)
     {
         this.calendarId = calendarId;
     }
 
+    /**
+     * Sets the name of the meeting
+     * @param name
+     */
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * Sets the location of the meeting
+     * @param location
+     */
     public void setLocation(String location)
     {
         this.location = location;
     }
 
+    /**
+     * Sets the description of the meeting
+     * @param description
+     */
     public void setDescription (String description)
     {
         this.description = description;

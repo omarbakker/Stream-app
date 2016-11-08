@@ -37,6 +37,10 @@ public class CalendarManager  extends DataManager{
 
     private CalendarManager(){};
 
+    /**
+     * Gets a list of all of the current meetings in this project
+     * @return List of Meetings
+     */
     public List<Meeting> GetMeetingsInProject()
     {
         List<Meeting> meetings = new ArrayList();
@@ -73,6 +77,9 @@ public class CalendarManager  extends DataManager{
         context.updateUI();
     }
 
+    /**
+     * Listener to see if the meeting has been updated by a user and that the UI needs to be updated
+     */
     private void registerMeetings()
     {
         for(String id : currentCalendar.getMeetings().keySet()) //Ensure that each task only is register once.
@@ -84,6 +91,11 @@ public class CalendarManager  extends DataManager{
         }
     }
 
+    /**
+     * Updates the information in a meeting
+     * @param meeting meeting object that needs to be updated
+     * @return flag indicating if the meeting was successfully updated
+     */
     public boolean UpdateMeeting(Meeting meeting)
     {
         if(currentCalendar == null || !meetingsInCalendar.containsKey(meeting))
@@ -99,6 +111,13 @@ public class CalendarManager  extends DataManager{
         return true;
     }
 
+    /**
+     * Creates a new meeting object and writes it to the database
+     * @param name name of the new meeting
+     * @param description description of the new meeting
+     * @param location location of the new meeting
+     * @return flag indicating that the meeting was created
+     */
     public boolean CreateMeeting(String name, String description, String location)
     {
         if(currentCalendar == null)
@@ -121,6 +140,11 @@ public class CalendarManager  extends DataManager{
         return true;
     }
 
+    /**
+     * Deletes a meeting
+     * @param meeting meeting to be deleted
+     * @return flag indicating if the meeting was deleted
+     */
     public boolean DeleteMeeting(Meeting meeting)
     {
         String meetingId = meeting.getId();
@@ -144,6 +168,10 @@ public class CalendarManager  extends DataManager{
 
     }
 
+    /**
+     * Initializes an instance of CalendarManager and the database
+     * @param context
+     */
     public void Initialize(CalendarFragment context) {
         this.context = context;
         super.registerParent(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId());;

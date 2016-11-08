@@ -26,13 +26,20 @@ public class Calendar {
 
     //endregion
 
-    //region Constructors
+    /**
+     * Constructor for Calendar object
+     */
     public Calendar() {
         parentProjectId = "";
     }
     //endregion
 
-    //region Core Functions
+    /**
+     * Adds a meeting to a Calendar object
+     * @param meetingId ID of the meeting that needs to be added
+     * @param isActive flag to see that the meeting is still valid and hasn't yet occurred
+     * @return boolean that the meeting was added in correctly
+     */
     public boolean addMeeting(String meetingId, Boolean isActive) {
         if (hasMeeting(meetingId)) {
             return false;
@@ -42,6 +49,11 @@ public class Calendar {
         return true;
     }
 
+    /**
+     * Removes the meeting
+     * @param meetingId ID of the meeting that needs to be deleted
+     * @return flag indicating that the meeting was deleted
+     */
     public boolean removeMeeting(String meetingId) {
         if (!hasMeeting(meetingId)) {
             return false;
@@ -51,6 +63,11 @@ public class Calendar {
         return true;
     }
 
+    /**
+     * Checks to see if a meeting already exists
+     * @param meetingId ID of the meeting that is being searched for
+     * @return flag that indicates whether or not that meeting was found
+     */
     public boolean hasMeeting(String meetingId) {
         return meetings.containsKey(meetingId);
     }
