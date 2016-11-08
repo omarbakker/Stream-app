@@ -179,11 +179,11 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Projects clicked, Launch Projects page
             case R.id.nav_projects:
-
                 finish();
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
         }
