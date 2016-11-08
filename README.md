@@ -40,4 +40,4 @@ We are an Android application aimed to help students work efficiently and effect
 - app/src/main/java/com/test/stream/stream/Utilities contains all the enums, callbacks and general database helper functions for the application.
 
 # Design Patterns used
-- We are using the Singleton design pattern
+- We are using the Singleton design pattern for the database Managers (BoardManager, CalendaManager, DataManager, ProjectManager, TaskManager, UserManager) because there are a lot of dependencies with the data in the database. Since we want to be able to access objects while browsing through the application, we applied the Singleton design pattern to these classes.
