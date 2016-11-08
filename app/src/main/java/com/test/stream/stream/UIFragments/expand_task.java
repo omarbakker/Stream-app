@@ -77,6 +77,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
 
+        //register device token
+        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        FirebaseInstanceId.getInstance().getToken();
+
         Log.d(TAG, "print statements for the win");
         Task expandTask = new Task();
         Log.d(TAG, "fuck everything");

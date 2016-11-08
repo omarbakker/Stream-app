@@ -28,6 +28,7 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
     EditText enterNewName, enterNewUsername,  enterNewPassword;

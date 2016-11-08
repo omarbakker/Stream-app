@@ -51,10 +51,7 @@ public class ToolbarActivity extends AppCompatActivity
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
     private FirebaseAuth firebase = FirebaseAuth.getInstance();
-
-//    String deviceToken;
     boolean thread_running = true;
-
 
     FragmentManager manager;
 
@@ -115,7 +112,6 @@ public class ToolbarActivity extends AppCompatActivity
 //            }
 //        });t.start();
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -131,7 +127,6 @@ public class ToolbarActivity extends AppCompatActivity
         manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                 projectHomeFragment,
                 projectHomeFragment.getTag()).commit();
-
     }
 
     /**
