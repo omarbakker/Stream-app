@@ -64,7 +64,9 @@ public class ProjectHomeFragment extends Fragment {
         progress.setProgress(newProgress); // update progress
     }
 
-    // Function that updates the Adapter of the ListFragment
+    /**
+     * Function that updates the Adapter of the ListFragment
+     */
     public void updateUI() {
 
         // Get all user tasks from the database
