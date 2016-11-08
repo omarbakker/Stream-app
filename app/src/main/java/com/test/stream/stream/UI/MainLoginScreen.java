@@ -181,14 +181,27 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Determines whether or not the user inputted a valid email address
+     * @param email email that the user inputted
+     * @return boolean of whether the email is valid
+     */
     private boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
+    /**
+     *Determines whether or not the user inputted a valid password
+     * @param password password that the user inputted
+     * @return boolean of whether the password is valid
+     */
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
 
+    /**
+     * Attempts to login the user, when the user uses an email/username and password rather than facebook
+     */
     private void attemptLogin() {
 
         boolean cancel = false;
@@ -302,6 +315,10 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    /**
+     * Obtains the access token from Facebook when the user logs in using Facebook
+     * @param token
+     */
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -329,6 +346,10 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 //        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
 //    }
 
+    /**
+     * Checks to see if the user has already been created and exists
+     * @param uid UserID
+     */
     private void getUser(String uid){
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid, new ReadDataCallback() {
             @Override

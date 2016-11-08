@@ -73,6 +73,9 @@ public class CalendarFragment extends Fragment {
 
     }
 
+    /**
+     * Displays the AlertDialog for creating a new meeting
+     */
     public void createMeeting() {
         Log.d("PLEASE WORK", "PLEASE WORK");
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -97,6 +100,9 @@ public class CalendarFragment extends Fragment {
         Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
     }
 
+    /**
+     * Gets all of the meeting objects from the database and then displays them to the UI
+     */
     public void updateUI() {
         List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
@@ -123,6 +129,10 @@ public class CalendarFragment extends Fragment {
 
     }
 
+    /**
+     * Function that is called to display the expanded view of a meeting activity
+     * @param v current view
+     */
     public void expandMeetingView(View v) {
         View parent = (View) v.getParent();
         TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
