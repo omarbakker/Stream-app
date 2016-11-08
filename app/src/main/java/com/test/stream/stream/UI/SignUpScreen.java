@@ -21,7 +21,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,6 +39,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     //setting up firebase authentication
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseInstanceId firebaseInstance;
+
+    private boolean thread_running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +122,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         } else if(task.isSuccessful()){
+
                             Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
                             startActivity(intent);
                         }

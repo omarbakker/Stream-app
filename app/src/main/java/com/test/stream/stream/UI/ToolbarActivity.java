@@ -2,6 +2,7 @@ package com.test.stream.stream.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.R;
@@ -29,6 +31,7 @@ import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TaskMain;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.io.IOException;
 
@@ -42,6 +45,7 @@ public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Toolbar Activity";
+    private FirebaseAuth firebase = FirebaseAuth.getInstance();
 //    String deviceToken;
     boolean thread_running = true;
 
@@ -55,7 +59,7 @@ public class ToolbarActivity extends AppCompatActivity
         //register device token
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
-//        Log.d(TAG, deviceToken);
+        //Log.d(TAG, firebase.getCurrentUser().getDisplayName());
 
 
         Thread t = new Thread(new Runnable(){
@@ -66,11 +70,12 @@ public class ToolbarActivity extends AppCompatActivity
                     if(deviceToken != null){
                         OkHttpClient client = new OkHttpClient();
                         RequestBody body = new FormBody.Builder()
+                                //.add("Username", firebase.getCurrentUser().getDisplayName())
                                 .add("Token",  deviceToken)
                                 .build();
                         Request request = new Request.Builder()
                                 //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://128.189.196.101/fcm/register.php")
+                                .url("http://128.189.195.254/fcm/register.php")
                                 .post(body)
                                 .build();
                         Response response = null;
