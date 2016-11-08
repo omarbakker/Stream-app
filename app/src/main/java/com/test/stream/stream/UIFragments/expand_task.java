@@ -57,6 +57,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     AlertDialog.Builder Reviewbuilder;
 
 
+    /**
+     * Set up the new view of the expanded task
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -66,7 +70,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         View view = (View) a.getSerializableExtra("view");
         setContentView(R.layout.task_details);
 
-
+        //Get the task that has been clicked
         int size = tasks.size();
         Log.d(TAG, String.valueOf(size));
         for (int i = 0; i < size; i++) {
@@ -77,26 +81,33 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                 break;
             }
         }
-        setContentView(R.layout.task_details);
-        FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
-        sendNotification.setOnClickListener(this);
 
+        //Set new content view
+        setContentView(R.layout.task_details);
+        //initialize the sendNotificiation button
+        FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
+        sendNotification.setOnClickListener(this);  //button listener
+
+        // ----- Set the text fields from information of the current task ----- //
+
+        //task name
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         task_name.setText(expandTask.getName());
-
+        //description
         TextView task_description = (TextView) findViewById(R.id.description_expanded);
         task_description.setText(expandTask.getDescription());
         Log.d(TAG, expandTask.getDescription());
         task_description.setVisibility(View.VISIBLE);
-
+        //user
         TextView user = (TextView) findViewById(R.id.user_expanded);
         Log.d(TAG, expandTask.getAssignee());
         user.setText(expandTask.getAssignee());
-
+        //due_date
         TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
         String due = String.valueOf(expandTask.getDueDay())+"/"+String.valueOf(expandTask.getDueMonth())+"/"+String.valueOf(expandTask.getDueYear());
         dueDate.setText(due);
 
+        //determines if the task has be set as complete
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         if(expandTask.getComplete() == true)
             checkBox.setChecked(true);
@@ -160,6 +171,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    /**
+     * Marks a task as complete when the completion check box has been pressed
+     * @param view
+     */
     public void markAsComplete(View view) {
         Task task = tasks.get(current_task);
         if(task.getComplete() == false)
@@ -168,6 +183,11 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             task.setComplete(false);
     }
 
+
+    /**
+     * Intialize the alertDialog to send a task notification
+     * @param v
+     */
     public void onClick(View v){
         switch (v.getId()){
             case R.id.sendTaskNotification:
@@ -179,16 +199,28 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+
+    /**
+     * shows a reminder dialog
+     */
     public void appearReminderDialog() {
 
         dialog.show();
     }
 
+    /**
+     * shows a review dialog
+     */
     public void appearReviewDialog() {
 
         Reviewdialog.show();
     }
 
+
+    /**
+     * Creates a notification for the user of the task telling them to complete their task
+     * @param message
+     */
     public void getReminderNotification(String message) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
         nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
@@ -202,6 +234,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         messageToSend.setText("");
     }
 
+    /**
+     * Creates a notification for the user assigned to the task with suggestion inputed by current user
+     * @param message
+     */
     public void getReviewNotification(String message) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
         nBuilder.setContentTitle(getString(R.string.review_notification_title));
@@ -215,6 +251,12 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         reviewMessageToSend.setText("");
     }
 
+
+    /**
+     * Upon the press of the delete button, the current task is deleted from the database and the user is returned
+     * to the main task screen
+     * @param view
+     */
     public void deleteTask(View view){
         TaskManager.getInstance().DeleteTask(expandTask);
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();

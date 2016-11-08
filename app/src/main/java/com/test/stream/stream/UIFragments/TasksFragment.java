@@ -59,6 +59,7 @@ public class TasksFragment extends Fragment
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
 
+    //fields for new task input
     TextInputEditText newtaskDateField;
     TextInputEditText newTaskNameField;
     TextInputEditText newTaskDescriptionField;
@@ -104,30 +105,43 @@ public class TasksFragment extends Fragment
                 showNewTaskDialog();
             }
         });
-
+        //intialize
         TaskManager.getInstance().Initialize(this);
     }
+
+    /**
+     * Inflates an Alert Dialog that prompts the user to input information about the task and writes the new task to the database
+     */
 
     public void showNewTaskDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
 
         newTaskDialog = new AlertDialog.Builder(getActivity()).setView(v).create();
+        //set view and text type
         TextView title = (TextView) v.findViewById(R.id.newTaskPageTitle);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Bold.ttf");
         title.setTypeface(Syncopate);
+
+        //sets buttons
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
+
+        //get each field
         newTaskValidAssigneeIndicator = (ImageView) v.findViewById(R.id.newTaskValidAssigneeIndicator);
         newTaskAssigneeField = (TextInputEditText) v.findViewById(R.id.newTaskNewUserField);
         newtaskDateField = (TextInputEditText) v.findViewById(R.id.newTaskDueDateField);
         newTaskNameField = (TextInputEditText) v.findViewById(R.id.newTaskNameField);
         newTaskDescriptionField = (TextInputEditText) v.findViewById(R.id.newTaskDescriptionField);
+
+        //create listeners
         newTaskAssigneeField.setOnEditorActionListener(this);
         newtaskDateField.setOnEditorActionListener(this);
         newTaskNameField.setOnEditorActionListener(this);
         newTaskDescriptionField.setOnEditorActionListener(this);
+
+        //set button functions
         addUser.setOnClickListener(this);
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -135,6 +149,10 @@ public class TasksFragment extends Fragment
         newTaskDialog.show();
     }
 
+
+    /**
+     * updates the user interface to display all tasks
+     */
     public void updateUI(){
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
@@ -165,6 +183,11 @@ public class TasksFragment extends Fragment
 
     }
 
+
+    /**
+     * When the task is pressed switch to expanded Task view
+     * @param view
+     */
     public void expandTaskView(View view) {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);
@@ -174,6 +197,10 @@ public class TasksFragment extends Fragment
         startActivity(intent);
     }
 
+    /**
+     * Sort the array of tasks
+     * @param tasks
+     */
     public void sortArraybyComplete(ArrayList<Task> tasks){
         for(int i = 0; i < tasks.size()-1; i++){
             if(tasks.get(i).getComplete()==true){
