@@ -14,25 +14,31 @@ public class Calendar {
     //endregion
 
     //region Setters and Getters
-
     public String getParentProjectId() {
         return parentProjectId;
     }
-    public void setParentProjectId(String parentID) { this.parentProjectId = parentID; }
-
     public Map<String, Boolean> getMeetings() {
         return meetings;
     }
 
+    public void setParentProjectId(String parentID) { this.parentProjectId = parentID; }
     //endregion
 
-    //region Constructors
+
+    /**
+     * Create a new Calendar object
+     */
     public Calendar() {
+
         parentProjectId = "";
     }
-    //endregion
 
-    //region Core Functions
+    /**
+     * Add a new meeting to the group's calendar
+     * @param meetingId The id of the meeting (firebase key)
+     * @param isActive Whether or not the meeting is to be displayed
+     * @return true if the meeting has been added to the calendar
+     */
     public boolean addMeeting(String meetingId, Boolean isActive) {
         if (hasMeeting(meetingId)) {
             return false;
@@ -42,6 +48,11 @@ public class Calendar {
         return true;
     }
 
+    /**
+     * Remove a meeting from the calendar
+     * @param meetingId The id of the meeting to remove (firebase key)
+     * @return true if the meeting was successfully removed. False otherwise
+     */
     public boolean removeMeeting(String meetingId) {
         if (!hasMeeting(meetingId)) {
             return false;
@@ -51,10 +62,16 @@ public class Calendar {
         return true;
     }
 
+    /**
+     * Check if the meeting is in the calendar
+     * @param meetingId the id of the meeting to check
+     * @return true if the meeting is in the calendar. False otherwise.
+     */
     public boolean hasMeeting(String meetingId) {
+
         return meetings.containsKey(meetingId);
     }
 }
 
-//endregion
+
 

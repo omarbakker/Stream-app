@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Object represetation of a user
+ *
  * Created by robyn on 2016-09-27.
  * Modifed by Catherine on 2016-10-01
  */
@@ -22,22 +24,17 @@ public class User {
     //endregion
 
     //region Setters and getters
-    public void SetUsername(String username) {
-        this.username = username;
-    }
-
     public String getUsername() {
         return username;
     }
-
     public Map<String, Boolean> getProjects() {
         return projects;
     }
-
     public Map<String, String> getTasks() {
         return tasks;
     }
-
+    public String getName() {return name;}
+    public String getEmail() { return email; }
     public String getUid() {
         return uid;
     }
@@ -45,18 +42,16 @@ public class User {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
-    public String getEmail() { return email; }
-
     public void setEmail(String email) { this.email = email; }
-
-    public String getName() {return name;}
-
     public void setName(String name) {this.name = name;}
 
     //endregion
 
     //region Constructors
+
+    /**
+     * Create a blank user
+     */
     public User()
     {
         this.uid = "";
@@ -66,6 +61,10 @@ public class User {
 
     }
 
+    /**
+     * Create a user with the specified uid
+     * @param uid the firebase token of the user
+     */
     public User(String uid) {
         this.uid = uid;
         this.username = " ";
@@ -73,6 +72,14 @@ public class User {
         this.name = "";
     }
 
+    /**
+     * Create a user with the specified information
+     *
+     * @param uid the firebase token of the user
+     * @param username the user's chosen username
+     * @param email the user's email
+     * @param name the user's real name
+     */
     public User(String uid, String username, String email, String name) {
         this.username = username;
         this.uid = uid;
@@ -82,7 +89,12 @@ public class User {
 
     //endregion
 
-    //region Core Functions
+    /**
+     * Add a project to the user
+     *
+     * @param projectID
+     * @return
+     */
     public boolean addProject(String projectID) {
         if(isInProject(projectID))
         {
@@ -133,7 +145,6 @@ public class User {
         return tasks.containsKey(taskId);
     }
 
-    //endregion
 
 }
 

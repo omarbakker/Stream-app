@@ -32,17 +32,14 @@ public class Meeting {
     {
         return calendarId;
     }
-
     public String getId()
     {
         return id;
     }
-
     public String getName() { return name;}
-
     public String getLocation() { return location; }
-
     public String getDescription() {return description; }
+
 
 //    public String getMonth() { return month; }
 //
