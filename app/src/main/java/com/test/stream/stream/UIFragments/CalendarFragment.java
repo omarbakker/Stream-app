@@ -109,7 +109,10 @@ public class CalendarFragment extends Fragment {
         int i = meetings.size() - 1;
         while(i >= 0) {
             Meeting meeting = meetings.get(i);
-            meetingList.add(meeting.getName());
+            if(meeting != null) {
+                meetingList.add(meeting.getName());
+            }
+
             i--;
         }
 
@@ -127,6 +130,7 @@ public class CalendarFragment extends Fragment {
         }
 
     }
+
 
     /**
      * Function that is called to display the expanded view of a meeting activity

@@ -127,6 +127,9 @@ public class CalendarManager  extends DataManager{
 
         Meeting meeting = new Meeting();
         meeting.setCalendarId(ProjectManager.sharedInstance().getCurrentProject().getCalendarId());
+        meeting.setName(name);
+        meeting.setDescription(description);
+        meeting.setLocation(location);
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Meetings, meeting);
 
         //Store the firebase object key as the object id.
@@ -136,6 +139,7 @@ public class CalendarManager  extends DataManager{
         //Store the task in the Calendar
         currentCalendar.addMeeting(objectKey, true);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId(), currentCalendar);
+
 
         return true;
     }
@@ -155,14 +159,14 @@ public class CalendarManager  extends DataManager{
         }
 
         DatabaseReference refToDelete = DatabaseManager.getInstance()
-                .getReference(DatabaseFolders.Tasks.toString())
+                .getReference(DatabaseFolders.Meetings.toString())
                 .child(meetingId);
 
         refToDelete.removeValue();
 
         currentCalendar.removeMeeting(meetingId);
         meetingsInCalendar.remove(meeting);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentCalendar);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentCalendar);
 
         return true;
 

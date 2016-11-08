@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ChatFragment;
+import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.SettingsFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
@@ -190,6 +191,7 @@ public class ToolbarActivity extends AppCompatActivity
 
     }
 
+
     /**
      * Launch the Task view to see details
      * @param view
@@ -200,6 +202,15 @@ public class ToolbarActivity extends AppCompatActivity
         String taskName = String.valueOf(taskTextView.getText());
         Intent intent = new Intent(this, expand_task.class);
         intent.putExtra("taskName", taskName);
+        startActivity(intent);
+    }
+
+    public void expandMeetingView(View v) {
+        View parent = (View) v.getParent();
+        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
+        String meetingName = String.valueOf(meetingTextview.getText());
+        Intent intent = new Intent(this, ExpandMeeting.class);
+        intent.putExtra("meetingName", meetingName);
         startActivity(intent);
     }
 }
