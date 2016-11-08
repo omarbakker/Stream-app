@@ -68,6 +68,10 @@ public class ProjectsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Used to open the new projects activity after the user taps the '+' button
+     * @param v
+     */
     @Override
     public void onClick(View v)
     {
@@ -101,6 +105,9 @@ public class ProjectsActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * sets title font to syncopate
+     */
     private void setFont()
     {
         //Changing font to Syncopate
@@ -109,10 +116,17 @@ public class ProjectsActivity extends AppCompatActivity
         titleText.setTypeface(SyncopateBold);
     }
 
+    /**
+     * Used to enter the project after the user taps on that project from the list.
+     * Opens the projects page.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        System.out.println("AYYYYYYY LMAO!");
         if (parent == mProjectsListView){
             Project selectedProject = (Project) mAdapter.getItem(position);
             ProjectManager.sharedInstance().setCurrentProject(selectedProject);

@@ -294,12 +294,12 @@ public class TasksFragment extends Fragment
 
     /**
      * Checks if the string passed represents a valid user in the database.
-     * Updates UI accordingly.
-     * Updates users list accordingly.
+     * Updates newTaskAssignee accordingly.
      * @param uDescription
      * The description entered by the user
      */
     private void handleEnteredUser(final String uDescription){
+        if (uDescription.isEmpty()) return;
         ReadDataCallback userResult = new ReadDataCallback() {
             @Override
             public void onDataRetrieved(DataSnapshot result) {
@@ -317,6 +317,7 @@ public class TasksFragment extends Fragment
                     String userInvalidHelp = uDescription + " - Invalid user";
                     newTaskAssigneeField.setText(userInvalidHelp);
                     newTaskAssigneeField.selectAll();
+                    newTaskValidAssigneeIndicator.setVisibility(View.INVISIBLE);
                 }
             }
         };

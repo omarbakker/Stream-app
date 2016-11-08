@@ -75,12 +75,8 @@ public class newProjectActivity extends AppCompatActivity
         // Initialize a new Project object, this projects fields will be populated from the info the user enters
         newProject = new Project();
 
-        // TODO: Replace with actual logged in user
-        System.out.println("Create project");
-
         User user = UserManager.getInstance().getCurrentUser();
-        if(user != null)
-        {
+        if(user != null){
             newProject.addMember(UserManager.getInstance().getCurrentUser(), true);
         }
 
@@ -189,11 +185,17 @@ public class newProjectActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Changes text of project name field to notify the user of invalid or empty name
+     */
     private void handleInvalidName(){
         projectNameField.setText(R.string.new_project_prompt_name);
         projectNameField.selectAll();
     }
 
+    /**
+     * Changes text of project date field to notify the user of invalid or empty date
+     */
     private void handleInvalidDate(){
         projectDateField.setText(R.string.new_project_prompt_date);
         projectDateField.selectAll();
@@ -236,6 +238,9 @@ public class newProjectActivity extends AppCompatActivity
         UserManager.getInstance().checkUserExists(uDescription,userResult);
     }
 
+    /**
+     * Call to hide the android soft keyboard
+     */
     private void hideKeyboard(){
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -243,6 +248,9 @@ public class newProjectActivity extends AppCompatActivity
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    /**
+     * Changes title, and buttons font to Syncopate
+     */
     private void setSyncopateFont(){
         //Changing font to Syncopate
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
@@ -253,9 +261,20 @@ public class newProjectActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Required by textWatcher, unused
+     * @param s
+     */
     @Override
     public void afterTextChanged(Editable s) {}
 
+    /**
+     * Required by textWatcher, unused
+     * @param s
+     * @param start
+     * @param count
+     * @param after
+     */
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
