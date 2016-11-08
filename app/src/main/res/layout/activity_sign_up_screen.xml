@@ -107,6 +107,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+
     <EditText
         android:layout_width="wrap_content"
         android:background="@null"
@@ -138,6 +139,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -159,16 +161,12 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:background="@null"
-        android:layout_marginLeft="20dp"
         android:hint="Name"
         android:ems="10"
         android:id="@+id/enterNewName"
         android:layout_above="@+id/rectangle_at_the_top"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="14dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
+        android:layout_alignLeft="@+id/enterNewEmail"
+        android:layout_alignStart="@+id/enterNewEmail"
+        android:layout_marginBottom="15dp" />
 
 </RelativeLayout>
