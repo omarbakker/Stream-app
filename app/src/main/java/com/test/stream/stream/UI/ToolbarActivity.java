@@ -29,15 +29,22 @@ public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Toolbar Activity";
+    // variables for the passing extras from Activity to Fragment
     public static final String PIN_ID_EXTRA = "com.test.stream.stream identifier";
     public static final String PIN_TITLE_EXTRA = "com.test.stream.stream Title";
     public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
     public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
+    /**
+     * On create the ToolbarActivity, all initializations
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set how the view will look like
         setContentView(R.layout.toolbaractivity_main);
+        // Set how the toolbar will look like
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,20 +53,18 @@ public class ToolbarActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        // Show the details of the navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        /*Typeface Syncopate = Typeface.createFromAsset(getAssets(),  "fonts/Syncopate-Regular.ttf");
-        Typeface SyncopateBold = Typeface.createFromAsset(getAssets(),  "fonts/Syncopate-Bold.ttf");
-
-        TextView toolbarText = (TextView) findViewById(R.id.toolbarText);
-        toolbarText.setTypeface(Syncopate);*/
     }
 
+    /**
+     * When clicking the Back button
+     */
     @Override
     public void onBackPressed() {
+        // Find the specified back button
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -68,6 +73,11 @@ public class ToolbarActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Create the menu to show clickable toolbar
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -75,6 +85,11 @@ public class ToolbarActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Check which item on navigation menu is clicked
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -90,26 +105,35 @@ public class ToolbarActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Check which button is clicked on Toolbar and go to that fragment
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        // Create fragment manager so it can launch fragment
         FragmentManager manager = getSupportFragmentManager();
         Intent taskIntent = new Intent(ToolbarActivity.this, TaskMain.class);
         switch(id){
+            // If chat is clicked, launch chatFragment
             case R.id.nav_chat:
                 ChatFragment chatFragment = new ChatFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         chatFragment,
                         chatFragment.getTag()).commit();
                 break;
+            // If Calendar button is clicked, launch CalendarFragment
             case R.id.nav_calendar:
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
                         calendarFragment.getTag()).commit();
                 break;
+            // If PinBoard is clicked, launch PinBoard Fragment
             case R.id.nav_pinboard:
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
@@ -117,25 +141,28 @@ public class ToolbarActivity extends AppCompatActivity
                         boardFragment.getTag()).commit();
 
                 break;
+            // If Settings is clicked, launch Settings Fragment
             case R.id.nav_settings:
                 SettingsFragment settingsFragment = new SettingsFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         settingsFragment,
                         settingsFragment.getTag()).commit();
                 break;
+            // if Tasks is clicked, launch Tasks Fragment
             case R.id.nav_tasks:
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
                         taskFragment.getTag()).commit();
-               // ToolbarActivity.this.startActivity(taskIntent);
                 break;
+            // If Home button is clicked launch Home Fragment
             case R.id.nav_home:
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,
                         projectHomeFragment.getTag()).commit();
                 break;
+            // If Projects clicked, Launch Projects page
             case R.id.nav_projects:
 
                 finish();
@@ -150,15 +177,17 @@ public class ToolbarActivity extends AppCompatActivity
     public void setTitle(CharSequence title) {
 
     }
+
+    /**
+     * Launch the Task view to see details
+     * @param view
+     */
     public void expandTaskView(View view) {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);
         String taskName = String.valueOf(taskTextView.getText());
         Intent intent = new Intent(this, expand_task.class);
-        Log.d(TAG, "so fucked up oh my god");
-        //intent.putExtra("tasks",tasks);
         intent.putExtra("taskName", taskName);
-        Log.d(TAG, "everything is awful");
         startActivity(intent);
     }
 }

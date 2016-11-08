@@ -38,12 +38,24 @@ public class BoardFragment extends ListFragment {
         // Required empty public constructor
     }
 
+    /**
+     * When the Fragment is created
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Call database to populate board if any PinMessages are in the database
         BoardManager.getInstance().InitializePins(this);
     }
 
+    /**
+     * When View is created inflate the elements on the PinBoard
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the View with populated data
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,24 +65,28 @@ public class BoardFragment extends ListFragment {
         return view;
     }
 
-    // Function that updates the Adapter of the ListFragment
+    /**
+     * Function that updates the Adapter of the ListFragment
+     */
     public void updateUI() {
         // Get all pins from the databse
         List<Pin> allPins = BoardManager.getInstance().GetPinsInProject();
         ArrayList<PinMessage> pins = new ArrayList();
         // Go through each pin in database
         for (Pin currentPin : allPins) {
+            // If pin is a PinMessage then add to arrayList to show on application
             if (currentPin.getClass() == PinMessage.class) {
                 PinMessage currentMessage = (PinMessage) currentPin;
                 pins.add(currentMessage);
             }
         }
+        // Reverse Pin order to show newly created on top
         Collections.reverse(pins);
         if (pinAdapter == null) {
-
+            // If nothing in adapter then create a new one and set the adapter to show pins
             pinAdapter = new PinAdapter(getActivity(), pinMessages);
             setListAdapter(pinAdapter);
-
+        // Otherwise add all the pins in the current adapter and notify that adapter changed
         } else {
             pinAdapter.clear();
             pinAdapter.addAll(pins);
@@ -79,6 +95,10 @@ public class BoardFragment extends ListFragment {
 
     }
 
+    /**
+     * When the activity is created, make sure the ImageButton is loaded
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -86,25 +106,29 @@ public class BoardFragment extends ListFragment {
         pinAdapter = new PinAdapter(getActivity(), pinMessages);
         setListAdapter(pinAdapter);
         floatButton = (ImageButton) getView().findViewById(R.id.pinImageButton);
+        // Listener to listen to when ImageButton for popup dialog is clicked
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_pin_dialog, null);
-
+                // TextFields of the Popup Dialog
                 final EditText titleText = (EditText) view.findViewById(R.id.dialog_title);
                 final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
                 final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_description);
-
+                // Create a popup Dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setView(view)
+                        // When clicking Submit button after populating fields
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                // Add the title, subtitle, description fields into a PinMessage object
                                 String title = titleText.getText().toString();
                                 String subtitle = subtitleText.getText().toString();
                                 String description = descriptionText.getText().toString();
                                 pinMessages.add(new PinMessage(title, subtitle, description));
                                 setListAdapter(pinAdapter);
+                                // Add the PinMessage details to the database
                                 BoardManager.getInstance().CreateMessagePin(title, subtitle, description);
                             }
                         })
@@ -117,17 +141,31 @@ public class BoardFragment extends ListFragment {
 
     }
 
+    /**
+     * When a Pin is clicked on the application
+     * @param i
+     * @param v
+     * @param position
+     * @param id
+     */
     @Override
     public void onListItemClick(ListView i, View v, int position, long id){
-        launchPinDetailAcitivty(position);
+        launchPinDetailActivty(position);
     }
 
+    /**
+     * Method to launch a Dialog popup
+     * @param position
+     */
     private void launchPinDetailDialog(int position){
         PinMessage pin = (PinMessage) getListAdapter().getItem(position);
     }
 
-
-    private void launchPinDetailAcitivty(int position){
+    /**
+     * Method to launch a new Activity to see details of a pinMessage
+     * @param position
+     */
+    private void launchPinDetailActivty(int position){
         PinMessage pin = (PinMessage) getListAdapter().getItem(position);
         // Create Intent
         Intent intent = new Intent(getActivity(), PinDetailActivity.class);
