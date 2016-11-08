@@ -39,6 +39,7 @@
             android:title="Projects" />
         <item
             android:id="@+id/nav_logout"
+            android:icon="@mipmap/power"
             android:title="Logout" />
     </group>
 </menu>
