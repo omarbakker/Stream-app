@@ -45,9 +45,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
@@ -120,8 +122,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                    startActivity(intent);
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                            startActivity(intent);
                 }
             }
         };
@@ -332,9 +334,13 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            createUserIfNotExist();
-                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                            startActivity(intent);
+                            createUserIfNotExist(new FetchUserCallback() {
+                                @Override
+                                public void onDataRetrieved(User result) {
+                                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                                    startActivity(intent);
+                                }});
+
                         }
                         else
                         {
