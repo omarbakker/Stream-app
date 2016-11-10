@@ -61,14 +61,15 @@ public class ToolbarActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         this.manager = getSupportFragmentManager();
+        String intentFragment;
 
         try {
-            String intentFragment = getIntent().getExtras().getString("frgToLoad");
-            initializeFragment(intentFragment);
+            intentFragment = getIntent().getExtras().getString("frgToLoad");
         }
         catch (NullPointerException e) {
-            String intentFragment = "HOME";
+            intentFragment = "HOME";
         }
+        initializeFragment(intentFragment);
 
     }
 
