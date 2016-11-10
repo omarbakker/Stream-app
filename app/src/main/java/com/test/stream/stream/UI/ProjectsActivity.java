@@ -131,6 +131,7 @@ public class ProjectsActivity extends AppCompatActivity
             Project selectedProject = (Project) mAdapter.getItem(position);
             ProjectManager.sharedInstance().setCurrentProject(selectedProject);
             Intent intent = new Intent(this,ToolbarActivity.class);
+            intent.putExtra("frgToLoad", "HOME");
             startActivity(intent);
         }
 
