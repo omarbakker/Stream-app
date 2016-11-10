@@ -97,7 +97,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
      * @param username username that the user has entered for creating their new account
      * @return flag that the user was successfully created
      */
-    private boolean createAccount(final String email, String password, final String name, final String username) {
+    private boolean createAccount(final String email, String password, String name, final String username) {
         boolean valid = false;
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -117,8 +117,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            UserManager.createUserIfNotExist(username, name, email);
-                            Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
+                            UserManager.createUserIfNotExist(username, email);
+                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
                             startActivity(intent);
                         } else {
                             try {

@@ -130,15 +130,14 @@ public class UserManager {
      * @param username the username selected by the user
      * @param email the user's email address
      */
-    public static void createUserIfNotExist(String username, String name, String email)
+    public static void createUserIfNotExist(String username, String email)
     {
         FirebaseUser user = getFirebaseUser();
 
         if(user != null)
         {
             User newUser = new User();
-            newUser.setName(name);
-            newUser.setUsername(username);
+            newUser.setName(username);
             newUser.setEmail(email);
             newUser.setUid(user.getUid());
 
@@ -153,7 +152,7 @@ public class UserManager {
     public static void createUserIfNotExist()
     {
         FirebaseUser user = getFirebaseUser();
-        createUserIfNotExist(user.getDisplayName(), "", "");
+        createUserIfNotExist(user.getDisplayName(), "");
     }
 
     /**
