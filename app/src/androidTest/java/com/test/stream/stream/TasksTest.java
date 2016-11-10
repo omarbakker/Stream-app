@@ -36,6 +36,8 @@ import static org.junit.Assert.*;
 public class TasksTest {
 
     List<Task> tasks = null;
+    AtomicBoolean AddedTask = new AtomicBoolean(false);
+    AtomicBoolean MarkedAsComplete = new AtomicBoolean(false);
 
 
     //test data
@@ -95,17 +97,8 @@ public class TasksTest {
         await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.getInstance().tasksLoaded);
         tasks = TaskManager.getInstance().GetTasksInProject();
         assert(tasks.size() == 1);
+        AddedTask.set(true);
     }
-
-
-    private Callable<Boolean> taskCreationFinished() {
-        return new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                return tasks != null; // The condition that must be fulfilled
-            }
-        };
-    }
-
 
 //    @Test
 //    public void addTask() throws Exception {
@@ -124,15 +117,14 @@ public class TasksTest {
 
     @Test
     public void completeTask() throws Exception {
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(AddedTask);
         tasks = TaskManager.getInstance().GetTasksInProject();
         int i = tasks.size()-1;
         Task task = tasks.get(i);
         task.getComplete();
         task.setComplete(true);
-        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         assertEquals(task.getComplete(), true);
-
-
+        MarkedAsComplete.set(true);
     }
 
     @Test
@@ -143,12 +135,12 @@ public class TasksTest {
 
     @Test
     public void deleteTask() throws Exception {
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
         tasks = TaskManager.getInstance().GetTasksInProject();
         int i = tasks.size();
         Task task = tasks.get(i);
         String name = task.getName();
         TaskManager.getInstance().DeleteTask(task);
-        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
         int a = tasks_new.size()-1;
         assertEquals(i-1, a);
