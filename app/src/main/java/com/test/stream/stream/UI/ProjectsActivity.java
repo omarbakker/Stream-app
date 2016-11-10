@@ -62,6 +62,7 @@ public class ProjectsActivity extends AppCompatActivity
         if(UserManager.sharedInstance().getCurrentUser() != null) {
             updateUI();
             NotificationService.sharedInstance().registerUserDevice();
+
         } else {
             UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
                 @Override
