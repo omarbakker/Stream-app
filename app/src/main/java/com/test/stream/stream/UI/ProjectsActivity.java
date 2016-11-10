@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.test.stream.stream.Controllers.NotificationManager;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
@@ -70,50 +71,23 @@ public class ProjectsActivity extends AppCompatActivity
         //Populate with user data
         if(UserManager.getInstance().getCurrentUser() != null) {
             updateUI();
+            NotificationManager.sharedInstance().registerUserDevice();
         } else {
             UserManager.getInstance().InitializeUser(new ReadDataCallback() {
                 @Override
                 public void onDataRetrieved(DataSnapshot result) {
                     updateUI();
+                    NotificationManager.sharedInstance().registerUserDevice();
                 }
             });
         }
 
-        Thread t = new Thread(new Runnable(){
-            @Override
-            public void run(){
-                while(thread_running){
-                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                    if(deviceToken != null){
-                        OkHttpClient client = new OkHttpClient();
-                        RequestBody body = new FormBody.Builder()
-                                .add("Token",  deviceToken)
-                                .build();
-                        Request request = new Request.Builder()
-                                //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://128.189.196.101/fcm/register.php")
-                                .post(body)
-                                .build();
-                        Response response = null;
-                        try {
-//            response = client.newCall(request).execute();
-                            response = client.newCall(request).execute();
-//            System.out.println(response.body().string());
-                            Log.d(TAG, response.body().string());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        thread_running = false;
-                    }
-                    try{
-                        Thread.sleep(1000);
-                    } catch(InterruptedException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });t.start();
+        // Register user - device pair to heliohost server
+//        try {
+//            NotificationManager.sharedInstance().registerUserDevice();
+//        }catch(NullPointerException e){
+//            e.printStackTrace();
+//        }
     }
 
     /**
