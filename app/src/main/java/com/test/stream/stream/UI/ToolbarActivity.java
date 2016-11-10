@@ -62,8 +62,13 @@ public class ToolbarActivity extends AppCompatActivity
 
         this.manager = getSupportFragmentManager();
 
-        String intentFragment = getIntent().getExtras().getString("frgToLoad");
-        initializeFragment(intentFragment);
+        try {
+            String intentFragment = getIntent().getExtras().getString("frgToLoad");
+            initializeFragment(intentFragment);
+        }
+        catch (NullPointerException e) {
+            String intentFragment = "HOME";
+        }
 
     }
 
