@@ -27,7 +27,7 @@ public class User {
      * Sets the username of the user
      * @param username
      */
-    public void SetUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

@@ -30,6 +30,10 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     //private User currentUser = DatabaseManager.getInstance().
 
     @Override
+    /**
+     * Called automatically when a new device installs the app
+     *
+     */
     public void onTokenRefresh() {
 //        Log.d("PLEASE WORK", "PLEASE WORK");
 //        String recent_token = FirebaseInstanceId.getInstance().getToken();
@@ -37,13 +41,13 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         //Get updated token
         //Log.d("PLEASE WORK", "PLEASE WORK");
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        registerToken(refreshedToken);
+        //registerToken(refreshedToken);
         Log.d(TAG, "New Token: " + refreshedToken);
 
     }
 
     /**
-     * Registers unique token to third party app server
+     * Registers unique token to third party app server (heliohost)
      * @author Xingyu (Nov 7 2016)
      * @param token
      */
@@ -53,7 +57,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .add("Token", token)
                 .build();
         Request request = new Request.Builder()
-                .url("http://128.189.195.254/fcm/register.php")
+                .url("http://stream.heliohost.org/fcm/register.php")
                 .post(body)
                 .build();
         Response response = null;
