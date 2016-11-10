@@ -41,6 +41,7 @@ import static org.awaitility.Awaitility.await;
  * Tests ProjectManager ability to create and edit projects
  * Implemented by omarBakker
  */
+
 @RunWith(AndroidJUnit4.class)
 public class ProjectsTest {
 

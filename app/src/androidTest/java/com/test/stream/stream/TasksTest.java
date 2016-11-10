@@ -56,7 +56,8 @@ public class TasksTest {
     /**
      * Ensure the tasks have a project and user to link to
      */
-    public void userSignInSetup() {
+
+    public void userSignInSetup(){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -84,7 +85,6 @@ public class TasksTest {
 
     /**
      * confirm a new user has been added
-     *
      * @return confirmation the new user has been added
      */
     private Callable<Boolean> newUserIsAdded() {
@@ -121,7 +121,10 @@ public class TasksTest {
         assert (tasks.size() >= 1);
     }
 
-
+    /**
+     * Determine if the task is marked as complete in the database
+     * @throws Exception
+     */
     @Test
     public void addTask() throws Exception {
         /*
@@ -159,7 +162,6 @@ public class TasksTest {
 
     /**
      * Delete a task and then ensure the task was deleted
-     *
      * @throws Exception
      */
     @Test
