@@ -1,53 +1,169 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
-    android:weightSum="1">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.test.stream.stream.UIFragments.ExpandMeeting">
 
     <ImageView
-        android:layout_width="288dp"
-        android:layout_height="77dp"
-        android:background="@color/background"
-        app:srcCompat="@drawable/create_new_task"
-        android:id="@+id/createNewTaskDialogTitle" />
-    <!-- TODO: Change image that is on the dialog to say "New meeting" -->
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        android:id="@+id/imageView3"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#087bb9"
+        android:id="@+id/view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Create a new meeting"
+        android:textSize="24dp"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/view"
+        android:layout_alignLeft="@+id/new_meeting_location"
+        android:layout_alignStart="@+id/new_meeting_location"
+        android:layout_marginBottom="17dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#e5e7e8"
+        android:layout_below="@+id/view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/view2" />
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:gravity="center"
+        android:hint="Meeting Name"
+        android:background="@null"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
         android:id="@+id/new_meeting_name"
-        android:inputType="text"
-        android:layout_width="match_parent"
+        android:layout_alignBottom="@+id/view2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:textSize="25sp"
-        android:hint="@string/meeting_name" />
+        app:srcCompat="@android:drawable/ic_menu_info_details"
+        android:id="@+id/imageView4"
+        android:layout_alignTop="@+id/new_meeting_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view3"
+        android:layout_below="@+id/new_meeting_description"
+        android:layout_marginTop="13dp"
+        android:layout_alignLeft="@+id/new_meeting_description"
+        android:layout_alignStart="@+id/new_meeting_description" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view5"
+        android:layout_below="@+id/imageView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_alignLeft="@+id/new_meeting_location"
+        android:layout_alignStart="@+id/new_meeting_location" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_recent_history"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/view5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:id="@+id/new_meeting_date"
+        android:layout_below="@+id/view5"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/view5"
+        android:layout_alignStart="@+id/view5" />
+
+    <Button
+        android:text="Create Meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_new_meeting"
+        android:background="#087bb9"
+        android:textColor="#FFFFFF"
+        android:textSize="10dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
 
     <EditText
-        android:id="@+id/new_meeting_description"
-        android:inputType="text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="sans-serif"
-        android:hint="@string/meeting_description"/>
-
-    <EditText
+        android:background="@null"
+        android:inputType="textPersonName"
+        android:ems="10"
         android:id="@+id/new_meeting_location"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="sans-serif"
-        android:hint="@string/meeting_location"/>
+        android:hint="Location"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/imageView3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp" />
 
-</LinearLayout>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="200px"
+        android:inputType="textMultiLine"
+        android:gravity="top|left"
+        android:hint="Description"
+        android:ems="10"
+        android:background="@null"
+        android:id="@+id/new_meeting_description"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/view2"
+        android:layout_alignLeft="@+id/new_meeting_location"
+        android:layout_alignStart="@+id/new_meeting_location" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_meeting_time"
+        android:textSize="16dp"
+        android:layout_alignBaseline="@+id/new_meeting_date"
+        android:layout_alignBottom="@+id/new_meeting_date"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
+</RelativeLayout>
