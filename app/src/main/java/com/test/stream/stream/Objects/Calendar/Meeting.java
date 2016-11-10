@@ -18,13 +18,16 @@ public class Meeting {
 
     //Date and time
     private String month;
+    private int numberMonth;
     private int day;
     private int year;
+    private String dayOfWeek;
 
     private int hour;
     private int minute;
+    private String am_pm;
 
-    private String dayOfWeek;
+
 
     //Getters
 
@@ -64,14 +67,17 @@ public class Meeting {
      */
     public String getDescription() {return description; }
 
-//    public String getMonth() { return month; }
-//
-//    public int getDay() { return day; }
-//
-//    public int getYear() { return year; }
-//
-//    public String getDayOfWeek() { return dayOfWeek; }
-//
+
+    public String getMonth() { return month; }
+
+    public int getNumberMonth() { return numberMonth; }
+
+    public int getDay() { return day; }
+
+    public int getYear() { return year; }
+
+    public String getDayOfWeek() { return dayOfWeek; }
+
 //    public Month getMonthAsEnum() {
 //        return Month.valueOf(month);
 //    }
@@ -81,15 +87,20 @@ public class Meeting {
 //        return DayOfWeek.valueOf(dayOfWeek);
 //    }
 //
-//    public int getHour()
-//    {
-//        return hour;
-//    }
-//
-//    public int getMinute()
-//    {
-//        return minute;
-//    }
+    public int getHour()
+    {
+        return hour;
+    }
+
+    public int getMinute()
+    {
+        return minute;
+    }
+
+    public String getAmPm()
+    {
+        return am_pm;
+    }
 
     //Setters
 
@@ -138,13 +149,14 @@ public class Meeting {
         this.description = description;
     }
 
-//    public void setDate(Month month, int day, int year, DayOfWeek dayOfWeek)
-//    {
-//        this.month = month.toString();
-//        this.day = day;
-//        this.year = year;
-//        this.dayOfWeek = dayOfWeek.toString();
-//
+    public void setDate(String month, int day, int year, int numberMonth, String dayOfWeek)
+    {
+        this.month = month;
+        this.day = day;
+        this.year = year;
+        this.numberMonth = numberMonth;
+        this.dayOfWeek = dayOfWeek;
+
 //        if(this.day < 1)
 //        {
 //            this.day = 1;
@@ -153,7 +165,7 @@ public class Meeting {
 //        {
 //            this.day = maxDaysInMonth(month, year);
 //        }
-//    }
+    }
 
 //    private int maxDaysInMonth(Month month, int year)
 //    {
@@ -187,21 +199,26 @@ public class Meeting {
 //        return false;
 //    }
 //
-//    public void setTime(int hour, int minute)
-//    {
-//        int numAdditionalHours = 0;
-//
-//        if(minute >= 60)
-//        {
-//            numAdditionalHours = minute/60;
-//            minute = minute%60;
-//        }
-//
-//        hour = (hour + numAdditionalHours)%24; //maximum 24 hours
-//
-//        this.hour = hour;
-//        this.minute = minute;
-//    }
+    public void setTime(int hour, int minute)
+    {
+        int numAdditionalHours = 0;
+
+        if(minute >= 60)
+        {
+            numAdditionalHours = minute/60;
+            minute = minute%60;
+        }
+
+        hour = (hour + numAdditionalHours)%24; //maximum 24 hours
+
+        this.hour = hour;
+        this.minute = minute;
+    }
+
+    public void setAmPm(String ampm)
+    {
+        this.am_pm = ampm;
+    }
 
 
 }

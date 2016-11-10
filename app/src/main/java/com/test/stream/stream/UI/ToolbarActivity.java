@@ -83,10 +83,16 @@ public class ToolbarActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         this.manager = getSupportFragmentManager();
-        ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
-        manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                projectHomeFragment,
-                projectHomeFragment.getTag()).commit();
+        String intentFragment;
+
+        try {
+            intentFragment = getIntent().getExtras().getString("frgToLoad");
+        }
+        catch (NullPointerException e) {
+            intentFragment = "HOME";
+        }
+        initializeFragment(intentFragment);
+
     }
 
     /**
@@ -204,6 +210,56 @@ public class ToolbarActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Launches a fragment based on the id given.
+     *
+     * @param id
+     */
+    public void initializeFragment(String id){
+        switch(id){
+            // If Calendar button is clicked, launch CalendarFragment
+            case "CALENDAR":
+                setTitle("Calendar");
+                CalendarFragment calendarFragment = new CalendarFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        calendarFragment,
+                        calendarFragment.getTag()).commit();
+                break;
+            // If PinBoard is clicked, launch PinBoard Fragment
+            case "PINBOARD":
+                setTitle("Pin Board");
+                BoardFragment boardFragment = new BoardFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        boardFragment,
+                        boardFragment.getTag()).commit();
+
+                break;
+            // If Settings is clicked, launch Settings Fragment
+            case "SETTINGS":
+                setTitle("Settings");
+                SettingsFragment settingsFragment = new SettingsFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        settingsFragment,
+                        settingsFragment.getTag()).commit();
+                break;
+            // if Tasks is clicked, launch Tasks Fragment
+            case "TASKS":
+                setTitle("Tasks");
+                TasksFragment taskFragment = new TasksFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        taskFragment,
+                        taskFragment.getTag()).commit();
+                break;
+            // If Home button is clicked launch Home Fragment
+            case "HOME":
+                setTitle("My Project");
+                ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
+                manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
+                        projectHomeFragment,
+                        projectHomeFragment.getTag()).commit();
+                break;
+        }
+    }
     public void setTitle(CharSequence title) {
 
     }

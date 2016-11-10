@@ -118,7 +118,9 @@ public class CalendarManager  extends DataManager{
      * @param location location of the new meeting
      * @return flag indicating that the meeting was created
      */
-    public boolean CreateMeeting(String name, String description, String location)
+    public boolean CreateMeeting(String name, String description, String location,
+                                 int hour, int minute, int day, int month, int year,
+                                 String monthName, String dayOfWeek, String AmPm)
     {
         if(currentCalendar == null)
         {
@@ -130,6 +132,9 @@ public class CalendarManager  extends DataManager{
         meeting.setName(name);
         meeting.setDescription(description);
         meeting.setLocation(location);
+        meeting.setTime(hour, minute);
+        meeting.setAmPm(AmPm);
+        meeting.setDate(monthName, day, year, month, dayOfWeek);
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Meetings, meeting);
 
         //Store the firebase object key as the object id.
