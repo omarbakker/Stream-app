@@ -38,6 +38,10 @@ public class CreateNewMeeting extends AppCompatActivity {
     int hour_x, minute_x;
     TextView timePicker;
 
+    //For meeting creation
+    private String dayOfWeek;
+    private String MonthOfYear;
+
     //Create new meeting
     EditText meeting_name, meeting_location, meeting_description;
     Button createNewMeeting;
@@ -82,9 +86,9 @@ public class CreateNewMeeting extends AppCompatActivity {
                     public void onClick(View v) {
                         System.out.println("Time to create new activity");
                         CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
-                                meeting_location.getText().toString(), cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE),
-                                cal.get(Calendar.DAY_OF_MONTH),  cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getMonthString(month_x-1),
-                                getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK)), getAmPmInitial(cal.get(Calendar.AM_PM)));
+                                meeting_location.getText().toString(), adjustHour(hour_x), minute_x,
+                                day_x,  month_x, year_x, getMonthString(month_x-1),
+                                dayOfWeek, getAmPm(hour_x));
 
                         System.out.println("GET AMPM WHY ISN'T THIS WORKING" + getAmPmInitial(cal.get(Calendar.AM_PM)));
 
@@ -157,8 +161,8 @@ public class CreateNewMeeting extends AppCompatActivity {
             day_x = dayOfMonth;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
             Date date = new Date(year, monthOfYear, dayOfMonth-1);
-            String dayOfWeek = simpleDateFormat.format(date);
-            String MonthOfYear = getMonthString(month_x-1);
+            dayOfWeek = simpleDateFormat.format(date);
+            MonthOfYear = getMonthString(month_x-1);
             datePicker.setText(dayOfWeek + ", " + day_x + " " + MonthOfYear + " " + year_x);
             //textView.setText(MonthOfYear);
         }
