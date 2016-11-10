@@ -75,6 +75,15 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         TextView expandedMeetingLocation = (TextView) findViewById(R.id.meetingLocation_expanded);
         expandedMeetingLocation.setText(expandMeeting.getLocation());
 
+        TextView expandedMeetingTime = (TextView) findViewById(R.id.meetingTime_expanded);
+        if(expandMeeting.getMinute() < 10) {
+            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + "0" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+        }
+        else {
+            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+            System.out.println("AMPM EXPANDED VERSION   " + expandMeeting.getAmPm());
+        }
+
 
         //initialize views for reminder meeting dialog
         LayoutInflater ReminderMeetingInflater = LayoutInflater.from(context);

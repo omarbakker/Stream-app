@@ -76,7 +76,14 @@ public class CreateNewMeeting extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         System.out.println("Time to create new activity");
-                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
+                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
+                                meeting_location.getText().toString(), cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE),
+                                cal.get(Calendar.DAY_OF_MONTH),  cal.get(Calendar.MONTH), cal.get(Calendar.YEAR), getMonthString(month_x-1),
+                                getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK)), getAmPmInitial(cal.get(Calendar.AM_PM)));
+
+                        System.out.println("GET AMPM WHY ISN'T THIS WORKING" + getAmPmInitial(cal.get(Calendar.AM_PM)));
+
+
 //                        CalendarFragment calendarFragment = new CalendarFragment();
 //                        FragmentManager fragmentManager = getFragmentManager();
 //                        fragmentManager.beginTransaction().replace(R.id.relative_layout_for_fragment, calendarFragment, calendarFragment.getTag()).commit();
