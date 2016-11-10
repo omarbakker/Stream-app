@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,13 +59,17 @@ public class CreateNewMeeting extends AppCompatActivity {
         hour_x = cal.get(Calendar.HOUR);
         minute_x = cal.get(Calendar.MINUTE);
 
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
+
         datePicker = (TextView) findViewById(R.id.new_meeting_date);
         datePicker.setText(getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK)) + ", " + cal.get(Calendar.DAY_OF_MONTH) + " " + getMonthString(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR));
+        datePicker.setTypeface(RalewayBold);
         timePicker = (TextView) findViewById(R.id.new_meeting_time);
         if(cal.get(Calendar.MINUTE)<10)
             timePicker.setText(cal.get(Calendar.HOUR) + ":" + "0" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
         else
             timePicker.setText(cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
+        timePicker.setTypeface(RalewayBold);
 
         showDialogOnButtonClick();
         showTimeDialogOnButtonClick();
