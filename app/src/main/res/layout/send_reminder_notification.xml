@@ -49,6 +49,7 @@
         android:gravity="top|left"
         android:hint="@string/enter_message"
         android:ems="10"
+        android:background="@null"
         android:id="@+id/reminderMessageToSend"
         android:layout_below="@+id/rectangle_at_the_top"
         android:layout_alignParentLeft="true"

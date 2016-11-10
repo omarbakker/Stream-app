@@ -23,6 +23,7 @@ import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.CreateNewMeeting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,27 +78,29 @@ public class CalendarFragment extends Fragment {
      * Displays the AlertDialog for creating a new meeting
      */
     public void createMeeting() {
-        Log.d("PLEASE WORK", "PLEASE WORK");
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View v = inflater.inflate(R.layout.dialog_new_meeting, null);
-
-        AlertDialog newMeeting = new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText meeting_name = (EditText) v.findViewById(R.id.new_meeting_name);
-                        EditText meeting_description = (EditText) v.findViewById(R.id.new_meeting_description);
-                        EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
-
-                        Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
-                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
-                        Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
-                    }
-                }).setNegativeButton("Cancel", null)
-                .create();
-        Log.d("PLEASE WORK", "SOMETHING WAS CREATED");
-        newMeeting.show();
-        Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
+        Intent intent = new Intent(getActivity(), CreateNewMeeting.class);
+        startActivity(intent);
+//        Log.d("PLEASE WORK", "PLEASE WORK");
+//        LayoutInflater inflater = getActivity().getLayoutInflater();
+//        final View v = inflater.inflate(R.layout.dialog_new_meeting, null);
+//
+//        AlertDialog newMeeting = new AlertDialog.Builder(getActivity())
+//                .setView(v)
+//                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        EditText meeting_name = (EditText) v.findViewById(R.id.new_meeting_name);
+//                        EditText meeting_description = (EditText) v.findViewById(R.id.new_meeting_description);
+//                        EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
+//
+//                        Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
+//                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
+//                        Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
+//                    }
+//                }).setNegativeButton("Cancel", null)
+//                .create();
+//        Log.d("PLEASE WORK", "SOMETHING WAS CREATED");
+//        newMeeting.show();
+//        Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
     }
 
     /**
