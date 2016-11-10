@@ -12,11 +12,12 @@ We are an Android application aimed to help students work efficiently and effect
 7. Xingyu Tao 33610149
 
 # How to find Documents 
+- Documents can be found at https://github.com/omarbakker/Stream-app/tree/master/docs
+
 # Issues with the application
 - Bugs are listed under Issues tab on GitHub
 
 # Developer Section
-- Documents can be found at https://github.com/omarbakker/Stream-app/tree/master/docs
 
 # How to find source code 
 - All source code is located in the directory app/src/main: https://github.com/omarbakker/Stream-app/tree/master/app/src/main/
