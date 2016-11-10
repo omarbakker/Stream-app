@@ -37,7 +37,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     List<Task> tasks = new ArrayList<>();
     Task expandTask = new Task();
     int current_task;
-    private static final String TAG = TaskMain.class.getSimpleName();
+    private static final String TAG = TasksFragment.class.getSimpleName();
     final Context context = this;
 
     //Reminder notification

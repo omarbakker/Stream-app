@@ -104,6 +104,11 @@ public class Task {
         description = "";
     }
 
+
+    public int getDuePriority()
+    {
+        return 365*dueYear+30*dueMonth+dueDay;
+    }
     /**
      * Set the user as the tasks's assignee
      *
