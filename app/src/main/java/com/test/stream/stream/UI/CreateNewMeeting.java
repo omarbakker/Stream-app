@@ -81,6 +81,7 @@ public class CreateNewMeeting extends AppCompatActivity {
 //                        FragmentManager fragmentManager = getFragmentManager();
 //                        fragmentManager.beginTransaction().replace(R.id.relative_layout_for_fragment, calendarFragment, calendarFragment.getTag()).commit();
                         Intent intent = new Intent(CreateNewMeeting.this, ToolbarActivity.class);
+                        intent.putExtra("frgToLoad", "CALENDAR");
                         startActivity(intent);
 //                        CalendarFragment calendarFragment = new CalendarFragment();
 //                        manager.beginTransaction().replace(R.id.relative_layout_for_fragment, calendarFragment, calendarFragment.getTag()).commit();
