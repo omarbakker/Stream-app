@@ -11,7 +11,8 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true">
 
             <com.github.lzyzsd.circleprogress.CircleProgress
                 android:id="@+id/team_progress"
