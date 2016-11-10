@@ -50,6 +50,9 @@ public class TasksTest {
     static User user = null;
 
     @Before
+    /**
+     * Ensure the tasks have a project and user to link to
+     */
     public void userSignInSetup(){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -76,6 +79,10 @@ public class TasksTest {
         mAuth.signInWithEmailAndPassword("unit@test.com","123456");
     }
 
+    /**
+     * confirm a new user has been added
+     * @return confirmation the new user has been added
+     */
     private Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -83,6 +90,10 @@ public class TasksTest {
             }
         };
     }
+
+    /**
+     * Verifying the user has signed in
+     */
     @Test
     public void verifySignedIn(){
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
@@ -90,6 +101,10 @@ public class TasksTest {
         assertEquals(user.getEmail(),UserManager.getInstance().getCurrentUser().getEmail());
     }
 
+
+    /**
+     *Creating a new task with the given data and asserts a new task has been added to the database
+     */
     @Test
     public void initialize_task(){
         TaskManager.getInstance().Initialize(null);
@@ -100,21 +115,10 @@ public class TasksTest {
         AddedTask.set(true);
     }
 
-//    @Test
-//    public void addTask() throws Exception {
-//        await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
-//        int i = tasks.size()-1;
-//        Task test_task = tasks.get(0);
-//        assertEquals(test_task.getName(), test_name);
-//        assertEquals(test_task.getDescription(), test_description);
-//        assertEquals(test_task.getAssignee(), test_newTaskAssignee);
-//        assertEquals(test_task.getDueDay(), test_DueDate[0]);
-//        assertEquals(test_task.getDueMonth(), test_DueDate[1]);
-//        assertEquals(test_task.getDueYear(), test_DueDate[2]);
-//        assertEquals(test_task.getComplete(), complete);
-//
-//    }
-
+    /**
+     * Determine if the task is marked as complete in the database
+     * @throws Exception
+     */
     @Test
     public void completeTask() throws Exception {
         await().atMost(10, TimeUnit.SECONDS).untilTrue(AddedTask);
@@ -127,12 +131,11 @@ public class TasksTest {
         MarkedAsComplete.set(true);
     }
 
-    @Test
-    public void editTask() throws Exception {
 
-
-    }
-
+    /**
+     * Delete a task and then ensure the task was deleted
+     * @throws Exception
+     */
     @Test
     public void deleteTask() throws Exception {
         await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
