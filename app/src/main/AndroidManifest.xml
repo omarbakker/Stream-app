@@ -71,12 +71,13 @@
         <activity android:name=".UI.ProjectsActivity" />
 
         <service
-            android:name=".UI.FirebaseMessagingService">
+            android:name=".Services.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".UI.MyFirebaseInstanceIDService">
+        <service
+            android:name=".Services.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

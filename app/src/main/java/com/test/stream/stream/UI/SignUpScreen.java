@@ -26,6 +26,8 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +42,9 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     //setting up firebase authentication
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseInstanceId firebaseInstance;
+
+    private boolean thread_running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
      * @param username username that the user has entered for creating their new account
      * @return flag that the user was successfully created
      */
-    private boolean createAccount(final String email, String password, String name, final String username) {
+    private boolean createAccount(final String email, String password, final String name, final String username) {
         boolean valid = false;
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -112,8 +117,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            UserManager.createUserIfNotExist(username, email);
-                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
+                            UserManager.createUserIfNotExist(username, name, email);
+                            Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
                             startActivity(intent);
                         } else {
                             try {
@@ -134,14 +139,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-
-
-                            /*      // create user object in firebase real time database
-        String newUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        System.out.println("User is " + newUserID);
-
-        User newUserObject = new User(newUserID, username, email, name);
-        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, newUserObject);*/
+        
 
 
         // [START_EXCLUDE]

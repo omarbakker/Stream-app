@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
@@ -22,17 +24,27 @@ import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class ProjectsActivity extends AppCompatActivity
         implements
         View.OnClickListener,
         ListView.OnItemClickListener{
+    private static final String TAG = "ProjectsActivity";
 
     private TextView titleText;
     private ListView mProjectsListView;
     private ProjectsAdapter mAdapter;
+
+    boolean thread_running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
