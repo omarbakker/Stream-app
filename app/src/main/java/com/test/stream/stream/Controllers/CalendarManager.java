@@ -4,18 +4,14 @@ import android.content.Context;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Calendar.Meeting;
-import com.test.stream.stream.Objects.Tasks.Task;
-import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.UIFragments.CalendarFragment;
-import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.Month;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +22,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 public class CalendarManager  extends DataManager{
+    private DataEventListener listener;
     private static CalendarManager instance = new CalendarManager();
     public static CalendarManager getInstance() { return instance; }
 
-    public CalendarFragment context; //Note: replace the Context object with your UI class
     private Calendar currentCalendar;
     private ConcurrentHashMap<String, Meeting> meetingsInCalendar = new ConcurrentHashMap<String, Meeting>(); //Task Id - task
-
-    private ConcurrentHashMap<Query, ChildEventListener> listenerCollection = new ConcurrentHashMap<Query, ChildEventListener>();;
 
     private CalendarManager(){};
 
@@ -53,13 +47,13 @@ public class CalendarManager  extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentCalendar = dataSnapshot.getValue(Calendar.class);
         registerMeetings();
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     @Override
     public void parentDeleted() {
         currentCalendar = null;
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     @Override
@@ -68,13 +62,13 @@ public class CalendarManager  extends DataManager{
         meetingsInCalendar.put(meeting.getId(), meeting);
 
         if(meetingsInCalendar.size() == currentCalendar.getMeetings().size())
-            context.updateUI();
+            listener.onDataChanged();
     }
 
     @Override
     public void childDeleted(String id) {
         meetingsInCalendar.remove(id);
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     /**
@@ -179,10 +173,10 @@ public class CalendarManager  extends DataManager{
 
     /**
      * Initializes an instance of CalendarManager and the database
-     * @param context
+     * @param listener the lisener to call back to once data has been updated.
      */
-    public void Initialize(CalendarFragment context) {
-        this.context = context;
+    public void Initialize(DataEventListener listener) {
+        this.listener = listener;
         super.registerParent(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId());;
     }
 

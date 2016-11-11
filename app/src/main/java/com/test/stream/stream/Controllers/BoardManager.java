@@ -1,24 +1,19 @@
 package com.test.stream.stream.Controllers;
 
-import android.content.Context;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Board.Board;
 import com.test.stream.stream.Objects.Board.Pin;
-import com.test.stream.stream.Objects.Board.PinMessage;
 import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.PinType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * A controller class for the Board functionality
@@ -108,17 +103,9 @@ public class BoardManager extends DataManager{
      */
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
-        String pinType = dataSnapshot.child("pinType").getValue().toString();
 
-        if(pinType.equals(PinType.Message.toString()))
-        {
-            PinMessage pin = dataSnapshot.getValue(PinMessage.class);
-            pins.put(pin.getId(), pin);
-        }
-        else
-        {
-            System.out.println("Error, did not get pin");
-        }
+        Pin pin = dataSnapshot.getValue(Pin.class);
+        pins.put(pin.getId(), pin);
 
         if(currentBoard.getPins().size() == pins.size())
         {
@@ -187,10 +174,8 @@ public class BoardManager extends DataManager{
             return false; //Cannot create a pin without the project selected.
         }
 
-        PinMessage message = new PinMessage(title, subtitle, description);
-
-        //Set inputted information
-        message.setPinType(PinType.Message);
+        Pin message = new Pin(title, subtitle, description);
+        message.setBoardId(ProjectManager.sharedInstance().getCurrentProject().getBoardId());
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);
 
@@ -199,7 +184,7 @@ public class BoardManager extends DataManager{
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Pins, objectKey, message);
 
         //Store the pins in the board.
-        currentBoard.addPin(message.getId(), PinType.Message);
+        currentBoard.addPin(message.getId());
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;

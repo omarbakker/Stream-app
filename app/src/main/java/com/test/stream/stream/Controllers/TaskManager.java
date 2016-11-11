@@ -1,28 +1,18 @@
 package com.test.stream.stream.Controllers;
 
-import android.content.Context;
-
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.test.stream.stream.Objects.Chat.ChatGroup;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -203,13 +193,6 @@ public class TaskManager extends DataManager{
         //Store the firebase object key as the object id.
         task.setId(objectKey);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks, objectKey, task);
-
-        //Update the user with the task
-        //TODO: support adding other users, not just current user.
-        if (user.getUid() == UserManager.getInstance().getCurrentUser().getUid()) {
-            user.addTask(objectKey, ProjectManager.sharedInstance().getCurrentProject().getId());
-            UserManager.getInstance().updateUser(user); //Note: we're assuming we're handling the correct user here.
-        }
         
         //Store the task in the taskgroup.
         currentTaskGroup.addTask(objectKey);
@@ -219,39 +202,6 @@ public class TaskManager extends DataManager{
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
-
-        return true;
-    }
-
-    //TODO: Remove this overload of create task when create task supports assigned users properly
-    public boolean CreateTask(String taskName, String description, String user, int[] dueDate, boolean complete)
-    {
-        if(currentTaskGroup == null)
-        {
-            return false; //Cannot create a task without the project selected.
-        }
-
-        Task task = new Task();
-
-        //Set inputted information
-        task.setName(taskName);
-        task.setDescription(description);
-        task.setAssignee(user);
-        task.setComplete(complete);
-        task.setDueDay(dueDate[0]);
-        task.setDueMonth(dueDate[1]);
-        task.setDueYear(dueDate[2]);
-
-        task.setTaskGroupId(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId());
-        String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Tasks, task);
-
-        //Store the firebase object key as the object id.
-        task.setId(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks, objectKey, task);
-
-        //Store the task in the taskgroup.
-        currentTaskGroup.addTask(objectKey);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.TaskGroups, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentTaskGroup);
 
         return true;
     }
