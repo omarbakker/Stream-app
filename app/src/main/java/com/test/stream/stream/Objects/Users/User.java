@@ -18,7 +18,6 @@ public class User {
 
     // projects String: id, Boolean: project active
     private Map<String, Boolean> projects =  new HashMap<>();
-    private Map<String, String> tasks  =  new HashMap<>(); //Task id - project id
     //endregion
 
     //region Setters and getters
@@ -45,14 +44,6 @@ public class User {
      */
     public Map<String, Boolean> getProjects() {
         return projects;
-    }
-
-    /**
-     * Gets all of teh tasks that the user is part of
-     * @return Map of all of the tasks that the user has been assigned mapped to the project
-     */
-    public Map<String, String> getTasks() {
-        return tasks;
     }
 
     /**
@@ -177,46 +168,7 @@ public class User {
         return projects.containsKey(projectId);
     }
 
-    /**
-     * Adds a new task to the user
-     * @param taskId
-     * @param taskName
-     * @return flag indicating that the task was added in
-     */
-    public boolean addTask(String taskId, String taskName) {
-        if(hasTask(taskId))
-        {
-            return false;
-        }
 
-        tasks.put(taskId, taskName);
-        return true;
-    }
-
-    /**
-     * Removes a task
-     * @param taskId
-     * @return flag indicating that the task was removed
-     */
-    public boolean removeTask(String taskId){
-        if(!hasTask(taskId))
-        {
-            return false;
-        }
-
-        tasks.remove(taskId);
-        return true;
-    }
-
-    /**
-     * Checks to see if a task has been assigned for the user
-     * @param taskId
-     * @return flag indicating that the task is assigned to the user
-     */
-    public boolean hasTask(String taskId)
-    {
-        return tasks.containsKey(taskId);
-    }
 
     //endregion
 

@@ -32,7 +32,7 @@ We are an Android application aimed to help students work efficiently and effect
 # How to run tests
 1. Clone the repo from GitHub by: git clone https://github.com/omarbakker/Stream-app on Terminal/ Git Bash
 2. On Terminal or Git Bash type in the command git fetch --all to get all branches of the repository
-3. On Terminal or Git Bash type in the command git checkout UnitTests
+3. On Terminal or Git Bash type in the command git checkout UnitTests to get to the Unit testing branch (this will be move to master before final demo)
 4. Open the project on Android Studio and wait for Gradle to sync
 5. Go to directory app/src/androidTest/java/com/test/stream/stream to see all Unit Tests
 6. Open the Unit Test file e.g. ProjectsTest.java

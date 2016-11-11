@@ -8,12 +8,8 @@ public enum DatabaseFolders {
     Tasks,
     TaskGroups,
     Projects,
-    ChatGroups,
-    Channels,
-    messages,
     Boards,
     Pins,
-    Files,
     Calendars,
     Meetings
 }

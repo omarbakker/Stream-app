@@ -1,7 +1,5 @@
 package com.test.stream.stream.Objects.Board;
 
-import com.test.stream.stream.Utilities.PinType;
-
 /**
  *  This is a representation of the abstract pin datatype which stores a pin, its type,
  *  and the board it belongs to
@@ -9,10 +7,12 @@ import com.test.stream.stream.Utilities.PinType;
  *  Created by Catherine Lee on 2016-10-26.
  */
 
-public abstract class Pin {
+public class Pin {
     private String id;
     private String boardId;
-    private String pinType;
+    private String title;
+    private String subtitle;
+    private String description;
 
 
     public String getBoardId()
@@ -23,9 +23,16 @@ public abstract class Pin {
     {
         return id;
     }
-    public String getPinType()
+    public String getSubtitle(){
+        return subtitle;
+    }
+    public String getTitle()
     {
-        return pinType;
+        return title;
+    }
+    public String getDescription()
+    {
+        return description;
     }
 
     public void setId(String id)
@@ -36,8 +43,24 @@ public abstract class Pin {
     {
         this.boardId = boardId;
     }
-    public void setPinType(PinType pinType)
-    {
-        this.pinType = pinType.toString();
+
+    /**
+     * Create a new message type pin
+     *
+     * @param title the title or name of the pin
+     * @param subtitle the secondary title of the pin
+     * @param description the contents of the pin
+     */
+    public Pin(String title, String subtitle, String description){
+        this.title = title;
+        this.subtitle = subtitle;
+        this.description = description;
     }
+
+    public Pin()
+    {
+
+    }
+
+
 }

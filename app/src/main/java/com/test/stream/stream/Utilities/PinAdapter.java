@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.test.stream.stream.Objects.Board.PinMessage;
+import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by kevinwong on 2016-10-30.
  */
 
-public class PinAdapter extends ArrayAdapter<PinMessage> {
+public class PinAdapter extends ArrayAdapter<Pin> {
 
     /**
      * Declare the elements of how the Pin should look
@@ -33,7 +33,7 @@ public class PinAdapter extends ArrayAdapter<PinMessage> {
      * @param context
      * @param pins
      */
-    public PinAdapter(Context context, ArrayList<PinMessage> pins){
+    public PinAdapter(Context context, ArrayList<Pin> pins){
         super(context, 0, pins);
     }
 
@@ -48,7 +48,7 @@ public class PinAdapter extends ArrayAdapter<PinMessage> {
     public View getView(int position, View convertView, ViewGroup parent){
 
         // Get the PinMessage that is being created
-        PinMessage pin = getItem(position);
+        Pin pin = getItem(position);
         // Create the viewHolder that stores the Pins
         ViewHolder viewHolder;
         // if there is nothing on PinBoard, add a new viewHolder
