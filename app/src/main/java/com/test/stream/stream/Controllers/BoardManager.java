@@ -1,24 +1,19 @@
 package com.test.stream.stream.Controllers;
 
-import android.content.Context;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Board.Board;
 import com.test.stream.stream.Objects.Board.Pin;
-import com.test.stream.stream.Objects.Board.PinMessage;
-import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.Utilities.PinType;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * A controller class for the Board functionality
@@ -29,9 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardManager extends DataManager{
     private static BoardManager instance = new BoardManager();
 
-    private BoardFragment context;
     private Board currentBoard;
     private ConcurrentHashMap<String, Pin> pins = new ConcurrentHashMap<String, Pin>();
+    private DataEventListener listener;
 
     /**
      * Ensure that BoardManager can only be instantiated within the class.
@@ -69,11 +64,11 @@ public class BoardManager extends DataManager{
      * Initializes the BoardManager so that it can maintain updated information of pins in
      * the current project.
      *
-     * @param context The java class of the view (ui) controlled by the BoardManager
+     * @param listener The listener to trigger when the data has been updated
      */
-    public void InitializePins(BoardFragment context)
+    public void InitializePins(DataEventListener listener)
     {
-        this.context = context;
+        this.listener = listener;
         super.registerParent(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId());
     }
 
@@ -87,7 +82,7 @@ public class BoardManager extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentBoard = dataSnapshot.getValue(Board.class);
         registerPins();
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     /**
@@ -97,7 +92,7 @@ public class BoardManager extends DataManager{
     @Override
     public void parentDeleted() {
         currentBoard = null;
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     /**
@@ -108,21 +103,13 @@ public class BoardManager extends DataManager{
      */
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
-        String pinType = dataSnapshot.child("pinType").getValue().toString();
 
-        if(pinType.equals(PinType.Message.toString()))
-        {
-            PinMessage pin = dataSnapshot.getValue(PinMessage.class);
-            pins.put(pin.getId(), pin);
-        }
-        else
-        {
-            System.out.println("Error, did not get pin");
-        }
+        Pin pin = dataSnapshot.getValue(Pin.class);
+        pins.put(pin.getId(), pin);
 
         if(currentBoard.getPins().size() == pins.size())
         {
-            context.updateUI();
+            listener.onDataChanged();
         }
     }
 
@@ -187,10 +174,8 @@ public class BoardManager extends DataManager{
             return false; //Cannot create a pin without the project selected.
         }
 
-        PinMessage message = new PinMessage(title, subtitle, description);
-
-        //Set inputted information
-        message.setPinType(PinType.Message);
+        Pin message = new Pin(title, subtitle, description);
+        message.setBoardId(ProjectManager.sharedInstance().getCurrentProject().getBoardId());
 
         String objectKey = DatabaseManager.getInstance().writeObject(DatabaseFolders.Pins, message);
 
@@ -199,7 +184,7 @@ public class BoardManager extends DataManager{
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Pins, objectKey, message);
 
         //Store the pins in the board.
-        currentBoard.addPin(message.getId(), PinType.Message);
+        currentBoard.addPin(message.getId());
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId(), currentBoard);
 
         return true;

@@ -37,6 +37,7 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +72,21 @@ public class TasksFragment extends Fragment
     private int current_task;
     int[] DueDate = {0,0,0};
     ArrayList<Task> tasks = new ArrayList<>();
-    private static final String TAG = TaskMain.class.getSimpleName();
+    private static final String TAG = TasksFragment.class.getSimpleName();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private DataEventListener dataListener = new DataEventListener() {
+        @Override
+        public void onDataChanged() {
+           updateUI();
+        }
+    };
+
+
 
     public TasksFragment() {
         // Required empty public constructor
@@ -106,7 +116,7 @@ public class TasksFragment extends Fragment
             }
         });
         //intialize
-        TaskManager.getInstance().Initialize(this);
+        TaskManager.getInstance().Initialize(dataListener);
     }
 
     /**
@@ -153,7 +163,7 @@ public class TasksFragment extends Fragment
     /**
      * updates the user interface to display all tasks
      */
-    public void updateUI(){
+    private void updateUI(){
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();

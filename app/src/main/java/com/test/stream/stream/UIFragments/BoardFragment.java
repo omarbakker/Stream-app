@@ -3,7 +3,6 @@ package com.test.stream.stream.UIFragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -11,17 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.test.stream.stream.Controllers.BoardManager;
-import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Objects.Board.Pin;
-import com.test.stream.stream.Objects.Board.PinMessage;
-import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.PinDetailActivity;
 import com.test.stream.stream.UI.ToolbarActivity;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.Utilities.PinAdapter;
 
 import java.util.ArrayList;
@@ -30,9 +26,16 @@ import java.util.List;
 
 public class BoardFragment extends ListFragment {
 
-    ArrayList<PinMessage> pinMessages = new ArrayList();
+    ArrayList<Pin> pins = new ArrayList();
     private PinAdapter pinAdapter;
     ImageButton floatButton;
+    private DataEventListener dataListener = new DataEventListener() {
+        @Override
+        public void onDataChanged() {
+            updateUI();
+        }
+    };
+
 
     public BoardFragment() {
         // Required empty public constructor
@@ -46,7 +49,7 @@ public class BoardFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Call database to populate board if any PinMessages are in the database
-        BoardManager.getInstance().InitializePins(this);
+        BoardManager.getInstance().InitializePins(dataListener);
     }
 
     /**
@@ -68,23 +71,19 @@ public class BoardFragment extends ListFragment {
     /**
      * Function that updates the Adapter of the ListFragment
      */
-    public void updateUI() {
+    private void updateUI() {
         // Get all pins from the databse
         List<Pin> allPins = BoardManager.getInstance().GetPinsInProject();
-        ArrayList<PinMessage> pins = new ArrayList();
+        ArrayList<Pin> pins = new ArrayList();
         // Go through each pin in database
         for (Pin currentPin : allPins) {
-            // If pin is a PinMessage then add to arrayList to show on application
-            if (currentPin.getClass() == PinMessage.class) {
-                PinMessage currentMessage = (PinMessage) currentPin;
-                pins.add(currentMessage);
-            }
+            pins.add(currentPin);
         }
         // Reverse Pin order to show newly created on top
         Collections.reverse(pins);
         if (pinAdapter == null) {
             // If nothing in adapter then create a new one and set the adapter to show pins
-            pinAdapter = new PinAdapter(getActivity(), pinMessages);
+            pinAdapter = new PinAdapter(getActivity(), this.pins);
             setListAdapter(pinAdapter);
         // Otherwise add all the pins in the current adapter and notify that adapter changed
         } else {
@@ -103,7 +102,7 @@ public class BoardFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        pinAdapter = new PinAdapter(getActivity(), pinMessages);
+        pinAdapter = new PinAdapter(getActivity(), pins);
         setListAdapter(pinAdapter);
         floatButton = (ImageButton) getView().findViewById(R.id.pinImageButton);
         // Listener to listen to when ImageButton for popup dialog is clicked
@@ -126,7 +125,7 @@ public class BoardFragment extends ListFragment {
                                 String title = titleText.getText().toString();
                                 String subtitle = subtitleText.getText().toString();
                                 String description = descriptionText.getText().toString();
-                                pinMessages.add(new PinMessage(title, subtitle, description));
+                                pins.add(new Pin(title, subtitle, description));
                                 setListAdapter(pinAdapter);
                                 // Add the PinMessage details to the database
                                 BoardManager.getInstance().CreateMessagePin(title, subtitle, description);
@@ -158,7 +157,7 @@ public class BoardFragment extends ListFragment {
      * @param position
      */
     private void launchPinDetailDialog(int position){
-        PinMessage pin = (PinMessage) getListAdapter().getItem(position);
+        Pin pin = (Pin) getListAdapter().getItem(position);
     }
 
     /**
@@ -166,7 +165,7 @@ public class BoardFragment extends ListFragment {
      * @param position
      */
     private void launchPinDetailActivty(int position){
-        PinMessage pin = (PinMessage) getListAdapter().getItem(position);
+        Pin pin = (Pin) getListAdapter().getItem(position);
         // Create Intent
         Intent intent = new Intent(getActivity(), PinDetailActivity.class);
         // Pass data from PinMessage to new Activity

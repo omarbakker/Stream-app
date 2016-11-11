@@ -1,7 +1,5 @@
 package com.test.stream.stream.Objects.Board;
 
-import com.test.stream.stream.Utilities.PinType;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +14,14 @@ public class Board {
 
     //region Variables
     private String parentProjectId;
-    private Map<String, String> pins = new HashMap<String, String>();  //pin Id - pin type (message or file)
+    private Map<String, Boolean> pins = new HashMap<String, Boolean>();  //Map to store on database.
     //endregion
 
     //region Setters and Getters
     public String getParentProjectId() {
         return parentProjectId;
     }
-    public Map<String, String> getPins() {
+    public Map<String, Boolean> getPins() {
         return pins;
     }
 
@@ -49,16 +47,15 @@ public class Board {
      * Add a new pin to the board
      *
      * @param pinId the firebase id of the pin
-     * @param type the enum representing the pin's class
      * @return true if the pin has been added. False otherwise.
      */
-    public boolean addPin(String pinId, PinType type)
+    public boolean addPin(String pinId)
     {
         if(hasPin(pinId)) {
             return false;
         }
 
-        pins.put(pinId, type.toString());
+        pins.put(pinId, true);
         return true;
     }
 

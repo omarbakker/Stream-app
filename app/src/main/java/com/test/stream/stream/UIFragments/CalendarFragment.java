@@ -24,6 +24,7 @@ import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.CreateNewMeeting;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,12 @@ public class CalendarFragment extends Fragment {
     private int current_meeting;
     ArrayList<Meeting> meetings = new ArrayList<>();
 
-
+    private DataEventListener dataListener = new DataEventListener() {
+        @Override
+        public void onDataChanged() {
+            updateUI();
+        }
+    };
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -70,7 +76,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        CalendarManager.getInstance().Initialize(this);
+        CalendarManager.getInstance().Initialize(dataListener);
 
     }
 
@@ -106,7 +112,7 @@ public class CalendarFragment extends Fragment {
     /**
      * Gets all of the meeting objects from the database and then displays them to the UI
      */
-    public void updateUI() {
+    private void updateUI() {
         List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
