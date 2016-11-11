@@ -2,7 +2,6 @@ package com.test.stream.stream.UIFragments;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,15 +34,13 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static android.R.attr.name;
-import static android.R.id.input;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -327,8 +323,6 @@ public class TasksFragment extends Fragment
         newTaskDialog.dismiss();
     }
 
-
-
     /**
      * Checks if the string passed represents a valid user in the database.
      * Updates newTaskAssignee accordingly.
@@ -347,18 +341,28 @@ public class TasksFragment extends Fragment
                     GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
                     Map <String,User> resultMap = result.getValue(genericTypeIndicator);
                     String id = (String) resultMap.keySet().toArray()[0];
-                    newTaskAssignee = resultMap.get(id);
-                    newTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
-                }else{
-                    // user is invalid and cannot be added to the project as a collaborator
-                    String userInvalidHelp = uDescription + " - Invalid user";
+
+                    if(ProjectManager.sharedInstance().getCurrentProject().isMember(resultMap.get(id))) //Confirm that the assignee is a member of the project
+                    {
+                        newTaskAssignee = resultMap.get(id);
+                        newTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        newTaskAssignee = null;
+                    }
+                }
+
+                if(newTaskAssignee == null){
+                    // user is invalid or is not a member of the project
+                    String userInvalidHelp = uDescription + " - Invalid Member";
                     newTaskAssigneeField.setText(userInvalidHelp);
                     newTaskAssigneeField.selectAll();
                     newTaskValidAssigneeIndicator.setVisibility(View.INVISIBLE);
                 }
             }
         };
-        UserManager.getInstance().checkUserExists(uDescription,userResult);
+        UserManager.getInstance().fetchUserIfExists(uDescription,userResult);
     }
 
 

@@ -235,7 +235,7 @@ public class newProjectActivity extends AppCompatActivity
                 }
             }
         };
-        UserManager.getInstance().checkUserExists(uDescription,userResult);
+        UserManager.getInstance().fetchUserIfExists(uDescription,userResult);
     }
 
     /**

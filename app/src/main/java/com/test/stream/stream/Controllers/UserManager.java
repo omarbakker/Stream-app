@@ -117,11 +117,11 @@ public class UserManager {
 
     /**
      * Check if a username exists in the database
-     * @param uDescription
+     * @param userName
      * A description for a stream username/email entered by the app user.
      */
-    public void checkUserExists(String uDescription, final ReadDataCallback callback){
-        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", uDescription,callback);
+    public void fetchUserIfExists(String userName, final ReadDataCallback callback){
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", userName,callback);
     }
 
     /**
