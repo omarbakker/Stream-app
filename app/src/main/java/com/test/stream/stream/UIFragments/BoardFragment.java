@@ -17,6 +17,7 @@ import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.PinDetailActivity;
 import com.test.stream.stream.UI.ToolbarActivity;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.Utilities.PinAdapter;
 
 import java.util.ArrayList;
@@ -28,6 +29,13 @@ public class BoardFragment extends ListFragment {
     ArrayList<Pin> pins = new ArrayList();
     private PinAdapter pinAdapter;
     ImageButton floatButton;
+    private DataEventListener dataListener = new DataEventListener() {
+        @Override
+        public void onDataChanged() {
+            updateUI();
+        }
+    };
+
 
     public BoardFragment() {
         // Required empty public constructor
@@ -41,7 +49,7 @@ public class BoardFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Call database to populate board if any PinMessages are in the database
-        BoardManager.getInstance().InitializePins(this);
+        BoardManager.getInstance().InitializePins(dataListener);
     }
 
     /**
@@ -63,7 +71,7 @@ public class BoardFragment extends ListFragment {
     /**
      * Function that updates the Adapter of the ListFragment
      */
-    public void updateUI() {
+    private void updateUI() {
         // Get all pins from the databse
         List<Pin> allPins = BoardManager.getInstance().GetPinsInProject();
         ArrayList<Pin> pins = new ArrayList();

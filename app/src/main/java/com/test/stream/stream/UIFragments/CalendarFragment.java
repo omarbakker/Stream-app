@@ -112,7 +112,7 @@ public class CalendarFragment extends Fragment {
     /**
      * Gets all of the meeting objects from the database and then displays them to the UI
      */
-    public void updateUI() {
+    private void updateUI() {
         List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;

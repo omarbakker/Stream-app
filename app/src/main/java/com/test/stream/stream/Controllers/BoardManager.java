@@ -5,9 +5,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.test.stream.stream.Objects.Board.Board;
 import com.test.stream.stream.Objects.Board.Pin;
-import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,9 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardManager extends DataManager{
     private static BoardManager instance = new BoardManager();
 
-    private BoardFragment context;
     private Board currentBoard;
     private ConcurrentHashMap<String, Pin> pins = new ConcurrentHashMap<String, Pin>();
+    private DataEventListener listener;
 
     /**
      * Ensure that BoardManager can only be instantiated within the class.
@@ -64,11 +64,11 @@ public class BoardManager extends DataManager{
      * Initializes the BoardManager so that it can maintain updated information of pins in
      * the current project.
      *
-     * @param context The java class of the view (ui) controlled by the BoardManager
+     * @param listener The listener to trigger when the data has been updated
      */
-    public void InitializePins(BoardFragment context)
+    public void InitializePins(DataEventListener listener)
     {
-        this.context = context;
+        this.listener = listener;
         super.registerParent(DatabaseFolders.Boards, ProjectManager.sharedInstance().getCurrentProject().getBoardId());
     }
 
@@ -82,7 +82,7 @@ public class BoardManager extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentBoard = dataSnapshot.getValue(Board.class);
         registerPins();
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     /**
@@ -92,7 +92,7 @@ public class BoardManager extends DataManager{
     @Override
     public void parentDeleted() {
         currentBoard = null;
-        context.updateUI();
+        listener.onDataChanged();
     }
 
     /**
@@ -109,7 +109,7 @@ public class BoardManager extends DataManager{
 
         if(currentBoard.getPins().size() == pins.size())
         {
-            context.updateUI();
+            listener.onDataChanged();
         }
     }
 
