@@ -387,5 +387,11 @@ public class TasksFragment extends Fragment
         }
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        TaskManager.getInstance().Destroy();
+        super.onDestroyView();
+    }
 
 }
