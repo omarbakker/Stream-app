@@ -178,4 +178,12 @@ public class BoardFragment extends ListFragment {
     }
 
 
+    @Override
+    public void onDestroyView()
+    {
+        BoardManager.getInstance().Destroy();
+        super.onDestroyView();
+    }
+
+
 }

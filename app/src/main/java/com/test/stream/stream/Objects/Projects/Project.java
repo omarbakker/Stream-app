@@ -150,7 +150,7 @@ public class Project {
      * @param user the user to check the status of
      * @return true if the user is a member. False otherwise.
      */
-    private boolean isMember(User user) {
+    public boolean isMember(User user) {
         return members.containsKey(user.getUid());
     }
 

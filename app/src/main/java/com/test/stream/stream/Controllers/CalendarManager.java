@@ -180,4 +180,11 @@ public class CalendarManager  extends DataManager{
         super.registerParent(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getCalendarId());;
     }
 
+    @Override
+    public void Destroy()
+    {
+        instance = new CalendarManager();
+        super.Destroy();
+    }
+
 }

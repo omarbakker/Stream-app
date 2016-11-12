@@ -153,4 +153,11 @@ public class CalendarFragment extends Fragment {
         intent.putExtra("meetingName", meetingName);
         startActivity(intent);
     }
+
+    @Override
+    public void onDestroyView()
+    {
+        CalendarManager.getInstance().Destroy();
+        super.onDestroyView();
+    }
 }

@@ -235,4 +235,11 @@ public class TaskManager extends DataManager{
         return true;
 
     }
+
+    @Override
+    public void Destroy()
+    {
+        instance = new TaskManager();
+        super.Destroy();
+    }
 }
