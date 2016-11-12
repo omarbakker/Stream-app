@@ -27,7 +27,6 @@ public class UserManager {
     private FirebaseUser mFirebaseUser;
 
     private User currentUser;
-    private String userKey;
 
     /**
      * Ensure that UserManager can only be instantiated within the class.
@@ -83,7 +82,6 @@ public class UserManager {
                         for(DataSnapshot user: result.getChildren())
                         {
                             currentUser = user.getValue(User.class);
-                            userKey = user.getKey();
                         }
 
                         callback.onDataRetrieved(result);
@@ -101,7 +99,7 @@ public class UserManager {
     public void updateUser(User user)
     {
         currentUser = user;
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Users, userKey, currentUser);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Users, currentUser.getUid(), currentUser);
 
     }
 
@@ -114,8 +112,6 @@ public class UserManager {
         LoginManager.getInstance().logOut();
 
         currentUser = null;
-        userKey = null;
-
         mFirebaseAuth = null;
         mFirebaseUser = null;
 
@@ -140,7 +136,7 @@ public class UserManager {
      * @param callback the callback to trigger when the user has been retrieved.
      */
     public void fetchUserByUid(String uid, final ReadDataCallback callback){
-        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid ,callback);
+        DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Users, uid, callback);
     }
 
     /**
@@ -179,7 +175,7 @@ public class UserManager {
     /**
      * Get the user current logged into firebase
      *
-     * @return the Firebae user object
+     * @return the Firebase user object
      */
     private static FirebaseUser getFirebaseUser()
     {
@@ -203,7 +199,7 @@ public class UserManager {
                 if(!result.exists())
                 {
                     if (!oneUserHandled.getAndSet(true)) {
-                        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+                        DatabaseManager.getInstance().writeObjectWithKey(DatabaseFolders.Users, user.getUid(), user);
                         callback.onDataRetrieved(user);
                     }
                 }

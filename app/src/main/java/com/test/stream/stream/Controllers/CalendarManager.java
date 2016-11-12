@@ -175,7 +175,7 @@ public class CalendarManager  extends DataManager{
 
     /**
      * Initializes an instance of CalendarManager and the database
-     * @param listener the lisener to call back to once data has been updated.
+     * @param listener the listener to call back to once data has been updated.
      */
     public void Initialize(DataEventListener listener) {
         this.listener = listener;

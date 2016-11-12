@@ -139,7 +139,7 @@ public class newProjectActivity extends AppCompatActivity
 
                         DatabaseManager.getInstance().updateObject(
                                 DatabaseFolders.Users,
-                                user.getKey(),
+                                currUser.getUid(),
                                 currUser);
                     }
 
