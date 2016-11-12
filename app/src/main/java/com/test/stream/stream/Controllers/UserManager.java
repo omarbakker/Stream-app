@@ -1,5 +1,6 @@
 package com.test.stream.stream.Controllers;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -105,13 +106,22 @@ public class UserManager {
     }
 
     /**
-     * Reset variables storing the user to null when the user logs out
+     * Reset user manager when the user logs out.
      */
     public void logout()
     {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+
+        currentUser = null;
+        userKey = null;
+
         mFirebaseAuth = null;
         mFirebaseUser = null;
-        currentUser = null;
+
+        instance = new UserManager();
+        ProjectManager.sharedInstance().destroy();
+
     }
 
 

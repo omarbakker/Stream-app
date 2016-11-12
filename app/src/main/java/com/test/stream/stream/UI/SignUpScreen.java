@@ -128,6 +128,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                 public void onDataRetrieved(User result) {
                                     Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
                                     startActivity(intent);
+                                    context.finish();
                                 }
                             });
                         } else {

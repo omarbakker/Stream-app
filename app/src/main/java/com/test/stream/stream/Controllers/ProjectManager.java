@@ -166,4 +166,11 @@ public class ProjectManager {
 
     }
 
+    public void destroy()
+    {
+        currentProject = null;
+        instance = null;
+        //TODO: Deregister any listeners
+    }
+
 }

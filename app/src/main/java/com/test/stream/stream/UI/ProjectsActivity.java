@@ -125,8 +125,8 @@ public class ProjectsActivity extends AppCompatActivity
     {
         switch (v.getId()){
             case R.id.addProjectButton:
-
-                startActivity(new Intent(ProjectsActivity.this,newProjectActivity.class));
+                startActivity(new Intent(ProjectsActivity.this, newProjectActivity.class));
+                this.finish();
                 break;
             default:
                 break;
@@ -181,6 +181,7 @@ public class ProjectsActivity extends AppCompatActivity
             Intent intent = new Intent(this,ToolbarActivity.class);
             intent.putExtra("frgToLoad", "HOME");
             startActivity(intent);
+            this.finish();
         }
 
     }
