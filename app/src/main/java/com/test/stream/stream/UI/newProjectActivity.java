@@ -36,7 +36,7 @@ public class newProjectActivity extends AppCompatActivity
         EditText.OnEditorActionListener,
         TextWatcher
 {
-
+    
     // UI Elements
     private TextView titleText;
     private EditText projectNameField;
