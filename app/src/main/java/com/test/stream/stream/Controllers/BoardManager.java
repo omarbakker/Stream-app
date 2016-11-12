@@ -221,4 +221,11 @@ public class BoardManager extends DataManager{
 
     }
 
+    @Override
+    public void Destroy()
+    {
+        instance = new BoardManager();
+        super.Destroy();
+    }
+
 }
