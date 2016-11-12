@@ -12,11 +12,11 @@
     tools:context="com.test.stream.stream.UIFragments.TaskMain">
 
     <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Welcome to your Task Manager"-->
-        <!--android:textSize="30sp"-->
-        <!--android:gravity="center"/>-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Welcome to your Task Manager"-->
+    <!--android:textSize="30sp"-->
+    <!--android:gravity="center"/>-->
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
