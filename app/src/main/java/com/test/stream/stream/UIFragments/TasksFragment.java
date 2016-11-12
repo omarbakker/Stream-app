@@ -34,7 +34,6 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -362,7 +361,7 @@ public class TasksFragment extends Fragment
                 }
             }
         };
-        UserManager.getInstance().fetchUserIfExists(uDescription,userResult);
+        UserManager.getInstance().fetchUserByUserName(uDescription,userResult);
     }
 
 

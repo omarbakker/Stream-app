@@ -126,12 +126,21 @@ public class UserManager {
 
 
     /**
-     * Check if a username exists in the database
-     * @param userName
+     * Retrieves a user in the callback if the user exists
+     * @param userName the username of the user to retrieve
      * A description for a stream username/email entered by the app user.
      */
-    public void fetchUserIfExists(String userName, final ReadDataCallback callback){
+    public void fetchUserByUserName(String userName, final ReadDataCallback callback){
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", userName,callback);
+    }
+
+    /**
+     * Retrieves a user in the callback if the user exists
+     * @param uid the uid of the user
+     * @param callback the callback to trigger when the user has been retrieved.
+     */
+    public void fetchUserByUid(String uid, final ReadDataCallback callback){
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid ,callback);
     }
 
     /**
