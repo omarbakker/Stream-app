@@ -127,18 +127,14 @@ public class newProjectActivity extends AppCompatActivity
      */
     private void addProjectToMembers()
     {
-        System.out.println("Add to members");
-
         for(String uid: newProject.getMembers().keySet())
         {
-            System.out.println("uid: " + uid);
             UserManager.getInstance().fetchUserByUid(uid, new ReadDataCallback() {
                 @Override
                 public void onDataRetrieved(DataSnapshot result) {
 
                     for(DataSnapshot user: result.getChildren()) {
                         User currUser = user.getValue(User.class);
-                        System.out.println("Got " + currUser.getUid());
                         currUser.addProject(newProject.getId());
 
                         DatabaseManager.getInstance().updateObject(
