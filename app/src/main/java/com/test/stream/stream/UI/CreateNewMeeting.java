@@ -2,7 +2,6 @@ package com.test.stream.stream.UI;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -14,14 +13,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 
 import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UIFragments.CalendarFragment;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,7 +81,7 @@ public class CreateNewMeeting extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         System.out.println("Time to create new activity");
-                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
+                        CalendarManager.sharedInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
                                 meeting_location.getText().toString(), adjustHour(hour_x), minute_x,
                                 day_x,  month_x, year_x, getMonthString(month_x-1),
                                 dayOfWeek, getAmPm(hour_x));

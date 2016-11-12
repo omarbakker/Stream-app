@@ -353,9 +353,9 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
 //    private void createUser()
 //    {
-//        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser mUser = FirebaseAuth.sharedInstance().getCurrentUser();
 //        User user = new User(mUser.getUid(), mUser.getDisplayName());
-//        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+//        DatabaseManager.sharedInstance().writeObject(DatabaseFolders.Users, user);
 //    }
 
     /**

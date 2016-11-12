@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CalendarManager  extends DataManager{
     private DataEventListener listener;
     private static CalendarManager instance = new CalendarManager();
-    public static CalendarManager getInstance() { return instance; }
+    public static CalendarManager sharedInstance() { return instance; }
 
     private Calendar currentCalendar;
     private ConcurrentHashMap<String, Meeting> meetingsInCalendar = new ConcurrentHashMap<String, Meeting>(); //Task Id - task
@@ -165,7 +165,9 @@ public class CalendarManager  extends DataManager{
 
         currentCalendar.removeMeeting(meetingId);
         meetingsInCalendar.remove(meeting);
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars, ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), currentCalendar);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars,
+                ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(),
+                currentCalendar);
 
         return true;
 

@@ -38,7 +38,7 @@ public class UserManager {
      *
      * @return the only instance of this class (singleton)
      */
-    public static UserManager getInstance(){ return instance; }
+    public static UserManager sharedInstance(){ return instance; }
 
     /**
      *

@@ -16,11 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.test.stream.stream.Controllers.CalendarManager;
-import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +44,7 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
 
         Intent a = getIntent();
-        meetings = CalendarManager.getInstance().GetMeetingsInProject();
+        meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
         String meetingName = (String) a.getSerializableExtra("meetingName");
         View view = (View) a.getSerializableExtra("v");
         setContentView(R.layout.calendar_details);

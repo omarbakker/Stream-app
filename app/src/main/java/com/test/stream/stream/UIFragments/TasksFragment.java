@@ -111,7 +111,7 @@ public class TasksFragment extends Fragment
             }
         });
         //intialize
-        TaskManager.getInstance().Initialize(dataListener);
+        TaskManager.sharedInstance().Initialize(dataListener);
     }
 
     /**
@@ -159,7 +159,7 @@ public class TasksFragment extends Fragment
      * updates the user interface to display all tasks
      */
     private void updateUI(){
-        List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
+        List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
@@ -318,7 +318,7 @@ public class TasksFragment extends Fragment
             return;
         }
 
-        TaskManager.getInstance().CreateTask(name, description, newTaskAssignee, DueDate, false);
+        TaskManager.sharedInstance().CreateTask(name, description, newTaskAssignee, DueDate, false);
         newTaskDialog.dismiss();
     }
 
@@ -361,7 +361,7 @@ public class TasksFragment extends Fragment
                 }
             }
         };
-        UserManager.getInstance().fetchUserByUserName(uDescription,userResult);
+        UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
 
@@ -389,7 +389,7 @@ public class TasksFragment extends Fragment
     @Override
     public void onDestroyView()
     {
-        TaskManager.getInstance().Destroy();
+        TaskManager.sharedInstance().Destroy();
         super.onDestroyView();
     }
 
