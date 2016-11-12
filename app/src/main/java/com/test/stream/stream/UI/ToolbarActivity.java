@@ -18,6 +18,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
@@ -236,10 +237,11 @@ public class ToolbarActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
+                com.test.stream.stream.Controllers.UserManager
+                        .getInstance().logout();
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
+                this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
