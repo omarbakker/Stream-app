@@ -1,8 +1,6 @@
 package com.test.stream.stream.Controllers;
 
-import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.Objects.Tasks.Task;
-import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
@@ -10,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by cathe on 2016-11-10.
+ * Controls the home screen
  */
 
 public class HomeManager {
@@ -26,12 +24,21 @@ public class HomeManager {
         }
     };
 
+    /**
+     * Initialize the home page with a listener
+     *
+     * @param listener A listener to call back whenever data is updated.
+     */
     public HomeManager(DataEventListener listener)
     {
         uiListener = listener;
         TaskManager.getInstance().Initialize(this.listener);
     }
 
+    /**
+     * Retrieve all tasks that are assigned to the current user and
+     * notify listeners when the data has changed.
+     */
     private void FetchTasks()
     {
         List<Task> currentTasks = TaskManager.getInstance().GetTasksInProject();
@@ -59,6 +66,9 @@ public class HomeManager {
 
     }
 
+    /**
+     * @return all the tasks assigned to the user
+     */
     public List<Task> getUserTasks()
     {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -67,6 +77,10 @@ public class HomeManager {
         return tasks;
     }
 
+    /**
+     *
+     * @return The percentage of their tasks in the project that the user has completed
+     */
     public int getUserProgress()
     {
         double percentage = numberCompletedTasks/(numberCompletedTasks + userTasks.size());
@@ -74,12 +88,26 @@ public class HomeManager {
     }
 
 
+    /**
+     * Create a new task with the provided information
+     *
+     * @param taskName the name of the task
+     * @param description the contents of the task
+     * @param dueDate the day in which the task is due.
+     * @return true if the task has been successfully created. False otherwise.
+     */
     public boolean CreateTask(String taskName, String description, int[] dueDate)
     {
         return TaskManager.getInstance().CreateTask(taskName, description,
                 UserManager.getInstance().getCurrentUser(), dueDate, false);
     }
 
+    /**
+     * Update the provided task
+     *
+     * @param task the task to updated, with the updated information
+     * @return true if the task was updated. False otherwise.
+     */
     public boolean UpdateTask(Task task)
     {
         return TaskManager.getInstance().UpdateTask(task);

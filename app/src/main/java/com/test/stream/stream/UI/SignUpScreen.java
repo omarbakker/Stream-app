@@ -113,6 +113,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         //showProgressDialog();
 
         // [START create_user_with_email] firebase users
+        System.out.println(email + " " + password);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

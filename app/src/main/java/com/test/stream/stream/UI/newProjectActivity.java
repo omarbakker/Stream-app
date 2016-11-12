@@ -23,6 +23,9 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.newProjectUsersAdapter;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
+
 import java.util.Map;
 
 
@@ -104,8 +107,8 @@ public class newProjectActivity extends AppCompatActivity
                     newProject.setName(projectNameField.getText().toString());
 
                     // Have ProjectManager handle creating the project
-                    ProjectManager.sharedInstance().CreateProject(newProject);
-
+                    newProject = ProjectManager.sharedInstance().CreateProject(newProject);
+                    addProjectToMembers();
                     // dismiss the new project wizard
                     this.finish();
                 }
@@ -117,6 +120,34 @@ public class newProjectActivity extends AppCompatActivity
             default:
                 break;
         }
+    }
+
+    /**
+     * Add the new project to all members of the project.
+     */
+    private void addProjectToMembers()
+    {
+        for(String uid: newProject.getMembers().keySet())
+        {
+            UserManager.getInstance().fetchUserByUid(uid, new ReadDataCallback() {
+                @Override
+                public void onDataRetrieved(DataSnapshot result) {
+
+                    for(DataSnapshot user: result.getChildren()) {
+                        User currUser = user.getValue(User.class);
+                        currUser.addProject(newProject.getId());
+
+                        DatabaseManager.getInstance().updateObject(
+                                DatabaseFolders.Users,
+                                user.getKey(),
+                                currUser);
+                    }
+
+                }
+            });
+
+        }
+
     }
 
 
@@ -235,7 +266,7 @@ public class newProjectActivity extends AppCompatActivity
                 }
             }
         };
-        UserManager.getInstance().fetchUserIfExists(uDescription,userResult);
+        UserManager.getInstance().fetchUserByUserName(uDescription,userResult);
     }
 
     /**

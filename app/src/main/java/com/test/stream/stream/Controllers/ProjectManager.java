@@ -75,7 +75,7 @@ public class ProjectManager {
      * @param project
      * Writes the object to the database
      */
-    public void CreateProject(Project project) {
+    public Project CreateProject(Project project) {
 
         //Set inputted information
         String projectID = DatabaseManager.getInstance().writeObject(DatabaseFolders.Projects, project);
@@ -105,6 +105,8 @@ public class ProjectManager {
 
         // update the users list of projects, and the projects list view
         addToCurrentUserProjects(project.getId());
+
+        return project;
     }
 
     /**
