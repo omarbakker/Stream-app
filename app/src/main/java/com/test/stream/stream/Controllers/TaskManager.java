@@ -38,7 +38,7 @@ public class TaskManager extends DataManager{
      *
      * @return the only instance of this class (singleton)
      */
-    public static TaskManager getInstance() { return instance; }
+    public static TaskManager sharedInstance() { return instance; }
 
     /**
      * Fetches a list of task items of a project sorted by creation time.

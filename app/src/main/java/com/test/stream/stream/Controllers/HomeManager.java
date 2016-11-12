@@ -32,7 +32,7 @@ public class HomeManager {
     public HomeManager(DataEventListener listener)
     {
         uiListener = listener;
-        TaskManager.getInstance().Initialize(this.listener);
+        TaskManager.sharedInstance().Initialize(this.listener);
     }
 
     /**
@@ -41,7 +41,7 @@ public class HomeManager {
      */
     private void FetchTasks()
     {
-        List<Task> currentTasks = TaskManager.getInstance().GetTasksInProject();
+        List<Task> currentTasks = TaskManager.sharedInstance().GetTasksInProject();
 
         numberCompletedTasks = 0;
         userTasks.clear();
@@ -49,7 +49,7 @@ public class HomeManager {
         for(Task currTask: currentTasks)
         {
             if(currTask.getAssigneeUid()
-                    .equals(UserManager.getInstance().getCurrentUser().getUid()))
+                    .equals(UserManager.sharedInstance().getCurrentUser().getUid()))
             {
                 if(!currTask.getComplete())
                 {
@@ -98,8 +98,8 @@ public class HomeManager {
      */
     public boolean CreateTask(String taskName, String description, int[] dueDate)
     {
-        return TaskManager.getInstance().CreateTask(taskName, description,
-                UserManager.getInstance().getCurrentUser(), dueDate, false);
+        return TaskManager.sharedInstance().CreateTask(taskName, description,
+                UserManager.sharedInstance().getCurrentUser(), dueDate, false);
     }
 
     /**
@@ -110,7 +110,7 @@ public class HomeManager {
      */
     public boolean UpdateTask(Task task)
     {
-        return TaskManager.getInstance().UpdateTask(task);
+        return TaskManager.sharedInstance().UpdateTask(task);
     }
 
 }

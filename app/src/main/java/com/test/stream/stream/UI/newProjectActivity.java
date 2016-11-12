@@ -78,9 +78,9 @@ public class newProjectActivity extends AppCompatActivity
         // Initialize a new Project object, this projects fields will be populated from the info the user enters
         newProject = new Project();
 
-        User user = UserManager.getInstance().getCurrentUser();
+        User user = UserManager.sharedInstance().getCurrentUser();
         if(user != null){
-            newProject.addMember(UserManager.getInstance().getCurrentUser(), true);
+            newProject.addMember(UserManager.sharedInstance().getCurrentUser(), true);
         }
 
         // set font
@@ -129,7 +129,7 @@ public class newProjectActivity extends AppCompatActivity
     {
         for(String uid: newProject.getMembers().keySet())
         {
-            UserManager.getInstance().fetchUserByUid(uid, new ReadDataCallback() {
+            UserManager.sharedInstance().fetchUserByUid(uid, new ReadDataCallback() {
                 @Override
                 public void onDataRetrieved(DataSnapshot result) {
 
@@ -266,7 +266,7 @@ public class newProjectActivity extends AppCompatActivity
                 }
             }
         };
-        UserManager.getInstance().fetchUserByUserName(uDescription,userResult);
+        UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
     /**

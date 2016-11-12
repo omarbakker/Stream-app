@@ -37,7 +37,7 @@ public class BoardManager extends DataManager{
      *
      * @return the only instance of this class (singleton)
      */
-    public static BoardManager getInstance() { return instance; }
+    public static BoardManager sharedInstance() { return instance; }
 
 
     /**

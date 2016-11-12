@@ -118,8 +118,7 @@ public class ProjectManager {
      * Result will be delivered in this callback.
      */
     public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback) {
-        // TODO: get actual user object after login/UserManager issues are resolved
-        User currentUser = UserManager.getInstance().getCurrentUser();
+        User currentUser = UserManager.sharedInstance().getCurrentUser();
 
         final List<Project> projects = new ArrayList<Project>();
         final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
@@ -155,13 +154,13 @@ public class ProjectManager {
      */
     public void addToCurrentUserProjects(String projectId){
 
-        User user = UserManager.getInstance().getCurrentUser();
+        User user = UserManager.sharedInstance().getCurrentUser();
 
         if(user == null)
             return;
 
         user.addProject(projectId);
-        UserManager.getInstance().updateUser(user);
+        UserManager.sharedInstance().updateUser(user);
 
         if (projectsActivity != null)
             projectsActivity.updateUI();
@@ -172,7 +171,6 @@ public class ProjectManager {
     {
         currentProject = null;
         instance = null;
-        //TODO: Deregister any listeners
     }
 
 }
