@@ -70,7 +70,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         String taskName = (String) a.getSerializableExtra("taskName");
         View view = (View) a.getSerializableExtra("view");
         setContentView(R.layout.task_details);
-
         //Get the task that has been clicked
 
         //register device token
@@ -106,6 +105,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //task name
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         task_name.setText(expandTask.getName());
+        int colour = expandTask.getAssignee().length()*-1500;
+        Log.d(TAG, String.valueOf(colour));
+        task_name.setBackgroundColor(colour);
         //description
         TextView task_description = (TextView) findViewById(R.id.description_expanded);
         task_description.setText(expandTask.getDescription());

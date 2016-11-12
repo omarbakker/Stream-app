@@ -44,6 +44,7 @@ import java.util.Map;
 
 import static android.R.attr.name;
 import static android.R.id.input;
+import static com.test.stream.stream.R.id.view;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +66,7 @@ public class TasksFragment extends Fragment
     TextInputEditText newTaskDescriptionField;
     TextInputEditText newTaskAssigneeField;
     User newTaskAssignee;
+    //TextView welcome = (TextView) getView().findViewById(R.id.welcome_message);
 
     ImageView newTaskValidAssigneeIndicator;
 
@@ -154,7 +156,9 @@ public class TasksFragment extends Fragment
      * updates the user interface to display all tasks
      */
     public void updateUI(){
+        //welcome.setVisibility(getView().INVISIBLE);
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
+        tasks = sortArraybyComplete(tasks);
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
@@ -162,8 +166,6 @@ public class TasksFragment extends Fragment
         while (i >= 0) {
             Task task = tasks.get(i);
             taskList.add(task.getName());
-            Log.d(TAG, currentProject.getName());
-            Log.d("Just added new task", "Just added new task");
             i--;
         }
 
@@ -172,15 +174,20 @@ public class TasksFragment extends Fragment
                     R.layout.task_small,
                     R.id.task_name,
                     taskList);
-
             mTaskListView.setAdapter(mAdapter);
-
         } else {
             mAdapter.clear();
             mAdapter.addAll(taskList);
             mAdapter.notifyDataSetChanged();
         }
 
+//        int size = taskList.size();
+//        for( int a = 0; a < size; a++) {
+//            View listViewChildAt = mTaskListView.getChildAt(a);
+//            Task task = tasks.get(a);
+//            int colour = task.getAssignee().length()*-1500;
+//            listViewChildAt.setBackgroundColor(colour);
+//        }
     }
 
 
@@ -201,14 +208,19 @@ public class TasksFragment extends Fragment
      * Sort the array of tasks
      * @param tasks
      */
-    public void sortArraybyComplete(ArrayList<Task> tasks){
+    public List<Task> sortArraybyComplete(List<Task> tasks){
+        if(tasks.size() == 1){
+            return tasks;
+        }
         for(int i = 0; i < tasks.size()-1; i++){
-            if(tasks.get(i).getComplete()==true){
+            if ((tasks.get(i).getComplete()) == true && (tasks.get(i+1).getComplete()) != true) {
                 Task task = tasks.get(i);
                 tasks.set(i, tasks.get(i+1));
-                tasks.set(tasks.size()-1, task);
+                tasks.set(i+1, task);
+
             }
         }
+        return tasks;
     }
 
     private void handleInvalidDate(){
