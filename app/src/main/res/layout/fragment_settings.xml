@@ -1,13 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.test.stream.stream.UIFragments.TeamFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <ListView android:id="@id/android:list"
         android:layout_height="match_parent"
-        android:text="@string/settings_page" />
+        android:layout_width="match_parent"/>
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/teamImageButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/oval"
+        android:src="@mipmap/ic_menu_add" />
+</RelativeLayout>
