@@ -28,7 +28,6 @@ import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
@@ -66,7 +65,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         Intent a = getIntent();
-        tasks = TaskManager.getInstance().GetTasksInProject();
+        tasks = TaskManager.sharedInstance().GetTasksInProject();
         String taskName = (String) a.getSerializableExtra("taskName");
         View view = (View) a.getSerializableExtra("view");
         setContentView(R.layout.task_details);
@@ -271,7 +270,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param view
      */
     public void deleteTask(View view){
-        TaskManager.getInstance().DeleteTask(expandTask);
+        TaskManager.sharedInstance().DeleteTask(expandTask);
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()-1);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);

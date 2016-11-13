@@ -21,9 +21,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -31,6 +34,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
+    SignUpScreen context;
     EditText enterNewName, enterNewUsername, enterNewPassword;
     static EditText enterNewEmail;
     TextView signInTitle;
@@ -49,6 +53,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
+
         setContentView(R.layout.activity_sign_up_screen);
 
         //Initializations
@@ -107,6 +113,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         //showProgressDialog();
 
         // [START create_user_with_email] firebase users
+        System.out.println(email + " " + password);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -117,9 +124,14 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            UserManager.createUserIfNotExist(username, name, email);
-                            Intent intent = new Intent(SignUpScreen.this, ToolbarActivity.class);
-                            startActivity(intent);
+                            UserManager.createUserIfNotExist(username, name, email, new FetchUserCallback() {
+                                @Override
+                                public void onDataRetrieved(User result) {
+                                    Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
+                                    startActivity(intent);
+                                    context.finish();
+                                }
+                            });
                         } else {
                             try {
                                 throw task.getException();

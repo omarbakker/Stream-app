@@ -2,7 +2,6 @@ package com.test.stream.stream.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,12 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import com.facebook.login.LoginManager;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.R;
-import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
@@ -27,15 +25,6 @@ import com.test.stream.stream.UIFragments.SettingsFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
-import com.test.stream.stream.Utilities.DatabaseManager;
-
-import java.io.IOException;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,7 +66,7 @@ public class ToolbarActivity extends AppCompatActivity
 //            @Override
 //            public void run(){
 //                while(thread_running){
-//                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
+//                    String deviceToken = FirebaseInstanceId.sharedInstance().getToken();
 //                    if(deviceToken != null){
 //                        OkHttpClient client = new OkHttpClient();
 //                        RequestBody body = new FormBody.Builder()
@@ -236,10 +225,11 @@ public class ToolbarActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
+                com.test.stream.stream.Controllers.UserManager
+                        .sharedInstance().logout();
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
+                this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

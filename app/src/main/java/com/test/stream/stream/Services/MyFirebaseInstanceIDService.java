@@ -27,12 +27,12 @@ import static android.content.ContentValues.TAG;
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String REG_TOKEN = "REG_TOKEN";
-    //private User currentUser = DatabaseManager.getInstance().
+    //private User currentUser = DatabaseManager.sharedInstance().
 
     @Override
     public void onTokenRefresh() {
 //        Log.d("PLEASE WORK", "PLEASE WORK");
-//        String recent_token = FirebaseInstanceId.getInstance().getToken();
+//        String recent_token = FirebaseInstanceId.sharedInstance().getToken();
 //        Log.d(REG_TOKEN, recent_token);
         //Get updated token
         //Log.d("PLEASE WORK", "PLEASE WORK");

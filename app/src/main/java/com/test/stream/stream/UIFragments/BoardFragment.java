@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.test.stream.stream.Controllers.BoardManager;
+
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.PinDetailActivity;
@@ -49,7 +50,7 @@ public class BoardFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Call database to populate board if any PinMessages are in the database
-        BoardManager.getInstance().InitializePins(dataListener);
+        BoardManager.sharedInstance().InitializePins(dataListener);
     }
 
     /**
@@ -73,7 +74,7 @@ public class BoardFragment extends ListFragment {
      */
     private void updateUI() {
         // Get all pins from the databse
-        List<Pin> allPins = BoardManager.getInstance().GetPinsInProject();
+        List<Pin> allPins = BoardManager.sharedInstance().GetPinsInProject();
         ArrayList<Pin> pins = new ArrayList();
         // Go through each pin in database
         for (Pin currentPin : allPins) {
@@ -128,7 +129,7 @@ public class BoardFragment extends ListFragment {
                                 pins.add(new Pin(title, subtitle, description));
                                 setListAdapter(pinAdapter);
                                 // Add the PinMessage details to the database
-                                BoardManager.getInstance().CreateMessagePin(title, subtitle, description);
+                                BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
                             }
                         })
                         .setNegativeButton("Cancel", null);
@@ -175,6 +176,14 @@ public class BoardFragment extends ListFragment {
         intent.putExtra(ToolbarActivity.PIN_ID_EXTRA, pin.getId());
         // Start Activity
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onDestroyView()
+    {
+        BoardManager.sharedInstance().Destroy();
+        super.onDestroyView();
     }
 
 

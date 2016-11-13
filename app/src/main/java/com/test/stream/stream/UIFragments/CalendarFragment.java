@@ -1,27 +1,19 @@
 package com.test.stream.stream.UIFragments;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
-import com.google.firebase.auth.api.model.GetAccountInfoUser;
 import com.test.stream.stream.Controllers.CalendarManager;
-import com.test.stream.stream.Controllers.ProjectManager;
-import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
-import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.CreateNewMeeting;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
@@ -76,7 +68,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        CalendarManager.getInstance().Initialize(dataListener);
+        CalendarManager.sharedInstance().Initialize(dataListener);
 
     }
 
@@ -99,7 +91,7 @@ public class CalendarFragment extends Fragment {
 //                        EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
 //
 //                        Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
-//                        CalendarManager.getInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
+//                        CalendarManager.sharedInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
 //                        Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
 //                    }
 //                }).setNegativeButton("Cancel", null)
@@ -113,7 +105,7 @@ public class CalendarFragment extends Fragment {
      * Gets all of the meeting objects from the database and then displays them to the UI
      */
     private void updateUI() {
-        List<Meeting> meetings = CalendarManager.getInstance().GetMeetingsInProject();
+        List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {
@@ -152,5 +144,12 @@ public class CalendarFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ExpandMeeting.class);
         intent.putExtra("meetingName", meetingName);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        CalendarManager.sharedInstance().Destroy();
+        super.onDestroyView();
     }
 }

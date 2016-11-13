@@ -1,9 +1,11 @@
 package com.test.stream.stream.Controllers;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
@@ -36,7 +38,7 @@ public class UserManager {
      *
      * @return the only instance of this class (singleton)
      */
-    public static UserManager getInstance(){ return instance; }
+    public static UserManager sharedInstance(){ return instance; }
 
     /**
      *
@@ -104,23 +106,41 @@ public class UserManager {
     }
 
     /**
-     * Reset variables storing the user to null when the user logs out
+     * Reset user manager when the user logs out.
      */
     public void logout()
     {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+
+        currentUser = null;
+        userKey = null;
+
         mFirebaseAuth = null;
         mFirebaseUser = null;
-        currentUser = null;
+
+        instance = new UserManager();
+        ProjectManager.sharedInstance().destroy();
+
     }
 
 
     /**
-     * Check if a username exists in the database
-     * @param uDescription
+     * Retrieves a user in the callback if the user exists
+     * @param userName the username of the user to retrieve
      * A description for a stream username/email entered by the app user.
      */
-    public void checkUserExists(String uDescription, final ReadDataCallback callback){
-        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", uDescription,callback);
+    public void fetchUserByUserName(String userName, final ReadDataCallback callback){
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "username", userName,callback);
+    }
+
+    /**
+     * Retrieves a user in the callback if the user exists
+     * @param uid the uid of the user
+     * @param callback the callback to trigger when the user has been retrieved.
+     */
+    public void fetchUserByUid(String uid, final ReadDataCallback callback){
+        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid ,callback);
     }
 
     /**
@@ -130,7 +150,7 @@ public class UserManager {
      * @param username the username selected by the user
      * @param email the user's email address
      */
-    public static void createUserIfNotExist(String username, String name, String email)
+    public static void createUserIfNotExist(String username, String name, String email, final FetchUserCallback callback)
     {
         FirebaseUser user = getFirebaseUser();
 
@@ -142,7 +162,7 @@ public class UserManager {
             newUser.setEmail(email);
             newUser.setUid(user.getUid());
 
-            createUser(newUser);
+            createUser(newUser, callback);
         }
     }
 
@@ -150,10 +170,10 @@ public class UserManager {
      * Create a user object in the database if the current user is not tracked by the database,
      * assuming all user information is stored in the Firebase user
      */
-    public static void createUserIfNotExist()
+    public static void createUserIfNotExist(FetchUserCallback callback)
     {
         FirebaseUser user = getFirebaseUser();
-        createUserIfNotExist(user.getDisplayName(), "", "");
+        createUserIfNotExist(user.getDisplayName(), "", "", callback);
     }
 
     /**
@@ -172,7 +192,7 @@ public class UserManager {
      *
      * @param user the user to write to the database
      */
-    private static void createUser(final User user)
+    private static void createUser(final User user, final FetchUserCallback callback)
     {
         DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", user.getUid(), new ReadDataCallback() {
             @Override
@@ -184,7 +204,12 @@ public class UserManager {
                 {
                     if (!oneUserHandled.getAndSet(true)) {
                         DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+                        callback.onDataRetrieved(user);
                     }
+                }
+                else
+                {
+                    callback.onDataRetrieved(result.getValue(User.class));
                 }
             }
         });

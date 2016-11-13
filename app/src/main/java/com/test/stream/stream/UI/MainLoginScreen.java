@@ -49,6 +49,7 @@ import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
+import com.test.stream.stream.Utilities.Callbacks.FetchUserCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
@@ -120,8 +121,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                    startActivity(intent);
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                            startActivity(intent);
                 }
             }
         };
@@ -133,8 +134,13 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
-                Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                startActivity(intent);
+                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
+                    @Override
+                    public void onDataRetrieved(DataSnapshot result) {
+                        Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -342,9 +348,9 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
 //    private void createUser()
 //    {
-//        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseUser mUser = FirebaseAuth.sharedInstance().getCurrentUser();
 //        User user = new User(mUser.getUid(), mUser.getDisplayName());
-//        DatabaseManager.getInstance().writeObject(DatabaseFolders.Users, user);
+//        DatabaseManager.sharedInstance().writeObject(DatabaseFolders.Users, user);
 //    }
 
     /**

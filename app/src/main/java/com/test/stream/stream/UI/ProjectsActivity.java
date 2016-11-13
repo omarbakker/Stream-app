@@ -5,12 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,10 +65,10 @@ public class ProjectsActivity extends AppCompatActivity
         setFont();
 
         //Populate with user data
-        if(UserManager.getInstance().getCurrentUser() != null) {
+        if(UserManager.sharedInstance().getCurrentUser() != null) {
             updateUI();
         } else {
-            UserManager.getInstance().InitializeUser(new ReadDataCallback() {
+            UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
                 @Override
                 public void onDataRetrieved(DataSnapshot result) {
                     updateUI();
@@ -125,8 +122,8 @@ public class ProjectsActivity extends AppCompatActivity
     {
         switch (v.getId()){
             case R.id.addProjectButton:
-
-                startActivity(new Intent(ProjectsActivity.this,newProjectActivity.class));
+                startActivity(new Intent(ProjectsActivity.this, newProjectActivity.class));
+                this.finish();
                 break;
             default:
                 break;
@@ -181,6 +178,7 @@ public class ProjectsActivity extends AppCompatActivity
             Intent intent = new Intent(this,ToolbarActivity.class);
             intent.putExtra("frgToLoad", "HOME");
             startActivity(intent);
+            this.finish();
         }
 
     }

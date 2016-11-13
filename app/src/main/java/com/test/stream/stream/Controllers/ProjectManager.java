@@ -75,7 +75,7 @@ public class ProjectManager {
      * @param project
      * Writes the object to the database
      */
-    public void CreateProject(Project project) {
+    public Project CreateProject(Project project) {
 
         //Set inputted information
         String projectID = DatabaseManager.getInstance().writeObject(DatabaseFolders.Projects, project);
@@ -105,6 +105,8 @@ public class ProjectManager {
 
         // update the users list of projects, and the projects list view
         addToCurrentUserProjects(project.getId());
+
+        return project;
     }
 
     /**
@@ -116,8 +118,7 @@ public class ProjectManager {
      * Result will be delivered in this callback.
      */
     public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback) {
-        // TODO: get actual user object after login/UserManager issues are resolved
-        User currentUser = UserManager.getInstance().getCurrentUser();
+        User currentUser = UserManager.sharedInstance().getCurrentUser();
 
         final List<Project> projects = new ArrayList<Project>();
         final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
@@ -153,18 +154,23 @@ public class ProjectManager {
      */
     public void addToCurrentUserProjects(String projectId){
 
-        User user = UserManager.getInstance().getCurrentUser();
+        User user = UserManager.sharedInstance().getCurrentUser();
 
         if(user == null)
             return;
 
         user.addProject(projectId);
-        UserManager.getInstance().updateUser(user);
+        UserManager.sharedInstance().updateUser(user);
 
         if (projectsActivity != null)
             projectsActivity.updateUI();
 
     }
 
+    public void destroy()
+    {
+        currentProject = null;
+        instance = null;
+    }
 
 }
