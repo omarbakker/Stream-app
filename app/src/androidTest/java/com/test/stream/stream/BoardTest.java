@@ -7,11 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+
 /**
  * Created by robyn on 2016-11-07.
  */
 @RunWith(AndroidJUnit4.class)
 public class BoardTest {
+
     @Test
     public void addPin() throws Exception {
 
@@ -21,5 +23,6 @@ public class BoardTest {
     public void deletePin() throws Exception {
 
     }
+
 
 }
