@@ -38,6 +38,8 @@ import static org.junit.Assert.*;
 public class TasksTest {
 
     List<Task> tasks = null;
+    AtomicBoolean AddedTask = new AtomicBoolean(false);
+    AtomicBoolean MarkedAsComplete = new AtomicBoolean(false);
 
 
     //test data
@@ -50,6 +52,9 @@ public class TasksTest {
     static User user = null;
 
     @Before
+    /**
+     * Ensure the tasks have a project and user to link to
+     */
     public void userSignInSetup(){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -76,6 +81,10 @@ public class TasksTest {
         mAuth.signInWithEmailAndPassword("unit@test.com","123456");
     }
 
+    /**
+     * confirm a new user has been added
+     * @return confirmation the new user has been added
+     */
     private Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -83,6 +92,10 @@ public class TasksTest {
             }
         };
     }
+
+    /**
+     * Verifying the user has signed in
+     */
     @Test
     public void verifySignedIn(){
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
@@ -90,6 +103,10 @@ public class TasksTest {
         assertEquals(user.getEmail(),UserManager.getInstance().getCurrentUser().getEmail());
     }
 
+
+    /**
+     *Creating a new task with the given data and asserts a new task has been added to the database
+     */
     @Test
     public void initialize_task(){
         Project project = new Project();
@@ -99,6 +116,7 @@ public class TasksTest {
         TaskManager.getInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
         await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.getInstance().tasksLoaded);
         tasks = TaskManager.getInstance().GetTasksInProject();
+<<<<<<< HEAD
         assert(tasks.size() >= 1);
     }
 
@@ -123,32 +141,52 @@ public class TasksTest {
     @Test
     public void completeTask() throws Exception {
 /*
+=======
+        assert(tasks.size() == 1);
+        AddedTask.set(true);
+    }
+
+    /**
+     * Determine if the task is marked as complete in the database
+     * @throws Exception
+     */
+    @Test
+    public void completeTask() throws Exception {
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(AddedTask);
+>>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
         tasks = TaskManager.getInstance().GetTasksInProject();
         int i = tasks.size()-1;
         Task task = tasks.get(i);
         task.getComplete();
         task.setComplete(true);
+<<<<<<< HEAD
         //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         //assertEquals(task.getComplete(), true);
 
 */
+=======
+        assertEquals(task.getComplete(), true);
+        MarkedAsComplete.set(true);
+>>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
     }
 
-    @Test
-    public void editTask() throws Exception {
 
-
-    }
-
+    /**
+     * Delete a task and then ensure the task was deleted
+     * @throws Exception
+     */
     @Test
     public void deleteTask() throws Exception {
+<<<<<<< HEAD
 /*
+=======
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
+>>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
         tasks = TaskManager.getInstance().GetTasksInProject();
         int i = tasks.size();
         Task task = tasks.get(i);
         String name = task.getName();
         TaskManager.getInstance().DeleteTask(task);
-        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
         List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
         int a = tasks_new.size()-1;
         //assertEquals(i-1, a);

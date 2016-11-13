@@ -1,6 +1,7 @@
 package com.test.stream.stream.Controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -11,6 +12,7 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.UIFragments.TaskMain;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
@@ -32,7 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskManager extends DataManager{
     private static TaskManager instance = new TaskManager();
-
+    private static final String TAG = TaskMain.class.getSimpleName();
     private TasksFragment context;
     public final AtomicBoolean tasksLoaded = new AtomicBoolean(false);
     private TaskGroup currentTaskGroup;
@@ -227,7 +229,7 @@ public class TaskManager extends DataManager{
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
-
+        tasksLoaded.set(true);
         return true;
     }
 
@@ -237,8 +239,8 @@ public class TaskManager extends DataManager{
         if(currentTaskGroup == null)
         {
             return false; //Cannot create a task without the project selected.
-        }
 
+        }
         Task task = new Task();
 
         //Set inputted information
