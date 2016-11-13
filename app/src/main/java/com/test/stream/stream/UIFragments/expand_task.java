@@ -193,6 +193,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             task.setComplete(true);
         else
             task.setComplete(false);
+
     }
 
 

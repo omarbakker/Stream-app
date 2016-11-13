@@ -134,13 +134,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
-                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
-                    @Override
-                    public void onDataRetrieved(DataSnapshot result) {
-                        Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                        startActivity(intent);
-                    }
-                });
             }
 
             @Override
@@ -341,6 +334,11 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                         if (!task.isSuccessful()) {
                             Toast.makeText(MainLoginScreen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
