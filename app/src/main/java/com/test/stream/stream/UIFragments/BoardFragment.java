@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.test.stream.stream.Controllers.BoardManager;
 
@@ -126,6 +127,9 @@ public class BoardFragment extends ListFragment {
                                 String title = titleText.getText().toString();
                                 String subtitle = subtitleText.getText().toString();
                                 String description = descriptionText.getText().toString();
+                                if(title.equals("") || subtitle.equals("") || description.equals("")){
+                                    Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
+                                }
                                 pins.add(new Pin(title, subtitle, description));
                                 setListAdapter(pinAdapter);
                                 // Add the PinMessage details to the database

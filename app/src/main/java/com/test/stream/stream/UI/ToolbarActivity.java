@@ -262,7 +262,7 @@ public class ToolbarActivity extends AppCompatActivity
 
                 break;
             // If Settings is clicked, launch Settings Fragment
-            case "SETTINGS":
+            case "TEAM":
                 setTitle("Team");
                 TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,

@@ -16,7 +16,7 @@
     <ListView android:id="@id/android:list"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:below="@+id/team_text"/>
+        android:layout_below="@+id/team_text"/>
 
     <ImageButton
         android:id="@+id/teamImageButton"
