@@ -110,7 +110,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         enterPassword.setTypeface(Syncopate);
         orDifferentLogin.setTypeface(SyncopateBold);
 
-
         signup.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
         loginWithFacebook.setOnClickListener(this);
@@ -147,7 +146,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
     }
 
     @Override
@@ -333,19 +331,14 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            createUserIfNotExist(new FetchUserCallback() {
-                                @Override
-                                public void onDataRetrieved(User result) {
-                                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                                    startActivity(intent);
-                                }});
-
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainLoginScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            Toast.makeText(MainLoginScreen.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
@@ -379,7 +372,4 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         });
 
     }
-
-
-
 }
