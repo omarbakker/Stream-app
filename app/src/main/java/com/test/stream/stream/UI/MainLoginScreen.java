@@ -69,7 +69,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     Button login;
     EditText enterEmail;
     EditText enterPassword;
-    Button loginWithFacebook;
+    LoginButton loginWithFacebook;
     private View mLoginFormView;
     private View mProgressView;
     CallbackManager callbackManager;
@@ -92,7 +92,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         //Initializations
         signup = (TextView) findViewById(R.id.signUp);
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-        loginWithFacebook = (Button) findViewById(R.id.loginWithFacebook);
+        loginWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebook);
         login = (Button) findViewById(R.id.login);
         enterEmail = (EditText) findViewById(R.id.enterEmail);
         enterPassword = (EditText) findViewById(R.id.enterNewPassword);
