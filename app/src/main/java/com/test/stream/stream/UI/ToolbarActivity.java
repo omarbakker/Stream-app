@@ -21,7 +21,7 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
-import com.test.stream.stream.UIFragments.SettingsFragment;
+import com.test.stream.stream.UIFragments.TeamFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
@@ -197,12 +197,12 @@ public class ToolbarActivity extends AppCompatActivity
 
                 break;
             // If Settings is clicked, launch Settings Fragment
-            case R.id.nav_settings:
-                setTitle("Settings");
-                SettingsFragment settingsFragment = new SettingsFragment();
+            case R.id.nav_team:
+                setTitle("Team");
+                TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                        settingsFragment,
-                        settingsFragment.getTag()).commit();
+                        teamFragment,
+                        teamFragment.getTag()).commit();
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case R.id.nav_tasks:
@@ -263,11 +263,11 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case "SETTINGS":
-                setTitle("Settings");
-                SettingsFragment settingsFragment = new SettingsFragment();
+                setTitle("Team");
+                TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
-                        settingsFragment,
-                        settingsFragment.getTag()).commit();
+                        teamFragment,
+                        teamFragment.getTag()).commit();
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case "TASKS":

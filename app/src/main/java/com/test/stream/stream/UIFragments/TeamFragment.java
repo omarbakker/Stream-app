@@ -12,10 +12,10 @@ import com.test.stream.stream.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFragment extends Fragment {
+public class TeamFragment extends Fragment {
 
 
-    public SettingsFragment() {
+    public TeamFragment() {
         // Required empty public constructor
     }
 
