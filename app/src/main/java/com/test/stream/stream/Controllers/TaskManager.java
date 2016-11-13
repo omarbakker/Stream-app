@@ -29,12 +29,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by Catherine Lee on 2016-10-23.
  */
 public class TaskManager extends DataManager{
+
     private static TaskManager instance = new TaskManager();
     //private TasksFragment context;
     private DataEventListener listener;
-
     private TasksFragment context;
-
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<String, Task> tasksInCurrentProject = new ConcurrentHashMap<String, Task>(); //Task Id - task
 
@@ -83,6 +82,7 @@ public class TaskManager extends DataManager{
 
     }
 
+
     /**
      * Triggered by an update of the parent taskGroup object, this updates the
      * UI accordingly
@@ -121,7 +121,6 @@ public class TaskManager extends DataManager{
         if(tasksInCurrentProject.size() == currentTaskGroup.getTasks().size())
         {
             listener.onDataChanged();
-
         }
     }
 
@@ -133,7 +132,6 @@ public class TaskManager extends DataManager{
     public void childDeleted(String id) {
         tasksInCurrentProject.remove(id);
         listener.onDataChanged();
-
     }
     /**
      * Registers a listener to each task not already stored in the BoardManager
@@ -214,6 +212,7 @@ public class TaskManager extends DataManager{
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         currentProject.setNumberOfActiveTasks(currentProject.getNumberOfActiveTasks()+1);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+
         return true;
     }
 

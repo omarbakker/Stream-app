@@ -49,7 +49,7 @@ public class ProjectsTest {
     static List<Project> fetchedProjectList;
 
     @Before
-    public void userSignInSetup(){
+    public void userSignInSetup() {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -57,11 +57,13 @@ public class ProjectsTest {
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
                 UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
+
                     @Override
                     public void onDataRetrieved(DataSnapshot result) {
                         AtomicBoolean once = new AtomicBoolean(false);
-                        for (DataSnapshot child:result.getChildren()){
+                        for (DataSnapshot child : result.getChildren()) {
                             if (!once.getAndSet(true)) {
                                 user = child.getValue(User.class);
                             }
@@ -72,7 +74,7 @@ public class ProjectsTest {
         };
         mAuth.addAuthStateListener(listener);
         // login to test user
-        mAuth.signInWithEmailAndPassword("unit@test.com","123456");
+        mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
     }
 
     private Callable<Boolean> newUserIsAdded() {
@@ -85,10 +87,11 @@ public class ProjectsTest {
 
 
     @Test
-    public void verifySignedIn(){
+    public void verifySignedIn() {
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com",user.getEmail());
-        assertEquals(user.getEmail(),UserManager.sharedInstance().getCurrentUser().getEmail());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
+
     }
 
     @Test
@@ -107,14 +110,14 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched1);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched1);
         initialNumberOfProjects = fetchedProjectList.size();
 
         // Create a new project
         Project testProject = new Project();
         testProject.setName("Test Project");
-        testProject.addMember(user,true);
-        testProject.setDueDate(12,12,2012);
+        testProject.addMember(user, true);
+        testProject.setDueDate(12, 12, 2012);
 
         // add that project to the database
         manager.CreateProject(testProject);
@@ -129,10 +132,10 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched2);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched2);
 
         // verify the new project was added to the database
-        assertEquals(initialNumberOfProjects+1,fetchedProjectList.size());
+        assertEquals(initialNumberOfProjects + 1, fetchedProjectList.size());
     }
 
 
@@ -151,7 +154,7 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched1);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched1);
         Project projectToTest = fetchedProjectList.get(0);
 
         // create a test user
@@ -159,10 +162,10 @@ public class ProjectsTest {
         newMember.setUid("AioSdhNNXSM86kxnsZDPwThlbF02");
 
         // add the test user to the dataBase
-        projectToTest.addMember(newMember,true);
+        projectToTest.addMember(newMember, true);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,projectToTest.getId(),projectToTest);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects, projectToTest.getId(), projectToTest);
 
         // Update list of projects
         final AtomicBoolean projectFetched2 = new AtomicBoolean(false);
@@ -174,15 +177,15 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched2);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched2);
 
         // Assert user was added
         Project projectAfterTest = fetchedProjectList.get(0);
-        assertEquals(true,projectAfterTest.getMembers().containsKey(newMember.getUid()));
+        assertEquals(true, projectAfterTest.getMembers().containsKey(newMember.getUid()));
 
         // Assert the user was added as an admin
         boolean isAdmin = projectAfterTest.getMembers().get(newMember.getUid());
-        assertEquals(true,isAdmin);
+        assertEquals(true, isAdmin);
 
     }
 
@@ -200,7 +203,7 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched1);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched1);
         Project projectToTest = fetchedProjectList.get(0);
 
         // get the initial project numOfActiveTasks
@@ -210,7 +213,7 @@ public class ProjectsTest {
         projectToTest.setNumberOfActiveTasks(initialNumOfActiveTasks + 1);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,projectToTest.getId(),projectToTest);
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects, projectToTest.getId(), projectToTest);
 
         // Update list of projects
         final AtomicBoolean projectFetched2 = new AtomicBoolean(false);
@@ -222,21 +225,18 @@ public class ProjectsTest {
                 fetchedProjectList.addAll(projects);
             }
         });
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(projectFetched2);
+        await().atMost(10, TimeUnit.SECONDS).untilTrue(projectFetched2);
 
         // Assert that the number of active tasks was updated correctly
         Project projectAfterTest = fetchedProjectList.get(0);
-        assertEquals(initialNumOfActiveTasks+1, projectAfterTest.getNumberOfActiveTasks());
+        assertEquals(initialNumOfActiveTasks + 1, projectAfterTest.getNumberOfActiveTasks());
 
     }
 
-
-
+    // Unimplemented
     @Test
     public void deleteProject() throws Exception {
 
     }
-
-
 
 }
