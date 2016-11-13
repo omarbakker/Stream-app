@@ -83,10 +83,6 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".UI.PinDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
         <activity android:name=".UI.CreateNewMeeting">
 
         </activity>

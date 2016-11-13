@@ -17,7 +17,6 @@ import com.test.stream.stream.Controllers.BoardManager;
 
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UI.PinDetailActivity;
 import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.Utilities.PinAdapter;
@@ -155,34 +154,38 @@ public class BoardFragment extends ListFragment {
      */
     @Override
     public void onListItemClick(ListView i, View v, int position, long id){
-        launchPinDetailActivty(position);
+        //launchPinDetailActivty(position);
+        launchPinDetailDialog(position);
     }
 
     /**
-     * Method to launch a Dialog popup
+     * Method to launch a Dialog popup to show text
      * @param position
      */
     private void launchPinDetailDialog(int position){
         Pin pin = (Pin) getListAdapter().getItem(position);
-    }
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_pin_dialog, null);
+        // TextFields of the Popup Dialog
+        final EditText titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
+        final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
+        final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
+        titleText.setText(pin.getTitle());
+        subtitleText.setText(pin.getSubtitle());
+        descriptionText.setText(pin.getDescription());
+        // Create a popup Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view)
+                // When clicking Submit button after populating fields
+                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
-    /**
-     * Method to launch a new Activity to see details of a pinMessage
-     * @param position
-     */
-    private void launchPinDetailActivty(int position){
-        Pin pin = (Pin) getListAdapter().getItem(position);
-        // Create Intent
-        Intent intent = new Intent(getActivity(), PinDetailActivity.class);
-        // Pass data from PinMessage to new Activity
-        intent.putExtra(ToolbarActivity.PIN_TITLE_EXTRA, pin.getTitle());
-        intent.putExtra(ToolbarActivity.PIN_SUBTITLE_EXTRA, pin.getSubtitle());
-        intent.putExtra(ToolbarActivity.PIN_DESCRIPTION_EXTRA, pin.getDescription());
-        intent.putExtra(ToolbarActivity.PIN_ID_EXTRA, pin.getId());
-        // Start Activity
-        startActivity(intent);
-    }
+                    }
+                })
+                .setNegativeButton("Cancel", null);
 
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     @Override
     public void onDestroyView()
