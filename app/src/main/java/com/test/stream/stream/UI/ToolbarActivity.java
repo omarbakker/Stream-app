@@ -31,10 +31,6 @@ public class ToolbarActivity extends AppCompatActivity
 
     private static final String TAG = "Toolbar Activity";
     // variables for the passing extras from Activity to Fragment
-    public static final String PIN_ID_EXTRA = "com.test.stream.stream identifier";
-    public static final String PIN_TITLE_EXTRA = "com.test.stream.stream Title";
-    public static final String PIN_SUBTITLE_EXTRA = "com.test.stream.stream Subtitle";
-    public static final String PIN_DESCRIPTION_EXTRA = "com.test.stream.stream Description";
 
     private FirebaseAuth firebase = FirebaseAuth.getInstance();
     boolean thread_running = true;

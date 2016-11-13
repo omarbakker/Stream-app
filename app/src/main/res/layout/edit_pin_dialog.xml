@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_edit_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dialog_edit_pin_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:background="@color/background"
+        android:text="@string/pin_edit_name"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_title"
+        android:ems="10"
+        android:id="@+id/dialog_edit_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/dialog_edit_pin_title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_subtitle"
+        android:ems="10"
+        android:id="@+id/dialog_edit_subtitle"
+        android:layout_below="@+id/dialog_edit_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dialog_description"
+        android:ems="10"
+        android:id="@+id/dialog_edit_description"
+        android:layout_below="@+id/dialog_edit_subtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"/>
+
+
+
+</RelativeLayout>

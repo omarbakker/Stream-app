@@ -37,10 +37,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
-    <!--Override all Facebook Login button text values to prevent changing text on button-->
-    <string name="com_facebook_loginview_log_out_button">Log in with Facebook</string>
-    <string name="com_facebook_loginview_log_in_button">Log in with Facebook</string>
-    <string name="com_facebook_loginview_log_in_button_long">Log in with Facebook</string>
+    <string name="facebook_login">Log in with Facebook</string>
+    <string name="facebook_signup">Sign up with Facebook</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="project_page">"Welcome to the project page"</string>
@@ -79,6 +77,7 @@
     <!-- Pin String -->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="pin_add_name">Add Pin</string>
+    <string name="pin_edit_name">Edit Pin</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 

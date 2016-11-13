@@ -62,6 +62,8 @@ android:background="#e5e7e8"    >
         android:layout_centerHorizontal="true" />
 
     <com.facebook.login.widget.LoginButton
+        app:com_facebook_login_text="@string/facebook_login"
+        app:com_facebook_logout_text="@string/facebook_login"
         android:id="@+id/loginWithFacebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

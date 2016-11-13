@@ -23,7 +23,8 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/loginWithFacebookSignup"
-        app:com_facebook_login_text="Sign up with Facebook"
+        app:com_facebook_login_text="@string/facebook_signup"
+        app:com_facebook_logout_text="@string/facebook_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
