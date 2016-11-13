@@ -13,9 +13,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -31,6 +42,10 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.Arrays;
+
+import static com.test.stream.stream.Controllers.UserManager.createUserIfNotExist;
+
 
 public class SignUpScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +55,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     TextView signInTitle;
     Button continueSignUp;
     public static String newEmail;
+    LoginButton signUpWithFacebook;
+    CallbackManager callbackManager;
     //add tag
     public static final String TAG = "SignUpScreen";
 
@@ -53,6 +70,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         context = this;
 
         setContentView(R.layout.activity_sign_up_screen);
@@ -64,6 +83,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         enterNewEmail = (EditText) findViewById(R.id.enterNewEmail);
         enterNewPassword = (EditText) findViewById(R.id.enterNewPasswords);
         continueSignUp = (Button) findViewById(R.id.continueWithSignUp);
+        signUpWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebookSignup);
+
 
         //Syncopate
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
@@ -76,6 +97,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         //Set onClickListener
         continueSignUp.setOnClickListener(this);
+        signUpWithFacebook.setOnClickListener(this);
 
         //Initialize firebase authentication variables
         mAuth = FirebaseAuth.getInstance();
@@ -93,6 +115,34 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 // ...
             }
         };
+
+        //Facebook login set-upx
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                System.out.println("LOGIN WAS SUCCESSFUL");
+                AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
+                handleFacebookAccessTokenSignup(accessToken);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                System.out.println("LOGIN WAS NOT SUCCESSFUL");
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode,data);
     }
 
     /**
@@ -221,7 +271,10 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         enterNewPassword.getText().toString(),
                         enterNewName.getText().toString(),
                         enterNewUsername.getText().toString());
-
+                break;
+            case R.id.loginWithFacebookSignup:
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
+                System.out.println("LOGIN WITH FACEBOOK BUTTON WAS CLICKED");
         }
 
     }
@@ -233,6 +286,32 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
      */
     public static String getEmail() {
         return newEmail = enterNewEmail.getText().toString();
+    }
+
+    private void handleFacebookAccessTokenSignup(AccessToken token) {
+        System.out.println("handleFacebookAccessTokensSignup was called");
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            createUserIfNotExist(new FetchUserCallback() {
+                                @Override
+                                public void onDataRetrieved(User result) {
+                                    System.out.println("CHANGE SCREEN TO PROJECTS PAGE");
+                                    Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
+                                    startActivity(intent);
+                                }});
+
+                        }
+                        else
+                        {
+                            Toast.makeText(SignUpScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
 
