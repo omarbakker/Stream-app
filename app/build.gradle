@@ -33,13 +33,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.github.dexafree:materiallist:3.2.1'
-<<<<<<< HEAD
     compile 'com.github.lzyzsd:circleprogress:1.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     androidTestCompile 'org.awaitility:awaitility:2.0.0'
-=======
-    compile 'org.awaitility:awaitility:2.0.0'
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
+
 }
 
 
