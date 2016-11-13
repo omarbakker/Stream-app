@@ -31,10 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
-<<<<<<< HEAD
 
-=======
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
 /**
  * Created by robyn on 2016-11-07.
  */
@@ -50,11 +47,7 @@ public class TasksTest {
     String test_name = "test name";
     String test_description = "this is a test description";
     String test_newTaskAssignee = "john jingleheimer schmidt";
-<<<<<<< HEAD
-    int[] test_DueDate = {12, 12, 2012};
-=======
     int[] test_DueDate = {12,12,2012};
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
     boolean complete = false;
 
     static User user = null;
@@ -63,99 +56,25 @@ public class TasksTest {
     /**
      * Ensure the tasks have a project and user to link to
      */
-<<<<<<< HEAD
-
-=======
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
     public void userSignInSetup(){
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        mAuth.signOut();
-        FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-<<<<<<< HEAD
-                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
-                    @Override
-                    public void onDataRetrieved(DataSnapshot result) {
-                        AtomicBoolean once = new AtomicBoolean(false);
-                        for (DataSnapshot child : result.getChildren()) {
-=======
-                UserManager.getInstance().InitializeUser(new ReadDataCallback() {
-                    @Override
-                    public void onDataRetrieved(DataSnapshot result) {
-                        AtomicBoolean once = new AtomicBoolean(false);
-                        for (DataSnapshot child:result.getChildren()){
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
-                            if (!once.getAndSet(true)) {
-                                user = child.getValue(User.class);
-                            }
-                        }
-                    }
-                });
-            }
-        };
-        mAuth.addAuthStateListener(listener);
-        // login to test user
-<<<<<<< HEAD
-        mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
-=======
-        mAuth.signInWithEmailAndPassword("unit@test.com","123456");
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
-    }
 
-    /**
-     * confirm a new user has been added
-     * @return confirmation the new user has been added
-     */
-    private Callable<Boolean> newUserIsAdded() {
-        return new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                return user != null; // The condition that must be fulfilled
-            }
-        };
     }
 
     /**
      * Verifying the user has signed in
      */
     @Test
-<<<<<<< HEAD
     public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        //await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
         assertEquals("unit@test.com", user.getEmail());
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
-=======
-    public void verifySignedIn(){
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com",user.getEmail());
-        assertEquals(user.getEmail(),UserManager.getInstance().getCurrentUser().getEmail());
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
     }
 
-
-    /**
-<<<<<<< HEAD
-     * Creating a new task with the given data and asserts a new task has been added to the database
-     */
-    @Test
-    public void initialize_task() {
-        Project project = new Project();
-        project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
-        ProjectManager.sharedInstance().setCurrentProject(project);
-        TaskManager.sharedInstance().Initialize(null);
-        TaskManager.sharedInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
-        //await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.sharedInstance().tasksLoaded);
-        tasks = TaskManager.sharedInstance().GetTasksInProject();
-        assert (tasks.size() >= 1);
-    }
 
     /**
      * Determine if the task is marked as complete in the database
-     * @throws Exception
-     */
-=======
      *Creating a new task with the given data and asserts a new task has been added to the database
      */
     @Test
@@ -163,16 +82,13 @@ public class TasksTest {
         Project project = new Project();
         project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
         ProjectManager.sharedInstance().setCurrentProject(project);
-        TaskManager.getInstance().Initialize(null);
-        TaskManager.getInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(TaskManager.getInstance().tasksLoaded);
-        tasks = TaskManager.getInstance().GetTasksInProject();
-<<<<<<< HEAD
+        TaskManager.sharedInstance().Initialize(null);
+        TaskManager.sharedInstance().CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
+        tasks = TaskManager.sharedInstance().GetTasksInProject();
         assert(tasks.size() >= 1);
     }
 
 
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
     @Test
     public void addTask() throws Exception {
         /*
@@ -189,67 +105,16 @@ public class TasksTest {
 */
     }
 
-<<<<<<< HEAD
-
-    /**
-     * Determine if the task is marked as complete in the database
-     *
-=======
-    // Test needs implementation
-    @Test
-    public void completeTask() throws Exception {
-/*
-=======
-        assert(tasks.size() == 1);
-        AddedTask.set(true);
-    }
-
-    /**
-     * Determine if the task is marked as complete in the database
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
-     * @throws Exception
-     */
-    @Test
-    public void completeTask() throws Exception {
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(AddedTask);
-<<<<<<< HEAD
-        tasks = TaskManager.sharedInstance().GetTasksInProject();
-        int i = tasks.size() - 1;
-        Task task = tasks.get(i);
-        task.getComplete();
-        task.setComplete(true);
-
-        assertEquals(task.getComplete(), true);
-        MarkedAsComplete.set(true);
-    }
-
-=======
->>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
-        tasks = TaskManager.getInstance().GetTasksInProject();
-        int i = tasks.size()-1;
-        Task task = tasks.get(i);
-        task.getComplete();
-        task.setComplete(true);
-<<<<<<< HEAD
-        //await().atMost(10, TimeUnit.SECONDS).until(taskCreationFinished());
-        //assertEquals(task.getComplete(), true);
-
-*/
-=======
-        assertEquals(task.getComplete(), true);
-        MarkedAsComplete.set(true);
->>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
-    }
 
 
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0
+
+
     /**
      * Delete a task and then ensure the task was deleted
      * @throws Exception
      */
     @Test
     public void deleteTask() throws Exception {
-<<<<<<< HEAD
 
         await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
         tasks = TaskManager.sharedInstance().GetTasksInProject();
@@ -262,21 +127,3 @@ public class TasksTest {
         //assertEquals(i-1, a);
     }
 }
-=======
-<<<<<<< HEAD
-/*
-=======
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(MarkedAsComplete);
->>>>>>> 37c690bec0c2657484d4d43d527a94afd3611f83
-        tasks = TaskManager.getInstance().GetTasksInProject();
-        int i = tasks.size();
-        Task task = tasks.get(i);
-        String name = task.getName();
-        TaskManager.getInstance().DeleteTask(task);
-        List<Task> tasks_new = TaskManager.getInstance().GetTasksInProject();
-        int a = tasks_new.size()-1;
-        //assertEquals(i-1, a);
-*/
-    }
-}
->>>>>>> 88ed347f5a53bb5bbded92d3804f9690732e6bd0

@@ -34,7 +34,7 @@ public class NotificationsTest {
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                UserManager.getInstance().InitializeUser(new ReadDataCallback() {
+                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
                     @Override
                     public void onDataRetrieved(DataSnapshot result) {
                         AtomicBoolean once = new AtomicBoolean(false);

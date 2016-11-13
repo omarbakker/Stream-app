@@ -48,7 +48,7 @@ public class LoginTest {
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                UserManager.getInstance().InitializeUser(new ReadDataCallback() {
+                UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
                     @Override
                     public void onDataRetrieved(DataSnapshot result) {
                         AtomicBoolean once = new AtomicBoolean(false);
@@ -95,7 +95,7 @@ public class LoginTest {
     @Test
     public void LogoutTest (){
 
-        UserManager.getInstance().logout();
+        UserManager.sharedInstance().logout();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         assertEquals(mAuth.getCurrentUser(), null);
     }
