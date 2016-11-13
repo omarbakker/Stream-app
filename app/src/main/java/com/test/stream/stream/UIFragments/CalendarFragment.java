@@ -2,6 +2,7 @@ package com.test.stream.stream.UIFragments;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -62,6 +63,10 @@ public class CalendarFragment extends Fragment {
 
         mCalendarTextView = (TextView) getView().findViewById(R.id.text_calendar);
         mCalendarListView = (ListView) getView().findViewById(R.id.list_calendar);
+
+        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
+        mCalendarTextView.setTypeface(Syncopate);
+
         final FloatingActionButton addCalendarButton = (FloatingActionButton) getView().findViewById(R.id.create_new_meeting);
         addCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +116,14 @@ public class CalendarFragment extends Fragment {
 
         if(meetings.size() == 0)
         {
-            mCalendarTextView.setText("No meetings");
+            mCalendarTextView.setText(R.string.no_meetings);
             return;
         }
 
-        mCalendarTextView.setText("");
+        //Hide text otherwise.
+        mCalendarTextView.setText(R.string.empty);
+        mCalendarTextView.setVisibility(View.GONE);
+
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {

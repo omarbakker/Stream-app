@@ -37,6 +37,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
+    <!--Facebook login strings-->
     <string name="facebook_login">Log in with Facebook</string>
     <string name="facebook_signup">Sign up with Facebook</string>
 
@@ -90,8 +91,10 @@
     <string name="meeting_reminder_notification_title">Have a meeting coming up?</string>
     <string name="meeting_reminder_notification_info">Send a notification to remind everyone</string>
     <string name="meeting_reminder_notification_title_send">Heres a reminder about your meeting coming up!</string>
+    <string name="no_meetings">You currently have no meetings. Create one here!</string>
 
     <!-- General strings used in multiple places -->
     <string name="enter_message">Enter a message</string>
+    <string name ="empty"></string>
 
 </resources>
