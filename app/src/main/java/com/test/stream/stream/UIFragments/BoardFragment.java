@@ -129,11 +129,12 @@ public class BoardFragment extends ListFragment {
                                 String description = descriptionText.getText().toString();
                                 if(title.equals("") || subtitle.equals("") || description.equals("")){
                                     Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    pins.add(new Pin(title, subtitle, description));
+                                    setListAdapter(pinAdapter);
+                                    // Add the PinMessage details to the database
+                                    BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
                                 }
-                                pins.add(new Pin(title, subtitle, description));
-                                setListAdapter(pinAdapter);
-                                // Add the PinMessage details to the database
-                                BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
                             }
                         })
                         .setNegativeButton("Cancel", null);
