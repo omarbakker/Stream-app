@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Services.MyFirebaseInstanceIDService;
@@ -68,7 +69,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
     Button login;
     EditText enterEmail;
     EditText enterPassword;
-    LoginButton loginWithFacebook;
+    Button loginWithFacebook;
     private View mLoginFormView;
     private View mProgressView;
     CallbackManager callbackManager;
@@ -91,7 +92,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         //Initializations
         signup = (TextView) findViewById(R.id.signUp);
         forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-        loginWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebook);
+        loginWithFacebook = (Button) findViewById(R.id.loginWithFacebook);
         login = (Button) findViewById(R.id.login);
         enterEmail = (EditText) findViewById(R.id.enterEmail);
         enterPassword = (EditText) findViewById(R.id.enterNewPassword);
@@ -107,7 +108,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         enterEmail.setTypeface(Syncopate);
         enterPassword.setTypeface(Syncopate);
         orDifferentLogin.setTypeface(SyncopateBold);
-
 
         signup.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
@@ -133,6 +133,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken(); //LoginResult has the new access token and granted permissions of login succeeds.
                 handleFacebookAccessToken(accessToken);
+                Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -145,7 +147,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
     }
 
     @Override
@@ -331,13 +332,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            createUserIfNotExist();
-                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                            startActivity(intent);
-                        }
-                        else
-                        {
+                        if (!task.isSuccessful()) {
                             Toast.makeText(MainLoginScreen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -373,7 +368,4 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         });
 
     }
-
-
-
 }
