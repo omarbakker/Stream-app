@@ -194,6 +194,8 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         else
             task.setComplete(false);
 
+        TaskManager.sharedInstance().UpdateTask(task);
+
     }
 
 

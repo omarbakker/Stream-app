@@ -27,6 +27,7 @@ import java.util.List;
 public class CalendarFragment extends Fragment {
 
     private ListView mCalendarListView;
+    private TextView mCalendarTextView;
     private ArrayAdapter<String> mAdapter;
     private int current_meeting;
     ArrayList<Meeting> meetings = new ArrayList<>();
@@ -59,6 +60,7 @@ public class CalendarFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mCalendarTextView = (TextView) getView().findViewById(R.id.text_calendar);
         mCalendarListView = (ListView) getView().findViewById(R.id.list_calendar);
         final FloatingActionButton addCalendarButton = (FloatingActionButton) getView().findViewById(R.id.create_new_meeting);
         addCalendarButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +108,14 @@ public class CalendarFragment extends Fragment {
      */
     private void updateUI() {
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+
+        if(meetings.size() == 0)
+        {
+            mCalendarTextView.setText("No meetings");
+            return;
+        }
+
+        mCalendarTextView.setText("");
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {
