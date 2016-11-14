@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -163,28 +167,30 @@ public class BoardFragment extends ListFragment {
      * @param position
      */
     private void launchPinDetailDialog(int position){
-        Pin pin = (Pin) getListAdapter().getItem(position);
+        final Pin pin = (Pin) getListAdapter().getItem(position);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_pin_dialog, null);
         // TextFields of the Popup Dialog
         final EditText titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
         final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
         final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
+        final Button deleteButton = (Button) view.findViewById(R.id.delete_pin);
         titleText.setText(pin.getTitle());
         subtitleText.setText(pin.getSubtitle());
         descriptionText.setText(pin.getDescription());
         // Create a popup Dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view)
-                // When clicking Submit button after populating fields
-                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                })
                 .setNegativeButton("Cancel", null);
 
-        AlertDialog alert = builder.create();
+        final AlertDialog alert = builder.create();
         alert.show();
+        deleteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                BoardManager.sharedInstance().RemovePin(pin);
+                alert.dismiss();
+            }
+        });
     }
 
     @Override

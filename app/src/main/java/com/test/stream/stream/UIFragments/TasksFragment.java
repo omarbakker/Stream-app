@@ -77,7 +77,7 @@ public class TasksFragment extends Fragment
     private DataEventListener dataListener = new DataEventListener() {
         @Override
         public void onDataChanged() {
-           updateUI();
+            updateUI();
         }
     };
 
@@ -289,7 +289,7 @@ public class TasksFragment extends Fragment
 
 
 
-    private void createTask(){
+    public void createTask(){
         final String name = newTaskNameField.getText().toString();
         final String description = newTaskDescriptionField.getText().toString();
 
