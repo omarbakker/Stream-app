@@ -121,7 +121,10 @@
             android:layout_alignRight="@+id/sendTaskNotification"
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"
-            android:id="@+id/checkBox">
+            android:id="@+id/checkBox"
+            android:onClick = "markAsComplete">
+
+
         </CheckBox>
 
         <ImageButton

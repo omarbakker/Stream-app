@@ -2,6 +2,7 @@ package com.test.stream.stream.UIFragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.stream.stream.Controllers.BoardManager;
@@ -33,6 +35,7 @@ public class BoardFragment extends ListFragment {
 
     ArrayList<Pin> pins = new ArrayList();
     private PinAdapter pinAdapter;
+    private TextView mPinTextView;
     ImageButton floatButton;
     private DataEventListener dataListener = new DataEventListener() {
         @Override
@@ -53,8 +56,6 @@ public class BoardFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Call database to populate board if any PinMessages are in the database
-        BoardManager.sharedInstance().InitializePins(dataListener);
     }
 
     /**
@@ -77,7 +78,18 @@ public class BoardFragment extends ListFragment {
      * Function that updates the Adapter of the ListFragment
      */
     private void updateUI() {
-        // Get all pins from the databse
+
+        //Show no pins message if there are none in the project.
+        if(!BoardManager.sharedInstance().hasPins())
+        {
+            mPinTextView.setText(R.string.no_pins);
+            return;
+        }
+
+        mPinTextView.setText(R.string.no_pins);
+        mPinTextView.setVisibility(View.GONE);
+
+        // Get all pins from the database
         List<Pin> allPins = BoardManager.sharedInstance().GetPinsInProject();
         ArrayList<Pin> pins = new ArrayList();
         // Go through each pin in database
@@ -107,6 +119,12 @@ public class BoardFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //Set fonts
+        mPinTextView = (TextView) getView().findViewById(R.id.text_board);
+        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
+        mPinTextView.setTypeface(Syncopate);
+
+        //Set adapter
         pinAdapter = new PinAdapter(getActivity(), pins);
         setListAdapter(pinAdapter);
         floatButton = (ImageButton) getView().findViewById(R.id.pinImageButton);
@@ -146,6 +164,9 @@ public class BoardFragment extends ListFragment {
                 alert.show();
             }
         });
+
+        // Call database to populate board if any PinMessages are in the database
+        BoardManager.sharedInstance().InitializePins(dataListener);
 
     }
 

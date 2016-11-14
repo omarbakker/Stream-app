@@ -48,6 +48,16 @@ public class ProjectManager {
     }
 
     /**
+     * Requires: User is signed in
+     *
+     * @return true if the logged in user has projects. False otherwise.
+     */
+    public Boolean hasProjects()
+    {
+        User user = UserManager.sharedInstance().getCurrentUser();
+        return (user.getProjects().size() > 0);
+    }
+    /**
      * Requires: User is signed in.
      * @return
      * Return a Project object for the current project, or the first project from the users list if no project is currently 'open'.
@@ -65,7 +75,6 @@ public class ProjectManager {
      * The project object to set the current project to be
      */
     public void setCurrentProject(Project project){
-        // TODO: maybe make sure the project is a valid project here before setting it to be the current project ?
         currentProject = project;
     }
 
@@ -136,6 +145,7 @@ public class ProjectManager {
                         if (project != null)
                             projects.add(project);
                     }
+
                     // if done fetching all projects, callback
                     if (numOfProjectsToFetch == numOfProjectsFetched.incrementAndGet())
                         callback.onUserProjectsListRetrieved(projects);

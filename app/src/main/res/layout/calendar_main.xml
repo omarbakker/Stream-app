@@ -34,6 +34,15 @@
         android:layout_alignParentEnd="true"
         app:backgroundTint="@color/colorAccent" />
 
+    <TextView
+        android:id="@+id/text_calendar"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ListView
         android:id="@+id/list_calendar"
         android:layout_width="wrap_content"

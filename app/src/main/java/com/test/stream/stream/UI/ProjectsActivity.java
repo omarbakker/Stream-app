@@ -39,6 +39,7 @@ public class ProjectsActivity extends AppCompatActivity
 
     private TextView titleText;
     private ListView mProjectsListView;
+    private TextView mProjectsTextView;
     private ProjectsAdapter mAdapter;
 
     boolean thread_running = true;
@@ -54,6 +55,7 @@ public class ProjectsActivity extends AppCompatActivity
 
         // Initialize view elements
         mProjectsListView = (ListView) findViewById(R.id.ProjectsList);
+        mProjectsTextView = (TextView) findViewById(R.id.text_projects);
         mAdapter = new ProjectsAdapter(this);
         mProjectsListView.setAdapter(mAdapter);
         mProjectsListView.setOnItemClickListener(this);
@@ -140,14 +142,22 @@ public class ProjectsActivity extends AppCompatActivity
     /**
      * updates the list view to reflect changes in the project list fetched from ProjectManager.
      */
-    public void updateUI()
-    {
+    public void updateUI() {
+        if (!ProjectManager.sharedInstance().hasProjects()) {
+            mProjectsTextView.setText(R.string.no_projects);
+            return;
+        }
+
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
+                //Hide no projects message if any are retrieved.
+                mProjectsTextView.setText(R.string.empty);
+                mProjectsTextView.setVisibility(View.GONE);
                 mAdapter.updateData(projects);
             }
         });
+
     }
 
     /**
@@ -158,7 +168,9 @@ public class ProjectsActivity extends AppCompatActivity
         //Changing font to Syncopate
         //Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
         Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
+        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
         titleText.setTypeface(SyncopateBold);
+        mProjectsTextView.setTypeface(Syncopate);
     }
 
     /**
