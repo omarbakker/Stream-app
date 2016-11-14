@@ -33,7 +33,6 @@ public class TaskManager extends DataManager{
     private static TaskManager instance = new TaskManager();
     //private TasksFragment context;
     private DataEventListener listener;
-    private TasksFragment context;
     private TaskGroup currentTaskGroup;
     private ConcurrentHashMap<String, Task> tasksInCurrentProject = new ConcurrentHashMap<String, Task>(); //Task Id - task
 
@@ -133,6 +132,7 @@ public class TaskManager extends DataManager{
         tasksInCurrentProject.remove(id);
         listener.onDataChanged();
     }
+
     /**
      * Registers a listener to each task not already stored in the BoardManager
      */
