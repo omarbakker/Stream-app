@@ -135,6 +135,7 @@ public class BoardManager extends DataManager{
     @Override
     public void childDeleted(String id) {
         pins.remove(id);
+        listener.onDataChanged();
     }
 
     /**
