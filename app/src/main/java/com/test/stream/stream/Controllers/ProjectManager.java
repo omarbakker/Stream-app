@@ -10,6 +10,7 @@ import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Note: if the user is signed in, use the getUserProject method to retrieve a list of Project objects for the current user
  */
 
-public class ProjectManager {
+public class ProjectManager{
 
     private static ProjectManager instance = null;
     private static Project currentProject;
@@ -66,8 +67,11 @@ public class ProjectManager {
 
         if (currentProject == null)
             currentProject = new Project();
+
         return currentProject;
     }
+
+
 
     /**
      * Set the current project in the app
@@ -75,6 +79,7 @@ public class ProjectManager {
      * The project object to set the current project to be
      */
     public void setCurrentProject(Project project){
+
         currentProject = project;
     }
 

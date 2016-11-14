@@ -50,6 +50,21 @@ public class DatabaseManager {
     }
 
     /**
+     * Write a new object to database with the provided information. Note: if the
+     * key is the key of an existing object, the object will be overwritten in the
+     * database.
+     *
+     * @param objectType the folder the object should be stored in
+     * @param key the key the object should be stored under
+     * @param itemToWrite the object to store
+     * @return the key of the object
+     */
+    public String writeObjectWithKey(DatabaseFolders objectType, String key, Object itemToWrite)
+    {
+        return updateObject(objectType, key, itemToWrite); //Updating the object undergoes the same procedure as writing with a key.
+    }
+
+    /**
      * Update an object in the database or write an object to the database with a specified key
      *
      * @param objectType the enum representation of the object type.

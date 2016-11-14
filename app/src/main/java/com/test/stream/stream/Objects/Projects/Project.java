@@ -123,7 +123,7 @@ public class Project {
      * @param user the member to remove
      * @return true if the user has been removed. False otherwse
      */
-    public boolean removeMember(User user)
+    public boolean removeMemberByUid(User user)
     {
         if(!isMember(user))
             return false;
@@ -134,7 +134,7 @@ public class Project {
 
 
     /**
-     * Checks if a user is an adminisstrator.
+     * Checks if a user is an administrator.
      *
      * @param user the user to check the status of
      * @return true if the user in an administrator. False otherwise.
@@ -151,7 +151,17 @@ public class Project {
      * @return true if the user is a member. False otherwise.
      */
     public boolean isMember(User user) {
-        return members.containsKey(user.getUid());
+        return isMember(user.getUid());
+    }
+
+    /**
+     * Checks if a user is a member
+     *
+     * @param userId the user to check the status of
+     * @return true if the user is a member. False otherwise.
+     */
+    public boolean isMember(String userId) {
+        return members.containsKey(userId);
     }
 
     /**
