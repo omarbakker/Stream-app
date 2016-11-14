@@ -4,14 +4,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,7 +20,7 @@ public class TeamManager extends DataManager {
     private DataEventListener listener;
 
     private Project currentProject;
-    private ConcurrentHashMap<String, User> memberList = new ConcurrentHashMap<String, User>(); //Firebase user id - user
+    private ConcurrentHashMap<User, String> memberList = new ConcurrentHashMap<User, String>(); //user - userID
 
     /**
      * Requires: current project in ProjectManager exists and is on the database
@@ -88,7 +86,7 @@ public class TeamManager extends DataManager {
     @Override
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentProject = dataSnapshot.getValue(Project.class); //Get the updated project
-        registerMembers();
+        getMembers();
     }
 
     /**
@@ -99,43 +97,51 @@ public class TeamManager extends DataManager {
         //TODO: Handle potential errors relating to this.
     }
 
-    /**
-     *
-     * @param id the firebase key of the user
-     */
     @Override
     public void childDeleted(String id) {
-        memberList.remove(id);
-        listener.onDataChanged();
+        //User accounts cannot be deleted using a project
     }
 
-    /**
-     *
-     * @param dataSnapshot The object returned by Firebase containing the read object and its key.
-     */
     @Override
     public void childUpdated(DataSnapshot dataSnapshot) {
-        User user = dataSnapshot.getValue(User.class);
-        memberList.put(dataSnapshot.getKey(), user);
-
-        if(memberList.size() == currentProject.getMembers().size())
-        {
-            listener.onDataChanged();
-        }
+        ///Modifications to user accounts should not affect the team
     }
 
 
     /**
-     * Registers a listener to each user not already stored in the memberList
+     * Fetch all members of the team
      */
-    private void registerMembers()
+    private void getMembers()
     {
-        for(String id : currentProject.getMembers().keySet()) //Ensure that each user only is register once.
+        //Confirm all members on member list are still members of the team.
+        for(User member: memberList.keySet())
+        {
+            if(!currentProject.getMembers().containsKey(member.getUid()))
+            {
+                memberList.remove(member);
+                listener.onDataChanged();
+            }
+        }
+
+        //Confirm users are up to date.
+        for(String id : currentProject.getMembers().keySet()) //Ensure that each user is added to the member list once
         {
             if(!memberList.containsValue(id))
             {
-                super.registerChild(id, DatabaseFolders.Users);
+                DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Users, id, new ReadDataCallback() {
+                    @Override
+                    public void onDataRetrieved(DataSnapshot result) {
+                        for(DataSnapshot child: result.getChildren())
+                        {
+                            User user = child.getValue(User.class);
+                            memberList.put(user, user.getUid());
+                            listener.onDataChanged();
+                        }
+                    }
+                });
+
             }
         }
+
     }
 }
