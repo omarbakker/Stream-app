@@ -122,7 +122,7 @@ public class CalendarFragment extends Fragment {
 
         //Hide text otherwise.
         mCalendarTextView.setText(R.string.empty);
-        mCalendarTextView.setVisibility(View.GONE);
+        //mCalendarTextView.setVisibility(View.GONE);
 
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
