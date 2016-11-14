@@ -55,8 +55,7 @@ public class ProjectManager {
     public Boolean hasProjects()
     {
         User user = UserManager.sharedInstance().getCurrentUser();
-        user.
-        return true;
+        return (user.getProjects().size() > 0);
     }
     /**
      * Requires: User is signed in.

@@ -112,17 +112,18 @@ public class CalendarFragment extends Fragment {
      * Gets all of the meeting objects from the database and then displays them to the UI
      */
     private void updateUI() {
-        List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
-
-        if(meetings.size() == 0)
+        if(!CalendarManager.sharedInstance().hasMeetings())
         {
             mCalendarTextView.setText(R.string.no_meetings);
             return;
         }
 
+
+        List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+
         //Hide text otherwise.
         mCalendarTextView.setText(R.string.empty);
-        //mCalendarTextView.setVisibility(View.GONE);
+        mCalendarTextView.setVisibility(View.GONE);
 
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;

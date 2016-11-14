@@ -10,7 +10,7 @@
         android:textSize="30dp"
         android:gravity="center"
         android:background="@color/background"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop ="true"
         android:id="@+id/team_text"/>
 
     <ListView android:id="@id/android:list"

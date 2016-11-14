@@ -142,8 +142,12 @@ public class ProjectsActivity extends AppCompatActivity
     /**
      * updates the list view to reflect changes in the project list fetched from ProjectManager.
      */
-    public void updateUI()
-    {
+    public void updateUI() {
+        if (!ProjectManager.sharedInstance().hasProjects()) {
+            mProjectsTextView.setText(R.string.no_projects);
+            return;
+        }
+
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
@@ -153,6 +157,7 @@ public class ProjectsActivity extends AppCompatActivity
                 mAdapter.updateData(projects);
             }
         });
+
     }
 
     /**

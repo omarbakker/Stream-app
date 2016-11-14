@@ -7,6 +7,15 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
+    <TextView
+        android:id="@+id/text_board"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ImageButton
         android:id="@+id/pinImageButton"
         android:layout_width="65dp"

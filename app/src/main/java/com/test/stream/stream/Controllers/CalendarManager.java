@@ -43,11 +43,24 @@ public class CalendarManager  extends DataManager{
         return meetings;
     }
 
+    /**
+     * Requires: Calendar has loaded.
+     * @return true is this project has meetings. False otherwise.
+     */
+    public Boolean hasMeetings()
+    {
+        return (currentCalendar.getMeetings().size() > 0);
+    }
+
     @Override
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentCalendar = dataSnapshot.getValue(Calendar.class);
         registerMeetings();
-        listener.onDataChanged();
+
+        if(!hasMeetings())
+        {
+            listener.onDataChanged();
+        }
     }
 
     @Override

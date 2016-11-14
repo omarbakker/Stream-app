@@ -39,6 +39,16 @@ public class BoardManager extends DataManager{
      */
     public static BoardManager sharedInstance() { return instance; }
 
+    /**
+     * Requires board object has been loaded.
+     *
+     * @return Returns true if there are pins in the board. False otherwse.
+     */
+    public Boolean hasPins()
+    {
+        return (currentBoard.getPins().size() > 0);
+    }
+
 
     /**
      * Fetches a list of pinned items of a project sorted by creation time.
@@ -82,7 +92,11 @@ public class BoardManager extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentBoard = dataSnapshot.getValue(Board.class);
         registerPins();
-        listener.onDataChanged();
+
+        if(!hasPins())
+        {
+            listener.onDataChanged();
+        }
     }
 
     /**
