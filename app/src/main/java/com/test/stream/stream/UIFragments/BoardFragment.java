@@ -83,11 +83,13 @@ public class BoardFragment extends ListFragment {
         if(!BoardManager.sharedInstance().hasPins())
         {
             mPinTextView.setText(R.string.no_pins);
-            return;
+            mPinTextView.setVisibility(View.VISIBLE);
         }
-
-        mPinTextView.setText(R.string.no_pins);
-        mPinTextView.setVisibility(View.GONE);
+        else
+        {
+            mPinTextView.setText(R.string.empty);
+            mPinTextView.setVisibility(View.GONE);
+        }
 
         // Get all pins from the database
         List<Pin> allPins = BoardManager.sharedInstance().GetPinsInProject();

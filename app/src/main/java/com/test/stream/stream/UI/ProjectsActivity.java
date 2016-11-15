@@ -145,15 +145,17 @@ public class ProjectsActivity extends AppCompatActivity
     public void updateUI() {
         if (!ProjectManager.sharedInstance().hasProjects()) {
             mProjectsTextView.setText(R.string.no_projects);
-            return;
+            mProjectsTextView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mProjectsTextView.setText(R.string.empty);
+            mProjectsTextView.setVisibility(View.GONE);
         }
 
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
-                //Hide no projects message if any are retrieved.
-                mProjectsTextView.setText(R.string.empty);
-                mProjectsTextView.setVisibility(View.GONE);
                 mAdapter.updateData(projects);
             }
         });
