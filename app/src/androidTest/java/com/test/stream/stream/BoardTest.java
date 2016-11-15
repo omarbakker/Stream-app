@@ -79,8 +79,8 @@ public class BoardTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KW_lArl8Gz3u6mqljKx");
-        project.setBoardId("-KWa8Ra6X66HalKOEL97");
+        project.setId("-KWajQa24etXw8G_OkpN");
+        project.setBoardId("-KWajQa6MtgOdRK2GLdK");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 

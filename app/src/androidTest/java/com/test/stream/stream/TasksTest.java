@@ -16,6 +16,8 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import org.junit.Before;
@@ -89,8 +91,10 @@ public class TasksTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KW_lArl8Gz3u6mqljKx");
-        project.setTaskGroupId("-KW_lArtkBK80ukIal2w");
+        project.setId("-KWajQa24etXw8G_OkpN");
+        project.setTaskGroupId("-KWajQa8jCVxTYBqWk4z");
+        project.setCalendarId("-KWajQaANjqT30UO6-rc");
+        project.setBoardId("-KWajQa6MtgOdRK2GLdK");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
@@ -150,7 +154,7 @@ public class TasksTest {
             }
         });
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(2));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
 
 

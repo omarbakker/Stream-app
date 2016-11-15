@@ -105,7 +105,7 @@ public class CalendarManager  extends DataManager{
      */
     public boolean UpdateMeeting(Meeting meeting)
     {
-        if(currentCalendar == null || !meetingsInCalendar.containsKey(meeting))
+        if(currentCalendar == null || !meetingsInCalendar.containsKey(meeting.getId()))
         {
             return false;
         }
@@ -179,7 +179,7 @@ public class CalendarManager  extends DataManager{
         currentCalendar.removeMeeting(meetingId);
         meetingsInCalendar.remove(meeting);
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Calendars,
-                ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(),
+                ProjectManager.sharedInstance().getCurrentProject().getCalendarId(),
                 currentCalendar);
 
         return true;

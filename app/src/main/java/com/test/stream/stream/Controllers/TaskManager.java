@@ -92,8 +92,11 @@ public class TaskManager extends DataManager{
     public void parentUpdated(DataSnapshot dataSnapshot) {
         currentTaskGroup = dataSnapshot.getValue(TaskGroup.class);
         registerTasks();
-        listener.onDataChanged();
 
+        if(currentTaskGroup.getTasks().size() == 0)
+        {
+            listener.onDataChanged();
+        }
     }
 
     /**
@@ -155,7 +158,7 @@ public class TaskManager extends DataManager{
      */
     public boolean UpdateTask(Task task)
     {
-        if(currentTaskGroup == null || !tasksInCurrentProject.containsKey(task))
+        if(currentTaskGroup == null || !tasksInCurrentProject.containsKey(task.getId()))
         {
             return false;
         }

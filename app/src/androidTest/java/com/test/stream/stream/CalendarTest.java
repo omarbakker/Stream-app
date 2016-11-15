@@ -102,8 +102,8 @@ public class CalendarTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KW_lArl8Gz3u6mqljKx");
-        project.setCalendarId("-KWa8RaBR39DrKuWrqJA");
+        project.setId("-KWajQa24etXw8G_OkpN");
+        project.setCalendarId("-KWajQaANjqT30UO6-rc");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
@@ -183,83 +183,111 @@ public class CalendarTest {
         CalendarManager.sharedInstance().Destroy();
     }
 
-    /*@Test
-    public void pinDetails() {
+    @Test
+    public void meetingDetails() {
         // set up the change listener
-        AtomicInteger pinCount = new AtomicInteger(0);
+        AtomicInteger meetingCount = new AtomicInteger(0);
         AtomicBoolean dataChanged = new AtomicBoolean(false);
 
-        initializeBoardManager(pinCount, new AtomicInteger(0), dataChanged);
-        int initialPinCount = pins.size();
+        initializeCalendarManager(meetingCount, new AtomicInteger(0), dataChanged);
 
-        boolean created = BoardManager.sharedInstance()
-                .CreateMessagePin(title, subtitle, description);
+        //Check if creating a meeting is successful
+        int initialMeetingCount = meetings.size();
+        boolean created = CalendarManager.sharedInstance()
+                .CreateMeeting(name, description, location, hour, minute, day,
+                        month, year, monthName, dayOfTheWeek, amPm);
         assert(created);
 
-        // assert the pin was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(pinCount,equalTo(initialPinCount + 1));
-        Pin fetchedPin = pins.get(pins.size() - 1);
+        // assert the meeting was created
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(meetingCount,equalTo(initialMeetingCount + 1));
+        Meeting fetchedMeeting = meetings.get(meetings.size()-1);
 
-        // we have now guaranteed that a new pin exists.
-        // Test the correctness of the details of the pin.
-        assertEquals(fetchedPin.getBoardId(), ProjectManager.sharedInstance().getCurrentProject().getBoardId());
-        assertEquals(fetchedPin.getDescription(), description);
-        assertEquals(fetchedPin.getSubtitle(), subtitle);
-        assertEquals(fetchedPin.getTitle(), title);
+        // we have now guaranteed that a new meeting exists.
+        // Test the correctness of the details of the meeting.
+        assertEquals(fetchedMeeting.getCalendarId(), ProjectManager.sharedInstance().getCurrentProject().getCalendarId());
+        assertEquals(fetchedMeeting.getName(), name);
+        assertEquals(fetchedMeeting.getDescription(), description);
+        assertEquals(fetchedMeeting.getLocation(), location);
+        assertEquals(fetchedMeeting.getHour(), hour);
+        assertEquals(fetchedMeeting.getMinute(), minute);
+        assertEquals(fetchedMeeting.getDay(), day);
+        assertEquals(fetchedMeeting.getNumberMonth(), month);
+        assertEquals(fetchedMeeting.getYear(), year);
+        assertEquals(fetchedMeeting.getDayOfWeek(), dayOfTheWeek);
+        assertEquals(fetchedMeeting.getAmPm(), amPm);
 
-        //Delete the pin
-        boolean deleted = BoardManager.sharedInstance().RemovePin(fetchedPin);
+        //Delete the meeting
+        boolean deleted = CalendarManager.sharedInstance().DeleteMeeting(fetchedMeeting);
         assert(deleted);
 
         // deregister all listeners
-        BoardManager.sharedInstance().Destroy();
+        CalendarManager.sharedInstance().Destroy();
     }
 
+
     @Test
-    public void editPin()
+    public void editMeeting()
     {
         // set up the change listener
-        AtomicInteger pinCount = new AtomicInteger(0);
+        AtomicInteger meetingCount = new AtomicInteger(0);
         AtomicBoolean dataChanged = new AtomicBoolean(false);
 
-        initializeBoardManager(pinCount, new AtomicInteger(0), dataChanged);
-        int initialPinCount = pins.size();
+       initializeCalendarManager(meetingCount, new AtomicInteger(0), dataChanged);
+        int initialMeetingCount = meetings.size();
 
-        boolean created = BoardManager.sharedInstance()
-                .CreateMessagePin(title, subtitle, description);
+        boolean created = CalendarManager.sharedInstance()
+                .CreateMeeting(name, description, location, hour, minute, day,
+                        month, year, monthName, dayOfTheWeek, amPm);
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(pinCount,equalTo(initialPinCount + 1));
-        Pin fetchedPin = pins.get(pins.size() - 1);
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(meetingCount,equalTo(initialMeetingCount + 1));
+        Meeting fetchedMeeting = meetings.get(meetings.size() - 1);
 
         // Modify the task details and update
-        fetchedPin.setTitle(title2);
-        fetchedPin.setDescription(description2);
-        fetchedPin.setSubtitle(subtitle2);
+        fetchedMeeting = modifyMeeting(fetchedMeeting);
 
         //Wait for data to change
         dataChanged.set(false);
 
         // update the database
-        BoardManager.sharedInstance().UpdatePin(fetchedPin);
+        CalendarManager.sharedInstance().UpdateMeeting(fetchedMeeting);
 
         // wait for the listener to receive an update
         await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
 
-        Pin updatedPin = pins.get(pins.size() - 1);
+        Meeting updatedMeeting = meetings.get(meetings.size() - 1);
 
         // Test the correctness of the details of the updated task.
-        assertEquals(updatedPin.getDescription(), description2);
-        assertEquals(updatedPin.getSubtitle(), subtitle2);
-        assertEquals(updatedPin.getTitle(), title2);
+        assertEquals(updatedMeeting.getName(), name2);
+        assertEquals(updatedMeeting.getDescription(), description2);
+        assertEquals(updatedMeeting.getLocation(), location2);
+        assertEquals(updatedMeeting.getHour(), hour2);
+        assertEquals(updatedMeeting.getMinute(), minute2);
+        assertEquals(updatedMeeting.getDay(), day2);
+        assertEquals(updatedMeeting.getNumberMonth(), month2);
+        assertEquals(updatedMeeting.getYear(), year2);
+        assertEquals(updatedMeeting.getDayOfWeek(), dayOfTheWeek2);
+        assertEquals(updatedMeeting.getAmPm(), amPm2);
 
         //Delete the task
-        boolean deleted = BoardManager.sharedInstance().RemovePin(updatedPin);
+        boolean deleted = CalendarManager.sharedInstance().DeleteMeeting(updatedMeeting);
         assert(deleted);
 
         // deregister all listeners
-        BoardManager.sharedInstance().Destroy();
+        CalendarManager.sharedInstance().Destroy();
     }
-*/
+
+
+    private Meeting modifyMeeting(Meeting meetingToEdit)
+    {
+        meetingToEdit.setName(name2);
+        meetingToEdit.setDescription(description2);
+        meetingToEdit.setLocation(location2);
+        meetingToEdit.setTime(hour2, minute2);
+        meetingToEdit.setDate(monthName2, day2, year2, month2, dayOfTheWeek2);
+        meetingToEdit.setAmPm(amPm2);
+
+        return meetingToEdit;
+    }
 }
