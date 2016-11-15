@@ -181,13 +181,6 @@ public class TasksFragment extends Fragment
             mAdapter.notifyDataSetChanged();
         }
 
-//        int size = taskList.size();
-//        for( int a = 0; a < size; a++) {
-//            View listViewChildAt = mTaskListView.getChildAt(a);
-//            Task task = tasks.get(a);
-//            int colour = task.getAssignee().length()*-1500;
-//            listViewChildAt.setBackgroundColor(colour);
-//        }
     }
 
 
@@ -223,7 +216,7 @@ public class TasksFragment extends Fragment
         return tasks;
     }
 
-    private void handleInvalidDate(){
+    public void handleInvalidDate(){
         newtaskDateField.setText(R.string.new_project_prompt_date);
         newtaskDateField.requestFocus();
         newtaskDateField.selectAll();

@@ -3,34 +3,57 @@ package com.test.stream.stream.UIFragments;
 /**
  * Created by janemacgillivray on 2016-10-23.
  */
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.ToolbarActivity;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.UIFragments.TasksFragment;
+
+import static com.test.stream.stream.R.id.newTaskDescriptionField;
+import static com.test.stream.stream.R.id.newTaskDialog;
+import static com.test.stream.stream.R.id.newTaskNameField;
+import static com.test.stream.stream.R.id.newTaskValidAssigneeIndicator;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,6 +79,17 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     static View reviewDialogView;
     TextView reviewInfo;
     AlertDialog.Builder Reviewbuilder;
+    private AlertDialog changedTaskDialog;
+
+
+    //fields for new task input
+    ImageView changedTaskValidAssigneeIndicator;
+    TextInputEditText changedtaskDateField;
+    TextInputEditText changedTaskNameField;
+    TextInputEditText changedTaskDescriptionField;
+    TextInputEditText changedTaskAssigneeField;
+    User changedTaskAssignee;
+    int[] DueDate = {0,0,0};
 
 
     /**
@@ -97,6 +131,13 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //Set new content view
         setContentView(R.layout.task_details);
         //initialize the sendNotificiation button
+        final FloatingActionButton changeTaskButton = (FloatingActionButton) findViewById(R.id.editTask);
+        changeTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChangeTaskDialog();
+            }
+        });
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);  //button listener
 
@@ -196,6 +237,8 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             task.setComplete(true);
         else
             task.setComplete(false);
+
+        TaskManager.getInstance().UpdateTask(task);
     }
 
 
@@ -211,6 +254,23 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                     appearReviewDialog();
                 else
                     appearReminderDialog();
+
+            case R.id.editTask:
+                showChangeTaskDialog();
+                editTask(tasks.get(current_task));
+
+            case R.id.doneAddingTask:
+                editTask(tasks.get(current_task));
+                break;
+            case R.id.CancelAddingTask:
+                changedTaskDialog.dismiss();
+                break;
+            case R.id.newTaskAddUserButton:
+                handleEnteredUser(changedTaskAssigneeField.getText().toString());
+                break;
+            default:
+                break;
+
         }
     }
 
@@ -280,4 +340,171 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         super.onBackPressed();
     }
 
+
+    public void editTask(Task task){
+        final String name = changedTaskNameField.getText().toString();
+        final String description = changedTaskDescriptionField.getText().toString();
+
+        if (name.isEmpty()){
+            changedTaskNameField.setText("Change your task Name");
+            changedTaskNameField.requestFocus();
+            changedTaskNameField.selectAll();
+            return;
+        }
+
+        if (description.isEmpty()){
+            changedTaskDescriptionField.setText("Change your task Description");
+            changedTaskDescriptionField.requestFocus();
+            changedTaskDescriptionField.selectAll();
+            return;
+        }
+
+        if(!getValidDate(changedtaskDateField.getText().toString())) {
+            handleInvalidDate();
+            return;
+        }
+
+        if(changedTaskAssignee == null) {
+            changedTaskAssigneeField.setText("change your user");
+            changedTaskAssigneeField.selectAll();
+            return;
+        }
+
+        task.setName(name);
+        task.setDueDay(DueDate[0]);
+        task.setDueMonth(DueDate[1]);
+        task.setDueYear(DueDate[2]);
+        task.setUser(changedTaskAssignee);
+
+        TaskManager.getInstance().UpdateTask(task);
+        changedTaskDialog.dismiss();
+
+
+
+    }
+
+    public void handleInvalidDate(){
+        changedtaskDateField.setText(R.string.new_project_prompt_date);
+        changedtaskDateField.requestFocus();
+        changedtaskDateField.selectAll();
+    }
+
+    private boolean getValidDate(String date){
+        String[] vals = date.split("/");
+        if (vals.length != 3)
+            return false;
+        for (int i = 0; i < vals.length; i++){
+            try{
+                DueDate[i] = Integer.parseInt(vals[i]);
+            }catch (NumberFormatException e){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Checks if the string passed represents a valid user in the database.
+     * Updates newTaskAssignee accordingly.
+     * @param uDescription
+     * The description entered by the user
+     */
+    private void handleEnteredUser(final String uDescription){
+        if (uDescription.isEmpty()) return;
+        ReadDataCallback userResult = new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+
+                if (result.exists()){
+                    // user is valid and can be added to the project as a collaborator
+                    changedTaskAssigneeField.clearFocus();
+                    GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
+                    Map <String,User> resultMap = result.getValue(genericTypeIndicator);
+                    String id = (String) resultMap.keySet().toArray()[0];
+                    changedTaskAssignee = resultMap.get(id);
+                    changedTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
+                }else{
+                    // user is invalid and cannot be added to the project as a collaborator
+                    String userInvalidHelp = uDescription + " - Invalid user";
+                    changedTaskAssigneeField.setText(userInvalidHelp);
+                    changedTaskAssigneeField.selectAll();
+                    changedTaskValidAssigneeIndicator.setVisibility(View.INVISIBLE);
+                }
+            }
+        };
+        UserManager.getInstance().checkUserExists(uDescription,userResult);
+    }
+
+
+    public void showChangeTaskDialog() {
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View v = inflater.inflate(R.layout.dialog_newtask, null);
+
+        changedTaskDialog = new AlertDialog.Builder(this).setView(v).create();
+        //set view and text type
+        TextView title = (TextView) v.findViewById(R.id.newTaskPageTitle);
+        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
+        title.setTypeface(Syncopate);
+
+        //sets buttons
+        Button done = (Button) v.findViewById(R.id.doneAddingTask);
+        Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
+        Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
+
+        //get each field
+        changedTaskValidAssigneeIndicator = (ImageView) v.findViewById(R.id.newTaskValidAssigneeIndicator);
+        changedTaskAssigneeField = (TextInputEditText) v.findViewById(R.id.newTaskNewUserField);
+        changedtaskDateField = (TextInputEditText) v.findViewById(R.id.newTaskDueDateField);
+        changedTaskNameField = (TextInputEditText) v.findViewById(R.id.newTaskNameField);
+        changedTaskDescriptionField = (TextInputEditText) v.findViewById(R.id.newTaskDescriptionField);
+
+        //create listeners
+        changedTaskAssigneeField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+        changedtaskDateField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+        changedTaskNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+        changedTaskDescriptionField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return false;
+            }
+        });
+
+        //set button functions
+        addUser.setOnClickListener(this);
+        done.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        changedtaskDateField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                changedtaskDateField.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changedtaskDateField.setError(null);
+            }
+        });
+        changedTaskDialog.show();
+    }
 }

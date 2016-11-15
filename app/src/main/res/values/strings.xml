@@ -56,7 +56,7 @@
     <string name="task_due_date">Due date</string>
     <string name="task_user">User</string>
     <string name="task_description">Description</string>
-    <string name="task_markAsComplete">Mark task as done</string>
+    <string name="task_markAsComplete">Done?</string>
 
     <!-- Task notification strings -->
     <string name ="reminder_notification_dialog_title">"Want to remind "</string>
