@@ -156,9 +156,6 @@ public class ProjectsActivity extends AppCompatActivity
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
-                //Hide no projects message if any are retrieved.
-                mProjectsTextView.setText(R.string.empty);
-                mProjectsTextView.setVisibility(View.GONE);
                 mAdapter.updateData(projects);
             }
         });

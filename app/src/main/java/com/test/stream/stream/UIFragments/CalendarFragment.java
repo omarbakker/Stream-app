@@ -125,7 +125,7 @@ public class CalendarFragment extends Fragment {
         }
 
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
-        
+
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {
