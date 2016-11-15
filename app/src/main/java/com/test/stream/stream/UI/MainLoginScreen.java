@@ -337,8 +337,14 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                         }
                         else
                         {
-                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                            startActivity(intent);
+                            UserManager.createUserIfNotExist(new FetchUserCallback() {
+                                @Override
+                                public void onDataRetrieved(User result) {
+                                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
                         }
                     }
                 });
