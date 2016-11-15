@@ -15,8 +15,6 @@ import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.UIFragments.TasksFragment;
-import com.test.stream.stream.UIFragments.expand_task;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
@@ -36,29 +34,30 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.google.android.gms.common.stats.zzd.Eq;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 
-/**
- * Created by robyn on 2016-11-07.
- */
 @RunWith(AndroidJUnit4.class)
 public class TasksTest {
 
     List<Task> tasks = null;
-    AtomicBoolean AddedTask = new AtomicBoolean(false);
-    AtomicBoolean MarkedAsComplete = new AtomicBoolean(false);
 
     //test data
     String test_name = "test name";
     String test_description = "this is a test description";
-    String test_newTaskAssignee = "john jingleheimer schmidt";
     int[] test_DueDate = {12,12,2012};
     boolean complete = false;
 
+    //data to modify to
+    String test_name2 = "unit test";
+    String test_description2 = "new test description";
+    int[] test_DueDate2 = {15,10,2014};
+
     static User user = null;
 
+     //User must be signed in to write to the database
     @Before
     public void userSignInSetup() {
 
@@ -88,12 +87,74 @@ public class TasksTest {
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
     }
 
+    @Before
+    public void setProject()
+    {
+        Project project = new Project();
+        project.setId("-KWajQa24etXw8G_OkpN");
+        project.setTaskGroupId("-KWajQa8jCVxTYBqWk4z");
+        project.setCalendarId("-KWajQaANjqT30UO6-rc");
+        project.setBoardId("-KWajQa6MtgOdRK2GLdK");
+        ProjectManager.sharedInstance().setCurrentProject(project);
+    }
+
     private Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
             }
         };
+    }
+
+
+    /**
+     * @return A user for testing with
+     */
+    private User getUser()
+    {
+        User user = new User();
+        user.setName("unit");
+        user.setEmail("unit@test.com");
+        user.setUsername("unit");
+        user.setUid("g1tnS1lCYtcBvCHjnzgSBApLG082");
+
+        return user;
+    }
+
+    /**
+     * A second user to swap with the first
+     * @return
+     */
+    private User getUser2()
+    {
+        User user = new User();
+        user.setName("unity");
+        user.setEmail("unity@test.com");
+        user.setUsername("unity");
+        user.setUid("unituid");
+
+        return user;
+    }
+
+    /**
+     * Confirms that TaskManager has been successfully initialized.
+     */
+    private void initializeTaskManager(final AtomicInteger taskCount,
+                                       final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
+    {
+
+        //Confirm initialization
+        TaskManager.sharedInstance().Initialize(new DataEventListener() {
+            @Override
+            public void onDataChanged() {
+                tasks = TaskManager.sharedInstance().GetTasksInProject();
+                dataChangeCount.incrementAndGet();
+                dataChanged.set(true);
+                taskCount.set(tasks.size());
+            }
+        });
+
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
 
 
@@ -104,38 +165,23 @@ public class TasksTest {
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
-
     /**
-     * Determine if the task is marked as complete in the database
-     *Creating a new task with the given data and asserts a new task has been added to the database
+     * Determine if we can successfully add a task to the database.
      */
     @Test
-    public void initialize_task(){
-        Project project = new Project();
-        project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
-        ProjectManager.sharedInstance().setCurrentProject(project);
+    public void addTask(){
 
-        // set up the change listener
-        final AtomicInteger taskCount = new AtomicInteger(0);
-        final AtomicBoolean dataChanged = new AtomicBoolean(false);
+        AtomicInteger taskCount = new AtomicInteger(0);
+        initializeTaskManager(taskCount, new AtomicInteger(0), new AtomicBoolean(false));
 
-        TaskManager.sharedInstance().Initialize(new DataEventListener() {
-            @Override
-            public void onDataChanged() {
-                tasks = TaskManager.sharedInstance().GetTasksInProject();
-                dataChanged.set(true);
-                taskCount.set(tasks.size());
-            }
-        });
-
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
-        dataChanged.set(false);
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
+        //Check if creating a task is successful
         int initialTaskCount = tasks.size();
-
         boolean created = TaskManager.sharedInstance()
-                .CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
+                .CreateTask(test_name, test_description,
+                        getUser(),
+                        test_DueDate, complete);
         assert(created);
+
 
         // assert the task was created;
         await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
@@ -152,34 +198,19 @@ public class TasksTest {
     @Test
     public void deleteTask() throws Exception {
 
-        Project project = new Project();
-        project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
-        ProjectManager.sharedInstance().setCurrentProject(project);
-
         // set up the change listener
-        final AtomicInteger taskCount = new AtomicInteger(0);
-        final AtomicBoolean dataChanged = new AtomicBoolean(false);
+        AtomicInteger taskCount = new AtomicInteger(0);
+        initializeTaskManager(taskCount, new AtomicInteger(0), new AtomicBoolean(false));
 
-        TaskManager.sharedInstance().Initialize(new DataEventListener() {
-            @Override
-            public void onDataChanged() {
-                tasks = TaskManager.sharedInstance().GetTasksInProject();
-                dataChanged.set(true);
-                taskCount.set(tasks.size());
-            }
-        });
-
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
-        dataChanged.set(false);
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
-
+        //Get a task to delete
         Task taskToDelete = tasks.get(0);
         int initialTaskCount = tasks.size();
 
+        //Delete the task
         boolean deleted = TaskManager.sharedInstance().DeleteTask(taskToDelete);
         assert(deleted);
 
-        // assert the task was created;
+        // assert the task was deleted;
         await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount - 1));
 
         // deregister all listeners
@@ -187,34 +218,22 @@ public class TasksTest {
     }
 
 
+    /**
+     * Confirm that the task's contents are the expected values.
+     * @throws Exception
+     */
     @Test
-    public void taskDetailsTest() throws Exception{
-
-        Project project = new Project();
-        project.setTaskGroupId("-KW10RkZhInwcdn-hVIw");
-        ProjectManager.sharedInstance().setCurrentProject(project);
+    public void taskDetails() throws Exception{
 
         // set up the change listener
-        final AtomicInteger taskCount = new AtomicInteger(0);
-        final AtomicBoolean dataChanged = new AtomicBoolean(false);
+        AtomicInteger taskCount = new AtomicInteger(0);
+        AtomicBoolean dataChanged = new AtomicBoolean(false);
 
-        TaskManager.sharedInstance().Initialize(new DataEventListener() {
-            @Override
-            public void onDataChanged() {
-                tasks = TaskManager.sharedInstance().GetTasksInProject();
-                dataChanged.set(true);
-                taskCount.set(tasks.size());
-            }
-        });
-
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
-        dataChanged.set(false);
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
-
+        initializeTaskManager(taskCount, new AtomicInteger(0), dataChanged);
         int initialTaskCount = tasks.size();
 
         boolean created = TaskManager.sharedInstance()
-                .CreateTask(test_name, test_description, test_newTaskAssignee, test_DueDate, complete);
+                .CreateTask(test_name, test_description, getUser(), test_DueDate, complete);
         assert(created);
 
         // assert the task was created;
@@ -223,28 +242,183 @@ public class TasksTest {
 
         // we have now guaranteed that a new task exists.
         // Test the correctness of the details of the task.
+        assertEquals(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), fetchedNewTask.getTaskGroupId());
         assertEquals(test_name,fetchedNewTask.getName());
-        //assertEquals(test_newTaskAssignee,fetchedNewTask.getAssigneeUid());
         assertEquals(test_DueDate[0],fetchedNewTask.getDueDay());
+        assertEquals(test_DueDate[1],fetchedNewTask.getDueMonth());
+        assertEquals(test_DueDate[2],fetchedNewTask.getDueYear());
         assertEquals(complete,fetchedNewTask.getComplete());
 
+        //Delete the task
+        boolean deleted = TaskManager.sharedInstance().DeleteTask(fetchedNewTask);
+        assert(deleted);
+
+        // deregister all listeners
+        TaskManager.sharedInstance().Destroy();
+    }
+
+    /**
+     * Confirm that the task's contents can be successfully set as complete.
+     * @throws Exception
+     */
+    @Test
+    public void editTask() throws Exception{
+
+        // set up the change listener
+        AtomicInteger taskCount = new AtomicInteger(0);
+        AtomicBoolean dataChanged = new AtomicBoolean(false);
+
+        initializeTaskManager(taskCount, new AtomicInteger(0), dataChanged);
+        int initialTaskCount = tasks.size();
+
+        boolean created = TaskManager.sharedInstance()
+                .CreateTask(test_name, test_description, getUser(), test_DueDate, complete);
+        assert(created);
+
+        // assert the task was created;
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Task fetchedNewTask = tasks.get(tasks.size() - 1);
+
         // Modify the task details and update
-        fetchedNewTask.setComplete(!fetchedNewTask.getComplete());
-        boolean updatedCompleteValue = fetchedNewTask.getComplete();
+        fetchedNewTask.setName(test_name2);
+        fetchedNewTask.setDescription(test_description2);
+        fetchedNewTask.setDueDay(test_DueDate2[0]);
+        fetchedNewTask.setDueMonth(test_DueDate2[1]);
+        fetchedNewTask.setDueYear(test_DueDate2[2]);
+
         dataChanged.set(false);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks,fetchedNewTask.getId(),fetchedNewTask);
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
 
         Task updatedTask = tasks.get(tasks.size() - 1);
-        assertEquals(updatedCompleteValue, updatedTask.getComplete());
+
+        // Test the correctness of the details of the updated task.
+        assertEquals(test_name2,fetchedNewTask.getName());
+        assertEquals(test_DueDate2[0],fetchedNewTask.getDueDay());
+        assertEquals(test_DueDate2[1],fetchedNewTask.getDueMonth());
+        assertEquals(test_DueDate2[2],fetchedNewTask.getDueYear());
+
+        //Delete the task
+        boolean deleted = TaskManager.sharedInstance().DeleteTask(updatedTask);
+        assert(deleted);
 
         // deregister all listeners
         TaskManager.sharedInstance().Destroy();
+    }
 
+    @Test
+    public void setTaskCompletion()
+    {
+        // set up the change listener
+        AtomicInteger taskCount = new AtomicInteger(0);
+        AtomicBoolean dataChanged = new AtomicBoolean(false);
+
+        initializeTaskManager(taskCount, new AtomicInteger(0), dataChanged);
+        int initialTaskCount = tasks.size();
+
+        boolean created = TaskManager.sharedInstance()
+                .CreateTask(test_name, test_description, getUser(), test_DueDate, complete);
+        assert(created);
+
+        // assert the task was created;
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Task fetchedNewTask = tasks.get(tasks.size() - 1);
+
+        assertEquals(fetchedNewTask.getComplete(), complete);
+
+        // Modify the task details and update
+        fetchedNewTask.setComplete(!complete);
+        dataChanged.set(false);
+
+        // update the database
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
+
+        // wait for the listener to receive an update
+        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
+
+        Task updatedTask = tasks.get(tasks.size() - 1);
+        assertEquals(!complete, updatedTask.getComplete());
+
+        //Delete the task
+        boolean deleted = TaskManager.sharedInstance().DeleteTask(updatedTask);
+        assert(deleted);
+
+        // deregister all listeners
+        TaskManager.sharedInstance().Destroy();
+    }
+
+    @Test
+    public void assignTask()
+    {
+        // set up the change listener
+        AtomicInteger taskCount = new AtomicInteger(0);
+        AtomicBoolean dataChanged = new AtomicBoolean(false);
+
+        initializeTaskManager(taskCount, new AtomicInteger(0), dataChanged);
+        int initialTaskCount = tasks.size();
+
+        boolean created = TaskManager.sharedInstance()
+                .CreateTask(test_name, test_description, getUser(), test_DueDate, complete);
+        assert(created);
+
+        // assert the task was created;
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Task fetchedNewTask = tasks.get(tasks.size() - 1);
+
+        //Confirm that the user is the expected user
+        assertEquals(fetchedNewTask.getAssignee(), getUser().getUsername());
+        assertEquals(fetchedNewTask.getAssigneeUid(), getUser().getUid());
+
+        //Delete the task
+        boolean deleted = TaskManager.sharedInstance().DeleteTask(fetchedNewTask);
+        assert(deleted);
+
+        // deregister all listeners
+        TaskManager.sharedInstance().Destroy();
+    }
+
+    @Test
+    public void changeTaskAssignee()
+    {
+        // set up the change listener
+        AtomicInteger taskCount = new AtomicInteger(0);
+        AtomicBoolean dataChanged = new AtomicBoolean(false);
+
+        initializeTaskManager(taskCount, new AtomicInteger(0), dataChanged);
+        int initialTaskCount = tasks.size();
+
+        boolean created = TaskManager.sharedInstance()
+                .CreateTask(test_name, test_description, getUser(), test_DueDate, complete);
+        assert(created);
+
+        // assert the task was created;
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Task fetchedNewTask = tasks.get(tasks.size() - 1);
+
+        // Modify the task details and update
+        fetchedNewTask.setUser(getUser2());
+        dataChanged.set(false);
+
+        // update the database
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
+
+        // wait for the listener to receive an update
+        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
+
+        Task updatedTask = tasks.get(tasks.size() - 1);
+        assertEquals(getUser2().getUsername(), updatedTask.getAssignee());
+        assertEquals(getUser2().getUid(), updatedTask.getAssigneeUid());
+
+        //Delete the task
+        boolean deleted = TaskManager.sharedInstance().DeleteTask(updatedTask);
+        assert(deleted);
+
+        // deregister all listeners
+        TaskManager.sharedInstance().Destroy();
     }
 
 }

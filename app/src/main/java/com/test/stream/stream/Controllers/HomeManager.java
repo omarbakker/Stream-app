@@ -1,5 +1,6 @@
 package com.test.stream.stream.Controllers;
 
+import com.google.firebase.database.Query;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -83,7 +84,7 @@ public class HomeManager {
      */
     public int getUserProgress()
     {
-        double percentage = numberCompletedTasks/(numberCompletedTasks + userTasks.size());
+        double percentage = (double)numberCompletedTasks/(numberCompletedTasks + userTasks.size());
         return (int)(percentage*100.0);
     }
 
@@ -111,6 +112,11 @@ public class HomeManager {
     public boolean UpdateTask(Task task)
     {
         return TaskManager.sharedInstance().UpdateTask(task);
+    }
+
+    public void Destroy() //Call only when you don't need the tasks anymore.
+    {
+        TaskManager.sharedInstance().Destroy();
     }
 
 }

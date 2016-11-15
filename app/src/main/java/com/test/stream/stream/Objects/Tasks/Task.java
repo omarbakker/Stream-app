@@ -83,10 +83,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setAssignee(String userName)
-    {
-        this.assignee = userName;
-    }
     public void setId(String id)
     {
         this.id = id;
