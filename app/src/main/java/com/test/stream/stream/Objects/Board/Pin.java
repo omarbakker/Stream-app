@@ -43,6 +43,9 @@ public class Pin {
     {
         this.boardId = boardId;
     }
+    public void setTitle(String title){ this.title = title;}
+    public void setDescription(String description) {this.description = description; }
+    public void setSubtitle(String subtitle) {this.subtitle = subtitle; }
 
     /**
      * Create a new message type pin

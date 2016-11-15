@@ -15,11 +15,7 @@ import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.UIFragments.TasksFragment;
-import com.test.stream.stream.UIFragments.expand_task;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
-import com.test.stream.stream.Utilities.DatabaseFolders;
-import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import org.junit.Before;
@@ -41,15 +37,10 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 
-/**
- * Created by robyn on 2016-11-07.
- */
 @RunWith(AndroidJUnit4.class)
 public class TasksTest {
 
     List<Task> tasks = null;
-    AtomicBoolean AddedTask = new AtomicBoolean(false);
-    AtomicBoolean MarkedAsComplete = new AtomicBoolean(false);
 
     //test data
     String test_name = "test name";
@@ -247,17 +238,16 @@ public class TasksTest {
 
         // we have now guaranteed that a new task exists.
         // Test the correctness of the details of the task.
+        assertEquals(ProjectManager.sharedInstance().getCurrentProject().getTaskGroupId(), fetchedNewTask.getTaskGroupId());
         assertEquals(test_name,fetchedNewTask.getName());
         assertEquals(test_DueDate[0],fetchedNewTask.getDueDay());
         assertEquals(test_DueDate[1],fetchedNewTask.getDueMonth());
         assertEquals(test_DueDate[2],fetchedNewTask.getDueYear());
         assertEquals(complete,fetchedNewTask.getComplete());
 
-
         //Delete the task
         boolean deleted = TaskManager.sharedInstance().DeleteTask(fetchedNewTask);
         assert(deleted);
-
 
         // deregister all listeners
         TaskManager.sharedInstance().Destroy();
@@ -295,7 +285,7 @@ public class TasksTest {
         dataChanged.set(false);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks,fetchedNewTask.getId(),fetchedNewTask);
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
@@ -307,7 +297,6 @@ public class TasksTest {
         assertEquals(test_DueDate2[0],fetchedNewTask.getDueDay());
         assertEquals(test_DueDate2[1],fetchedNewTask.getDueMonth());
         assertEquals(test_DueDate2[2],fetchedNewTask.getDueYear());
-
 
         //Delete the task
         boolean deleted = TaskManager.sharedInstance().DeleteTask(updatedTask);
@@ -342,7 +331,7 @@ public class TasksTest {
         dataChanged.set(false);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks,fetchedNewTask.getId(),fetchedNewTask);
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
@@ -411,7 +400,7 @@ public class TasksTest {
         dataChanged.set(false);
 
         // update the database
-        DatabaseManager.getInstance().updateObject(DatabaseFolders.Tasks,fetchedNewTask.getId(),fetchedNewTask);
+        TaskManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
