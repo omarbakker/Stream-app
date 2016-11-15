@@ -41,13 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< 890176be134d59f58cb124fae152003e69cfe394
-=======
 import static android.R.attr.name;
 import static android.R.id.input;
 import static com.test.stream.stream.R.id.view;
 
->>>>>>> colour of expanded task based on user
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -166,15 +163,11 @@ public class TasksFragment extends Fragment
     /**x
      * updates the user interface to display all tasks
      */
-<<<<<<< 890176be134d59f58cb124fae152003e69cfe394
-    private void updateUI(){
-        List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
-=======
     public void updateUI(){
         //welcome.setVisibility(getView().INVISIBLE);
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
->>>>>>> colour of expanded task based on user
+
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
@@ -197,13 +190,6 @@ public class TasksFragment extends Fragment
             mAdapter.notifyDataSetChanged();
         }
 
-//        int size = taskList.size();
-//        for( int a = 0; a < size; a++) {
-//            View listViewChildAt = mTaskListView.getChildAt(a);
-//            Task task = tasks.get(a);
-//            int colour = task.getAssignee().length()*-1500;
-//            listViewChildAt.setBackgroundColor(colour);
-//        }
     }
 
 
@@ -239,7 +225,7 @@ public class TasksFragment extends Fragment
         return tasks;
     }
 
-    private void handleInvalidDate(){
+    public void handleInvalidDate(){
         newtaskDateField.setText(R.string.new_project_prompt_date);
         newtaskDateField.requestFocus();
         newtaskDateField.selectAll();
