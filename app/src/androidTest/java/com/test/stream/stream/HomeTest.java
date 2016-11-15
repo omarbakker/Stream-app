@@ -216,11 +216,15 @@ public class HomeTest {
         mHomeManager.Destroy();
     }
 
-    public void createUserTask(Boolean isComplete)
+    public void createUserTask(Boolean isComplete, AtomicInteger taskCount)
     {
+        int initialTaskCount = tasks.size();
+
         boolean created = TaskManager.sharedInstance()
                 .CreateTask(test_name, test_description, UserManager.sharedInstance().getCurrentUser(), test_DueDate, isComplete);
         assert(created);
+
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
     }
 
     @Test
@@ -234,24 +238,17 @@ public class HomeTest {
 
         //Add two tasks, one to the currently logged in user, one to another user.
         initializeTaskManager(taskCount, new AtomicInteger(0), new AtomicBoolean(false));
-        int initialTaskCount = tasks.size();
 
         for(int i = 0; i < 2; i++)
         {
-            createUserTask(true);
+            createUserTask(true, taskCount);
         }
-
-        // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 2));
-
 
         for(int i = 0; i < 3; i++)
         {
-            createUserTask(false);
+            createUserTask(false, taskCount);
         }
 
-        // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 5));
 
         TaskManager.sharedInstance().Destroy();
 
@@ -271,6 +268,9 @@ public class HomeTest {
     @Test
     public void addTask()
     {
+        //Start with no tasks
+        clearTasks();
+
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
 
@@ -303,6 +303,9 @@ public class HomeTest {
     @Test
     public void editTask()
     {
+        //Start with no tasks
+        clearTasks();
+
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
         AtomicBoolean dataChanged = new AtomicBoolean(false);
@@ -319,14 +322,14 @@ public class HomeTest {
 
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
-        dataChanged.set(false);
-
         // Modify the task details and update
         fetchedNewTask.setDescription(test_description2);
         fetchedNewTask.setName(test_name2);
         fetchedNewTask.setDueDay(test_DueDate2[0]);
         fetchedNewTask.setDueMonth(test_DueDate2[1]);
         fetchedNewTask.setDueYear(test_DueDate2[2]);
+
+        dataChanged.set(false);
         mHomeManager.UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
@@ -351,6 +354,9 @@ public class HomeTest {
     @Test
     public void markTaskComplete()
     {
+        //Start with no tasks
+        clearTasks();
+
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
         AtomicBoolean dataChanged = new AtomicBoolean(false);
