@@ -42,7 +42,7 @@ public class CalendarTest {
     final int minute = 50;
     final int day = 20;
     final int hour = 4;
-    final int month = 6;
+    final int month = 2;
     final int year = 1999;
     final String monthName = "February";
     final String dayOfTheWeek = "Monday";
@@ -212,6 +212,7 @@ public class CalendarTest {
         assertEquals(fetchedMeeting.getMinute(), minute);
         assertEquals(fetchedMeeting.getDay(), day);
         assertEquals(fetchedMeeting.getNumberMonth(), month);
+        assertEquals(fetchedMeeting.getMonth(), monthName);
         assertEquals(fetchedMeeting.getYear(), year);
         assertEquals(fetchedMeeting.getDayOfWeek(), dayOfTheWeek);
         assertEquals(fetchedMeeting.getAmPm(), amPm);
@@ -265,6 +266,7 @@ public class CalendarTest {
         assertEquals(updatedMeeting.getHour(), hour2);
         assertEquals(updatedMeeting.getMinute(), minute2);
         assertEquals(updatedMeeting.getDay(), day2);
+        assertEquals(updatedMeeting.getMonth(), monthName2);
         assertEquals(updatedMeeting.getNumberMonth(), month2);
         assertEquals(updatedMeeting.getYear(), year2);
         assertEquals(updatedMeeting.getDayOfWeek(), dayOfTheWeek2);

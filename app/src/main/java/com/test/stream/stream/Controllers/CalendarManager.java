@@ -75,7 +75,10 @@ public class CalendarManager  extends DataManager{
         meetingsInCalendar.put(meeting.getId(), meeting);
 
         if(meetingsInCalendar.size() == currentCalendar.getMeetings().size())
+        {
             listener.onDataChanged();
+        }
+
     }
 
     @Override
