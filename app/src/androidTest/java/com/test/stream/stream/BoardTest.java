@@ -80,8 +80,6 @@ public class BoardTest {
     {
         Project project = new Project();
         project.setId("-KW_lArl8Gz3u6mqljKx");
-    //    project.setCalendarId("-KWa8RaBR39DrKuWrqJA");
-     //   project.setCalendarId("-KWa8Ra8vZ-lNnmSPlpq");
         project.setBoardId("-KWa8Ra6X66HalKOEL97");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
