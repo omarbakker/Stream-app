@@ -14,7 +14,11 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import org.awaitility.Awaitility;
+import org.hamcrest.Matchers;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
@@ -23,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.test.stream.stream.ProjectsTest.mAuth;
 import static junit.framework.Assert.assertEquals;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
@@ -50,11 +55,10 @@ public class HomeTest {
     HomeManager mHomeManager = null;
 
     //User must be signed in to write to the database
-    @Before
-    public void userSignInSetup() {
+    @BeforeClass
+    public static void userSignInSetup() {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -77,7 +81,12 @@ public class HomeTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
+
 
     @Before
     public void setProject()
@@ -91,8 +100,7 @@ public class HomeTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
-
-    private Callable<Boolean> newUserIsAdded() {
+    private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
@@ -130,7 +138,7 @@ public class HomeTest {
             }
         });
 
-        await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
     }
 
     private void initializeTaskManager(final AtomicInteger taskCount,
@@ -148,15 +156,7 @@ public class HomeTest {
             }
         });
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
-    }
-
-
-    @Test
-    public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com", user.getEmail());
-        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
     }
 
 
@@ -173,7 +173,7 @@ public class HomeTest {
             assert(deleted);
         }
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(0));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(0));
 
         // deregister all listeners
         TaskManager.sharedInstance().Destroy();
@@ -202,14 +202,14 @@ public class HomeTest {
         assert(created2);
 
         // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 2));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 2));
 
         TaskManager.sharedInstance().Destroy();
 
         AtomicInteger dataChangeCount = new AtomicInteger(0);
         initializeHomeManager(new AtomicInteger(0), dataChangeCount, new AtomicBoolean(false));
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
 
         assertEquals(mHomeManager.getUserTasks().size(), 1);
 
@@ -225,7 +225,7 @@ public class HomeTest {
                 .CreateTask(test_name, test_description, UserManager.sharedInstance().getCurrentUser(), test_DueDate, isComplete);
         assert(created);
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 1));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class HomeTest {
         AtomicInteger dataChangeCount = new AtomicInteger(0);
         initializeHomeManager(new AtomicInteger(0), dataChangeCount, new AtomicBoolean(false));
 
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
 
         int expectedProgress = (int)((2.0/5.0)*100);
         assertEquals(mHomeManager.getUserProgress(), expectedProgress);
@@ -283,7 +283,7 @@ public class HomeTest {
         assert(created);
 
         // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 1));
 
         Task newestTask = tasks.get(tasks.size()-1);
 
@@ -319,7 +319,7 @@ public class HomeTest {
         assert(created);
 
         // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 1));
 
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
@@ -334,7 +334,7 @@ public class HomeTest {
         mHomeManager.UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
 
         Task newestTask = tasks.get(tasks.size()-1);
         assertEquals(newestTask.getAssignee(), UserManager.sharedInstance().getCurrentUser().getUsername());
@@ -370,7 +370,7 @@ public class HomeTest {
         assert(created);
 
         // assert both tasks were created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 1));
 
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
         fetchedNewTask.setComplete(true);
@@ -379,12 +379,19 @@ public class HomeTest {
         mHomeManager.UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
-        await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
+        Awaitility.await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
 
         assertEquals(tasks.size(), initialTaskCount);
 
         mHomeManager.Destroy();
 
+    }
+
+
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
     }
 
 }

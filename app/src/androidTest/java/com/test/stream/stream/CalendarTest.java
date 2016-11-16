@@ -17,7 +17,9 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -61,16 +63,15 @@ public class CalendarTest {
     final String dayOfTheWeek2 = "Tuesday";
     final String amPm2 = "PM";
 
-
     private List<Meeting> meetings = null;
     private static User user = null;
+    private static FirebaseAuth mAuth;
 
     //User must be signed in to write to the database
-    @Before
-    public void userSignInSetup() {
+    @BeforeClass
+    public static void userSignInSetup() {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -93,6 +94,10 @@ public class CalendarTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
     /**
@@ -107,7 +112,7 @@ public class CalendarTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
-    private Callable<Boolean> newUserIsAdded() {
+    private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
@@ -134,14 +139,6 @@ public class CalendarTest {
 
         await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
-
-    @Test
-    public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com", user.getEmail());
-        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
-    }
-
 
     @Test
     public void addMeeting() {
@@ -292,4 +289,12 @@ public class CalendarTest {
 
         return meetingToEdit;
     }
+
+
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
+    }
+
 }
