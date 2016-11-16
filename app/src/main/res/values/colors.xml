@@ -4,12 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#556270</color>
     <color name="white">#FFFFFF</color>
-    <color name="background">#4ecdc4</color>
     <color name="red">#FC1501</color>
     <color name="customBlue">#0082be</color>
     <color name="darkBlueTextColor">#004976</color>
     <color name="skyBlue">#7EC0EE</color>
     <color name="veryLightBlue">#c6eaff</color>
-
+    <color name="background">#78aaede8</color>
 
 </resources>
