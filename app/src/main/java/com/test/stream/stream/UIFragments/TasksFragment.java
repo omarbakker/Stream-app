@@ -32,6 +32,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
@@ -377,6 +378,15 @@ public class TasksFragment extends Fragment
             newtaskDateField.append("/");
         }
     }
+
+//    public void getCurrentDate(){
+//        Calendar c = Calendar.getInstance();
+//        System.out.println("Current time => " + c.getTime());
+//
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+//        String formattedDate = df.format(c.getTime());
+//
+//    }
 
 
 }
