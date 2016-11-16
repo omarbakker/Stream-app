@@ -11,6 +11,7 @@ import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by cathe on 2016-11-14.
@@ -42,6 +43,18 @@ public class TeamManager extends DataManager {
     }
 
     /**
+     * Updates the provided user
+     *
+     * @param user the user to update with contents updated
+     */
+    private void UpdateUser(User user)
+    {
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Users, user.getUid(), user);
+    }
+
+
+
+    /**
     * Add a user to the project
     *
     * @param user the user to add to the project
@@ -52,7 +65,9 @@ public class TeamManager extends DataManager {
     {
         if(currentProject.addMember(user, isAdminsistrator))
         {
+            user.addProject(currentProject.getId());
             UpdateProject(currentProject);
+            UpdateUser(user);
             return true;
         }
 
@@ -63,7 +78,7 @@ public class TeamManager extends DataManager {
     public ArrayList<User> GetUsers()
     {
         ArrayList users = new ArrayList();
-        users.addAll(memberList.values());
+        users.addAll(memberList.keySet());
         return users;
     }
 
@@ -72,6 +87,8 @@ public class TeamManager extends DataManager {
         if(currentProject.removeMemberByUid(user))
         {
             UpdateProject(currentProject);
+            user.removeProject(currentProject.getId());
+            UpdateUser(user);
             return true;
         }
 
@@ -114,12 +131,13 @@ public class TeamManager extends DataManager {
     private void getMembers()
     {
         //Confirm all members on member list are still members of the team.
+        final AtomicBoolean dataChanged = new AtomicBoolean(false);
         for(User member: memberList.keySet())
         {
             if(!currentProject.getMembers().containsKey(member.getUid()))
             {
                 memberList.remove(member);
-                listener.onDataChanged();
+                dataChanged.set(true);
             }
         }
 
@@ -133,15 +151,26 @@ public class TeamManager extends DataManager {
                     public void onDataRetrieved(DataSnapshot result) {
                         for(DataSnapshot child: result.getChildren())
                         {
+                            dataChanged.set(true);
                             User user = child.getValue(User.class);
                             memberList.put(user, user.getUid());
+                        }
+
+                        if(dataChanged.get() == true)
+                        {
                             listener.onDataChanged();
                         }
                     }
                 });
 
             }
+            else if(dataChanged.get() == true)
+            {
+               listener.onDataChanged();
+            }
         }
+
+
 
     }
 }

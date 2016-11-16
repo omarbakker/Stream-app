@@ -83,10 +83,11 @@ public class HomeTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KWdhJigIJsWVOmwuCq4");
-        project.setTaskGroupId("-KWdhJilzL_US-FLGAYR");
-        project.setCalendarId("-KWdhJioNliFxIYgWADC");
-        project.setBoardId("-KWdhJijucj4wGTe2zvj");
+        project.setName("hometest");
+        project.setId("-KWfzMZHcllR5fiuMn1F");
+        project.setTaskGroupId("-KWfzMZOwa1oMbESsmOx");
+        project.setCalendarId("-KWfzMZRl9ClFs-tk6HD");
+        project.setBoardId("-KWfzMZLXqaoVXYcJSWZ");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 

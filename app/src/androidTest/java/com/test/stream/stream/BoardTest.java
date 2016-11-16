@@ -47,7 +47,6 @@ public class BoardTest {
     public void userSignInSetup() {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override

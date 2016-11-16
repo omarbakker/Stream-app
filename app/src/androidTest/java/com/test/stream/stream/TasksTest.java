@@ -91,10 +91,11 @@ public class TasksTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KWdhJigIJsWVOmwuCq4");
-        project.setTaskGroupId("-KWdhJilzL_US-FLGAYR");
-        project.setCalendarId("-KWdhJioNliFxIYgWADC");
-        project.setBoardId("-KWdhJijucj4wGTe2zvj");
+        project.setName("tasktest");
+        project.setId("-KWfxqsLbZW-0ROkhVMR");
+        project.setTaskGroupId("-KWfxqsShX1zpFghWY8U");
+        project.setCalendarId("-KWfxqsWkNIaUGRj24B6");
+        project.setBoardId("-KWfxqsQwa84ZR1eVQsa");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
