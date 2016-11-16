@@ -20,7 +20,9 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,6 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.google.android.gms.common.stats.zzd.Eq;
+import static com.test.stream.stream.ProjectsTest.mAuth;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.awaitility.Awaitility.await;
@@ -57,12 +60,11 @@ public class TasksTest {
 
     static User user = null;
 
-     //User must be signed in to write to the database
-    @Before
-    public void userSignInSetup() {
+    //User must be signed in to write to the database
+    @BeforeClass
+    public static void userSignInSetup() {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -85,7 +87,12 @@ public class TasksTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
+
 
     @Before
     public void setProject()
@@ -99,7 +106,7 @@ public class TasksTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
-    private Callable<Boolean> newUserIsAdded() {
+    private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
@@ -185,7 +192,7 @@ public class TasksTest {
 
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
 
         // deregister all listeners
         TaskManager.sharedInstance().Destroy();
@@ -212,7 +219,7 @@ public class TasksTest {
         assert(deleted);
 
         // assert the task was deleted;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount - 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount - 1));
 
         // deregister all listeners
         TaskManager.sharedInstance().Destroy();
@@ -238,7 +245,7 @@ public class TasksTest {
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
         // we have now guaranteed that a new task exists.
@@ -277,7 +284,7 @@ public class TasksTest {
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
         // Modify the task details and update
@@ -326,7 +333,7 @@ public class TasksTest {
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
         assertEquals(fetchedNewTask.getComplete(), complete);
@@ -367,7 +374,7 @@ public class TasksTest {
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
         //Confirm that the user is the expected user
@@ -397,7 +404,7 @@ public class TasksTest {
         assert(created);
 
         // assert the task was created;
-        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount,equalTo(initialTaskCount + 1));
+        await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, equalTo(initialTaskCount + 1));
         Task fetchedNewTask = tasks.get(tasks.size() - 1);
 
         // Modify the task details and update
@@ -422,4 +429,9 @@ public class TasksTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
+    }
 }

@@ -48,12 +48,13 @@ public class ProjectsTest {
 
     static User user = null;
     static List<Project> fetchedProjectList;
+    static FirebaseAuth mAuth;
 
-    @Before
-    public void userSignInSetup() {
+    //User must be signed in to write to the database
+    @BeforeClass
+    public static void userSignInSetup() {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -76,9 +77,13 @@ public class ProjectsTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
-    private Callable<Boolean> newUserIsAdded() {
+    private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
@@ -239,5 +244,14 @@ public class ProjectsTest {
     public void deleteProject() throws Exception {
 
     }
+
+
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
+    }
+
+
 
 }

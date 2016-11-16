@@ -13,6 +13,7 @@ import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
+import org.awaitility.Awaitility;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +72,7 @@ public class UserTest {
             }
         });
 
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(userCreated);
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).untilTrue(userCreated);
 
     }
 
@@ -107,7 +108,7 @@ public class UserTest {
             }
         });
 
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
     }
 
 
@@ -118,7 +119,7 @@ public class UserTest {
     @Test
     public void createUserAndLogIn()
     {
-        await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
 
         createUserInDatabase();
         initializeUserManager();
@@ -132,7 +133,7 @@ public class UserTest {
     @Test
     public void userDetails()
     {
-        await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
 
         createUserInDatabase();
         initializeUserManager();
@@ -153,7 +154,7 @@ public class UserTest {
     @Test
     public void logout()
     {
-        await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
 
         createUserInDatabase();
         initializeUserManager();
@@ -168,7 +169,7 @@ public class UserTest {
     @Test
     public void fetchByUsername()
     {
-        await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
         createUserInDatabase();
 
         final AtomicBoolean userFound = new AtomicBoolean(false);
@@ -185,7 +186,7 @@ public class UserTest {
             }
         });
 
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
 
         assertEquals(createdUser.getUid(), mAuth.getCurrentUser().getUid());
         assertEquals(createdUser.getUsername(), username);
@@ -198,7 +199,7 @@ public class UserTest {
     @Test
     public void fetchByUid()
     {
-        await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).until(userIsLoggedIn());
         createUserInDatabase();
 
         final AtomicBoolean userFound = new AtomicBoolean(false);
@@ -215,7 +216,7 @@ public class UserTest {
             }
         });
 
-        await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
+        Awaitility.await().atMost(10, TimeUnit.SECONDS).untilTrue(userFound);
 
         assertEquals(createdUser.getUid(), mAuth.getCurrentUser().getUid());
 

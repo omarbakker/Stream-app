@@ -14,7 +14,9 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
@@ -36,13 +38,13 @@ public class TeamTest {
     private List<User> members = null;
     private static User user = null;
     private TeamManager mTeamManager = null;
+    private static FirebaseAuth mAuth;
 
     //User must be signed in to write to the database
-    @Before
-    public void userSignInSetup() {
+    @BeforeClass
+    public static void userSignInSetup() {
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -65,7 +67,20 @@ public class TeamTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
+
+    private static Callable<Boolean> newUserIsAdded() {
+        return new Callable<Boolean>() {
+            public Boolean call() throws Exception {
+                return user != null; // The condition that must be fulfilled
+            }
+        };
+    }
+
 
     /**
      * Manually set the project board ID
@@ -76,14 +91,6 @@ public class TeamTest {
         Project project = new Project();
         project.setId("-KWfLLlw6ojfBwAPcYZB");
         ProjectManager.sharedInstance().setCurrentProject(project);
-    }
-
-    private Callable<Boolean> newUserIsAdded() {
-        return new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                return user != null; // The condition that must be fulfilled
-            }
-        };
     }
 
     /**
@@ -161,5 +168,14 @@ public class TeamTest {
         // deregister all listeners
         mTeamManager.Destroy();
     }
+
+
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
+    }
+
+
 }
 

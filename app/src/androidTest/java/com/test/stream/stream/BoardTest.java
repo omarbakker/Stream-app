@@ -14,7 +14,9 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,11 +44,13 @@ public class BoardTest {
     private List<Pin> pins = null;
     private static User user = null;
 
-    //User must be signed in to write to the database
-    @Before
-    public void userSignInSetup() {
+    private static FirebaseAuth mAuth;
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    //User must be signed in to write to the database
+    @BeforeClass
+    public static void userSignInSetup() {
+
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
         FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -69,6 +73,10 @@ public class BoardTest {
         mAuth.addAuthStateListener(listener);
         // login to test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
+
+        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
+        assertEquals("unit@test.com", user.getEmail());
+        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
     /**
@@ -83,7 +91,7 @@ public class BoardTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
-    private Callable<Boolean> newUserIsAdded() {
+    private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
                 return user != null; // The condition that must be fulfilled
@@ -109,13 +117,6 @@ public class BoardTest {
         });
 
         await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
-    }
-
-    @Test
-    public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com", user.getEmail());
-        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
 
@@ -237,5 +238,12 @@ public class BoardTest {
         // deregister all listeners
         BoardManager.sharedInstance().Destroy();
     }
+
+    @AfterClass
+    public static void clean()
+    {
+        mAuth.signOut();
+    }
+
 
 }
