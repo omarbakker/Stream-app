@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -129,15 +130,20 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //----------------------------------------------------------------------------------------
 
         Task task = tasks.get(current_task);
+        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
 
         //initializes views for reminder alert dialog
         LayoutInflater ReminderInflater = LayoutInflater.from(context);
         reminderDialogView = ReminderInflater.inflate(R.layout.send_reminder_notification, null);
         messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
+        messageToSend.setTypeface(Raleway);
         sendReminderAlertTitle = (TextView) reminderDialogView.findViewById(R.id.reminderTitle);
         sendReminderAlertTitle.setText(getString(R.string.reminder_notification_dialog_title) + task.getAssignee() + "?");
+        sendReminderAlertTitle.setTypeface(RalewayBold);
         reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
         reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
+        reminderInfo.setTypeface(Raleway);
         sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
         builder = new AlertDialog.Builder(this);
         builder.setView(reminderDialogView);
@@ -159,10 +165,13 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         LayoutInflater ReviewInflater = LayoutInflater.from(context);
         reviewDialogView = ReviewInflater.inflate(R.layout.send_review_notification, null);
         reviewMessageToSend = (EditText) reviewDialogView.findViewById(R.id.reviewMessageToSend);
+        reviewMessageToSend.setTypeface(Raleway);
         reviewTitle = (TextView) reviewDialogView.findViewById(R.id.reviewTitle);
         reviewTitle.setText(getString(R.string.review_notification_dialog_title1) + task.getAssignee() + getString(R.string.review_notification_dialog_title2));
+        reviewTitle.setTypeface(RalewayBold);
         reviewInfo = (TextView) reviewDialogView.findViewById(R.id.ReviewNotificationInfo);
         reviewInfo.setText(getString(R.string.review_notification_info) + task.getAssignee() + getString(R.string.review_notification_info2));
+        reviewInfo.setTypeface(Raleway);
         Reviewbuilder = new AlertDialog.Builder(this);
         Reviewbuilder.setView(reviewDialogView);
         //Initialize AlertDialog for Review

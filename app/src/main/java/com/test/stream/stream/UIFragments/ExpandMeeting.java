@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -83,9 +84,14 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
 
 
         //initialize views for reminder meeting dialog
+        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
         LayoutInflater ReminderMeetingInflater = LayoutInflater.from(context);
+        TextView reminderMeetingTitle = (TextView) findViewById(R.id.reminderMeetingTitle);
+        reminderMeetingTitle.setTypeface(RalewayBold);
         reminderMeetingDialogView = ReminderMeetingInflater.inflate(R.layout.send_meeting_reminder_notification, null);
         meetingReminderMessage = (EditText) reminderMeetingDialogView.findViewById(R.id.meetingMessageToSend);
+        meetingReminderMessage.setTypeface(Raleway);
         meetingReminderBuilder = new AlertDialog.Builder(this);
         meetingReminderBuilder.setView(reminderMeetingDialogView);
         meetingReminderBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {

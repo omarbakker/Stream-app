@@ -99,7 +99,7 @@
         android:textColor="#FFFFFF"
         android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#3489f3"
+            android:backgroundTint="#087bb9"
         android:background="@drawable/rounded_edges_button"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -216,20 +216,22 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         android:id="@+id/view4"
+        android:layout_marginRight="10dp"
         android:layout_above="@+id/view3"
         android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/loginWithFacebookSignup"
-        android:layout_toStartOf="@+id/loginWithFacebookSignup" />
+        android:layout_toStartOf="@+id/textView3"
+        android:layout_toLeftOf="@+id/textView3" />
 
     <View
         android:layout_width="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
         android:background="@android:color/darker_gray"
         android:layout_marginRight="10dp"
         android:id="@+id/view3"
         android:layout_alignBottom="@+id/textView3"
-        android:layout_toEndOf="@+id/loginWithFacebookSignup"
-        android:layout_toRightOf="@+id/loginWithFacebookSignup" />
+        android:layout_toEndOf="@+id/textView3"
+        android:layout_toRightOf="@+id/textView3" />
 
 </RelativeLayout>
