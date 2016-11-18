@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="---------- or with email ----------"
+        android:text="or with email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
@@ -208,5 +208,26 @@
         android:layout_toRightOf="@+id/imageView5"
         android:layout_alignRight="@+id/rectangle_at_the_top2"
         android:layout_alignEnd="@+id/rectangle_at_the_top2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view4"
+        android:layout_above="@+id/view3"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/loginWithFacebookSignup"
+        android:layout_toStartOf="@+id/loginWithFacebookSignup" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginRight="10dp"
+        android:id="@+id/view3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toEndOf="@+id/loginWithFacebookSignup"
+        android:layout_toRightOf="@+id/loginWithFacebookSignup" />
 
 </RelativeLayout>
