@@ -6,4 +6,6 @@
     <color name="white">#FFFFFF</color>
     <color name="background">#4ecdc4</color>
     <color name="red">#FC1501</color>
+    <color name="customBlue">#0082be</color>
+    <color name="darkBlueTextColor">#004976</color>
 </resources>

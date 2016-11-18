@@ -169,10 +169,10 @@ public class ProjectsActivity extends AppCompatActivity
     {
         //Changing font to Syncopate
         //Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
-        Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
-        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
-        titleText.setTypeface(SyncopateBold);
-        mProjectsTextView.setTypeface(Syncopate);
+        Typeface ralewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-ExtraBold.ttf");
+        Typeface raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        titleText.setTypeface(ralewayBold);
+        mProjectsTextView.setTypeface(raleway);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.test.stream.stream.UI.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.ProjectsActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,12 +144,24 @@ public class ProjectsAdapter extends BaseAdapter {
 
         // Update row view's textviews to display projext information
         titleTextView.setText(project.getName());
-        String members = project.getMembers().size() + " memebers";
+        String members = project.getMembers().size() + " members";
         teamMatesTextView.setText(members);
         String info = project.getNumberOfActiveTasks() + " active tasks";
         infoTextView.setText(info);
         dueDateTextView.setText(project.dueDateRepresentation());
-        titleTextView.setTypeface(Typeface.createFromAsset(this.mContext.getAssets(), "Syncopate-Regular.ttf"));
+
+        Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "Raleway-SemiBold.ttf");
+        Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
+        titleTextView.setTypeface(ralewayBold);
+        teamMatesTextView.setTypeface(raleway);
+        infoTextView.setTypeface(raleway);
+        dueDateTextView.setTypeface(raleway);
+
+        if (position%2 == 0){
+            convertView.setBackgroundColor(Color.argb(255,225,237,255));
+        }else{
+            convertView.setBackgroundColor(Color.argb(235,232,255,245));
+        }
 
         return convertView;
     }

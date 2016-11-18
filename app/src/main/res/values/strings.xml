@@ -3,7 +3,7 @@
     <string name="title_activity_login_to_delete">Sign in</string>
 
     <!-- Strings related to projects-->
-    <string name="Projects_activity_title">Your Projects</string>
+    <string name="Projects_activity_title">MY PROJECTS</string>
 
     <!-- Strings related to new project -->
     <string name="new_project_activity_title">New Project</string>
