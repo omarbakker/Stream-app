@@ -20,6 +20,8 @@ import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
     static AlertDialog meetingReminderDialog;
     EditText meetingReminderMessage;
     View reminderMeetingDialogView;
-    TextView meetingReminderInfo;
+    TextView meetingReminderInfo, meetingReminderTitle;
     AlertDialog.Builder meetingReminderBuilder;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +86,18 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
 
 
         //initialize views for reminder meeting dialog
-        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Light.ttf");
         Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
         LayoutInflater ReminderMeetingInflater = LayoutInflater.from(context);
-        TextView reminderMeetingTitle = (TextView) findViewById(R.id.reminderMeetingTitle);
-        reminderMeetingTitle.setTypeface(RalewayBold);
+        //TextView reminderMeetingTitle = (TextView) findViewById(R.id.reminderMeetingTitle);
+        //reminderMeetingTitle.setTypeface(RalewayBold);
         reminderMeetingDialogView = ReminderMeetingInflater.inflate(R.layout.send_meeting_reminder_notification, null);
         meetingReminderMessage = (EditText) reminderMeetingDialogView.findViewById(R.id.meetingMessageToSend);
         meetingReminderMessage.setTypeface(Raleway);
+        meetingReminderInfo = (TextView) reminderMeetingDialogView.findViewById(R.id.reminderMeetingNotificationInfo);
+        meetingReminderTitle = (TextView) reminderMeetingDialogView.findViewById(R.id.reminderMeetingTitle);
+        meetingReminderInfo.setTypeface(Raleway);
+        meetingReminderTitle.setTypeface(RalewayBold);
         meetingReminderBuilder = new AlertDialog.Builder(this);
         meetingReminderBuilder.setView(reminderMeetingDialogView);
         meetingReminderBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {

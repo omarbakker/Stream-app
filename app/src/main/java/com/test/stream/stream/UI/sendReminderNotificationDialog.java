@@ -58,7 +58,6 @@ public class sendReminderNotificationDialog extends AppCompatActivity  {
         messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
         sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
         sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title + Assignee);
-        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
 
         //Initialize AlertDialog for Reminder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

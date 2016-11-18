@@ -44,7 +44,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     static AlertDialog dialog;
     EditText messageToSend;
     static TextView sendReminderAlertTitle;
-    CheckBox sendAnonymously;
     View reminderDialogView;
     TextView reminderInfo;
     AlertDialog.Builder builder;
@@ -130,7 +129,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //----------------------------------------------------------------------------------------
 
         Task task = tasks.get(current_task);
-        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Light.ttf");
         Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
 
         //initializes views for reminder alert dialog
@@ -144,7 +143,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
         reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
         reminderInfo.setTypeface(Raleway);
-        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
         builder = new AlertDialog.Builder(this);
         builder.setView(reminderDialogView);
         builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
