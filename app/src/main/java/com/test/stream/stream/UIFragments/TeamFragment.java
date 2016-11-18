@@ -9,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.stream.stream.Controllers.ProjectManager;
-import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.TeamManager;
-import com.test.stream.stream.Objects.Projects.Project;
-import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -47,7 +44,7 @@ public class TeamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_team, container, false);
     }
 
     @Override
