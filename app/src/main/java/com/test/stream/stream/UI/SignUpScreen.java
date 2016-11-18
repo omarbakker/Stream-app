@@ -87,7 +87,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
 
         //Syncopate
-        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
+        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
         signInTitle.setTypeface(Syncopate);
         enterNewName.setTypeface(Syncopate);
         enterNewUsername.setTypeface(Syncopate);

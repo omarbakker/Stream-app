@@ -15,7 +15,7 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:id="@+id/signUpTitle"
-        android:textSize="22dp"
+        android:textSize="28dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -39,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
+        android:textSize="18dp"
         android:id="@+id/textView3"
         android:layout_below="@+id/loginWithFacebookSignup"
         android:layout_centerHorizontal="true" />
@@ -111,63 +112,101 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:background="@null"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="20dp"
-        android:hint="Choose Password"
-        android:id="@+id/enterNewPasswords"
-        android:layout_below="@+id/rectangle_at_the_top3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:inputType="textPersonName"
         android:hint="@string/prompt_email"
         android:ems="10"
         android:id="@+id/enterNewEmail"
         android:background="@null"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
+        android:layout_alignLeft="@+id/enterNewName"
+        android:layout_alignStart="@+id/enterNewName"
+        android:layout_alignRight="@+id/rectangle_at_the_top"
+        android:layout_alignEnd="@+id/rectangle_at_the_top" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="Choose Username"
-        android:layout_marginLeft="20dp"
         android:ems="10"
         android:id="@+id/enterNewUsername"
         android:background="@null"
+        android:layout_marginBottom="12dp"
         android:layout_above="@+id/rectangle_at_the_top4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignLeft="@+id/enterNewEmail"
+        android:layout_alignStart="@+id/enterNewEmail"
+        android:layout_alignRight="@+id/rectangle_at_the_top3"
+        android:layout_alignEnd="@+id/rectangle_at_the_top3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:background="@null"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginTop="16dp"
+        android:hint="Choose Password"
+        android:id="@+id/enterNewPasswords"
+        android:layout_alignTop="@+id/rectangle_at_the_top4"
+        android:layout_alignLeft="@+id/enterNewUsername"
+        android:layout_alignStart="@+id/enterNewUsername"
+        android:layout_alignRight="@+id/rectangle_at_the_top4"
+        android:layout_alignEnd="@+id/rectangle_at_the_top4" />
+
+    <ImageView
+        android:layout_width="50px"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/user_icon"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/imageView5"
+        android:layout_above="@+id/rectangle_at_the_top"
+        android:layout_alignLeft="@+id/rectangle_at_the_top2"
+        android:layout_alignStart="@+id/rectangle_at_the_top2" />
+
+    <ImageView
+        android:layout_width="50px"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/email_icon"
+        android:id="@+id/imageView10"
+        android:layout_above="@+id/rectangle_at_the_top3"
+        android:layout_alignLeft="@+id/rectangle_at_the_top"
+        android:layout_marginLeft="10dp"
+        android:layout_alignStart="@+id/rectangle_at_the_top" />
+
+    <ImageView
+        android:layout_width="50px"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:srcCompat="@drawable/username_icon"
+        android:id="@+id/imageView12"
+        android:layout_above="@+id/rectangle_at_the_top4"
+        android:layout_alignLeft="@+id/rectangle_at_the_top3"
+        android:layout_alignStart="@+id/rectangle_at_the_top3" />
+
+    <ImageView
+        android:layout_width="50px"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/lock_icon"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/imageView9"
+        android:layout_alignTop="@+id/rectangle_at_the_top4"
+        android:layout_alignLeft="@+id/rectangle_at_the_top4"
+        android:layout_alignStart="@+id/rectangle_at_the_top4" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:background="@null"
+        android:layout_marginLeft="10dp"
         android:hint="Name"
         android:ems="10"
         android:id="@+id/enterNewName"
+        android:layout_marginBottom="11dp"
         android:layout_above="@+id/rectangle_at_the_top"
-        android:layout_alignLeft="@+id/enterNewEmail"
-        android:layout_alignStart="@+id/enterNewEmail"
-        android:layout_marginBottom="15dp" />
+        android:layout_toRightOf="@+id/imageView5"
+        android:layout_alignRight="@+id/rectangle_at_the_top2"
+        android:layout_alignEnd="@+id/rectangle_at_the_top2" />
 
 </RelativeLayout>
