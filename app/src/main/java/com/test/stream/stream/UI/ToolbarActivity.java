@@ -34,8 +34,9 @@ public class ToolbarActivity extends AppCompatActivity
 
     private FirebaseAuth firebase = FirebaseAuth.getInstance();
     boolean thread_running = true;
+    private Toolbar toolbar;
 
-    FragmentManager manager;
+    private FragmentManager manager;
 
     /**
      * On create the ToolbarActivity, all initializations
@@ -50,7 +51,7 @@ public class ToolbarActivity extends AppCompatActivity
         // Set how the view will look like
         setContentView(R.layout.toolbaractivity_main);
         // Set how the toolbar will look like
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //register device token
@@ -177,7 +178,7 @@ public class ToolbarActivity extends AppCompatActivity
         switch(id){
             // If Calendar button is clicked, launch CalendarFragment
             case R.id.nav_calendar:
-                setTitle("Calendar");
+                getSupportActionBar().setTitle("Calendar");
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
@@ -185,7 +186,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If PinBoard is clicked, launch PinBoard Fragment
             case R.id.nav_pinboard:
-                setTitle("Pin Board");
+                getSupportActionBar().setTitle("Pin Board");
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
@@ -194,7 +195,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case R.id.nav_team:
-                setTitle("Team");
+                getSupportActionBar().setTitle("Team");
                 TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         teamFragment,
@@ -202,7 +203,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case R.id.nav_tasks:
-                setTitle("Tasks");
+                getSupportActionBar().setTitle("Tasks");
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
@@ -210,7 +211,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Home button is clicked launch Home Fragment
             case R.id.nav_home:
-                setTitle("My Project");
+                getSupportActionBar().setTitle("My Project");
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,
@@ -242,7 +243,7 @@ public class ToolbarActivity extends AppCompatActivity
         switch(id){
             // If Calendar button is clicked, launch CalendarFragment
             case "CALENDAR":
-                setTitle("Calendar");
+                getSupportActionBar().setTitle("Calendar");
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
@@ -250,7 +251,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If PinBoard is clicked, launch PinBoard Fragment
             case "PINBOARD":
-                setTitle("Pin Board");
+                getSupportActionBar().setTitle("Pin Board");
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
@@ -259,7 +260,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case "TEAM":
-                setTitle("Team");
+                getSupportActionBar().setTitle("Team");
                 TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         teamFragment,
@@ -267,7 +268,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case "TASKS":
-                setTitle("Tasks");
+                getSupportActionBar().setTitle("Tasks");
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
@@ -275,7 +276,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Home button is clicked launch Home Fragment
             case "HOME":
-                setTitle("My Project");
+                getSupportActionBar().setTitle("My Project");
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,

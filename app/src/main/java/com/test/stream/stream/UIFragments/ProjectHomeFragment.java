@@ -1,6 +1,10 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +15,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.test.stream.stream.Controllers.HomeManager;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.Utilities.TaskAdapter;
 
 import java.util.ArrayList;
@@ -21,13 +28,22 @@ import java.util.List;
 
 public class ProjectHomeFragment extends Fragment {
 
-    private CircleProgress teamProgress;
-    private CircleProgress userProgress;
+    private DonutProgress teamProgress;
+    private DonutProgress userProgress;
 
     private static final String TAG = "Home Fragment";
 
     ArrayList<Task> taskMessages = new ArrayList<>();
     private TaskAdapter taskAdapter;
+
+    private HomeManager homeManager;
+
+    private DataEventListener dataListener = new DataEventListener() {
+        @Override
+        public void onDataChanged() {
+            updateUI();
+        }
+    };
 
     public ProjectHomeFragment() {
         // Required empty public constructor
@@ -44,12 +60,12 @@ public class ProjectHomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
 
-        teamProgress = (CircleProgress) getView().findViewById(R.id.team_progress);
-        userProgress = (CircleProgress) getView().findViewById(R.id.user_progress);
+        teamProgress = (DonutProgress) getView().findViewById(R.id.team_progress);
+        userProgress = (DonutProgress) getView().findViewById(R.id.user_progress);
 
         updateProgressBar(teamProgress, 90);
-        updateProgressBar(userProgress, 100);
-        updateUI();
+        updateProgressBar(userProgress, 60);
+        homeManager = new HomeManager(dataListener);
     }
 
     /**
@@ -58,10 +74,16 @@ public class ProjectHomeFragment extends Fragment {
      * @param progress    CircleProgress to be modified.
      * @param newProgress what progress will be updated to.
      */
-    private void updateProgressBar(CircleProgress progress, int newProgress) {
+    private void updateProgressBar(DonutProgress progress, int newProgress) {
         progress.setProgress(0);           // initialize to 0
         progress.setMax(100);              // set max to 100
         progress.setProgress(newProgress); // update progress
+    }
+
+    private void updateTeamProgress(int newProgress){
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.progress_anim);
+        set.setTarget();
+        ObjectAnimator anim = ObjectAnimator.ofInt(R.id.team_progress, "circle_progress", 0, 100);
     }
 
     /**
@@ -70,11 +92,7 @@ public class ProjectHomeFragment extends Fragment {
     public void updateUI() {
 
         // Get all user tasks from the database
-        List<Task> allTasks = new LinkedList<>();
-
-        allTasks.add(createTask());
-        allTasks.add(createTask());
-        allTasks.add(createTask());
+        List<Task> allTasks = homeManager.getUserTasks();
 
         ArrayList<Task> tasks = new ArrayList();
         ListView listView = (ListView) getView().findViewById(R.id.task_list);
