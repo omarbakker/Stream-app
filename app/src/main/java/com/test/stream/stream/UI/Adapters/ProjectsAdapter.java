@@ -146,7 +146,8 @@ public class ProjectsAdapter extends BaseAdapter {
         titleTextView.setText(project.getName());
         String members = project.getMembers().size() + " members";
         teamMatesTextView.setText(members);
-        String info = project.getNumberOfActiveTasks() + " active tasks";
+        int activeTasks = project.getNumberOfActiveTasks();
+        String info = activeTasks == 0 ? "No Active Tasks": activeTasks == 1 ? "1 Active Task": activeTasks + " Active Tasks";
         infoTextView.setText(info);
         dueDateTextView.setText(project.dueDateRepresentation());
 

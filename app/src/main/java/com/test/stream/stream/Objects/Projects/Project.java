@@ -98,7 +98,7 @@ public class Project {
      * @return a string representation of the project's deadine
      */
     public String dueDateRepresentation(){
-        return "Due on " + dueDay + "/" + dueMonth + "/" + dueYear;
+        return "Due " + dueDay + "/" + dueMonth + "/" + dueYear;
     }
 
     /**
