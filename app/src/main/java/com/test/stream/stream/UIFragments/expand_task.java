@@ -143,32 +143,8 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         // ----- Set the text fields from information of the current task ----- //
 
-        //task name
-        TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
-        task_name.setText(expandTask.getName());
-        int colour = expandTask.getAssignee().length()*-1500;
-        Log.d(TAG, String.valueOf(colour));
-        task_name.setBackgroundColor(colour);
-        //description
-        TextView task_description = (TextView) findViewById(R.id.description_expanded);
-        task_description.setText(expandTask.getDescription());
-        Log.d(TAG, expandTask.getDescription());
-        task_description.setVisibility(View.VISIBLE);
-        //user
-        TextView user = (TextView) findViewById(R.id.user_expanded);
-        Log.d(TAG, expandTask.getAssignee());
-        user.setText(expandTask.getAssignee());
-        //due_date
-        TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
-        String due = String.valueOf(expandTask.getDueDay())+"/"+String.valueOf(expandTask.getDueMonth())+"/"+String.valueOf(expandTask.getDueYear());
-        dueDate.setText(due);
 
-        //determines if the task has be set as complete
-        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
-        if(expandTask.getComplete() == true)
-            checkBox.setChecked(true);
-
-        Log.d(TAG, "finished");
+        updateExpandedUI();
 
         //----------------------------------------------------------------------------------------
 
@@ -506,5 +482,35 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             }
         });
         changedTaskDialog.show();
+    }
+
+
+    public void updateExpandedUI() {
+
+        TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
+        task_name.setText(expandTask.getName());
+        //int colour = expandTask.getAssignee().length() * -1500;
+        //Log.d(TAG, String.valueOf(colour));
+        //task_name.setBackgroundColor(colour);
+        //description
+        TextView task_description = (TextView) findViewById(R.id.description_expanded);
+        task_description.setText(expandTask.getDescription());
+        Log.d(TAG, expandTask.getDescription());
+        task_description.setVisibility(View.VISIBLE);
+        //user
+        TextView user = (TextView) findViewById(R.id.user_expanded);
+        Log.d(TAG, expandTask.getAssignee());
+        user.setText(expandTask.getAssignee());
+        //due_date
+        TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
+        String due = String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear());
+        dueDate.setText(due);
+
+        //determines if the task has be set as complete
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        if (expandTask.getComplete() == true)
+            checkBox.setChecked(true);
+
+        Log.d(TAG, "finished");
     }
 }

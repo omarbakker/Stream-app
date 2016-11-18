@@ -39,7 +39,9 @@ import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -158,6 +160,7 @@ public class TasksFragment extends Fragment
      */
     public void updateUI(){
         //welcome.setVisibility(getView().INVISIBLE);
+        getCurrentDate();
         List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
         ArrayList<String> taskList = new ArrayList<>();
@@ -379,14 +382,12 @@ public class TasksFragment extends Fragment
         }
     }
 
-//    public void getCurrentDate(){
-//        Calendar c = Calendar.getInstance();
-//        System.out.println("Current time => " + c.getTime());
-//
-//        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-//        String formattedDate = df.format(c.getTime());
-//
-//    }
+    public void getCurrentDate(){
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        Log.d(TAG, "currentDate and Time:");
+        Log.d(TAG, currentDateTimeString);
+
+    }
 
 
 }

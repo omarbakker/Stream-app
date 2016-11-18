@@ -40,10 +40,13 @@
             android:onClick="expandTaskView"
             android:textColor="@color/background"
             android:backgroundTint="@color/background"
-            android:layout_alignParentTop="true"
+            android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_height="100dp" />
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true" />
 
 
     </RelativeLayout>

@@ -13,6 +13,7 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Tasks.TaskGroup;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.UIFragments.TasksFragment;
+import com.test.stream.stream.UIFragments.expand_task;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
@@ -163,7 +164,6 @@ public class TaskManager extends DataManager{
                 DatabaseFolders.Tasks,
                 task.getId(),
                 task);
-
         return true;
     }
 
