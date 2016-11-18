@@ -115,39 +115,6 @@ android:background="#e5e7e8"    >
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="54dp"
-        android:inputType="textPassword"
-        android:background="@null"
-        android:textSize="16dp"
-        android:hint="@string/prompt_password"
-        android:ems="10"
-        android:id="@+id/enterNewPassword"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="54dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/login_enter_email_username"
-        android:ems="10"
-        android:background="@null"
-        android:id="@+id/enterEmail"
-        android:textSize="16dp"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/enterNewPassword"
-        android:layout_alignStart="@+id/enterNewPassword"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <ImageView
         android:layout_width="50px"
         android:layout_height="wrap_content"
@@ -168,5 +135,36 @@ android:background="#e5e7e8"    >
         android:layout_alignTop="@+id/rectangle_at_the_top"
         android:layout_alignLeft="@+id/imageView8"
         android:layout_alignStart="@+id/imageView8" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:inputType="textPersonName"
+        android:hint="@string/login_enter_email_username"
+        android:ems="10"
+        android:background="@null"
+        android:id="@+id/enterEmail"
+        android:textSize="16dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView8"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:inputType="textPassword"
+        android:background="@null"
+        android:textSize="16dp"
+        android:hint="@string/prompt_password"
+        android:ems="10"
+        android:id="@+id/enterNewPassword"
+        android:layout_marginBottom="13dp"
+        android:layout_alignBottom="@+id/imageView6"
+        android:layout_toRightOf="@+id/imageView6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
