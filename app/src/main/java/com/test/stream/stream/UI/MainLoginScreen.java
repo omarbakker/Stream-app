@@ -102,7 +102,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         System.out.println(getString(R.string.permission_rationale));
         //Changing font to Syncopate
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
-        Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
+        Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
         signup.setTypeface(Syncopate);
         forgotPassword.setTypeface(Syncopate);
         login.setTypeface(Syncopate);

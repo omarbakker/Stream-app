@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="---------- or with email ----------"
+        android:text="or with email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
@@ -132,7 +132,7 @@
         android:ems="10"
         android:id="@+id/enterNewUsername"
         android:background="@null"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="15dp"
         android:layout_above="@+id/rectangle_at_the_top4"
         android:layout_alignLeft="@+id/enterNewEmail"
         android:layout_alignStart="@+id/enterNewEmail"
@@ -159,6 +159,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/user_icon"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="3dp"
         android:id="@+id/imageView5"
         android:layout_above="@+id/rectangle_at_the_top"
         android:layout_alignLeft="@+id/rectangle_at_the_top2"
@@ -168,16 +169,17 @@
         android:layout_width="50px"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/email_icon"
+        android:layout_marginBottom="3dp"
         android:id="@+id/imageView10"
         android:layout_above="@+id/rectangle_at_the_top3"
-        android:layout_alignLeft="@+id/rectangle_at_the_top"
-        android:layout_marginLeft="10dp"
-        android:layout_alignStart="@+id/rectangle_at_the_top" />
+        android:layout_alignLeft="@+id/imageView5"
+        android:layout_alignStart="@+id/imageView5" />
 
     <ImageView
         android:layout_width="50px"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="3dp"
         app:srcCompat="@drawable/username_icon"
         android:id="@+id/imageView12"
         android:layout_above="@+id/rectangle_at_the_top4"
@@ -203,10 +205,31 @@
         android:hint="Name"
         android:ems="10"
         android:id="@+id/enterNewName"
-        android:layout_marginBottom="11dp"
+        android:layout_marginBottom="14dp"
         android:layout_above="@+id/rectangle_at_the_top"
         android:layout_toRightOf="@+id/imageView5"
         android:layout_alignRight="@+id/rectangle_at_the_top2"
         android:layout_alignEnd="@+id/rectangle_at_the_top2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view4"
+        android:layout_above="@+id/view3"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/loginWithFacebookSignup"
+        android:layout_toStartOf="@+id/loginWithFacebookSignup" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginRight="10dp"
+        android:id="@+id/view3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toEndOf="@+id/loginWithFacebookSignup"
+        android:layout_toRightOf="@+id/loginWithFacebookSignup" />
 
 </RelativeLayout>
