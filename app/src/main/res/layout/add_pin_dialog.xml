@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:background="@color/background"
+        android:background="@android:color/holo_blue_dark"
         android:text="@string/pin_add_name"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -48,6 +48,36 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_description">
 
+        <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CancelAddingPin"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="#caff6563"
+            android:layout_marginRight="10dip"
+            android:layout_marginEnd="10dip"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:text="@string/new_project_create_project_button_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/doneAddingPin"
+            android:background="@android:color/transparent"
+            android:textColor="#bf0099cc"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
 
 </RelativeLayout>

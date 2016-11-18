@@ -52,7 +52,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     SignUpScreen context;
     EditText enterNewName, enterNewUsername, enterNewPassword;
     static EditText enterNewEmail;
-    TextView signInTitle;
+    TextView signInTitle, signUpDivider;
     Button continueSignUp;
     public static String newEmail;
     LoginButton signUpWithFacebook;
@@ -84,16 +84,19 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         enterNewPassword = (EditText) findViewById(R.id.enterNewPasswords);
         continueSignUp = (Button) findViewById(R.id.continueWithSignUp);
         signUpWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebookSignup);
+        signUpDivider = (TextView) findViewById(R.id.textView3);
 
 
         //Syncopate
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
-        signInTitle.setTypeface(Syncopate);
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
+        signInTitle.setTypeface(RalewayBold);
         enterNewName.setTypeface(Syncopate);
         enterNewUsername.setTypeface(Syncopate);
         enterNewEmail.setTypeface(Syncopate);
         enterNewPassword.setTypeface(Syncopate);
         continueSignUp.setTypeface(Syncopate);
+        signUpDivider.setTypeface(Syncopate);
 
         //Set onClickListener
         continueSignUp.setOnClickListener(this);

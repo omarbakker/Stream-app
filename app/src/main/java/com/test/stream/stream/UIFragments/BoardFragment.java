@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,11 +33,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BoardFragment extends ListFragment {
+public class BoardFragment extends Fragment implements
+        View.OnClickListener {
 
     ArrayList<Pin> pins = new ArrayList();
+    private AlertDialog newPinDialog;
+    private AlertDialog editPinDialog;
+    private ListView mPinListView;
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
+
+    //fields for new task input
+    EditText titleText;
+    EditText subtitleText;
+    EditText descriptionText;
+
+    EditText titleEditText;
+    EditText subtitleEditText;
+    EditText descriptionEditText;
     ImageButton floatButton;
     private DataEventListener dataListener = new DataEventListener() {
         @Override
@@ -103,7 +118,7 @@ public class BoardFragment extends ListFragment {
         if (pinAdapter == null) {
             // If nothing in adapter then create a new one and set the adapter to show pins
             pinAdapter = new PinAdapter(getActivity(), this.pins);
-            setListAdapter(pinAdapter);
+            mPinListView.setAdapter(pinAdapter);
         // Otherwise add all the pins in the current adapter and notify that adapter changed
         } else {
             pinAdapter.clear();
@@ -121,49 +136,26 @@ public class BoardFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mPinListView = (ListView) getView().findViewById(R.id.list_pin);
+        pinAdapter = new PinAdapter(getActivity(), pins);
+        mPinListView.setAdapter(pinAdapter);
         //Set fonts
         mPinTextView = (TextView) getView().findViewById(R.id.text_board);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
         mPinTextView.setTypeface(Syncopate);
-
-        //Set adapter
-        pinAdapter = new PinAdapter(getActivity(), pins);
-        setListAdapter(pinAdapter);
         floatButton = (ImageButton) getView().findViewById(R.id.pinImageButton);
-        // Listener to listen to when ImageButton for popup dialog is clicked
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_pin_dialog, null);
-                // TextFields of the Popup Dialog
-                final EditText titleText = (EditText) view.findViewById(R.id.dialog_title);
-                final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
-                final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_description);
-                // Create a popup Dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            public void onClick(View v){
+                showNewPinDialog();
+            }
+        });
+        mPinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                builder.setView(view)
-                        // When clicking Submit button after populating fields
-                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Add the title, subtitle, description fields into a PinMessage object
-                                String title = titleText.getText().toString();
-                                String subtitle = subtitleText.getText().toString();
-                                String description = descriptionText.getText().toString();
-                                if(title.equals("") || subtitle.equals("") || description.equals("")){
-                                    Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
-                                } else {
-                                    pins.add(new Pin(title, subtitle, description));
-                                    setListAdapter(pinAdapter);
-                                    // Add the PinMessage details to the database
-                                    BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", null);
+                final Pin pin = (Pin) adapterView.getItemAtPosition(position);
 
-                AlertDialog alert = builder.create();
-                alert.show();
             }
         });
 
@@ -172,48 +164,51 @@ public class BoardFragment extends ListFragment {
 
     }
 
-    /**
-     * When a Pin is clicked on the application
-     * @param i
-     * @param v
-     * @param position
-     * @param id
-     */
-    @Override
-    public void onListItemClick(ListView i, View v, int position, long id){
-        //launchPinDetailActivty(position);
-        launchPinDetailDialog(position);
+    public void showNewPinDialog() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.add_pin_dialog, null);
+        newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
+
+        titleText = (EditText) view.findViewById(R.id.dialog_title);
+        subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
+        descriptionText = (EditText) view.findViewById(R.id.dialog_description);
+
+
+        Button done = (Button) view.findViewById(R.id.doneAddingPin);
+        Button cancel = (Button) view.findViewById(R.id.CancelAddingPin);
+
+        done.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+
+        newPinDialog.show();
     }
 
-    /**
-     * Method to launch a Dialog popup to show text
-     * @param position
-     */
-    private void launchPinDetailDialog(int position){
-        final Pin pin = (Pin) getListAdapter().getItem(position);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_pin_dialog, null);
-        // TextFields of the Popup Dialog
-        final EditText titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
-        final EditText subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
-        final EditText descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
-        final Button deleteButton = (Button) view.findViewById(R.id.delete_pin);
-        titleText.setText(pin.getTitle());
-        subtitleText.setText(pin.getSubtitle());
-        descriptionText.setText(pin.getDescription());
-        // Create a popup Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(view)
-                .setNegativeButton("Cancel", null);
+    public void createPin(){
+        String title = titleText.getText().toString();
+        String subtitle = subtitleText.getText().toString();
+        String description = descriptionText.getText().toString();
+        if(title.equals("") || subtitle.equals("") || description.equals("")){
+            Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
+        } else {
+            pins.add(new Pin(title, subtitle, description));
+            // Add the PinMessage details to the database
+            BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
+        }
+        newPinDialog.dismiss();
+    }
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.doneAddingPin:
+                createPin();
+                break;
+            case R.id.CancelAddingPin:
+                newPinDialog.dismiss();
+                break;
+            default:
+                break;
+        }
 
-        final AlertDialog alert = builder.create();
-        alert.show();
-        deleteButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                BoardManager.sharedInstance().RemovePin(pin);
-                alert.dismiss();
-            }
-        });
     }
 
     @Override
