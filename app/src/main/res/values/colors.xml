@@ -9,4 +9,7 @@
     <color name="customBlue">#0082be</color>
     <color name="darkBlueTextColor">#004976</color>
     <color name="skyBlue">#7EC0EE</color>
+    <color name="veryLightBlue">#c6eaff</color>
+
+
 </resources>
