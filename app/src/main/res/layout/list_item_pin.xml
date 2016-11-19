@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@color/skyBlue"
         android:textSize="30dp"
         android:gravity="center"
         android:ellipsize="end"

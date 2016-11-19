@@ -81,9 +81,6 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         viewHolder.subTitle.setText(pin.getSubtitle());
         viewHolder.description.setText(pin.getDescription());
 
-        /*if(pin.getTitle().equals("kevstest")){
-            convertView.setBackgroundColor(Color.RED);
-        }*/
         return convertView;
     }
 }
