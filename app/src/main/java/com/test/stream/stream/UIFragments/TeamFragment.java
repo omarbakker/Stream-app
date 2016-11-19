@@ -34,6 +34,9 @@ public class TeamFragment extends Fragment {
     private TeamAdapter teamAdapter;
     private TextView titleText;
 
+    /*
+     * Listen to data change and update UI
+     */
     private DataEventListener dataListener = new DataEventListener() {
         @Override
         public void onDataChanged() {
@@ -46,6 +49,9 @@ public class TeamFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Function that updates the Adapter of the Fragment
+     */
     private void updateUI() {
 
         List<User> allUsers = mTeamManager.GetUsers();
@@ -60,6 +66,7 @@ public class TeamFragment extends Fragment {
             // If nothing in adapter then create a new one and set the adapter to show users
             teamAdapter = new TeamAdapter(getActivity(), this.users);
             mPinListView.setAdapter(teamAdapter);
+
             // Otherwise add all the users in the current adapter and notify that adapter changed
         } else {
             teamAdapter.clear();
@@ -76,6 +83,7 @@ public class TeamFragment extends Fragment {
         mPinListView = (ListView) getView().findViewById(R.id.list_team);
         teamAdapter = new TeamAdapter(getActivity(), users);
         mPinListView.setAdapter(teamAdapter);
+        // Set font of text tile
         titleText = (TextView) getView().findViewById(R.id.team_text);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
         titleText.setTypeface(Syncopate);

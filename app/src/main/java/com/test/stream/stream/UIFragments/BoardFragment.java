@@ -90,7 +90,7 @@ public class BoardFragment extends Fragment implements
     }
 
     /**
-     * Function that updates the Adapter of the ListFragment
+     * Function that updates the Adapter of the Fragment
      */
     private void updateUI() {
 
