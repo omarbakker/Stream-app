@@ -52,7 +52,6 @@
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_below="@+id/TitleViewHolder"
-        android:layout_above="@+id/addProjectButton"
         android:id="@+id/ProjectsList"
         android:divider="#EEEEEE"
         android:dividerHeight="5dp" />
