@@ -193,8 +193,9 @@ public class BoardFragment extends Fragment implements
             pins.add(new Pin(title, subtitle, description));
             // Add the PinMessage details to the database
             BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
+            newPinDialog.dismiss();
         }
-        newPinDialog.dismiss();
+
     }
     @Override
     public void onClick(View v){

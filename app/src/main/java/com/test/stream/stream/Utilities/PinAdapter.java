@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
+import android.graphics.Typeface;
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class PinAdapter extends ArrayAdapter<Pin> {
 
+    private Context mContext;
     /**
      * Declare the elements of how the Pin should look
      */
@@ -35,6 +36,7 @@ public class PinAdapter extends ArrayAdapter<Pin> {
      */
     public PinAdapter(Context context, ArrayList<Pin> pins){
         super(context, 0, pins);
+        mContext = context;
     }
 
     /**
@@ -54,12 +56,18 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         // if there is nothing on PinBoard, add a new viewHolder
         if(convertView == null){
             viewHolder = new ViewHolder();
+            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "Raleway-SemiBold.ttf");
+            Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
             // Get the view for the pinboard
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
             // Get the TextView elements on the PinBoard
             viewHolder.title = (TextView) convertView.findViewById(R.id.item_pin_title);
             viewHolder.subTitle = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_pin_description);
+
+            viewHolder.title.setTypeface(ralewayBold);
+            viewHolder.subTitle.setTypeface(raleway);
+            viewHolder.description.setTypeface(raleway);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder
             convertView.setTag(viewHolder);
