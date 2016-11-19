@@ -10,7 +10,8 @@
         android:text="Team Members"
         android:textSize="30dp"
         android:gravity="center"
-        android:background="@color/background"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@color/white"
         android:layout_alignParentTop ="true"
         android:id="@+id/team_text"/>
 

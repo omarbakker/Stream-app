@@ -59,7 +59,7 @@ public class TeamAdapter extends ArrayAdapter<User> {
             viewHolder.userName = (TextView) convertView.findViewById(R.id.item_username);
             viewHolder.userEmail = (TextView) convertView.findViewById(R.id.item_user_email);
 
-            viewHolder.userName.setTypeface(raleway);
+            viewHolder.userName.setTypeface(ralewayBold);
             viewHolder.userEmail.setTypeface(raleway);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder

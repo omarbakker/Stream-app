@@ -1,6 +1,7 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Controllers.BoardManager;
@@ -30,6 +32,8 @@ public class TeamFragment extends Fragment {
     ArrayList<User> users = new ArrayList();
     private ListView mPinListView;
     private TeamAdapter teamAdapter;
+    private TextView titleText;
+
     private DataEventListener dataListener = new DataEventListener() {
         @Override
         public void onDataChanged() {
@@ -72,6 +76,9 @@ public class TeamFragment extends Fragment {
         mPinListView = (ListView) getView().findViewById(R.id.list_team);
         teamAdapter = new TeamAdapter(getActivity(), users);
         mPinListView.setAdapter(teamAdapter);
+        titleText = (TextView) getView().findViewById(R.id.team_text);
+        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
+        titleText.setTypeface(Syncopate);
         assert ProjectManager.sharedInstance().getCurrentProject() != null; //If we are in the project, the project should not be null.
         mTeamManager.Initialize(dataListener);
 
