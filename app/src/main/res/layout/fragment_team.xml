@@ -14,7 +14,7 @@
         android:layout_alignParentTop ="true"
         android:id="@+id/team_text"/>
 
-    <ListView android:id="@id/android:list"
+    <ListView android:id="@+id/list_team"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_below="@+id/team_text"/>
