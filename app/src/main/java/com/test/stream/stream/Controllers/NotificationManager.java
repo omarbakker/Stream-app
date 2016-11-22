@@ -53,7 +53,7 @@ public class NotificationManager {
             public void run(){
                 while(thread_running){
                     String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                    String username = UserManager.getInstance().getCurrentUser().getUid();
+                    String username = UserManager.sharedInstance().getCurrentUser().getUid();
                     Log.d(TAG, "device: " + deviceToken + " " + "username: " + username + "...");
                     if(deviceToken != null){
                         OkHttpClient client = new OkHttpClient();
