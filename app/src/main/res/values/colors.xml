@@ -4,15 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#556270</color>
     <color name="white">#FFFFFF</color>
-<<<<<<< HEAD
     <color name="red">#FC1501</color>
     <color name="customBlue">#0082be</color>
     <color name="darkBlueTextColor">#004976</color>
     <color name="skyBlue">#7EC0EE</color>
     <color name="veryLightBlue">#c6eaff</color>
     <color name="background">#aaede8</color>
-
-=======
-    <color name="background">#78aaede8</color>
->>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
+    <color name = "background2">#7caaede8</color>
 </resources>

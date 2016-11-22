@@ -47,10 +47,6 @@ import com.test.stream.stream.R;
 
 import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
-<<<<<<< HEAD
-
-=======
->>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.UIFragments.TasksFragment;
@@ -149,7 +145,8 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         updateExpandedUI();
 
-        //----------------------------------------------------------------------------------------
+        //------------------------------------REMINDERS--------------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------//
 
         Task task = tasks.get(current_task);
 
@@ -206,58 +203,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    /**
-<<<<<<< HEAD
-=======
-     * Marks a task as complete when the completion check box has been pressed
-     * @param view
-     */
-    public void markAsComplete(View view) {
-        Task task = tasks.get(current_task);
-        if(task.getComplete() == false)
-            task.setComplete(true);
-        else
-            task.setComplete(false);
-
-        TaskManager.getInstance().UpdateTask(task);
-    }
-
 
     /**
-     * Intialize the alertDialog to send a task notification
-     * @param v
-     */
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.sendTaskNotification:
-                Task task = tasks.get(current_task);
-                if(task.getComplete())
-                    appearReviewDialog();
-                else
-                    appearReminderDialog();
 
-            case R.id.editTask:
-                showChangeTaskDialog();
-                editTask(tasks.get(current_task));
-
-            case R.id.doneAddingTask:
-                editTask(tasks.get(current_task));
-                break;
-            case R.id.CancelAddingTask:
-                changedTaskDialog.dismiss();
-                break;
-            case R.id.newTaskAddUserButton:
-                handleEnteredUser(changedTaskAssigneeField.getText().toString());
-                break;
-            default:
-                break;
-
-        }
-    }
-
-
-    /**
->>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
      * shows a reminder dialog
      */
     public void appearReminderDialog() {

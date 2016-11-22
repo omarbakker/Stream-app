@@ -352,7 +352,6 @@ public class TasksFragment extends Fragment
                     GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
                     Map <String,User> resultMap = result.getValue(genericTypeIndicator);
                     String id = (String) resultMap.keySet().toArray()[0];
-
                     if(ProjectManager.sharedInstance().getCurrentProject().isMember(resultMap.get(id))) //Confirm that the assignee is a member of the project
                     {
                         newTaskAssignee = resultMap.get(id);
@@ -397,14 +396,6 @@ public class TasksFragment extends Fragment
             newtaskDateField.append("/");
         }
     }
-
-    public void getCurrentDate(){
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        Log.d(TAG, "currentDate and Time:");
-        Log.d(TAG, currentDateTimeString);
-
-    }
-
 
     @Override
     public void onDestroyView()
