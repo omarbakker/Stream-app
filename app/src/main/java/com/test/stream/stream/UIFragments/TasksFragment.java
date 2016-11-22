@@ -30,6 +30,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
@@ -37,9 +38,15 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static android.R.attr.name;
+import static android.R.id.input;
+import static com.test.stream.stream.R.id.view;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +68,7 @@ public class TasksFragment extends Fragment
     TextInputEditText newTaskDescriptionField;
     TextInputEditText newTaskAssigneeField;
     User newTaskAssignee;
+    //TextView welcome = (TextView) getView().findViewById(R.id.welcome_message);
 
     ImageView newTaskValidAssigneeIndicator;
 
@@ -158,8 +166,11 @@ public class TasksFragment extends Fragment
     /**x
      * updates the user interface to display all tasks
      */
-    private void updateUI(){
+    public void updateUI(){
+        //welcome.setVisibility(getView().INVISIBLE);
+        getCurrentDate();
         List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
+        tasks = sortArraybyComplete(tasks);
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
@@ -167,8 +178,6 @@ public class TasksFragment extends Fragment
         while (i >= 0) {
             Task task = tasks.get(i);
             taskList.add(task.getName());
-            Log.d(TAG, currentProject.getName());
-            Log.d("Just added new task", "Just added new task");
             i--;
         }
 
@@ -177,9 +186,7 @@ public class TasksFragment extends Fragment
                     R.layout.task_small,
                     R.id.task_name,
                     taskList);
-
             mTaskListView.setAdapter(mAdapter);
-
         } else {
             mAdapter.clear();
             mAdapter.addAll(taskList);
@@ -206,17 +213,22 @@ public class TasksFragment extends Fragment
      * Sort the array of tasks
      * @param tasks
      */
-    public void sortArraybyComplete(ArrayList<Task> tasks){
+    public List<Task> sortArraybyComplete(List<Task> tasks){
+        if(tasks.size() == 1){
+            return tasks;
+        }
         for(int i = 0; i < tasks.size()-1; i++){
-            if(tasks.get(i).getComplete()==true){
+            if ((tasks.get(i).getComplete()) == true && (tasks.get(i+1).getComplete()) != true) {
                 Task task = tasks.get(i);
                 tasks.set(i, tasks.get(i+1));
-                tasks.set(tasks.size()-1, task);
+                tasks.set(i+1, task);
+
             }
         }
+        return tasks;
     }
 
-    private void handleInvalidDate(){
+    public void handleInvalidDate(){
         newtaskDateField.setText(R.string.new_project_prompt_date);
         newtaskDateField.requestFocus();
         newtaskDateField.selectAll();
@@ -340,7 +352,6 @@ public class TasksFragment extends Fragment
                     GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
                     Map <String,User> resultMap = result.getValue(genericTypeIndicator);
                     String id = (String) resultMap.keySet().toArray()[0];
-
                     if(ProjectManager.sharedInstance().getCurrentProject().isMember(resultMap.get(id))) //Confirm that the assignee is a member of the project
                     {
                         newTaskAssignee = resultMap.get(id);
@@ -392,5 +403,14 @@ public class TasksFragment extends Fragment
         TaskManager.sharedInstance().Destroy();
         super.onDestroyView();
     }
+
+    public void getCurrentDate(){
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        Log.d(TAG, "currentDate and Time:");
+        Log.d(TAG, currentDateTimeString);
+
+    }
+
+
 
 }
