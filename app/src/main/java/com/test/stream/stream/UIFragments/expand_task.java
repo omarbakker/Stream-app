@@ -40,21 +40,15 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Notifications.NotificationObject;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-
-import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
-import com.test.stream.stream.UIFragments.TasksFragment;
-
-import static com.test.stream.stream.R.id.newTaskDescriptionField;
-import static com.test.stream.stream.R.id.newTaskDialog;
-import static com.test.stream.stream.R.id.newTaskNameField;
-import static com.test.stream.stream.R.id.newTaskValidAssigneeIndicator;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
@@ -226,16 +220,31 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param message
      */
     public void getReminderNotification(String message) {
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
-        nBuilder.setContentText(message);
-        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-        Notification notification = nBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
+//        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+//        nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
+//        nBuilder.setContentText(message);
+//        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
+//        Notification notification = nBuilder.build();
+//        NotificationService notificationManager = (NotificationService) getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.notify(1, notification);
+//
+//        //Clear contents of the EditText
+//        messageToSend.setText("");
 
-        //Clear contents of the EditText
-        messageToSend.setText("");
+        Task task = tasks.get(current_task);
+        //Currenlty only one person per task, so array always just one name
+//        ArrayList<String> usernames =new ArrayList<>();
+//        usernames.add(task.getAssignee());
+        String[] usernames = {task.getAssignee()};
+        Log.d(TAG,usernames[0]);
+        //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
+        NotificationObject reminder = new NotificationObject();
+        reminder.setTitle("Friendly Reminder");
+        reminder.setMessage(message);
+        reminder.setUsers(usernames);
+        Log.d(TAG,reminder.getUsers().toString());
+        NotificationService.sharedInstance().sendNotificationTo(reminder);
+
     }
 
     /**
