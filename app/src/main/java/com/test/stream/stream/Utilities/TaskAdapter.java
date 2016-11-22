@@ -35,8 +35,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         TextView textDueDate = (TextView) convertView.findViewById(R.id.item_task_duedate);
 
         textTitle.setText(task.getName());
-        textDescription.setText("Description: " + task.getDescription());
-        String dueDate = new String("Due Date: " + task.getDueMonth() + "/" + task.getDueDay() + "/" + task.getDueYear());
+        textDescription.setText(task.getDescription());
+        String dueDate = new String(task.getDueMonth() + "/" + task.getDueDay() + "/" + task.getDueYear());
         textDueDate.setText(dueDate);
 
         return convertView;
