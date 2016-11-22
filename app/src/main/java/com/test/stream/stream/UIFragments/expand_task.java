@@ -45,8 +45,6 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-
-import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.Utilities.DatabaseFolders;
