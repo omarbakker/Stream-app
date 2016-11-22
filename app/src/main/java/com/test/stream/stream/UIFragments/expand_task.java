@@ -322,14 +322,14 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         final String description = changedTaskDescriptionField.getText().toString();
 
         if (name.isEmpty()){
-            changedTaskNameField.setText("Change your task Name");
+            changedTaskNameField.setText(expandTask.getName());
             changedTaskNameField.requestFocus();
             changedTaskNameField.selectAll();
             return;
         }
 
         if (description.isEmpty()){
-            changedTaskDescriptionField.setText("Change your task Description");
+            changedTaskDescriptionField.setText(expandTask.getDescription());
             changedTaskDescriptionField.requestFocus();
             changedTaskDescriptionField.selectAll();
             return;
@@ -341,7 +341,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         }
 
         if(changedTaskAssignee == null) {
-            changedTaskAssigneeField.setText("change your user");
+            changedTaskAssigneeField.setText(expandTask.getAssignee());
             changedTaskAssigneeField.selectAll();
             return;
         }
@@ -354,17 +354,23 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         TaskManager.getInstance().UpdateTask(task);
         changedTaskDialog.dismiss();
-
-
-
     }
 
+
+    /**
+     * tests for invaild date being entered
+     */
     public void handleInvalidDate(){
         changedtaskDateField.setText(R.string.new_project_prompt_date);
         changedtaskDateField.requestFocus();
         changedtaskDateField.selectAll();
     }
 
+    /**
+     * 
+     * @param date
+     * @return
+     */
     private boolean getValidDate(String date){
         String[] vals = date.split("/");
         if (vals.length != 3)
