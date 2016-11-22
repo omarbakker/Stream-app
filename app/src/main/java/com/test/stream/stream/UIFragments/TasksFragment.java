@@ -169,7 +169,7 @@ public class TasksFragment extends Fragment
     public void updateUI(){
         //welcome.setVisibility(getView().INVISIBLE);
         getCurrentDate();
-        List<Task> tasks = TaskManager.getInstance().GetTasksInProject();
+        List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
 
         ArrayList<String> taskList = new ArrayList<>();
@@ -406,7 +406,7 @@ public class TasksFragment extends Fragment
         TaskManager.sharedInstance().Destroy();
         super.onDestroyView();
     }
-    
+
     public void getCurrentDate(){
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         Log.d(TAG, "currentDate and Time:");

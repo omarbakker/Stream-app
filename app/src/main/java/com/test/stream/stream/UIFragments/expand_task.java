@@ -44,11 +44,10 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-<<<<<<< 5ddbbab74c6275de2ecdc3141f82393380f17a0d
-=======
+
 import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
->>>>>>> working on edit tasks functionality
+
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.UIFragments.TasksFragment;
@@ -118,19 +117,17 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FirebaseInstanceId.getInstance().getToken();
 
         Log.d(TAG, "print statements for the win");
-        Task expandTask = new Task();
         Log.d(TAG, "fuck everything");
         int size = tasks.size();
         Log.d(TAG, String.valueOf(size));
         for (int i = 0; i < size; i++) {
             Task task = tasks.get(i);
             if (taskName.equals(task.getName())) {
-                expandTask = task;
                 current_task = i;
                 break;
             }
         }
-
+        expandTask = tasks.get(current_task);
         //Set new content view
         setContentView(R.layout.task_details);
         //initialize the sendNotificiation button
@@ -207,53 +204,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     /**
-     * Marks a task as complete when the completion check box has been pressed
-     * @param view
-     */
-    public void markAsComplete(View view) {
-        Task task = tasks.get(current_task);
-        if (task.getComplete() == false)
-            task.setComplete(true);
-        else
-            task.setComplete(false);
-        TaskManager.sharedInstance().UpdateTask(task);
-    }
-
-
-    /**
-     * Intialize the alertDialog to send a task notification
-     * @param v
-     */
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.sendTaskNotification:
-                Task task = tasks.get(current_task);
-                if(task.getComplete())
-                    appearReviewDialog();
-                else
-                    appearReminderDialog();
-
-            case R.id.editTask:
-                showChangeTaskDialog();
-                editTask(tasks.get(current_task));
-
-            case R.id.doneAddingTask:
-                editTask(tasks.get(current_task));
-                break;
-            case R.id.CancelAddingTask:
-                changedTaskDialog.dismiss();
-                break;
-            case R.id.newTaskAddUserButton:
-                handleEnteredUser(changedTaskAssigneeField.getText().toString());
-                break;
-            default:
-                break;
-
-        }
-    }
-
-
-    /**
      * shows a reminder dialog
      */
     public void appearReminderDialog() {
@@ -268,7 +218,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         Reviewdialog.show();
     }
-
 
     /**
      * Creates a notification for the user of the task telling them to complete their task
@@ -305,6 +254,26 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
 
+    //---------------------------------------------------------------------------------------------------//
+    //---------------------------------------------------------------------------------------------------//
+    //---------------------------------------------------------------------------------------------------//
+
+
+
+
+    /**
+     * Marks a task as complete when the completion check box has been pressed
+     * @param view
+     */
+    public void markAsComplete(View view) {
+        Task task = tasks.get(current_task);
+        if (task.getComplete() == false)
+            task.setComplete(true);
+        else
+            task.setComplete(false);
+        TaskManager.sharedInstance().UpdateTask(task);
+    }
+
     /**
      * Upon the press of the delete button, the current task is deleted from the database and the user is returned
      * to the main task screen
@@ -317,6 +286,39 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
         super.onBackPressed();
     }
+
+
+    /**
+     * Intialize the alertDialog to send a task notification
+     * @param v
+     */
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.sendTaskNotification:
+                Task task = tasks.get(current_task);
+                if(task.getComplete())
+                    appearReviewDialog();
+                else
+                    appearReminderDialog();
+
+            case R.id.editTask:
+                showChangeTaskDialog();
+
+            case R.id.doneAddingTask:
+                editTask(tasks.get(current_task));
+                break;
+            case R.id.CancelAddingTask:
+                changedTaskDialog.dismiss();
+                break;
+            case R.id.newTaskAddUserButton:
+                handleEnteredUser(changedTaskAssigneeField.getText().toString());
+                break;
+            default:
+                break;
+
+        }
+    }
+
 
 
     public void editTask(Task task){
@@ -349,13 +351,15 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         }
 
         task.setName(name);
+        task.setDescription(description);
         task.setDueDay(DueDate[0]);
         task.setDueMonth(DueDate[1]);
         task.setDueYear(DueDate[2]);
         task.setUser(changedTaskAssignee);
 
-        TaskManager.getInstance().UpdateTask(task);
+        TaskManager.sharedInstance().UpdateTask(task);
         changedTaskDialog.dismiss();
+        updateExpandedUI();
     }
 
 
@@ -388,38 +392,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    /**
-     * Checks if the string passed represents a valid user in the database.
-     * Updates newTaskAssignee accordingly.
-     * @param uDescription
-     * The description entered by the user
-     */
-    private void handleEnteredUser(final String uDescription){
-        if (uDescription.isEmpty()) return;
-        ReadDataCallback userResult = new ReadDataCallback() {
-            @Override
-            public void onDataRetrieved(DataSnapshot result) {
-
-                if (result.exists()){
-                    // user is valid and can be added to the project as a collaborator
-                    changedTaskAssigneeField.clearFocus();
-                    GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
-                    Map <String,User> resultMap = result.getValue(genericTypeIndicator);
-                    String id = (String) resultMap.keySet().toArray()[0];
-                    changedTaskAssignee = resultMap.get(id);
-                    changedTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
-                }else{
-                    // user is invalid and cannot be added to the project as a collaborator
-                    String userInvalidHelp = uDescription + " - Invalid user";
-                    changedTaskAssigneeField.setText(userInvalidHelp);
-                    changedTaskAssigneeField.selectAll();
-                    changedTaskValidAssigneeIndicator.setVisibility(View.INVISIBLE);
-                }
-            }
-        };
-        UserManager.getInstance().checkUserExists(uDescription,userResult);
-    }
-
 
     public void showChangeTaskDialog() {
         LayoutInflater inflater = this.getLayoutInflater();
@@ -447,24 +419,28 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         changedTaskAssigneeField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // TODO Auto-generated method stub
                 return false;
             }
         });
         changedtaskDateField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // TODO Auto-generated method stub
                 return false;
             }
         });
         changedTaskNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // TODO Auto-generated method stub
                 return false;
             }
         });
         changedTaskDescriptionField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // TODO Auto-generated method stub
                 return false;
             }
         });
@@ -475,27 +451,29 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         cancel.setOnClickListener(this);
         changedtaskDateField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                changedtaskDateField.setError(null);
-            }
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                changedtaskDateField.setError(null);
+                if ((s.length() == 2 || s.length() == 5) && count > 0) {
+                    changedtaskDateField.append("/");
+                }
             }
         });
         changedTaskDialog.show();
     }
 
 
+    /**
+     * Fill in all of the data task details with their given information
+     */
     public void updateExpandedUI() {
-
+        Log.d(TAG, "BEGINNING EXPANDING TASK");
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
+        Log.d(TAG, String.valueOf(task_name));
         task_name.setText(expandTask.getName());
         //int colour = expandTask.getAssignee().length() * -1500;
         //Log.d(TAG, String.valueOf(colour));
@@ -507,8 +485,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         task_description.setVisibility(View.VISIBLE);
         //user
         TextView user = (TextView) findViewById(R.id.user_expanded);
-        Log.d(TAG, expandTask.getAssignee());
-        user.setText(expandTask.getAssignee());
+        user.setText(String.valueOf(expandTask.getAssignee()));
         //due_date
         TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
         String due = String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear());
@@ -519,6 +496,53 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         if (expandTask.getComplete() == true)
             checkBox.setChecked(true);
 
-        Log.d(TAG, "finished");
     }
+
+
+
+    /**
+     * Checks if the string passed represents a valid user in the database.
+     * Updates newTaskAssignee accordingly.
+     * @param uDescription
+     * The description entered by the user
+     */
+    private void handleEnteredUser(final String uDescription){
+        if (uDescription.isEmpty()) return;
+        ReadDataCallback userResult = new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+
+                if (result.exists()){
+                    // user is valid and can be added to the project as a collaborator
+                    changedTaskAssigneeField.clearFocus();
+                    GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
+                    Map <String,User> resultMap = result.getValue(genericTypeIndicator);
+                    String id = (String) resultMap.keySet().toArray()[0];
+
+                    if(ProjectManager.sharedInstance().getCurrentProject().isMember(resultMap.get(id))) //Confirm that the assignee is a member of the project
+                    {
+                        changedTaskAssignee = resultMap.get(id);
+                        changedTaskValidAssigneeIndicator.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        changedTaskAssignee = null;
+                    }
+                }
+
+                if(changedTaskAssignee == null){
+                    // user is invalid or is not a member of the project
+                    String userInvalidHelp = uDescription + " - Invalid Member";
+                    changedTaskAssigneeField.setText(userInvalidHelp);
+                    changedTaskAssigneeField.selectAll();
+                    changedTaskValidAssigneeIndicator.setVisibility(View.INVISIBLE);
+                }
+            }
+        };
+        UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
+    }
+
+
+
+
 }
