@@ -129,6 +129,7 @@ public class HomeManager {
     public void Destroy() //Call only when you don't need the tasks anymore.
     {
         TaskManager.sharedInstance().Destroy();
+        instance = new HomeManager();
     }
 
 }

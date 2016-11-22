@@ -19,7 +19,11 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.BoardManager;
+import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Controllers.HomeManager;
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
@@ -224,6 +228,9 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Projects clicked, Launch Projects page
             case R.id.nav_projects:
+                HomeManager.sharedInstance().Destroy();
+                CalendarManager.sharedInstance().Destroy();
+                BoardManager.sharedInstance().Destroy();
                 finish();
                 break;
             case R.id.nav_logout:
