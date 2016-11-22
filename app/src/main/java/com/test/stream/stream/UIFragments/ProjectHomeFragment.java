@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -44,6 +45,7 @@ public class ProjectHomeFragment extends Fragment {
             updateUI();
         }
     };
+    private ListView listView;
 
     public ProjectHomeFragment() {
         // Required empty public constructor
@@ -63,29 +65,32 @@ public class ProjectHomeFragment extends Fragment {
         teamProgress = (DonutProgress) getView().findViewById(R.id.team_progress);
         userProgress = (DonutProgress) getView().findViewById(R.id.user_progress);
 
-        updateProgressBar(teamProgress, 90);
-        updateProgressBar(userProgress, 60);
-        homeManager = new HomeManager(dataListener);
+        homeManager = HomeManager.sharedInstance();
+        homeManager.setUIListener(dataListener);
+
+        // initialize both progresses to 0
+        userProgress.setProgress(0);
+        teamProgress.setProgress(0);
     }
 
-    /**
-     * Takes in a certain circle progress, then sets progress to new progress.
-     *
-     * @param progress    CircleProgress to be modified.
-     * @param newProgress what progress will be updated to.
-     */
-    private void updateProgressBar(DonutProgress progress, int newProgress) {
-        progress.setProgress(0);           // initialize to 0
-        progress.setMax(100);              // set max to 100
-        progress.setProgress(newProgress); // update progress
+    private void updateProgress(DonutProgress donutProgress, int newProgress){
+        if(android.os.Build.VERSION.SDK_INT >= 11){
+            // will update the "progress" propriety of seekbar until it reaches progress
+            ObjectAnimator animation = ObjectAnimator.ofInt(donutProgress, "progress", newProgress);
+            animation.setDuration(1500); // 1.5 seconds
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.start();
+        }
+        else
+            donutProgress.setProgress(newProgress);
     }
-
+/*
     private void updateTeamProgress(int newProgress){
         AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.progress_anim);
         set.setTarget();
         ObjectAnimator anim = ObjectAnimator.ofInt(R.id.team_progress, "circle_progress", 0, 100);
     }
-
+*/
     /**
      * Function that updates the Adapter of the ListFragment
      */
@@ -95,7 +100,7 @@ public class ProjectHomeFragment extends Fragment {
         List<Task> allTasks = homeManager.getUserTasks();
 
         ArrayList<Task> tasks = new ArrayList();
-        ListView listView = (ListView) getView().findViewById(R.id.task_list);
+        listView = (ListView) getView().findViewById(R.id.task_list);
 
         // Go through each task in database
         for (Task currentTask : allTasks) {
@@ -111,6 +116,9 @@ public class ProjectHomeFragment extends Fragment {
         taskAdapter.addAll(tasks);
         taskAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
+
+        updateProgress(teamProgress, 90);
+        updateProgress(userProgress, homeManager.getUserProgress());
     }
 
     /**
