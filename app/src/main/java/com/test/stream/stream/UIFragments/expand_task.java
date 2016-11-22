@@ -260,7 +260,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         Log.d(TAG,usernames[0]);
         //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
         NotificationObject reminder = new NotificationObject();
-        reminder.setTitle("Here's a friendly reminder for you to complete your task!");
+        reminder.setTitle("Friendly Reminder");
         reminder.setMessage(message);
         reminder.setUsers(usernames);
         Log.d(TAG,reminder.getUsers().toString());
