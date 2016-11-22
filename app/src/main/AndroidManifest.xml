@@ -40,6 +40,7 @@
         </activity>
         <activity
             android:name=".UIFragments.TaskMain"
+            android:label="My Project"
             android:parentActivityName=".UI.ToolbarActivity"
             android:screenOrientation="portrait">
             <intent-filter>
