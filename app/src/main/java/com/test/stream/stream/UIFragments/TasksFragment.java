@@ -171,7 +171,6 @@ public class TasksFragment extends Fragment
         getCurrentDate();
         List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
-
         ArrayList<String> taskList = new ArrayList<>();
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         int i = tasks.size() - 1;
@@ -397,6 +396,13 @@ public class TasksFragment extends Fragment
         if ((s.length() == 2 || s.length() == 5) && count > 0) {
             newtaskDateField.append("/");
         }
+    }
+
+    public void getCurrentDate(){
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        Log.d(TAG, "currentDate and Time:");
+        Log.d(TAG, currentDateTimeString);
+
     }
 
 

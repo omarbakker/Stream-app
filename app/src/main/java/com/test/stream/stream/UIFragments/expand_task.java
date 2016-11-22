@@ -47,7 +47,10 @@ import com.test.stream.stream.R;
 
 import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.UIFragments.TasksFragment;
@@ -204,6 +207,57 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Marks a task as complete when the completion check box has been pressed
+     * @param view
+     */
+    public void markAsComplete(View view) {
+        Task task = tasks.get(current_task);
+        if(task.getComplete() == false)
+            task.setComplete(true);
+        else
+            task.setComplete(false);
+
+        TaskManager.getInstance().UpdateTask(task);
+    }
+
+
+    /**
+     * Intialize the alertDialog to send a task notification
+     * @param v
+     */
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.sendTaskNotification:
+                Task task = tasks.get(current_task);
+                if(task.getComplete())
+                    appearReviewDialog();
+                else
+                    appearReminderDialog();
+
+            case R.id.editTask:
+                showChangeTaskDialog();
+                editTask(tasks.get(current_task));
+
+            case R.id.doneAddingTask:
+                editTask(tasks.get(current_task));
+                break;
+            case R.id.CancelAddingTask:
+                changedTaskDialog.dismiss();
+                break;
+            case R.id.newTaskAddUserButton:
+                handleEnteredUser(changedTaskAssigneeField.getText().toString());
+                break;
+            default:
+                break;
+
+        }
+    }
+
+
+    /**
+>>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
      * shows a reminder dialog
      */
     public void appearReminderDialog() {
@@ -357,6 +411,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         task.setDueYear(DueDate[2]);
         task.setUser(changedTaskAssignee);
 
+
         TaskManager.sharedInstance().UpdateTask(task);
         changedTaskDialog.dismiss();
         updateExpandedUI();
@@ -393,6 +448,8 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
 
 
+
+
     public void showChangeTaskDialog() {
         LayoutInflater inflater = this.getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
@@ -419,28 +476,27 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         changedTaskAssigneeField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // TODO Auto-generated method stub
                 return false;
             }
         });
         changedtaskDateField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // TODO Auto-generated method stub
+
                 return false;
             }
         });
         changedTaskNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // TODO Auto-generated method stub
+
                 return false;
             }
         });
         changedTaskDescriptionField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // TODO Auto-generated method stub
+
                 return false;
             }
         });
@@ -466,7 +522,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         changedTaskDialog.show();
     }
 
-
     /**
      * Fill in all of the data task details with their given information
      */
@@ -486,6 +541,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         //user
         TextView user = (TextView) findViewById(R.id.user_expanded);
         user.setText(String.valueOf(expandTask.getAssignee()));
+
         //due_date
         TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
         String due = String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear());
@@ -495,7 +551,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         if (expandTask.getComplete() == true)
             checkBox.setChecked(true);
-
     }
 
 
@@ -541,8 +596,5 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         };
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
-
-
-
 
 }

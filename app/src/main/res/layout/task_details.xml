@@ -132,12 +132,17 @@
             android:text="@string/task_markAsComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick = "markAsComplete"
+            android:id="@+id/checkBox"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/sendTaskNotification"
+<<<<<<< HEAD
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"
             android:onClick = "markAsComplete"
             android:id="@+id/checkBox">
+=======
+>>>>>>> 8c99100d672070e843286845f266e5c309a7c0f2
             android:layout_alignEnd="@+id/sendTaskNotification">
         </CheckBox>
 
