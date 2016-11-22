@@ -296,16 +296,16 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      */
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.sendTaskNotification:
+            case R.id.sendTaskNotification :
                 Task task = tasks.get(current_task);
-                if(task.getComplete())
+                if (task.getComplete())
                     appearReviewDialog();
                 else
                     appearReminderDialog();
-
+                break;
             case R.id.editTask:
                 showChangeTaskDialog();
-
+                break;
             case R.id.doneAddingTask:
                 editTask(tasks.get(current_task));
                 break;
@@ -401,10 +401,20 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     public void showChangeTaskDialog() {
         LayoutInflater inflater = this.getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
-
         changedTaskDialog = new AlertDialog.Builder(this).setView(v).create();
         //set view and text type
         TextView title = (TextView) v.findViewById(R.id.newTaskPageTitle);
+        title.setText("Edit Task");
+
+        EditText task_name = (EditText) v.findViewById(R.id.newTaskNameField);
+        task_name.setText(expandTask.getName());
+        EditText task_description = (EditText) v.findViewById(R.id.newTaskDescriptionField);
+        task_description.setText(expandTask.getDescription());
+        EditText task_user = (EditText) v.findViewById(R.id.newTaskNewUserField);
+        task_user.setText(String.valueOf(expandTask.getAssignee()));
+        //EditText task_date = (EditText) v.findViewById(R.id.newTaskNameField);
+        //task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));
+
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         title.setTypeface(Syncopate);
 
