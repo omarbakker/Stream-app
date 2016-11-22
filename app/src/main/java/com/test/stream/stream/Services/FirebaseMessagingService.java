@@ -72,6 +72,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 //        notificationBuilder;
 //        if (Build.VERSION.SDK_INT >= 21) notificationBuilder.setVibrate(new long[0]);
+        notificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+        if (Build.VERSION.SDK_INT >= 21) notificationBuilder.setVibrate(new long[0]);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
