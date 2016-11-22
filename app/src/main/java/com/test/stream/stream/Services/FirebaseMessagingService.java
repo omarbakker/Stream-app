@@ -31,7 +31,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 //        notificationBuilder.setContentText(remoteMessage.getNotification().getBody());
 //        notificationBuilder.setAutoCancel(true);
 //        notificationBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        NotificationService notificationManager = (NotificationService) getSystemService(Context.NOTIFICATION_SERVICE);
 //        notificationManager.notify(0, notificationBuilder.build());
         //check if the message contains data
         if(remoteMessage.getData().size() > 0){

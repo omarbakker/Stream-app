@@ -5,15 +5,13 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.test.stream.stream.Controllers.NotificationManager;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Projects.Project;
@@ -22,14 +20,7 @@ import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class ProjectsActivity extends AppCompatActivity
@@ -70,20 +61,20 @@ public class ProjectsActivity extends AppCompatActivity
         //Populate with user data
         if(UserManager.sharedInstance().getCurrentUser() != null) {
             updateUI();
-            NotificationManager.sharedInstance().registerUserDevice();
+            NotificationService.sharedInstance().registerUserDevice();
         } else {
             UserManager.sharedInstance().InitializeUser(new ReadDataCallback() {
                 @Override
                 public void onDataRetrieved(DataSnapshot result) {
                     updateUI();
-                    NotificationManager.sharedInstance().registerUserDevice();
+                    NotificationService.sharedInstance().registerUserDevice();
                 }
             });
         }
 
         // Register user - device pair to heliohost server
 //        try {
-//            NotificationManager.sharedInstance().registerUserDevice();
+//            NotificationService.sharedInstance().registerUserDevice();
 //        }catch(NullPointerException e){
 //            e.printStackTrace();
 //        }
