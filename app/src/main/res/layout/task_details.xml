@@ -44,24 +44,66 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/trash"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/imageView7"
-            android:layout_alignEnd="@+id/imageView7"
+            android:layout_alignRight="@+id/taskUserLinearLayout"
+            android:layout_alignEnd="@+id/taskUserLinearLayout"
             android:id="@+id/deleteTask"
-            android:tint="@color/black_button"
+            android:tint="@color/white"
             android:backgroundTint="@color/cardview_shadow_end_color"
             android:onClick = "deleteTask"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/user_icon"
-            android:id="@+id/imageView7"
-            android:layout_alignTop="@+id/user_expanded"
-            android:layout_alignLeft="@+id/taskDueDateIcon"
-            android:layout_alignStart="@+id/taskDueDateIcon"
-            android:layout_alignRight="@+id/taskDueDateIcon"
-            android:layout_alignEnd="@+id/taskDueDateIcon" />
+            android:orientation="horizontal"
+            android:id="@+id/taskUserLinearLayout"
+            android:layout_below="@+id/taskDueDateLinearLayout">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_marginRight="@dimen/big_padding"
+                app:srcCompat="@drawable/user_icon"
+                android:id="@+id/imageView7" />
+
+            <TextView
+                android:text="@string/task_user"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/user_expanded"
+                android:gravity="center"
+                android:textColor="@color/black_button" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_expanded"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:layout_marginStart="@dimen/small_padding"
+            android:layout_marginLeft="@dimen/small_padding"
+            android:id="@+id/taskDueDateLinearLayout"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_marginRight="@dimen/big_padding"
+                app:srcCompat="@drawable/due_date" />
+
+            <TextView
+                android:text="@string/task_due_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/due_date_expanded"
+                android:textColor="@color/black_button"
+                android:gravity="center"/>
+
+        </LinearLayout>
 
         <TextView
             android:text="@string/task_name"
@@ -71,37 +113,16 @@
             android:textColor="@color/white"
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
-            android:textSize="40dp"
+            android:textSize="40sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:translationZ="-10dp"
             android:elevation="@dimen/small_padding"/>
 
-        <TextView
-            android:text="@string/task_due_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/due_date_expanded"
-            android:textColor="@color/black_button"
-            android:layout_below="@+id/description_expanded"
-            android:layout_alignLeft="@+id/description_expanded"
-            android:layout_alignStart="@+id/description_expanded"
-            android:layout_marginTop="36dp"
-            android:layout_alignRight="@+id/description_expanded"
-            android:layout_alignEnd="@+id/description_expanded" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/due_date"
-            android:layout_marginTop="19dp"
-            android:id="@+id/taskDueDateIcon"
-            android:layout_below="@+id/taskDescInfoIcon"
-            android:layout_toLeftOf="@+id/description_expanded"
-            android:layout_alignLeft="@+id/taskDescInfoIcon"
-            android:layout_alignStart="@+id/taskDescInfoIcon" />
 
         <CheckBox
             android:text="@string/task_markAsComplete"
@@ -114,7 +135,6 @@
             android:layout_alignEnd="@+id/sendTaskNotification"
             android:layout_marginBottom="20dp"/>
 
-
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,7 +145,7 @@
             android:layout_alignLeft="@+id/sendTaskNotification"
             android:layout_alignStart="@+id/sendTaskNotification"
             android:id="@+id/editTask"
-            app:backgroundTint="@android:color/holo_red_light" />
+            app:backgroundTint="@color/background" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -141,17 +161,6 @@
             android:layout_above="@+id/description_expanded"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:text="@string/task_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_expanded"
-            android:textColor="@color/black_button"
-            android:layout_marginTop="46dp"
-            android:layout_below="@+id/due_date_expanded"
-            android:layout_alignLeft="@+id/due_date_expanded"
-            android:layout_alignStart="@+id/due_date_expanded" />
 
 
     </RelativeLayout>
