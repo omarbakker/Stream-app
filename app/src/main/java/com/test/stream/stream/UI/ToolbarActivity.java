@@ -12,11 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.BoardManager;
+import com.test.stream.stream.Controllers.CalendarManager;
+import com.test.stream.stream.Controllers.HomeManager;
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
@@ -26,6 +34,8 @@ import com.test.stream.stream.UIFragments.BoardFragment;
 import com.test.stream.stream.UIFragments.TasksFragment;
 import com.test.stream.stream.UIFragments.expand_task;
 
+import java.util.List;
+
 public class ToolbarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,9 +44,9 @@ public class ToolbarActivity extends AppCompatActivity
 
     private FirebaseAuth firebase = FirebaseAuth.getInstance();
     boolean thread_running = true;
+    private Toolbar toolbar;
 
-    FragmentManager manager;
-
+    private FragmentManager manager;
     /**
      * On create the ToolbarActivity, all initializations
      * @param savedInstanceState
@@ -50,7 +60,7 @@ public class ToolbarActivity extends AppCompatActivity
         // Set how the view will look like
         setContentView(R.layout.toolbaractivity_main);
         // Set how the toolbar will look like
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //register device token
@@ -177,7 +187,7 @@ public class ToolbarActivity extends AppCompatActivity
         switch(id){
             // If Calendar button is clicked, launch CalendarFragment
             case R.id.nav_calendar:
-                setTitle("Calendar");
+                getSupportActionBar().setTitle("Calendar");
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
@@ -185,7 +195,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If PinBoard is clicked, launch PinBoard Fragment
             case R.id.nav_pinboard:
-                setTitle("Pin Board");
+                getSupportActionBar().setTitle("Pin Board");
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
@@ -194,7 +204,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case R.id.nav_team:
-                setTitle("Team");
+                getSupportActionBar().setTitle("Team");
                 TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         teamFragment,
@@ -202,7 +212,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case R.id.nav_tasks:
-                setTitle("Tasks");
+                getSupportActionBar().setTitle("Tasks");
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
@@ -210,7 +220,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Home button is clicked launch Home Fragment
             case R.id.nav_home:
-                setTitle("My Project");
+                getSupportActionBar().setTitle("My Project");
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,
@@ -218,6 +228,9 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Projects clicked, Launch Projects page
             case R.id.nav_projects:
+                HomeManager.sharedInstance().Destroy();
+                CalendarManager.sharedInstance().Destroy();
+                BoardManager.sharedInstance().Destroy();
                 finish();
                 break;
             case R.id.nav_logout:
@@ -242,7 +255,7 @@ public class ToolbarActivity extends AppCompatActivity
         switch(id){
             // If Calendar button is clicked, launch CalendarFragment
             case "CALENDAR":
-                setTitle("Calendar");
+                getSupportActionBar().setTitle("Calendar");
                 CalendarFragment calendarFragment = new CalendarFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         calendarFragment,
@@ -250,7 +263,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If PinBoard is clicked, launch PinBoard Fragment
             case "PINBOARD":
-                setTitle("Pin Board");
+                getSupportActionBar().setTitle("Pin Board");
                 BoardFragment boardFragment = new BoardFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         boardFragment,
@@ -259,7 +272,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Settings is clicked, launch Settings Fragment
             case "TEAM":
-                setTitle("Team");
+                getSupportActionBar().setTitle("Team");
                 TeamFragment teamFragment = new TeamFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         teamFragment,
@@ -267,7 +280,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // if Tasks is clicked, launch Tasks Fragment
             case "TASKS":
-                setTitle("Tasks");
+                getSupportActionBar().setTitle("Tasks");
                 TasksFragment taskFragment = new TasksFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         taskFragment,
@@ -275,7 +288,7 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Home button is clicked launch Home Fragment
             case "HOME":
-                setTitle("My Project");
+                getSupportActionBar().setTitle("My Project");
                 ProjectHomeFragment projectHomeFragment = new ProjectHomeFragment();
                 manager.beginTransaction().replace(R.id.relative_layout_for_fragment,
                         projectHomeFragment,
@@ -310,5 +323,27 @@ public class ToolbarActivity extends AppCompatActivity
         Intent intent = new Intent(this, ExpandMeeting.class);
         intent.putExtra("meetingName", meetingName);
         startActivity(intent);
+    }
+
+    /**
+     * Marks a task as complete when the completion check box has been pressed
+     * @param view
+     */
+    public void markAsComplete(View view) {
+        View parent = (View) view.getParent().getParent();
+
+        TextView taskTitleView = (TextView) parent.findViewById(R.id.task_header).findViewById(R.id.item_task_title);
+        String taskName = String.valueOf(taskTitleView.getText());
+        HomeManager homeManager = HomeManager.sharedInstance();
+
+        List<Task> tasks = homeManager.getUserTasks();
+        for(Task task:tasks){
+            if(task.getName().equals(taskName)){
+                task.setComplete(true);
+                homeManager.UpdateTask(task);
+                Toast.makeText(ToolbarActivity.this, "Task marked as complete",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
