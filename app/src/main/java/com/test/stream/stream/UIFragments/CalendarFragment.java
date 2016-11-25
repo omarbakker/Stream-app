@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.Adapters.CalendarAdapter;
 import com.test.stream.stream.UI.CreateNewMeeting;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -25,11 +27,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements ListView.OnItemClickListener{
 
     private ListView mCalendarListView;
     private TextView mCalendarTextView;
-    private ArrayAdapter<String> mAdapter;
+    private CalendarAdapter mAdapter;
     private int current_meeting;
     ArrayList<Meeting> meetings = new ArrayList<>();
 
@@ -63,6 +65,7 @@ public class CalendarFragment extends Fragment {
 
         mCalendarTextView = (TextView) getView().findViewById(R.id.text_calendar);
         mCalendarListView = (ListView) getView().findViewById(R.id.list_calendar);
+        mCalendarListView.setOnItemClickListener(this);
 
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
         mCalendarTextView.setTypeface(Syncopate);
@@ -138,15 +141,12 @@ public class CalendarFragment extends Fragment {
         }
 
         if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<>(getActivity(),
-                    R.layout.calendar_small,
-                    R.id.meeting_name,
-                    meetingList);
+            mAdapter = new CalendarAdapter(getActivity(), R.layout.calendar_listview, meetings);
             mCalendarListView.setAdapter(mAdapter);
         }
         else {
             mAdapter.clear();
-            mAdapter.addAll(meetingList);
+            mAdapter.addAll(meetings);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -171,5 +171,10 @@ public class CalendarFragment extends Fragment {
     {
         CalendarManager.sharedInstance().Destroy();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        expandMeetingView(view);
     }
 }
