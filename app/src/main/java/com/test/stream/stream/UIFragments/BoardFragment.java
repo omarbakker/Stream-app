@@ -155,13 +155,34 @@ public class BoardFragment extends Fragment implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 final Pin pin = (Pin) adapterView.getItemAtPosition(position);
-
+                showEditPinDialog(pin);
             }
         });
 
         // Call database to populate board if any PinMessages are in the database
         BoardManager.sharedInstance().InitializePins(dataListener);
 
+    }
+
+    public void showEditPinDialog(Pin pin) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.edit_pin_dialog, null);
+        newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
+
+        titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
+        subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
+        descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
+
+        titleText.setText(pin.getTitle());
+        subtitleText.setText(pin.getSubtitle());
+        descriptionText.setText(pin.getDescription());
+        //Button done = (Button) view.findViewById(R.id.doneAddingPin);
+        //Button cancel = (Button) view.findViewById(R.id.CancelAddingPin);
+
+        //done.setOnClickListener(this);
+        //cancel.setOnClickListener(this);
+
+        newPinDialog.show();
     }
 
     public void showNewPinDialog() {
