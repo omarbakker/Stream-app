@@ -9,55 +9,77 @@
         android:id="@+id/dialog_edit_pin_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@color/white"
+        android:gravity="center"
         android:scaleType="centerInside"
-        android:background="@color/background"
         android:text="@string/pin_edit_name"
         android:textSize="30dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/dialog_edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_title"
-        android:ems="10"
-        android:id="@+id/dialog_edit_title"
+        android:layout_below="@+id/dialog_edit_pin_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:layout_below="@+id/dialog_edit_pin_title"/>
+        android:ems="10"
+        android:hint="@string/dialog_title" />
 
     <EditText
+        android:id="@+id/dialog_edit_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_subtitle"
-        android:ems="10"
-        android:id="@+id/dialog_edit_subtitle"
         android:layout_below="@+id/dialog_edit_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="@string/dialog_subtitle" />
 
     <EditText
+        android:id="@+id/dialog_edit_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_description"
-        android:ems="10"
-        android:id="@+id/dialog_edit_description"
         android:layout_below="@+id/dialog_edit_subtitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="@string/dialog_description" />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/delete_pin"
         android:layout_below="@+id/dialog_edit_description"
-        android:background="@color/red"
-        android:text="@string/menu_delete"
-        android:gravity="center"
-        android:textSize="30dp"/>
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/CancelDeletePin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:textColor="#caff6563"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+        <Button
+            android:id="@+id/delete_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="Delete"
+            android:textColor="#bf0099cc"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -52,7 +52,6 @@ public class HomeTest {
     int[] test_DueDate2 = {15,10,2014};
 
     static User user = null;
-    HomeManager mHomeManager = null;
 
     //User must be signed in to write to the database
     @BeforeClass
@@ -128,15 +127,15 @@ public class HomeTest {
      */
     private void initializeHomeManager(final AtomicInteger taskCount, final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
     {
-        mHomeManager = new HomeManager(new DataEventListener() {
-            @Override
-            public void onDataChanged() {
-                tasks = mHomeManager.getUserTasks();
-                dataChangeCount.incrementAndGet();
-                dataChanged.set(true);
-                taskCount.set(tasks.size());
-            }
-        });
+       HomeManager.sharedInstance().setUIListener(new DataEventListener() {
+           @Override
+           public void onDataChanged() {
+               tasks = HomeManager.sharedInstance().getUserTasks();
+               dataChangeCount.incrementAndGet();
+               dataChanged.set(true);
+               taskCount.set(tasks.size());
+           }
+       });
 
         Awaitility.await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
     }
@@ -211,10 +210,10 @@ public class HomeTest {
 
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
 
-        assertEquals(mHomeManager.getUserTasks().size(), 1);
+        assertEquals(HomeManager.sharedInstance().getUserTasks().size(), 1);
 
         //Destroy home manager
-        mHomeManager.Destroy();
+        HomeManager.sharedInstance().Destroy();
     }
 
     public void createUserTask(Boolean isComplete, AtomicInteger taskCount)
@@ -259,10 +258,10 @@ public class HomeTest {
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
 
         int expectedProgress = (int)((2.0/5.0)*100);
-        assertEquals(mHomeManager.getUserProgress(), expectedProgress);
+        assertEquals(HomeManager.sharedInstance().getUserProgress(), expectedProgress);
 
         //Destroy home manager
-        mHomeManager.Destroy();
+        HomeManager.sharedInstance().Destroy();
     }
 
 
@@ -279,7 +278,7 @@ public class HomeTest {
         initializeHomeManager(taskCount, new AtomicInteger(0), new AtomicBoolean(false));
         int initialTaskCount = tasks.size();
 
-        boolean created = mHomeManager.CreateTask(test_name, test_description, test_DueDate);
+        boolean created = HomeManager.sharedInstance().CreateTask(test_name, test_description, test_DueDate);
         assert(created);
 
         // assert both tasks were created;
@@ -296,7 +295,7 @@ public class HomeTest {
         assertEquals(newestTask.getDueMonth(), test_DueDate[1]);
         assertEquals(newestTask.getDueYear(), test_DueDate[2]);
 
-        mHomeManager.Destroy();
+        HomeManager.sharedInstance().Destroy();
 
     }
 
@@ -315,7 +314,7 @@ public class HomeTest {
         initializeHomeManager(taskCount, new AtomicInteger(0), dataChanged);
         int initialTaskCount = tasks.size();
 
-        boolean created = mHomeManager.CreateTask(test_name, test_description, test_DueDate);
+        boolean created = HomeManager.sharedInstance().CreateTask(test_name, test_description, test_DueDate);
         assert(created);
 
         // assert both tasks were created;
@@ -331,7 +330,7 @@ public class HomeTest {
         fetchedNewTask.setDueYear(test_DueDate2[2]);
 
         dataChanged.set(false);
-        mHomeManager.UpdateTask(fetchedNewTask);
+        HomeManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
@@ -346,7 +345,7 @@ public class HomeTest {
         assertEquals(newestTask.getDueMonth(), test_DueDate2[1]);
         assertEquals(newestTask.getDueYear(), test_DueDate2[2]);
 
-        mHomeManager.Destroy();
+        HomeManager.sharedInstance().Destroy();
 
     }
 
@@ -366,7 +365,7 @@ public class HomeTest {
         initializeHomeManager(taskCount, new AtomicInteger(0), dataChanged);
         int initialTaskCount = tasks.size();
 
-        boolean created = mHomeManager.CreateTask(test_name, test_description, test_DueDate);
+        boolean created = HomeManager.sharedInstance().CreateTask(test_name, test_description, test_DueDate);
         assert(created);
 
         // assert both tasks were created;
@@ -376,14 +375,14 @@ public class HomeTest {
         fetchedNewTask.setComplete(true);
 
         dataChanged.set(false);
-        mHomeManager.UpdateTask(fetchedNewTask);
+        HomeManager.sharedInstance().UpdateTask(fetchedNewTask);
 
         // wait for the listener to receive an update
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilTrue(dataChanged);
 
         assertEquals(tasks.size(), initialTaskCount);
 
-        mHomeManager.Destroy();
+        HomeManager.sharedInstance().Destroy();
 
     }
 

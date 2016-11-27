@@ -42,6 +42,7 @@ public class BoardFragment extends Fragment implements
     private ListView mPinListView;
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
+    private Pin mCurrentPin;
 
     //fields for new task input
     EditText titleText;
@@ -155,13 +156,35 @@ public class BoardFragment extends Fragment implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 final Pin pin = (Pin) adapterView.getItemAtPosition(position);
-
+                showEditPinDialog(pin);
             }
         });
 
         // Call database to populate board if any PinMessages are in the database
         BoardManager.sharedInstance().InitializePins(dataListener);
 
+    }
+
+    public void showEditPinDialog(Pin pin) {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.edit_pin_dialog, null);
+        newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
+
+        titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
+        subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
+        descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
+
+        titleText.setText(pin.getTitle());
+        subtitleText.setText(pin.getSubtitle());
+        descriptionText.setText(pin.getDescription());
+        mCurrentPin = pin;
+        Button delete = (Button) view.findViewById(R.id.delete_pin);
+        Button cancel = (Button) view.findViewById(R.id.CancelDeletePin);
+
+        delete.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+
+        newPinDialog.show();
     }
 
     public void showNewPinDialog() {
@@ -204,6 +227,13 @@ public class BoardFragment extends Fragment implements
                 createPin();
                 break;
             case R.id.CancelAddingPin:
+                newPinDialog.dismiss();
+                break;
+            case R.id.delete_pin:
+                BoardManager.sharedInstance().RemovePin(mCurrentPin);
+                newPinDialog.dismiss();
+                break;
+            case R.id.CancelDeletePin:
                 newPinDialog.dismiss();
                 break;
             default:

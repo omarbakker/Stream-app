@@ -3,13 +3,13 @@
 We are an Android application aimed to help students work efficiently and effectively in group projects.
 
 # Team Members 
-1. Kevin Wong 32105132
-2. Robyn Castro 37283141
-3. Catherine Lee 32556136
-4. Omar Mohammed 52712130
-5. Rohini Goyal 10861145
-6. Jane MacGillivray 19953141
-7. Xingyu Tao 33610149
+1. Kevin Wong 
+2. Robyn Castro
+3. Catherine Lee 
+4. Omar Mohammed
+5. Rohini Goyal
+6. Jane MacGillivray
+7. Xingyu Tao
 
 # How to find Documents 
 - Documents can be found at https://github.com/omarbakker/Stream-app/tree/master/docs
