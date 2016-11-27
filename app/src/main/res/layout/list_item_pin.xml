@@ -11,7 +11,6 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_alignParentTop="true"
-        android:background="#f2f5a9"
         android:visibility="visible"/>
 
     <TextView
@@ -23,7 +22,6 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="4dp"
-        android:background="#f2f5a9"
         android:layout_alignRight="@+id/rectangle_at_the_top"
         android:layout_alignEnd="@+id/rectangle_at_the_top"
         android:layout_alignLeft="@+id/rectangle_at_the_top"
@@ -36,7 +34,6 @@
         android:textSize="15dp"
         android:ellipsize="end"
         android:padding="4dp"
-        android:background="#f2f5a9"
         android:layout_alignRight="@+id/rectangle_at_the_top"
         android:layout_alignEnd="@+id/rectangle_at_the_top"
         android:layout_alignLeft="@+id/rectangle_at_the_top"
@@ -49,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:background="#f2f5a9"
         android:textSize="30dp"
         android:gravity="center"
         android:ellipsize="end"
