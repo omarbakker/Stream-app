@@ -117,25 +117,8 @@ public class ProjectHomeFragment extends Fragment {
         taskAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
 
-        updateProgress(teamProgress, 90);
+        updateProgress(teamProgress, homeManager.getTeamProgress());
         updateProgress(userProgress, homeManager.getUserProgress());
-    }
-
-    /**
-     * Creates a task with pre-set values
-     *
-     * @return Task
-     */
-    private Task createTask() {
-        Task newTask = new Task();
-
-        newTask.setDueDay(10);
-        newTask.setDueMonth(10);
-        newTask.setDueYear(1990);
-
-        newTask.setDescription("Task Description");
-        newTask.setName("Task name");
-        return newTask;
     }
 
     /****
