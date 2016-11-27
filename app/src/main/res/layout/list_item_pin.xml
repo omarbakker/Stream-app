@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/item_pin_title"
+    <View android:id="@+id/rectangle_at_the_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_height="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_alignParentTop="true"
-        android:background="@color/skyBlue"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:padding="4dp"/>
+        android:background="#f2f5a9"
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/item_pin_subtitle"
@@ -23,20 +20,45 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="25dp"
-        android:layout_below="@id/item_pin_title"
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="4dp"
-        android:background="@color/white"/>
+        android:background="#f2f5a9"
+        android:layout_alignRight="@+id/rectangle_at_the_top"
+        android:layout_alignEnd="@+id/rectangle_at_the_top"
+        android:layout_alignLeft="@+id/rectangle_at_the_top"
+        android:layout_alignStart="@+id/rectangle_at_the_top" />
 
     <TextView
         android:id="@+id/item_pin_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"
-        android:layout_below="@id/item_pin_subtitle"
         android:ellipsize="end"
         android:padding="4dp"
-        android:background="@color/white"/>
+        android:background="#f2f5a9"
+        android:layout_alignRight="@+id/rectangle_at_the_top"
+        android:layout_alignEnd="@+id/rectangle_at_the_top"
+        android:layout_alignLeft="@+id/rectangle_at_the_top"
+        android:layout_alignStart="@+id/rectangle_at_the_top"
+        android:layout_alignBottom="@+id/rectangle_at_the_top"
+        android:layout_below="@+id/item_pin_title" />
+
+    <TextView
+        android:id="@+id/item_pin_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:background="#f2f5a9"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="4dp"
+        android:layout_below="@+id/item_pin_subtitle"
+        android:layout_alignLeft="@+id/rectangle_at_the_top"
+        android:layout_alignStart="@+id/rectangle_at_the_top"
+        android:layout_alignRight="@+id/rectangle_at_the_top"
+        android:layout_alignEnd="@+id/rectangle_at_the_top" />
 
 </RelativeLayout>

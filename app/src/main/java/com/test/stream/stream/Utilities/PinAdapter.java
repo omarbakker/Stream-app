@@ -56,7 +56,7 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         // if there is nothing on PinBoard, add a new viewHolder
         if(convertView == null){
             viewHolder = new ViewHolder();
-            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "Raleway-SemiBold.ttf");
+            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
             Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
             // Get the view for the pinboard
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
