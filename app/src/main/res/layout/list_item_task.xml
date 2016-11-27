@@ -113,6 +113,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/side_nav_bar"
             android:text="MARK AS COMPLETED"
+            android:textColor="@color/white"
             android:onClick="markAsComplete"/>
 
         <Button
