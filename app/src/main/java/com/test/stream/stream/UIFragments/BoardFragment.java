@@ -42,6 +42,7 @@ public class BoardFragment extends Fragment implements
     private ListView mPinListView;
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
+    private Pin mCurrentPin;
 
     //fields for new task input
     EditText titleText;
@@ -176,11 +177,12 @@ public class BoardFragment extends Fragment implements
         titleText.setText(pin.getTitle());
         subtitleText.setText(pin.getSubtitle());
         descriptionText.setText(pin.getDescription());
-        //Button done = (Button) view.findViewById(R.id.doneAddingPin);
-        //Button cancel = (Button) view.findViewById(R.id.CancelAddingPin);
+        mCurrentPin = pin;
+        Button delete = (Button) view.findViewById(R.id.delete_pin);
+        Button cancel = (Button) view.findViewById(R.id.CancelDeletePin);
 
-        //done.setOnClickListener(this);
-        //cancel.setOnClickListener(this);
+        delete.setOnClickListener(this);
+        cancel.setOnClickListener(this);
 
         newPinDialog.show();
     }
@@ -225,6 +227,13 @@ public class BoardFragment extends Fragment implements
                 createPin();
                 break;
             case R.id.CancelAddingPin:
+                newPinDialog.dismiss();
+                break;
+            case R.id.delete_pin:
+                BoardManager.sharedInstance().RemovePin(mCurrentPin);
+                newPinDialog.dismiss();
+                break;
+            case R.id.CancelDeletePin:
                 newPinDialog.dismiss();
                 break;
             default:
