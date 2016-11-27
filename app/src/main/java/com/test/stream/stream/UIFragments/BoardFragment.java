@@ -1,16 +1,10 @@
 package com.test.stream.stream.UIFragments;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,9 +19,8 @@ import com.test.stream.stream.Controllers.BoardManager;
 
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
-import com.test.stream.stream.Utilities.PinAdapter;
+import com.test.stream.stream.UI.Adapters.PinAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,35 +1,41 @@
-package com.test.stream.stream.Utilities;
+package com.test.stream.stream.UI.Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.test.stream.stream.Objects.Users.User;
-
-import java.util.ArrayList;
+import android.graphics.Typeface;
+import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 
+import java.util.ArrayList;
+
 /**
- * Created by kevinwong on 2016-11-18.
+ * Created by kevinwong on 2016-10-30.
  */
 
-public class TeamAdapter extends ArrayAdapter<User> {
+public class PinAdapter extends ArrayAdapter<Pin> {
 
     private Context mContext;
-
+    /**
+     * Declare the elements of how the Pin should look
+     */
     public static class ViewHolder{
-        ImageView image;
-        TextView userName;
-        TextView userEmail;
+        TextView title;
+        TextView subTitle;
+        TextView description;
     }
 
-    public TeamAdapter(Context context, ArrayList<User> users){
-        super(context, 0, users);
+    /**
+     * Constructor for making PinAdapter
+     * @param context
+     * @param pins
+     */
+    public PinAdapter(Context context, ArrayList<Pin> pins){
+        super(context, 0, pins);
         mContext = context;
     }
 
@@ -44,23 +50,24 @@ public class TeamAdapter extends ArrayAdapter<User> {
     public View getView(int position, View convertView, ViewGroup parent){
 
         // Get the PinMessage that is being created
-        User user = getItem(position);
+        Pin pin = getItem(position);
         // Create the viewHolder that stores the Pins
         ViewHolder viewHolder;
         // if there is nothing on PinBoard, add a new viewHolder
         if(convertView == null){
             viewHolder = new ViewHolder();
-            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "Raleway-SemiBold.ttf");
+            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
             Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
             // Get the view for the pinboard
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_team,parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
             // Get the TextView elements on the PinBoard
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.item_member_image);
-            viewHolder.userName = (TextView) convertView.findViewById(R.id.item_username);
-            viewHolder.userEmail = (TextView) convertView.findViewById(R.id.item_user_email);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.item_pin_title);
+            viewHolder.subTitle = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.item_pin_description);
 
-            viewHolder.userName.setTypeface(ralewayBold);
-            viewHolder.userEmail.setTypeface(raleway);
+            viewHolder.title.setTypeface(ralewayBold);
+            viewHolder.subTitle.setTypeface(raleway);
+            viewHolder.description.setTypeface(raleway);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder
             convertView.setTag(viewHolder);
@@ -70,11 +77,10 @@ public class TeamAdapter extends ArrayAdapter<User> {
         }
 
         // Populate data into template view using data object
-        viewHolder.userName.setText(user.getName());
-        viewHolder.userEmail.setText(user.getEmail());
+        viewHolder.title.setText(pin.getTitle());
+        viewHolder.subTitle.setText(pin.getSubtitle());
+        viewHolder.description.setText(pin.getDescription());
 
         return convertView;
     }
 }
-
-
