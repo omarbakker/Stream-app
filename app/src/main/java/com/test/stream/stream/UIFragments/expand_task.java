@@ -385,7 +385,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     /**
-     * 
+     * Determines if data is valid
      * @param date
      * @return
      */
@@ -404,9 +404,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
-
+    /**
+     * Dialog for edit task
+     */
     public void showChangeTaskDialog() {
         LayoutInflater inflater = this.getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
@@ -516,8 +516,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         //determines if the task has be set as complete
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
-        if (expandTask.getComplete() == true)
+        if (expandTask.getComplete() == true) {
             checkBox.setChecked(true);
+            checkBox.setText("Mark as incomplete");
+        }
     }
 
 

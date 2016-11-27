@@ -1,6 +1,9 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -35,6 +38,8 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.CreateNewMeeting;
+import com.test.stream.stream.UI.CreateNewTask;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -168,7 +173,6 @@ public class TasksFragment extends Fragment
      */
     public void updateUI(){
         //welcome.setVisibility(getView().INVISIBLE);
-        getCurrentDate();
         List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
         ArrayList<String> taskList = new ArrayList<>();
@@ -404,12 +408,9 @@ public class TasksFragment extends Fragment
         super.onDestroyView();
     }
 
-    public void getCurrentDate(){
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        Log.d(TAG, "currentDate and Time:");
-        Log.d(TAG, currentDateTimeString);
 
-    }
+
+
 
 
 

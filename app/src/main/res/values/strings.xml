@@ -66,6 +66,7 @@
     <string name ="no_projects">No projects yet. Create a project to Stream with your team!</string>
 
     <string name="task_markAsComplete">Done?</string>
+    <string name='task_unmark'>Press to mark as incomplete</string>
 
     <!-- Task notification strings -->
     <string name ="reminder_notification_dialog_title">"Want to remind "</string>
