@@ -1,4 +1,4 @@
-package com.test.stream.stream.Utilities;
+package com.test.stream.stream.UI.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;

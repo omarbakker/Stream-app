@@ -1,4 +1,4 @@
-package com.test.stream.stream.Utilities;
+package com.test.stream.stream.UI.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 /**
  * Created by robyn on 2016-10-30.
  */
-public class TaskAdapter extends ArrayAdapter<Task> {
+public class HomeTaskAdapter extends ArrayAdapter<Task> {
 
-    public TaskAdapter(Context context, ArrayList<Task> tasks){
+    public HomeTaskAdapter(Context context, ArrayList<Task> tasks){
         super(context, 0, tasks);
     }
 
