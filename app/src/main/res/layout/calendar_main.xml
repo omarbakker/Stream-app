@@ -45,6 +45,8 @@
 
     <ListView
         android:id="@+id/list_calendar"
+        android:dividerHeight="2dp"
+        android:divider="#EEEEEE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

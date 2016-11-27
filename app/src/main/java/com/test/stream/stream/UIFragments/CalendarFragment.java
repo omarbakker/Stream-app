@@ -1,28 +1,41 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.test.stream.stream.Controllers.CalendarManager;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.CalendarAdapter;
 import com.test.stream.stream.UI.CreateNewMeeting;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +46,13 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
     private TextView mCalendarTextView;
     private CalendarAdapter mAdapter;
     private int current_meeting;
-    ArrayList<Meeting> meetings = new ArrayList<>();
+    AlertDialog meetingReminderDialog;
+    private Meeting expandMeeting;
+    List<Meeting> meetings = new ArrayList<>();
+    AlertDialog.Builder meetingReminderBuilder;
+    final Context context = this.getActivity();
+
+    private AlertDialog popupDialog;
 
     private DataEventListener dataListener = new DataEventListener() {
         @Override
@@ -88,27 +107,6 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
     public void createMeeting() {
         Intent intent = new Intent(getActivity(), CreateNewMeeting.class);
         startActivity(intent);
-//        Log.d("PLEASE WORK", "PLEASE WORK");
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-//        final View v = inflater.inflate(R.layout.dialog_new_meeting, null);
-//
-//        AlertDialog newMeeting = new AlertDialog.Builder(getActivity())
-//                .setView(v)
-//                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        EditText meeting_name = (EditText) v.findViewById(R.id.new_meeting_name);
-//                        EditText meeting_description = (EditText) v.findViewById(R.id.new_meeting_description);
-//                        EditText meeting_location = (EditText) v.findViewById(R.id.new_meeting_location);
-//
-//                        Log.d("PLEASE WORK", "EVERYTHING IS INITIALIZED. TIME TO CREATE");
-//                        CalendarManager.sharedInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(), meeting_location.getText().toString());
-//                        Log.d("PLEASE WORK", "CALENDAR MANAGER WAS CALLED");
-//                    }
-//                }).setNegativeButton("Cancel", null)
-//                .create();
-//        Log.d("PLEASE WORK", "SOMETHING WAS CREATED");
-//        newMeeting.show();
-//        Log.d("PLEASE WORK", "OKAY DIALOG SHOWS");
     }
 
     /**
@@ -151,20 +149,6 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         }
 
     }
-    
-
-    /**
-     * Function that is called to display the expanded view of a meeting activity
-     * @param v current view
-     */
-    public void expandMeetingView(View v) {
-        View parent = (View) v.getParent();
-        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
-        String meetingName = String.valueOf(meetingTextview.getText());
-        Intent intent = new Intent(getActivity(), ExpandMeeting.class);
-        intent.putExtra("meetingName", meetingName);
-        startActivity(intent);
-    }
 
     @Override
     public void onDestroyView()
@@ -175,6 +159,131 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        expandMeetingView(view);
+        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
+        String meetingName = String.valueOf(meetingTextview.getText());
+        expandMeetingDetailsPopup(view, meetingName);
     }
+
+    public void expandMeetingDetailsPopup(View v, String meetingName) {
+        meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View popupView = inflater.inflate(R.layout.calendar_details, null);
+
+        int size = meetings.size();
+        for(int i = 0; i < size; i++) {
+            Meeting meeting = meetings.get(i);
+            if(meetingName.equals(meeting.getName())) {
+                expandMeeting = meeting;
+                current_meeting = i;
+                break;
+            }
+        }
+
+        popupDialog = new AlertDialog.Builder(getActivity()).setView(popupView).create();
+
+        //set buttons
+        FloatingActionButton sendMeetingReminderNotification = (FloatingActionButton) popupView.findViewById(R.id.sendMeetingReminderNotification);
+        sendMeetingReminderNotification.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupDialog.dismiss();
+                //reminderMeetingNotification();
+                LayoutInflater ReminderMeetingInflater = getActivity().getLayoutInflater();
+                View reminderMeetingDialogView = ReminderMeetingInflater.inflate(R.layout.send_meeting_reminder_notification, null);
+
+                final EditText meetingReminderMessage = (EditText) reminderMeetingDialogView.findViewById(R.id.meetingMessageToSend);
+                meetingReminderBuilder = new AlertDialog.Builder(getActivity());
+                meetingReminderBuilder.setView(reminderMeetingDialogView);
+                meetingReminderBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String message = meetingReminderMessage.getText().toString();
+                        getMeetingReminderNotification(message);
+                    }
+                });
+                meetingReminderBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        meetingReminderDialog.dismiss();
+                    }
+                });
+                meetingReminderDialog = meetingReminderBuilder.create();
+                meetingReminderDialog.show();
+            }
+        }));
+        FloatingActionButton deleteMeting = (FloatingActionButton) popupView.findViewById(R.id.deleteMeeting);
+        deleteMeting.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupDialog.dismiss();
+                deleteMeeting(v);
+            }
+        }));
+
+        //get each field
+        TextView expandedMeetingName = (TextView) popupView.findViewById(R.id.meeting_name_expanded);
+        TextView expandedMeetingDescription = (TextView) popupView.findViewById(R.id.meeting_description_expanded);
+        TextView expandedMeetingLocation = (TextView) popupView.findViewById(R.id.meetingLocation_expanded);
+        TextView expandedMeetingTime = (TextView) popupView.findViewById(R.id.meetingTime_expanded);
+
+        //assign values
+        expandedMeetingName.setText(expandMeeting.getName());
+        expandedMeetingDescription.setText(expandMeeting.getDescription());
+        expandedMeetingLocation.setText(expandMeeting.getLocation());
+        if(expandMeeting.getMinute() < 10) {
+            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + "0" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+        }
+        else {
+            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+            System.out.println("AMPM EXPANDED VERSION   " + expandMeeting.getAmPm());
+        }
+
+        popupDialog.show();
+    }
+
+    /**
+     * Displays the dialog for sending a meeting reminder notification
+     */
+    public void reminderMeetingNotification() {
+        //initialize views for reminder meeting dialog
+        LayoutInflater ReminderMeetingInflater = LayoutInflater.from(this.getActivity());
+        View reminderMeetingDialogView = ReminderMeetingInflater.inflate(R.layout.send_meeting_reminder_notification, null);
+
+        final EditText meetingReminderMessage = (EditText) reminderMeetingDialogView.findViewById(R.id.meetingMessageToSend);
+        meetingReminderBuilder = new AlertDialog.Builder(context);
+        meetingReminderBuilder.setView(reminderMeetingDialogView);
+        meetingReminderBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String message = meetingReminderMessage.getText().toString();
+                getMeetingReminderNotification(message);
+            }
+        });
+        meetingReminderBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                meetingReminderDialog.dismiss();
+            }
+        });
+        meetingReminderDialog = meetingReminderBuilder.create();
+        meetingReminderDialog.show();
+    }
+
+    /**
+     * Upon the press of the delete button, the current task is deleted from the database and the user is returned
+     * to the main task screen
+     * @param view
+     */
+    public void deleteMeeting(View view){
+        CalendarManager.sharedInstance().DeleteMeeting(expandMeeting);
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+    }
+
+    public void getMeetingReminderNotification(String message) {
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context);
+        nBuilder.setContentTitle(getString(R.string.meeting_reminder_notification_title_send));
+        nBuilder.setContentText(message);
+        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
+        Notification notification = nBuilder.build();
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+    }
+
 }

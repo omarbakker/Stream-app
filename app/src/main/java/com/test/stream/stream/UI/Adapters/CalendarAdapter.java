@@ -3,6 +3,7 @@ package com.test.stream.stream.UI.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class CalendarAdapter extends ArrayAdapter<Meeting> {
             holder.meetingLocation = (TextView)row.findViewById(R.id.meeting_location);
             holder.meetingTime = (TextView)row.findViewById(R.id.meeting_time);
             holder.meetingDate = (TextView)row.findViewById(R.id.meeting_date);
-            holder.meetingDescription = (TextView)row.findViewById(R.id.meeting_description);
+           // holder.meetingDescription = (TextView)row.findViewById(R.id.meeting_description);
 
             row.setTag(holder);
         }
@@ -60,10 +61,22 @@ public class CalendarAdapter extends ArrayAdapter<Meeting> {
 
         Meeting meeting = data.get(position);
         holder.meetingName.setText(meeting.getName());
-        holder.meetingLocation.setText(meeting.getLocation());
-        holder.meetingTime.setText(meeting.getHour() + ":" + meeting.getMinute());
-        holder.meetingDate.setText(meeting.getDayOfWeek());
-        holder.meetingDescription.setText(meeting.getDescription());
+        holder.meetingLocation.setText("Location: " + meeting.getLocation());
+        holder.meetingDate.setText(meeting.getDayOfWeek() + ", " + meeting.getDay() + " " + meeting.getMonth() + " " + meeting.getYear());
+        if(meeting.getMinute() < 10) {
+            holder.meetingTime.setText(meeting.getHour() + ":" + "0" + meeting.getMinute() + " " + meeting.getAmPm());
+        }
+        else {
+            holder.meetingTime.setText(meeting.getHour() + ":" + meeting.getMinute() + " " + meeting.getAmPm());
+        }
+
+        //holder.meetingDescription.setText(meeting.getDescription());
+
+        if (position%2 == 0){
+            row.setBackgroundColor(Color.argb(255,225,237,255));
+        }else{
+            row.setBackgroundColor(Color.argb(235,232,255,245));
+        }
 
         return row;
     }
@@ -74,7 +87,7 @@ public class CalendarAdapter extends ArrayAdapter<Meeting> {
         TextView meetingLocation;
         TextView meetingTime;
         TextView meetingDate;
-        TextView meetingDescription;
+        //TextView meetingDescription;
     }
 
     public void addAll(ArrayList<Meeting> datas) {

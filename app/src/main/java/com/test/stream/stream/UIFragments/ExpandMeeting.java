@@ -16,8 +16,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.test.stream.stream.Controllers.CalendarManager;
+import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Utilities.DatabaseFolders;
+import com.test.stream.stream.Utilities.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +66,8 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.calendar_details);
         FloatingActionButton sendMeetingReminderNotification = (FloatingActionButton) findViewById(R.id.sendMeetingReminderNotification);
         sendMeetingReminderNotification.setOnClickListener(this);
+        FloatingActionButton deleteMeting = (FloatingActionButton) findViewById(R.id.deleteMeeting);
+        deleteMeting.setOnClickListener(this);
 
         TextView expandedMeetingName = (TextView) findViewById(R.id.meeting_name_expanded);
         expandedMeetingName.setText(expandMeeting.getName());
@@ -110,6 +117,10 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.sendMeetingReminderNotification:
                 reminderMeetingNotification();
+                break;
+            case R.id.deleteMeeting:
+                deleteMeeting(v);
+                break;
         }
     }
 
@@ -128,6 +139,18 @@ public class ExpandMeeting extends AppCompatActivity implements View.OnClickList
         Notification notification = nBuilder.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
+    }
+
+    /**
+     * Upon the press of the delete button, the current task is deleted from the database and the user is returned
+     * to the main task screen
+     * @param view
+     */
+    public void deleteMeeting(View view){
+        CalendarManager.sharedInstance().DeleteMeeting(expandMeeting);
+        Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
+        DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
+        super.onBackPressed();
     }
 
 }
