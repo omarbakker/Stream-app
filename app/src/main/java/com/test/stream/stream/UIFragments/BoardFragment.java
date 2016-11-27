@@ -1,23 +1,17 @@
 package com.test.stream.stream.UIFragments;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +19,6 @@ import com.test.stream.stream.Controllers.BoardManager;
 
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UI.ToolbarActivity;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.Utilities.PinAdapter;
 
@@ -39,7 +32,7 @@ public class BoardFragment extends Fragment implements
     ArrayList<Pin> pins = new ArrayList();
     private AlertDialog newPinDialog;
     private AlertDialog editPinDialog;
-    private ListView mPinListView;
+    private GridView mPinGridView;
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
     private Pin mCurrentPin;
@@ -119,7 +112,7 @@ public class BoardFragment extends Fragment implements
         if (pinAdapter == null) {
             // If nothing in adapter then create a new one and set the adapter to show pins
             pinAdapter = new PinAdapter(getActivity(), this.pins);
-            mPinListView.setAdapter(pinAdapter);
+            mPinGridView.setAdapter(pinAdapter);
         // Otherwise add all the pins in the current adapter and notify that adapter changed
         } else {
             pinAdapter.clear();
@@ -137,9 +130,9 @@ public class BoardFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mPinListView = (ListView) getView().findViewById(R.id.list_pin);
+        mPinGridView = (GridView) getView().findViewById(R.id.list_pin);
         pinAdapter = new PinAdapter(getActivity(), pins);
-        mPinListView.setAdapter(pinAdapter);
+        mPinGridView.setAdapter(pinAdapter);
         //Set fonts
         mPinTextView = (TextView) getView().findViewById(R.id.text_board);
         Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
@@ -151,7 +144,7 @@ public class BoardFragment extends Fragment implements
                 showNewPinDialog();
             }
         });
-        mPinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mPinGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 

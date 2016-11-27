@@ -8,9 +8,15 @@
     android:paddingRight="30dp"
     android:paddingLeft="30dp">
 
-    <ListView android:id="@+id/list_pin"
+    <GridView
+        android:id="@+id/list_pin"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="2"/>
 
     <TextView
         android:id="@+id/text_board"
