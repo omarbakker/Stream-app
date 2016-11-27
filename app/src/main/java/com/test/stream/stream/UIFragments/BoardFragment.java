@@ -20,7 +20,7 @@ import com.test.stream.stream.Controllers.BoardManager;
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
-import com.test.stream.stream.Utilities.PinAdapter;
+import com.test.stream.stream.UI.Adapters.PinAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
