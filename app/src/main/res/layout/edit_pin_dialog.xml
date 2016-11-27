@@ -30,20 +30,10 @@
         android:hint="@string/dialog_title" />
 
     <EditText
-        android:id="@+id/dialog_edit_subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_edit_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:ems="10"
-        android:hint="@string/dialog_subtitle" />
-
-    <EditText
         android:id="@+id/dialog_edit_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_edit_subtitle"
+        android:layout_below="@+id/dialog_edit_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"

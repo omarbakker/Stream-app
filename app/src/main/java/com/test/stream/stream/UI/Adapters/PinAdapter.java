@@ -27,7 +27,6 @@ public class PinAdapter extends ArrayAdapter<Pin> {
      */
     public static class ViewHolder {
         TextView title;
-        TextView subTitle;
         TextView description;
     }
 
@@ -65,11 +64,9 @@ public class PinAdapter extends ArrayAdapter<Pin> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin, parent, false);
             // Get the TextView elements on the PinBoard
             viewHolder.title = (TextView) convertView.findViewById(R.id.item_pin_title);
-            viewHolder.subTitle = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_pin_description);
 
             viewHolder.title.setTypeface(indieFlower);
-            viewHolder.subTitle.setTypeface(indieFlower);
             viewHolder.description.setTypeface(indieFlower);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder
@@ -81,7 +78,6 @@ public class PinAdapter extends ArrayAdapter<Pin> {
 
         // Populate data into template view using data object
         viewHolder.title.setText(pin.getTitle());
-        viewHolder.subTitle.setText(pin.getSubtitle());
         viewHolder.description.setText(pin.getDescription());
 
         if (position % 3 == 0) {

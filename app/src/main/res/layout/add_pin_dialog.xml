@@ -32,20 +32,10 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_subtitle"
-        android:ems="10"
-        android:id="@+id/dialog_subtitle"
-        android:layout_below="@+id/dialog_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:hint="@string/dialog_description"
         android:ems="10"
         android:id="@+id/dialog_description"
-        android:layout_below="@+id/dialog_subtitle"
+        android:layout_below="@+id/dialog_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"/>
 

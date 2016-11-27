@@ -39,11 +39,9 @@ public class BoardFragment extends Fragment implements
 
     //fields for new task input
     EditText titleText;
-    EditText subtitleText;
     EditText descriptionText;
 
     EditText titleEditText;
-    EditText subtitleEditText;
     EditText descriptionEditText;
     ImageButton floatButton;
     private DataEventListener dataListener = new DataEventListener() {
@@ -164,11 +162,9 @@ public class BoardFragment extends Fragment implements
         newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
 
         titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
-        subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
         descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
 
         titleText.setText(pin.getTitle());
-        subtitleText.setText(pin.getSubtitle());
         descriptionText.setText(pin.getDescription());
         mCurrentPin = pin;
         Button delete = (Button) view.findViewById(R.id.delete_pin);
@@ -186,7 +182,6 @@ public class BoardFragment extends Fragment implements
         newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
 
         titleText = (EditText) view.findViewById(R.id.dialog_title);
-        subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
         descriptionText = (EditText) view.findViewById(R.id.dialog_description);
 
 
@@ -201,14 +196,13 @@ public class BoardFragment extends Fragment implements
 
     public void createPin(){
         String title = titleText.getText().toString();
-        String subtitle = subtitleText.getText().toString();
         String description = descriptionText.getText().toString();
-        if(title.equals("") || subtitle.equals("") || description.equals("")){
-            Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
+        if(title.equals("") || description.equals("")){
+            Toast.makeText(getActivity(), "Title or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
         } else {
-            pins.add(new Pin(title, subtitle, description));
+            pins.add(new Pin(title, "", description));
             // Add the PinMessage details to the database
-            BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
+            BoardManager.sharedInstance().CreateMessagePin(title, "", description);
             newPinDialog.dismiss();
         }
 
