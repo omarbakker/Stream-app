@@ -5,6 +5,7 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +27,7 @@ public class HomeManager {
     };
 
     private static HomeManager instance = new HomeManager();
+    List<Task> currentTasks;
 
     /**
      * Ensure that HomeManager can only be instantiated within the class.
@@ -57,7 +59,7 @@ public class HomeManager {
      * notify listeners when the data has changed.
      */
     private void FetchTasks() {
-        List<Task> currentTasks = TaskManager.sharedInstance().GetTasksInProject();
+        currentTasks = TaskManager.sharedInstance().GetTasksInProject();
 
         numberCompletedTasks = 0;
         userTasks.clear();
@@ -66,7 +68,6 @@ public class HomeManager {
             if (currTask.getAssigneeUid()
                     .equals(UserManager.sharedInstance().getCurrentUser().getUid())) {
                 if (!currTask.getComplete()) {
-                    System.out.println("WOLOLOLO");
                     userTasks.put(currTask, currTask.getDuePriority());
                 } else {
                     numberCompletedTasks++;
@@ -89,15 +90,32 @@ public class HomeManager {
     }
 
     /**
+     * @return The percentage of their tasks in the project that the team has completed
+     */
+    public int getTeamProgress(){
+        double percentage = 0;
+        double numCompletedTeamTasks = 0;
+
+        for (Task currTask : currentTasks)
+                if (currTask.getComplete())
+                    numCompletedTeamTasks++;
+
+
+        if(currentTasks.size() != 0)
+            percentage = numCompletedTeamTasks / currentTasks.size();
+
+
+        return (int) (percentage*100.0);
+    }
+
+    /**
      * @return The percentage of their tasks in the project that the user has completed
      */
     public int getUserProgress() {
-        double percentage;
+        double percentage = 0;
 
         if (userTasks.size() + numberCompletedTasks != 0 )
             percentage = (double) numberCompletedTasks / (numberCompletedTasks + userTasks.size());
-        else
-            percentage = 0;
 
         return (int) (percentage * 100.0);
     }
