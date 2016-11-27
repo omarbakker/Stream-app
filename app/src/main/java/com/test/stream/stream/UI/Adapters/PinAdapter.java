@@ -60,8 +60,7 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         // if there is nothing on PinBoard, add a new viewHolder
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
-            Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
+            Typeface indieFlower = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
             // Get the view for the pinboard
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin, parent, false);
             // Get the TextView elements on the PinBoard
@@ -69,9 +68,9 @@ public class PinAdapter extends ArrayAdapter<Pin> {
             viewHolder.subTitle = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_pin_description);
 
-            viewHolder.title.setTypeface(ralewayBold);
-            viewHolder.subTitle.setTypeface(raleway);
-            viewHolder.description.setTypeface(raleway);
+            viewHolder.title.setTypeface(indieFlower);
+            viewHolder.subTitle.setTypeface(indieFlower);
+            viewHolder.description.setTypeface(indieFlower);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder
             convertView.setTag(viewHolder);
