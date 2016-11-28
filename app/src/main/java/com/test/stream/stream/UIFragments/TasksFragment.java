@@ -73,6 +73,7 @@ public class TasksFragment extends Fragment
     private AlertDialog newTaskDialog;
     private ListView myTaskListView;
     private TaskAdapter mTaskAdapter;
+    private TextView welcome;
 
     //fields for new task input
     TextInputEditText newtaskDateField;
@@ -80,7 +81,6 @@ public class TasksFragment extends Fragment
     TextInputEditText newTaskDescriptionField;
     TextInputEditText newTaskAssigneeField;
     User newTaskAssignee;
-    //TextView welcome = (TextView) getView().findViewById(R.id.welcome_message);
 
     ImageView newTaskValidAssigneeIndicator;
 
@@ -124,6 +124,12 @@ public class TasksFragment extends Fragment
 
         myTaskListView = (ListView) getView().findViewById(R.id.list_task);
         myTaskListView.setOnItemClickListener(this);
+
+        welcome = (TextView) getView().findViewById(R.id.text_task);
+
+        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
+        welcome.setTypeface(Syncopate);
+
 
         final FloatingActionButton addTaskButton = (FloatingActionButton) getView().findViewById(R.id.create_new_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -183,20 +189,27 @@ public class TasksFragment extends Fragment
 
         getCurrentDate();
         List<Object> tasks = new ArrayList<Object>(TaskManager.sharedInstance().GetTasksInProject());
+//        if(tasks == null){
+//
+//        }else {
+//
+//        }
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         List<Object> sortedTaskLists = sortTasks(tasks);
 
-        if (mTaskAdapter == null) {
+            if (mTaskAdapter == null) {
+                welcome.setText(R.string.no_meetings);
+                welcome.setVisibility(View.VISIBLE);
+                mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
+                myTaskListView.setAdapter(mTaskAdapter);
 
-            mTaskAdapter = new TaskAdapter(this.getContext(),sortedTaskLists);
-            myTaskListView.setAdapter(mTaskAdapter);
 
-        } else {
-
-            mTaskAdapter.updateData(sortedTaskLists);
-            mTaskAdapter.notifyDataSetChanged();
-        }
-
+            } else {
+                welcome.setText(R.string.empty);
+                welcome.setVisibility(View.GONE);
+                mTaskAdapter.updateData(sortedTaskLists);
+                mTaskAdapter.notifyDataSetChanged();
+            }
     }
 
     List<Object> sortTasks(List <Object> tasks){
