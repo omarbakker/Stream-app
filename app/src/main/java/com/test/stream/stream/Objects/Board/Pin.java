@@ -11,7 +11,7 @@ public class Pin {
     private String id;
     private String boardId;
     private String title;
-    private String subtitle;
+    private String color;
     private String description;
 
 
@@ -23,8 +23,8 @@ public class Pin {
     {
         return id;
     }
-    public String getSubtitle(){
-        return subtitle;
+    public String getColor(){
+        return color;
     }
     public String getTitle()
     {
@@ -45,18 +45,18 @@ public class Pin {
     }
     public void setTitle(String title){ this.title = title;}
     public void setDescription(String description) {this.description = description; }
-    public void setSubtitle(String subtitle) {this.subtitle = subtitle; }
+    public void setColor(String color) {this.color = color; }
 
     /**
      * Create a new message type pin
      *
      * @param title the title or name of the pin
-     * @param subtitle the secondary title of the pin
+     * @param color the secondary title of the pin
      * @param description the contents of the pin
      */
-    public Pin(String title, String subtitle, String description){
+    public Pin(String title, String color, String description){
         this.title = title;
-        this.subtitle = subtitle;
+        this.color = color;
         this.description = description;
     }
 
