@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -216,17 +218,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param message
      */
     public void getReminderNotification(String message) {
-//        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-//        nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
-//        nBuilder.setContentText(message);
-//        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-//        Notification notification = nBuilder.build();
-//        NotificationService notificationManager = (NotificationService) getSystemService(NOTIFICATION_SERVICE);
-//        notificationManager.notify(1, notification);
-//
-//        //Clear contents of the EditText
-//        messageToSend.setText("");
-
         Task task = tasks.get(current_task);
         //Currenlty only one person per task, so array always just one name
 //        ArrayList<String> usernames =new ArrayList<>();
@@ -235,12 +226,15 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         Log.d(TAG,usernames[0]);
         //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
         NotificationObject reminder = new NotificationObject();
-        reminder.setTitle("Friendly Reminder");
+        reminder.setTitle(getString(R.string.reminder_notification_title));
         reminder.setMessage(message);
         reminder.setUsers(usernames);
         Log.d(TAG,reminder.getUsers().toString());
-        NotificationService.sharedInstance().sendNotificationTo(reminder);
-
+        try {
+            NotificationService.sharedInstance().sendNotificationTo(reminder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -248,16 +242,23 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param message
      */
     public void getReviewNotification(String message) {
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setContentTitle(getString(R.string.review_notification_title));
-        nBuilder.setContentText(message);
-        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-        Notification notification = nBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
-
-        //Clear contents of the EditText
-        reviewMessageToSend.setText("");
+        Task task = tasks.get(current_task);
+        //Currenlty only one person per task, so array always just one name
+//        ArrayList<String> usernames =new ArrayList<>();
+//        usernames.add(task.getAssignee());
+        String[] usernames = {task.getAssignee()};
+        Log.d(TAG,usernames[0]);
+        //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
+        NotificationObject review = new NotificationObject();
+        review.setTitle(getString(R.string.review_notification_title));
+        review.setMessage(message);
+        review.setUsers(usernames);
+        Log.d(TAG,review.getUsers().toString());
+        try {
+            NotificationService.sharedInstance().sendNotificationTo(review);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
