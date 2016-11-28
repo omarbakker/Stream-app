@@ -32,20 +32,26 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class BoardTest {
+    //Information for one pin
     final String title = "title";
     final String color = "color";
     final String description = "description";
 
+    //Information for another pin, or for editing.
     final String title2 = "title2";
     final String color2 = "color2";
     final String description2 = "description2";
 
+    //Global variables for tests
     private List<Pin> pins = null;
     private static User user = null;
 
     private static FirebaseAuth mAuth;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -79,7 +85,7 @@ public class BoardTest {
     }
 
     /**
-     * Manually set the project board ID
+     * Manually set the project board ID to access a stub project.
      */
     @Before
     public void setProject()
@@ -90,6 +96,11 @@ public class BoardTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -118,7 +129,9 @@ public class BoardTest {
         await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
 
-
+    /**
+     * Confirm that pins can be added to the board.
+     */
     @Test
     public void addPin() {
         AtomicInteger pinCount = new AtomicInteger(0);
@@ -138,6 +151,9 @@ public class BoardTest {
         BoardManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that pins can be deleted.
+     */
     @Test
     public void deletePin() {
         // set up the change listener
@@ -159,6 +175,9 @@ public class BoardTest {
         BoardManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that the contents of each pin are the values we expect.
+     */
     @Test
     public void pinDetails() {
         // set up the change listener
@@ -191,6 +210,9 @@ public class BoardTest {
         BoardManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that pins can be edited and the database is updated to reflect this.
+     */
     @Test
     public void editPin()
     {
@@ -230,7 +252,7 @@ public class BoardTest {
         assertEquals(updatedPin.getColor(), color2);
         assertEquals(updatedPin.getTitle(), title2);
 
-        //Delete the task
+        //Delete the pin
         boolean deleted = BoardManager.sharedInstance().RemovePin(updatedPin);
         assert(deleted);
 
@@ -238,6 +260,9 @@ public class BoardTest {
         BoardManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Log the current user out after tests.
+     */
     @AfterClass
     public static void clean()
     {
