@@ -5,37 +5,16 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.test.stream.stream.UIFragments.ExpandMeeting">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
-        android:id="@+id/imageView3"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    tools:context="com.test.stream.stream.UIFragments.CalendarFragment">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:background="#087bb9"
         android:id="@+id/view"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Create a new meeting"
-        android:textSize="24dp"
-        android:textColor="#FFFFFF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignBottom="@+id/view"
-        android:layout_alignLeft="@+id/new_meeting_location"
-        android:layout_alignStart="@+id/new_meeting_location"
-        android:layout_marginBottom="17dp" />
 
     <View
         android:layout_width="match_parent"
@@ -64,8 +43,8 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_info_details"
+        android:layout_height="60px"
+        app:srcCompat="@drawable/info_gray"
         android:id="@+id/imageView4"
         android:layout_alignTop="@+id/new_meeting_description"
         android:layout_alignParentLeft="true"
@@ -95,8 +74,8 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_recent_history"
+        android:layout_height="60px"
+        app:srcCompat="@drawable/calendar_gray"
         android:id="@+id/imageView2"
         android:layout_below="@+id/view5"
         android:layout_alignParentLeft="true"
@@ -114,36 +93,9 @@
         android:layout_alignLeft="@+id/view5"
         android:layout_alignStart="@+id/view5" />
 
-    <Button
-        android:text="Create Meeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_new_meeting"
-        android:background="#087bb9"
-        android:textColor="#FFFFFF"
-        android:textSize="14dp"
-        android:layout_below="@+id/imageView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
-
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/new_meeting_location"
-        android:hint="Location"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imageView3"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="200px"
+        android:layout_height="50px"
         android:inputType="textMultiLine"
         android:gravity="top|left"
         android:hint="Description"
@@ -157,6 +109,45 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="60px"
+        app:srcCompat="@drawable/location_icon_gray"
+        android:id="@+id/imageView3"
+        android:layout_below="@+id/view3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="24dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/new_meeting_location"
+        android:hint="Location"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/imageView3" />
+
+    <TextView
+        android:text="New meeting"
+        android:textSize="24dp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
@@ -165,8 +156,19 @@
         android:textSize="16dp"
         android:layout_alignBaseline="@+id/new_meeting_date"
         android:layout_alignBottom="@+id/new_meeting_date"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="26dp"
+        android:layout_marginEnd="26dp" />
+
+    <TextView
+        android:text="Create Meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_new_meeting"
+        android:textColor="#087bb9"
+        android:textSize="18dp"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

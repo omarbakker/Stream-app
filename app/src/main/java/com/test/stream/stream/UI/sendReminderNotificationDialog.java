@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.test.stream.stream.R;
@@ -25,7 +24,6 @@ public class sendReminderNotificationDialog extends AppCompatActivity  {
     static AlertDialog dialog;
     EditText messageToSend;
     TextView sendReminderAlertTitle;
-    CheckBox sendAnonymously;
     View reminderDialogView;
 
     //Review notification
@@ -58,7 +56,6 @@ public class sendReminderNotificationDialog extends AppCompatActivity  {
         messageToSend = (EditText) reminderDialogView.findViewById(R.id.reminderMessageToSend);
         sendReminderAlertTitle = (TextView) findViewById(R.id.reminderTitle);
         sendReminderAlertTitle.setText(R.string.reminder_notification_dialog_title + Assignee);
-        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
 
         //Initialize AlertDialog for Reminder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

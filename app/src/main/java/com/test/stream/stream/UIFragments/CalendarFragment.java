@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -159,25 +160,28 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
-        String meetingName = String.valueOf(meetingTextview.getText());
-        expandMeetingDetailsPopup(view, meetingName);
+        if (parent == mCalendarListView) {
+            meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+            Meeting selectedMeeting = (Meeting) mAdapter.getItem(position);
+            int size = meetings.size();
+            for(int i = 0; i < size; i++) {
+                Meeting meeting = meetings.get(i);
+                if(selectedMeeting.getName().equals(meeting.getName())) {
+                    current_meeting = i;
+                    break;
+                }
+            }
+            expandMeetingDetailsPopup(view, selectedMeeting);
+        }
+
     }
 
-    public void expandMeetingDetailsPopup(View v, String meetingName) {
-        meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+    public void expandMeetingDetailsPopup(View v, Meeting selectedMeeting) {
+        Typeface Raleway = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
+        Typeface RalewayBold = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Bold.ttf");
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View popupView = inflater.inflate(R.layout.calendar_details, null);
-
-        int size = meetings.size();
-        for(int i = 0; i < size; i++) {
-            Meeting meeting = meetings.get(i);
-            if(meetingName.equals(meeting.getName())) {
-                expandMeeting = meeting;
-                current_meeting = i;
-                break;
-            }
-        }
+        expandMeeting = selectedMeeting;
 
         popupDialog = new AlertDialog.Builder(getActivity()).setView(popupView).create();
 
@@ -223,17 +227,30 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         TextView expandedMeetingDescription = (TextView) popupView.findViewById(R.id.meeting_description_expanded);
         TextView expandedMeetingLocation = (TextView) popupView.findViewById(R.id.meetingLocation_expanded);
         TextView expandedMeetingTime = (TextView) popupView.findViewById(R.id.meetingTime_expanded);
+        TextView expandedMeetingTime2 = (TextView) popupView.findViewById(R.id.expanded_meeting_time);
+        expandedMeetingName.setTypeface(RalewayBold);
+        expandedMeetingLocation.setTypeface(Raleway);
+        expandedMeetingDescription.setTypeface(Raleway);
+        expandedMeetingTime.setTypeface(Raleway);
+        expandedMeetingTime2.setTypeface(Raleway);
 
         //assign values
         expandedMeetingName.setText(expandMeeting.getName());
         expandedMeetingDescription.setText(expandMeeting.getDescription());
         expandedMeetingLocation.setText(expandMeeting.getLocation());
+        expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear());
         if(expandMeeting.getMinute() < 10) {
-            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + "0" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+            expandedMeetingTime2.setText(expandMeeting.getHour() + ":" + "0" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
         }
         else {
-            expandedMeetingTime.setText(expandMeeting.getDayOfWeek() + ", " + expandMeeting.getDay() + " " + expandMeeting.getMonth() + " " + expandMeeting.getYear() + "       " + expandMeeting.getHour() + ":" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
+            expandedMeetingTime2.setText(expandMeeting.getHour() + ":" + expandMeeting.getMinute() + " " + expandMeeting.getAmPm());
             System.out.println("AMPM EXPANDED VERSION   " + expandMeeting.getAmPm());
+        }
+
+        if (current_meeting%2 == 0){
+            expandedMeetingName.setBackgroundColor(Color.argb(255,225,237,255));
+        }else{
+            expandedMeetingName.setBackgroundColor(Color.argb(235,232,255,245));
         }
 
         popupDialog.show();

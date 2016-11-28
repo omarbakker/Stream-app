@@ -66,7 +66,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         defaultProject
     }
 
-    TextView signup, forgotPassword, orDifferentLogin;
+    TextView signup, orDifferentLogin;
     Button login;
     EditText enterEmail;
     EditText enterPassword;
@@ -92,7 +92,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
 
         //Initializations
         signup = (TextView) findViewById(R.id.signUp);
-        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         loginWithFacebook = (LoginButton) findViewById(R.id.loginWithFacebook);
         login = (Button) findViewById(R.id.login);
         enterEmail = (EditText) findViewById(R.id.enterEmail);
@@ -104,14 +103,12 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
         Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
         signup.setTypeface(Syncopate);
-        forgotPassword.setTypeface(Syncopate);
         login.setTypeface(Syncopate);
         enterEmail.setTypeface(Syncopate);
         enterPassword.setTypeface(Syncopate);
         orDifferentLogin.setTypeface(SyncopateBold);
 
         signup.setOnClickListener(this);
-        forgotPassword.setOnClickListener(this);
         loginWithFacebook.setOnClickListener(this);
         login.setOnClickListener(this);
 
@@ -174,9 +171,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             case R.id.signUp:
                 startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
                 break;
-            case R.id.forgotPassword:
-                //startActivity(new Intent(MainLoginScreen.this, ForgotPassword.class));
-                break;
+
             case R.id.loginWithFacebook:
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
                 break;
