@@ -217,7 +217,7 @@ public class TasksFragment extends Fragment
                 boolean isComplete = task.getComplete();
                 boolean isAssignedToMe = isAssignedToCurrentUser(task);
 
-                if (isComplete && isPastDue) {
+                if (isComplete) {
                     dueTasks.add(task);
                 }else {
 

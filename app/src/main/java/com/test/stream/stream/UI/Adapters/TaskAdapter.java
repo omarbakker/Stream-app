@@ -217,7 +217,7 @@ public class TaskAdapter extends BaseAdapter{
                 int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
                 if (TasksFragment.isPastDue(dueDate) && !task.getComplete()){
                     convertView.setBackgroundColor(Color.argb(235,255,230,230));
-                }else if (TasksFragment.isPastDue(dueDate) && task.getComplete()){
+                }else if (task.getComplete()){
                     convertView.setBackgroundColor(Color.argb(235,220,220,220));
                 }
 
