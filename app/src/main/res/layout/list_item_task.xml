@@ -113,20 +113,9 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/side_nav_bar"
             android:text="MARK AS COMPLETED"
+            android:textSize="12dp"
             android:textColor="@color/white"
             android:onClick="markAsComplete"/>
-
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/title_duedate"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="15dp"
-            android:background="@android:drawable/ic_menu_edit"/>
 
         <TextView
             android:id="@+id/item_task_duedate"

@@ -11,5 +11,5 @@
     <color name="veryLightBlue">#c6eaff</color>
     <color name="background">#aaede8</color>
     <color name = "background2">#7caaede8</color>
-    <color name="donut_unfinished">#4C4C4C</color>
+    <color name="donut_unfinished">#FFFFFF</color>
 </resources>
