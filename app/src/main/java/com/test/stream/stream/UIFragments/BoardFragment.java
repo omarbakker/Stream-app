@@ -38,6 +38,7 @@ public class BoardFragment extends Fragment implements
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
     private Pin mCurrentPin;
+    // variables for colors
     private TextView mAddPinTitleTextView;
     GradientDrawable blueUnselected;
     GradientDrawable blueSelected;
@@ -45,16 +46,16 @@ public class BoardFragment extends Fragment implements
     GradientDrawable yellowSelected;
     GradientDrawable pinkUnselected;
     GradientDrawable pinkSelected;
-
-    //fields for new task input
-    EditText titleText;
-    EditText descriptionText;
-    private ImageButton img1;
-    private ImageButton img2;
-    private ImageButton img3;
+    private ImageButton blueButton;
+    private ImageButton yellowButton;
+    private ImageButton pinkButton;
     private boolean blueIsSelected = false;
     private boolean yellowIsSelected = false;
     private boolean pinkIsSelected = false;
+    //fields for new task input
+    EditText titleText;
+    EditText descriptionText;
+
 
     EditText titleEditText;
     EditText descriptionEditText;
@@ -145,6 +146,7 @@ public class BoardFragment extends Fragment implements
 
         mPinGridView = (GridView) getView().findViewById(R.id.list_pin);
         pinAdapter = new PinAdapter(getActivity(), pins);
+        // set blue color
         blueUnselected = new GradientDrawable();
         blueUnselected.setShape(GradientDrawable.OVAL);
         blueUnselected.setColor(Color.parseColor("#A7DEEB"));
@@ -154,7 +156,7 @@ public class BoardFragment extends Fragment implements
         blueSelected.setColor(Color.parseColor("#A7DEEB"));
         blueSelected.setSize(115, 115);
         blueSelected.setStroke(15, Color.parseColor("#D2D1D2"));
-
+        // set yellow color
         yellowUnselected = new GradientDrawable();
         yellowUnselected.setShape(GradientDrawable.OVAL);
         yellowUnselected.setColor(Color.parseColor("#FFFFA5"));
@@ -164,7 +166,7 @@ public class BoardFragment extends Fragment implements
         yellowSelected.setColor(Color.parseColor("#FFFFA5"));
         yellowSelected.setSize(115, 115);
         yellowSelected.setStroke(15, Color.parseColor("#D2D1D2"));
-
+        // set pink color
         pinkUnselected = new GradientDrawable();
         pinkUnselected.setShape(GradientDrawable.OVAL);
         pinkUnselected.setColor(Color.parseColor("#F4C0CB"));
@@ -201,6 +203,7 @@ public class BoardFragment extends Fragment implements
 
     }
 
+    // pop up dialog to edit pins
     public void showEditPinDialog(Pin pin) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.edit_pin_dialog, null);
@@ -208,13 +211,13 @@ public class BoardFragment extends Fragment implements
 
         titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
         descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
-
+        // get the title and description
         titleText.setText(pin.getTitle());
         descriptionText.setText(pin.getDescription());
         mCurrentPin = pin;
         Button delete = (Button) view.findViewById(R.id.delete_pin);
         Button cancel = (Button) view.findViewById(R.id.CancelDeletePin);
-
+        //set listeners
         delete.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
@@ -232,21 +235,23 @@ public class BoardFragment extends Fragment implements
         titleText = (EditText) view.findViewById(R.id.dialog_title);
         descriptionText = (EditText) view.findViewById(R.id.dialog_description);
 
-        img1 = (ImageButton) view.findViewById(R.id.img);
-        img2 = (ImageButton) view.findViewById(R.id.img2);
-        img3 = (ImageButton) view.findViewById(R.id.img3);
-        img1.setImageDrawable(blueUnselected);
-        img2.setImageDrawable(yellowUnselected);
-        img3.setImageDrawable(pinkUnselected);
+        // Find color buttons and set drawable
+        blueButton = (ImageButton) view.findViewById(R.id.blue_button);
+        yellowButton = (ImageButton) view.findViewById(R.id.yellow_button);
+        pinkButton = (ImageButton) view.findViewById(R.id.pink_button);
+        blueButton.setImageDrawable(blueUnselected);
+        yellowButton.setImageDrawable(yellowUnselected);
+        pinkButton.setImageDrawable(pinkUnselected);
 
         Button done = (Button) view.findViewById(R.id.doneAddingPin);
         Button cancel = (Button) view.findViewById(R.id.CancelAddingPin);
 
+        // set listeners
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        img1.setOnClickListener(this);
-        img2.setOnClickListener(this);
-        img3.setOnClickListener(this);
+        blueButton.setOnClickListener(this);
+        yellowButton.setOnClickListener(this);
+        pinkButton.setOnClickListener(this);
 
         newPinDialog.show();
     }
@@ -280,41 +285,48 @@ public class BoardFragment extends Fragment implements
     @Override
     public void onClick(View v){
         switch (v.getId()){
+            // create new pin
             case R.id.doneAddingPin:
                 createPin();
                 break;
+            // cancel dialog
             case R.id.CancelAddingPin:
                 newPinDialog.dismiss();
                 break;
+            // delete pin
             case R.id.delete_pin:
                 BoardManager.sharedInstance().RemovePin(mCurrentPin);
                 newPinDialog.dismiss();
                 break;
+            // cancel dialog
             case R.id.CancelDeletePin:
                 newPinDialog.dismiss();
                 break;
-            case R.id.img:
-                img1.setImageDrawable(blueSelected);
-                img2.setImageDrawable(yellowUnselected);
-                img3.setImageDrawable(pinkUnselected);
+            // if blue is selected
+            case R.id.blue_button:
+                blueButton.setImageDrawable(blueSelected);
+                yellowButton.setImageDrawable(yellowUnselected);
+                pinkButton.setImageDrawable(pinkUnselected);
                 blueIsSelected = true;
                 yellowIsSelected = false;
                 pinkIsSelected = false;
                 mAddPinTitleTextView.setBackgroundColor(Color.parseColor("#A7DEEB"));
                 break;
-            case R.id.img2:
-                img2.setImageDrawable(yellowSelected);
-                img1.setImageDrawable(blueUnselected);
-                img3.setImageDrawable(pinkUnselected);
+            // if yellow is selected
+            case R.id.yellow_button:
+                yellowButton.setImageDrawable(yellowSelected);
+                blueButton.setImageDrawable(blueUnselected);
+                pinkButton.setImageDrawable(pinkUnselected);
                 blueIsSelected = false;
                 yellowIsSelected = true;
                 pinkIsSelected = false;
                 mAddPinTitleTextView.setBackgroundColor(Color.parseColor("#FFFFA5"));
                 break;
-            case R.id.img3:
-                img3.setImageDrawable(pinkSelected);
-                img2.setImageDrawable(yellowUnselected);
-                img1.setImageDrawable(blueUnselected);
+            // if pink is selected
+            case R.id.pink_button:
+                pinkButton.setImageDrawable(pinkSelected);
+                yellowButton.setImageDrawable(yellowUnselected);
+                blueButton.setImageDrawable(blueUnselected);
                 blueIsSelected = false;
                 yellowIsSelected = false;
                 pinkIsSelected = true;

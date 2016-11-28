@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:id="@+id/img"/>
+                android:id="@+id/blue_button"/>
 
         </LinearLayout>
 
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:id="@+id/img2"/>
+                android:id="@+id/yellow_button"/>
 
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:id="@+id/img3"/>
+                android:id="@+id/pink_button"/>
 
         </LinearLayout>
     </LinearLayout>
