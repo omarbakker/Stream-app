@@ -44,7 +44,7 @@ We are an Android application aimed to help students work efficiently and effect
 - app/src/main/res folder contains all images used in the application. Images will be stored on drawable or mipmap folder 
 - app/src/main/res/layout folder contains all the xml files for the application. These xml files are inflated to display the UI of the application such as PinBoard, Tasks, Projects, etc
 - app/src/main/java/com/test/stream/stream/Controllers contains all the Java files to interact with Firebase
-- app/src/main/java/com/test/stream/stream/Objects contains all the object declarations of the project. For instance, PinMessage will have string properties to store title, subtitle and description. These objects will make it easier to store data into the database.
+- app/src/main/java/com/test/stream/stream/Objects contains all the object declarations of the project. For instance, PinMessage will have string properties to store title, color and description. These objects will make it easier to store data into the database.
 - app/src/main/java/com/test/stream/stream/UI contains all the activities of our application. These activities display all the UI such as buttons, lists, popup dialogs and many more so that the users can interact with the application 
 - app/src/main/java/com/test/stream/stream/UIFragments contains all the fragments for navigation when clicking on the specified button on the toolbar
 - app/src/main/java/com/test/stream/stream/Utilities contains all the enums, callbacks and general database helper functions for the application

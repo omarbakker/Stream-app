@@ -81,11 +81,11 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         viewHolder.description.setText(pin.getDescription());
 
         // Set colors depending on the color chosen
-        if(pin.getSubtitle().equals("blue")){
+        if(pin.getColor().equals("blue")){
             convertView.setBackgroundColor(Color.argb(255, 167, 222, 235));
-        } else if (pin.getSubtitle().equals("yellow")) {
+        } else if (pin.getColor().equals("yellow")) {
             convertView.setBackgroundColor(Color.argb(255, 255, 255, 165));
-        } else if (pin.getSubtitle().equals("pink")){
+        } else if (pin.getColor().equals("pink")){
             convertView.setBackgroundColor(Color.argb(255, 244, 192, 203));
         }
         return convertView;
