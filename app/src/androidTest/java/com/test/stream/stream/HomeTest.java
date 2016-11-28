@@ -37,23 +37,25 @@ import static org.hamcrest.Matchers.equalTo;
  */
 
 public class HomeTest {
-
-    List<Task> tasks = null;
-
-    //test data
+    //Information one test task.
     String test_name = "test name";
     String test_description = "this is a test description";
     int[] test_DueDate = {12,12,2012};
     boolean complete = false;
 
-    //data to modify to
+    //Data to modify the task to or to act as a second task.
     String test_name2 = "unit test";
     String test_description2 = "new test description";
     int[] test_DueDate2 = {15,10,2014};
 
+    //Global variables for tests
     static User user = null;
+    List<Task> tasks = null;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -86,7 +88,9 @@ public class HomeTest {
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
-
+    /**
+     * Manually set the project board ID to access a stub project.
+     */
     @Before
     public void setProject()
     {
@@ -99,6 +103,11 @@ public class HomeTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -123,7 +132,11 @@ public class HomeTest {
     }
 
     /**
-     * Confirms that TaskManager has been successfully initialized.
+     * Confirm that HomeManager has been successfully initialized from the current project.
+     * @param taskCount An integer that reflects the number of tasks assigned to the current user in the project.
+     * @param dataChangeCount An integer that reflects the number of times data has been updated,
+     *                        according to the listener.
+     * @param dataChanged A boolean that confirms that data has been changed.
      */
     private void initializeHomeManager(final AtomicInteger taskCount, final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
     {
@@ -140,6 +153,13 @@ public class HomeTest {
         Awaitility.await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
     }
 
+    /**
+     * Confirm that TaskManager has been successfully initialized from the current project.
+     * @param taskCount An integer that reflects the number of tasks in the project.
+     * @param dataChangeCount An integer that reflects the number of times data has been updated,
+     *                        according to the listener.
+     * @param dataChanged A boolean that confirms that data has been changed.
+     */
     private void initializeTaskManager(final AtomicInteger taskCount,
                                        final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
     {
@@ -158,8 +178,10 @@ public class HomeTest {
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, Matchers.equalTo(1));
     }
 
-
-    public void clearTasks()
+    /**
+     * Helper function to delete all tasks associated with this test.
+     */
+    private void clearTasks()
     {
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
@@ -178,6 +200,10 @@ public class HomeTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that only the user's own tasks, and not all tasks of the project are
+     * fetched for the Home Screen
+     */
     @Test
     public void verifyOnlyOwnTasks()
     {
@@ -216,7 +242,12 @@ public class HomeTest {
         HomeManager.sharedInstance().Destroy();
     }
 
-    public void createUserTask(Boolean isComplete, AtomicInteger taskCount)
+    /**
+     * Helper function to create a task for the user.
+     * @param isComplete true if the task to create is a completed task. False otherwise.
+     * @param taskCount Will be the number of tasks in the project.
+     */
+    private void createUserTask(Boolean isComplete, AtomicInteger taskCount)
     {
         int initialTaskCount = tasks.size();
 
@@ -227,6 +258,9 @@ public class HomeTest {
         Awaitility.await().atMost(10,TimeUnit.SECONDS).untilAtomic(taskCount, Matchers.equalTo(initialTaskCount + 1));
     }
 
+    /**
+     * Check that the HomeManager correctly calculates the user's progress.
+     */
     @Test
     public void verifyUserProgress()
     {
@@ -265,6 +299,9 @@ public class HomeTest {
     }
 
 
+    /**
+     * Confirm that the HomeManager will allow tasks to be correctly added.
+     */
     @Test
     public void addTask()
     {
@@ -299,7 +336,9 @@ public class HomeTest {
 
     }
 
-
+    /**
+     * Confirm that tasks can be edited from the HomeManager.
+     */
     @Test
     public void editTask()
     {
@@ -349,8 +388,9 @@ public class HomeTest {
 
     }
 
-
-
+    /**
+     * Confirm that tasks can be marked as complete.
+     */
     @Test
     public void markTaskComplete()
     {
@@ -386,7 +426,9 @@ public class HomeTest {
 
     }
 
-
+    /**
+     * Sign the user out after all tests.
+     */
     @AfterClass
     public static void clean()
     {

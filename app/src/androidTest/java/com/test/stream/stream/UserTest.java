@@ -14,7 +14,9 @@ import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 
 import org.awaitility.Awaitility;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.Callable;
@@ -31,8 +33,7 @@ import static org.awaitility.Awaitility.await;
  */
 
 public class UserTest {
-
-
+    //Global variables for tests.
     User createdUser;
     private static FirebaseAuth mAuth;
 
@@ -51,7 +52,10 @@ public class UserTest {
         mAuth.signInWithEmailAndPassword(email, "123456");
     }
 
-
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     private Callable<Boolean> userIsLoggedIn() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -60,10 +64,14 @@ public class UserTest {
         };
     }
 
+    /**
+     * Helper function to add a user to the database.
+     */
     private void createUserInDatabase()
     {
         final AtomicBoolean userCreated = new AtomicBoolean(false);
 
+        //Create a user using the provided information.
         UserManager.createUserIfNotExist(username, name, email, new FetchUserCallback() {
             @Override
             public void onDataRetrieved(User result) {
@@ -76,6 +84,11 @@ public class UserTest {
 
     }
 
+    /**
+     * Delete the test users to correct the database.
+     * @param id The Firebae id of the user to delete
+     * @return true if a delete request has been made for the users.
+     */
     private boolean deleteTestUser(String id)
     {
         //Get the database reference of a task
@@ -88,6 +101,9 @@ public class UserTest {
         return true;
     }
 
+    /**
+     * Initialize user manager for each test
+     */
     private void initializeUserManager()
     {
         final AtomicBoolean userFound = new AtomicBoolean(false);
@@ -166,6 +182,9 @@ public class UserTest {
         deleteTestUser(createdUser.getUid());
     }
 
+    /**
+     * Confirm that we can retrieve users by their usernames.
+     */
     @Test
     public void fetchByUsername()
     {
@@ -196,6 +215,9 @@ public class UserTest {
     }
 
 
+    /**
+     * Confirm that users can be retrieved by their UID.
+     */
     @Test
     public void fetchByUid()
     {
@@ -223,12 +245,4 @@ public class UserTest {
         UserManager.sharedInstance().logout();
         deleteTestUser(createdUser.getUid());
     }
-
-
-
-
-
-
-
-
 }
