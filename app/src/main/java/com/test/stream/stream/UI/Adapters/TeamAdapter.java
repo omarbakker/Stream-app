@@ -71,7 +71,7 @@ public class TeamAdapter extends ArrayAdapter<User> {
         }
 
         // Populate data into template view using data object
-        if(viewHolder.userName.getText().equals("") && viewHolder.userEmail.getText().equals("")){
+        if(user.getName().equals("") && user.getEmail().equals("")){
             viewHolder.userName.setText(user.getUsername());
             viewHolder.userEmail.setText("Facebook");
         } else {
