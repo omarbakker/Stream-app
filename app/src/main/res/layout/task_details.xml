@@ -86,7 +86,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:translationZ="-10dp"
-            android:elevation="@dimen/small_padding"/>
+            android:elevation="@dimen/big_padding"/>
 
 
 
