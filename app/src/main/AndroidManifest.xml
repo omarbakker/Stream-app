@@ -49,10 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UIFragments.ExpandMeeting"
-            android:screenOrientation="portrait">
-
-        </activity>
         <activity
             android:name=".UIFragments.expand_task"
             android:screenOrientation="portrait"

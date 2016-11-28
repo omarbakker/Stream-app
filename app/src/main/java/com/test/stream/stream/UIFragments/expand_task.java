@@ -148,7 +148,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         sendReminderAlertTitle.setText(getString(R.string.reminder_notification_dialog_title) + task.getAssignee() + "?");
         reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
         reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
-        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
         builder = new AlertDialog.Builder(this);
         builder.setView(reminderDialogView);
         builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {

@@ -14,9 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -24,13 +22,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.test.stream.stream.Controllers.BoardManager;
 import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Controllers.HomeManager;
-import com.test.stream.stream.Controllers.ProjectManager;
-import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Listener.UndoTaskOnClickListener;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
-import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.TeamFragment;
 import com.test.stream.stream.UIFragments.BoardFragment;
@@ -315,15 +310,6 @@ public class ToolbarActivity extends AppCompatActivity
         String taskName = String.valueOf(taskTextView.getText());
         Intent intent = new Intent(this, expand_task.class);
         intent.putExtra("taskName", taskName);
-        startActivity(intent);
-    }
-
-    public void expandMeetingView(View v) {
-        View parent = (View) v.getParent();
-        TextView meetingTextview = (TextView) parent.findViewById(R.id.meeting_name);
-        String meetingName = String.valueOf(meetingTextview.getText());
-        Intent intent = new Intent(this, ExpandMeeting.class);
-        intent.putExtra("meetingName", meetingName);
         startActivity(intent);
     }
 
