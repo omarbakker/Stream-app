@@ -8,7 +8,6 @@ import com.test.stream.stream.Objects.Tasks.Task;
 /**
  * Created by robyn on 2016-11-27.
  */
-
 public class UndoTaskOnClickListener implements View.OnClickListener {
     private final Task taskToRead;
     private final HomeManager homeManager;

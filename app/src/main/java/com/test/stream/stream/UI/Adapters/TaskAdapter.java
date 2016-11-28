@@ -70,12 +70,9 @@ public class TaskAdapter extends BaseAdapter{
     public int getItemType(int position){
         // Your if else code and return type ( TYPE_1 to TYPE_5 )
 
-        System.out.println("We are here wondering what instance Object is of");
         if (mDataSource.get(position).getClass() == Task.class){
-            System.out.println("Its a Task");
             return TASK_TYPE;
         }else {
-            System.out.println("Its a String");
             return DIVIDER_TYPE;
         }
     }
