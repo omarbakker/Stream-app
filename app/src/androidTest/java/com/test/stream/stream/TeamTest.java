@@ -35,12 +35,16 @@ import static org.hamcrest.Matchers.equalTo;
  */
 
 public class TeamTest {
+    //Global variables for tests
     private List<User> members = null;
     private static User user = null;
     private TeamManager mTeamManager = null;
     private static FirebaseAuth mAuth;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -73,6 +77,11 @@ public class TeamTest {
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -83,7 +92,7 @@ public class TeamTest {
 
 
     /**
-     * Manually set the project board ID
+     * Manually set the project board ID to access a stub project.
      */
     @Before
     public void setProject()
@@ -110,8 +119,13 @@ public class TeamTest {
         return user;
     }
 
+
     /**
-     * Confirms that BoardManager has been successfully initialized.
+     * Confirm that TeamManager has been successfully initialized from the current project.
+     * @param memberCount An integer that reflects the number of members in the project.
+     * @param dataChangeCount An integer that reflects the number of times data has been updated,
+     *                        according to the listener.
+     * @param dataChanged A boolean that confirms that data has been changed.
      */
     private void initializeTeamManager(final AtomicInteger memberCount,
                                         final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
@@ -131,14 +145,9 @@ public class TeamTest {
         await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
 
-    @Test
-    public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com", user.getEmail());
-        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
-    }
-
-
+    /**
+     * Confirm meetings can be added and removed
+     */
     @Test
     public void addRemoveMember() {
         assertNotNull(user);
@@ -169,13 +178,13 @@ public class TeamTest {
         mTeamManager.Destroy();
     }
 
-
+    /**
+     * Sign the current user out after the tests.
+     */
     @AfterClass
     public static void clean()
     {
         mAuth.signOut();
     }
-
-
 }
 

@@ -38,6 +38,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class CalendarTest {
+    //Information for one meeting object
     final String name = "meetingName";
     final String description = "meetingDescrp";
     final String location = "venue";
@@ -50,7 +51,7 @@ public class CalendarTest {
     final String dayOfTheWeek = "Monday";
     final String amPm = "AM";
 
-
+    //Information for a second meeting object (new values to modify the original to)
     final String name2 = "meetingName2";
     final String description2 = "meetingDescrp2";
     final String location2 = "venue2";
@@ -63,11 +64,15 @@ public class CalendarTest {
     final String dayOfTheWeek2 = "Tuesday";
     final String amPm2 = "PM";
 
+    //Global variables for tests
     private List<Meeting> meetings = null;
     private static User user = null;
     private static FirebaseAuth mAuth;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -92,7 +97,7 @@ public class CalendarTest {
             }
         };
         mAuth.addAuthStateListener(listener);
-        // login to test user
+        // login to the stub test user
         mAuth.signInWithEmailAndPassword("unit@test.com", "123456");
 
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
@@ -101,7 +106,7 @@ public class CalendarTest {
     }
 
     /**
-     * Manually set the project board ID
+     * Manually set the project board ID to access a stub project.
      */
     @Before
     public void setProject()
@@ -112,6 +117,11 @@ public class CalendarTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -120,8 +130,13 @@ public class CalendarTest {
         };
     }
 
+
     /**
-     * Confirms that BoardManager has been successfully initialized.
+     * Confirm that CalendarManager has been successfully initialized from the current project.
+     * @param meetingCount An integer that reflects the number of meetings in the project.
+     * @param dataChangeCount An integer that reflects the number of times data has been updated,
+     *                        according to the listener.
+     * @param dataChanged A boolean that confirms that data has been changed.
      */
     private void initializeCalendarManager(final AtomicInteger meetingCount,
                                         final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
@@ -140,6 +155,9 @@ public class CalendarTest {
         await().atMost(10, TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
     }
 
+    /**
+     * Test that a meeting is successfully added.
+     */
     @Test
     public void addMeeting() {
         AtomicInteger meetingCount = new AtomicInteger(0);
@@ -159,8 +177,11 @@ public class CalendarTest {
         CalendarManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm a meeting can be successfully deleted.
+     */
     @Test
-    public void deletePin() {
+    public void deleteMeeting() {
         // set up the change listener
         AtomicInteger meetingCount = new AtomicInteger(0);
         initializeCalendarManager(meetingCount, new AtomicInteger(0), new AtomicBoolean(false));
@@ -180,6 +201,9 @@ public class CalendarTest {
         CalendarManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that the meeting's details are the correct values inputted.
+     */
     @Test
     public void meetingDetails() {
         // set up the change listener
@@ -223,6 +247,10 @@ public class CalendarTest {
     }
 
 
+    /**
+     * Confirm that the meeting can be edited correctly. Check that the new values are
+     * reflected in the database.
+     */
     @Test
     public void editMeeting()
     {
@@ -277,7 +305,11 @@ public class CalendarTest {
         CalendarManager.sharedInstance().Destroy();
     }
 
-
+    /**
+     * Helper class to edit meeting.
+     * @param meetingToEdit The meeting to obtain updated values.
+     * @return The modified meeting object.
+     */
     private Meeting modifyMeeting(Meeting meetingToEdit)
     {
         meetingToEdit.setName(name2);
@@ -290,7 +322,9 @@ public class CalendarTest {
         return meetingToEdit;
     }
 
-
+    /**
+     * After the tests, sign out.
+     */
     @AfterClass
     public static void clean()
     {

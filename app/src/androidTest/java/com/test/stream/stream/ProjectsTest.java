@@ -46,11 +46,15 @@ import static org.awaitility.Awaitility.await;
 @RunWith(AndroidJUnit4.class)
 public class ProjectsTest {
 
+    //Global variables for tests
     static User user = null;
     static List<Project> fetchedProjectList;
     static FirebaseAuth mAuth;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -83,6 +87,11 @@ public class ProjectsTest {
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -91,7 +100,11 @@ public class ProjectsTest {
         };
     }
 
-
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     @Test
     public void verifySignedIn() {
         await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
@@ -100,8 +113,11 @@ public class ProjectsTest {
 
     }
 
+    /**
+     * Test addition of projects.
+     */
     @Test
-    public void addProject() throws Exception {
+    public void addProject(){
 
         ProjectManager manager = ProjectManager.sharedInstance();
         int initialNumberOfProjects;
@@ -144,9 +160,11 @@ public class ProjectsTest {
         assertEquals(initialNumberOfProjects + 1, fetchedProjectList.size());
     }
 
-
+    /**
+     * Confirm that users can be added to projects.
+     */
     @Test
-    public void joinProject() throws Exception {
+    public void joinProject() {
 
         ProjectManager manager = ProjectManager.sharedInstance();
 
@@ -195,8 +213,11 @@ public class ProjectsTest {
 
     }
 
+    /**
+     * Confirm that adding tasks to projects updates projects.
+     */
     @Test
-    public void editProject() throws Exception {
+    public void editProject(){
         ProjectManager manager = ProjectManager.sharedInstance();
 
         // Get the initial list of projects
@@ -239,13 +260,9 @@ public class ProjectsTest {
 
     }
 
-    // Unimplemented
-    @Test
-    public void deleteProject() throws Exception {
-
-    }
-
-
+    /**
+     * Sign the user out after the tests.
+     */
     @AfterClass
     public static void clean()
     {
