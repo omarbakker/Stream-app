@@ -65,7 +65,6 @@ public class ToolbarActivity extends AppCompatActivity
         // Set how the toolbar will look like
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //register device token
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();

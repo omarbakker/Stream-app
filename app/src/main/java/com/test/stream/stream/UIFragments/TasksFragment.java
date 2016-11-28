@@ -1,6 +1,9 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -35,6 +38,8 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.CreateNewMeeting;
+import com.test.stream.stream.UI.CreateNewTask;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
@@ -125,7 +130,6 @@ public class TasksFragment extends Fragment
     /**
      * Inflates an Alert Dialog that prompts the user to input information about the task and writes the new task to the database
      */
-
     public void showNewTaskDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
@@ -168,7 +172,6 @@ public class TasksFragment extends Fragment
      */
     public void updateUI(){
         //welcome.setVisibility(getView().INVISIBLE);
-        getCurrentDate();
         List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
         tasks = sortArraybyComplete(tasks);
         ArrayList<String> taskList = new ArrayList<>();
@@ -300,7 +303,9 @@ public class TasksFragment extends Fragment
     }
 
 
-
+    /**
+     * Reads data inputs in the create task dialog and writes them to the database
+     */
     public void createTask(){
         final String name = newTaskNameField.getText().toString();
         final String description = newTaskDescriptionField.getText().toString();
@@ -404,12 +409,9 @@ public class TasksFragment extends Fragment
         super.onDestroyView();
     }
 
-    public void getCurrentDate(){
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        Log.d(TAG, "currentDate and Time:");
-        Log.d(TAG, currentDateTimeString);
 
-    }
+
+
 
 
 
