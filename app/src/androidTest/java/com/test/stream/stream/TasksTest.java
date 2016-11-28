@@ -44,23 +44,25 @@ import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class TasksTest {
-
-    List<Task> tasks = null;
-
-    //test data
+    //Information one test task.
     String test_name = "test name";
     String test_description = "this is a test description";
     int[] test_DueDate = {12,12,2012};
     boolean complete = false;
 
-    //data to modify to
+    //Data to modify the task to or to act as a second task.
     String test_name2 = "unit test";
     String test_description2 = "new test description";
     int[] test_DueDate2 = {15,10,2014};
 
+    //Global variables for tests
     static User user = null;
+    List<Task> tasks = null;
 
-    //User must be signed in to write to the database
+    /**
+     * Sign in the user before writing anything to the database
+     * so that the user will have write permission.
+     */
     @BeforeClass
     public static void userSignInSetup() {
 
@@ -93,7 +95,9 @@ public class TasksTest {
         assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
-
+    /**
+     * Manually set the project board ID to access a stub project.
+     */
     @Before
     public void setProject()
     {
@@ -106,6 +110,11 @@ public class TasksTest {
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
+    /**
+     * Confirm that the user has been added.
+     * @return a callable object that will trigger a callback when
+     * the user successfully logs into Stream.
+     */
     private static Callable<Boolean> newUserIsAdded() {
         return new Callable<Boolean>() {
             public Boolean call() throws Exception {
@@ -114,9 +123,8 @@ public class TasksTest {
         };
     }
 
-
     /**
-     * @return A user for testing with
+     * @return The test stub user.
      */
     private User getUser()
     {
@@ -130,8 +138,7 @@ public class TasksTest {
     }
 
     /**
-     * A second user to swap with the first
-     * @return
+     * @return A user other than the current logged in user to test with
      */
     private User getUser2()
     {
@@ -145,7 +152,11 @@ public class TasksTest {
     }
 
     /**
-     * Confirms that TaskManager has been successfully initialized.
+     * Confirm that TaskManager has been successfully initialized from the current project.
+     * @param taskCount An integer that reflects the number of tasks in the project.
+     * @param dataChangeCount An integer that reflects the number of times data has been updated,
+     *                        according to the listener.
+     * @param dataChanged A boolean that confirms that data has been changed.
      */
     private void initializeTaskManager(final AtomicInteger taskCount,
                                        final AtomicInteger dataChangeCount, final AtomicBoolean dataChanged)
@@ -163,14 +174,6 @@ public class TasksTest {
         });
 
         await().atMost(10,TimeUnit.SECONDS).untilAtomic(dataChangeCount, equalTo(1));
-    }
-
-
-    @Test
-    public void verifySignedIn() {
-        await().atMost(10, TimeUnit.SECONDS).until(newUserIsAdded());
-        assertEquals("unit@test.com", user.getEmail());
-        assertEquals(user.getEmail(), UserManager.sharedInstance().getCurrentUser().getEmail());
     }
 
     /**
@@ -201,10 +204,9 @@ public class TasksTest {
 
     /**
      * Delete a task and then ensure the task was deleted
-     * @throws Exception
      */
     @Test
-    public void deleteTask() throws Exception {
+    public void deleteTask(){
 
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
@@ -228,10 +230,9 @@ public class TasksTest {
 
     /**
      * Confirm that the task's contents are the expected values.
-     * @throws Exception
      */
     @Test
-    public void taskDetails() throws Exception{
+    public void taskDetails(){
 
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
@@ -267,10 +268,9 @@ public class TasksTest {
 
     /**
      * Confirm that the task's contents can be successfully set as complete.
-     * @throws Exception
      */
     @Test
-    public void editTask() throws Exception{
+    public void editTask(){
 
         // set up the change listener
         AtomicInteger taskCount = new AtomicInteger(0);
@@ -318,6 +318,9 @@ public class TasksTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that tasks can be set as complete.
+     */
     @Test
     public void setTaskCompletion()
     {
@@ -359,6 +362,9 @@ public class TasksTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that tasks are correctly assigned.
+     */
     @Test
     public void assignTask()
     {
@@ -389,6 +395,9 @@ public class TasksTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Confirm that the task's assignee can be successfully changed.
+     */
     @Test
     public void changeTaskAssignee()
     {
@@ -429,6 +438,9 @@ public class TasksTest {
         TaskManager.sharedInstance().Destroy();
     }
 
+    /**
+     * Log the current user out after the test.
+     */
     @AfterClass
     public static void clean()
     {
