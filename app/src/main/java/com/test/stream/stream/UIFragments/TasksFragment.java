@@ -130,7 +130,6 @@ public class TasksFragment extends Fragment
     /**
      * Inflates an Alert Dialog that prompts the user to input information about the task and writes the new task to the database
      */
-
     public void showNewTaskDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
@@ -304,7 +303,9 @@ public class TasksFragment extends Fragment
     }
 
 
-
+    /**
+     * Reads data inputs in the create task dialog and writes them to the database
+     */
     public void createTask(){
         final String name = newTaskNameField.getText().toString();
         final String description = newTaskDescriptionField.getText().toString();
