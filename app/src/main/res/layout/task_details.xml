@@ -131,7 +131,7 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/trash"
+            app:srcCompat="@android:drawable/ic_menu_delete"
             android:id="@+id/deleteTask"
             android:tint="@color/white"
             app:backgroundTint="@color/background"
@@ -139,7 +139,8 @@
             android:layout_below="@+id/editTask"
             android:layout_alignLeft="@+id/editTask"
             android:layout_alignStart="@+id/editTask"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            app:fabSize="mini"/>
 
 
             <ImageView
