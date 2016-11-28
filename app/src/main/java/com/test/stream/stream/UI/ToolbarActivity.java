@@ -26,6 +26,7 @@ import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ExpandMeeting;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
@@ -234,8 +235,10 @@ public class ToolbarActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.nav_logout:
+                NotificationService.sharedInstance().deleteDeviceTokenFromDatabse();
                 com.test.stream.stream.Controllers.UserManager
                         .sharedInstance().logout();
+
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
                 this.finish();

@@ -1,5 +1,6 @@
 package com.test.stream.stream.Services;
 
+import android.content.pm.LauncherApps;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -10,7 +11,10 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -23,7 +27,7 @@ import okhttp3.Response;
 public class NotificationService {
     public static final String TAG = "NotificationService";
     public static NotificationService instance = null;
-
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     /**
      * prevents outside initiation
@@ -91,53 +95,88 @@ public class NotificationService {
 
     }
 
-    public void sendNotificationTo(final NotificationObject notification){
-        Log.d(TAG,"sending notification: " + notification.getTitle());
+    /**
+     * builds http request for notification sending, queries heliohost database
+     * @param notification
+     * @throws IOException
+     */
+    public void sendNotificationTo(final NotificationObject notification) throws IOException{
+        Log.d(TAG, "sending notification: " + notification.getTitle());
 
-        Thread t = new Thread(new Runnable(){
-            boolean thread_running = true;
-            @Override
-            public void run(){
-                while(thread_running){
-                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                    Log.d(TAG, "device: " + deviceToken);
-                    if(deviceToken != null){
-                        OkHttpClient client = new OkHttpClient();
-                        //Code for if more than one user -- don't delete yet
-//                        JSONArray username_json = new JSONArray();
-//                        for(String uid : notification.getUsers()){
-//                            username_json.put(uid);
-//                            Log.d(TAG,"username: " + uid);
+        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "device: " + deviceToken);
+        if (deviceToken != null) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("Usernames", notification.getUsers()[0])
+                    .add("Title", notification.getTitle())
+                    .add("Message", notification.getMessage())
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://stream.heliohost.org/fcm/send_notification.php")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(final Call call, IOException e) {
+                    e.printStackTrace();
+
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //do some toast shit
 //                        }
-                        RequestBody body = new FormBody.Builder()
-                                .add("Usernames", notification.getUsers()[0])
-                                .add("Title", notification.getTitle())
-                                .add("Message", notification.getMessage())
-                                .build();
-                        Request request = new Request.Builder()
-                                //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://stream.heliohost.org/fcm/send_notification.php")
-                                .post(body)
-                                .build();
-                        Response response = null;
-                        try {
-                            response = client.newCall(request).execute();
-                            Log.d(TAG, response.body().string());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        thread_running = false;
-                    }
-                    try{
-                        Thread.sleep(1000);
-                    } catch(InterruptedException e){
-                        e.printStackTrace();
-                    }
+//                    });
                 }
-            }
-        });t.start();
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException{
+                    String res = response.body().string();
+                    Log.d(TAG,res);
+                }
+            });
+        }
     }
 
+    /**
+     * drops row with device token
+     */
+    public void deleteDeviceTokenFromDatabse(){
+        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Deleting Token: " + deviceToken);
+        if (deviceToken != null) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("Token", deviceToken)
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://stream.heliohost.org/fcm/delete_token.php")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(final Call call, IOException e) {
+                    e.printStackTrace();
+
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //do some toast shit
+//                        }
+//                    });
+                }
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException{
+                    String res = response.body().string();
+                    Log.d(TAG,res);
+                }
+            });
+        }
+    }
 
 }

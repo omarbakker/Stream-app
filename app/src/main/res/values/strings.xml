@@ -72,7 +72,7 @@
     <string name="review_notification_dialog_title1">"Need "</string>
     <string name="review_notification_dialog_title2">" to make a change?"</string>
     <string name="reminder_notification_dialog_titles">"Want to send a friendly reminder?"</string>
-    <string name="reminder_notification_title">"Here's a friendly reminder for you to complete your task!"</string>
+    <string name="reminder_notification_title">"Here's a friendly reminder!"</string>
     <string name="review_notification_title">"Here's a suggestion"</string>
     <string name="reminder_notification_info">"Send a notification to remind "</string>
     <string name="reminder_notification_info2">" to complete this task"</string>
