@@ -101,6 +101,13 @@ public class Task {
     }
 
 
+    /**
+     * @return a string representation of the project's deadine
+     */
+    public String dueDateRepresentation(){
+        return "Due " + dueDay + "/" + dueMonth + "/" + dueYear;
+    }
+
     public int getDuePriority()
     {
         return 365*dueYear+30*dueMonth+dueDay;

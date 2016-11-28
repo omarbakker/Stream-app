@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,19 +39,24 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
-import com.test.stream.stream.UI.CreateNewMeeting;
-import com.test.stream.stream.UI.CreateNewTask;
+
+import com.test.stream.stream.UI.Adapters.TaskAdapter;
+
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
+
+import org.joda.time.DateTime;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.R.attr.name;
 import static android.R.id.input;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.test.stream.stream.R.id.view;
 
 /**
@@ -60,12 +66,13 @@ public class TasksFragment extends Fragment
         implements
         View.OnClickListener,
         EditText.OnEditorActionListener,
-        TextWatcher
+        TextWatcher,
+        ListView.OnItemClickListener
 {
 
     private AlertDialog newTaskDialog;
-    private ListView mTaskListView;
-    private ArrayAdapter<String> mAdapter;
+    private ListView myTaskListView;
+    private TaskAdapter mTaskAdapter;
 
     //fields for new task input
     TextInputEditText newtaskDateField;
@@ -115,7 +122,9 @@ public class TasksFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        mTaskListView = (ListView) getView().findViewById(R.id.list_task);
+        myTaskListView = (ListView) getView().findViewById(R.id.list_task);
+        myTaskListView.setOnItemClickListener(this);
+
         final FloatingActionButton addTaskButton = (FloatingActionButton) getView().findViewById(R.id.create_new_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,45 +180,144 @@ public class TasksFragment extends Fragment
      * updates the user interface to display all tasks
      */
     public void updateUI(){
-        //welcome.setVisibility(getView().INVISIBLE);
-        List<Task> tasks = TaskManager.sharedInstance().GetTasksInProject();
-        tasks = sortArraybyComplete(tasks);
-        ArrayList<String> taskList = new ArrayList<>();
+
+        getCurrentDate();
+        List<Object> tasks = new ArrayList<Object>(TaskManager.sharedInstance().GetTasksInProject());
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
-        int i = tasks.size() - 1;
-        Log.d(TAG, String.valueOf(i));
-        while (i >= 0) {
-            Task task = tasks.get(i);
-            taskList.add(task.getName());
-            i--;
-        }
+        List<Object> sortedTaskLists = sortTasks(tasks);
 
-        if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<>(getActivity(),
-                    R.layout.task_small,
-                    R.id.task_name,
-                    taskList);
-            mTaskListView.setAdapter(mAdapter);
+        if (mTaskAdapter == null) {
+
+            mTaskAdapter = new TaskAdapter(this.getContext(),sortedTaskLists);
+            myTaskListView.setAdapter(mTaskAdapter);
+
         } else {
-            mAdapter.clear();
-            mAdapter.addAll(taskList);
-            mAdapter.notifyDataSetChanged();
+
+            mTaskAdapter.updateData(sortedTaskLists);
+            mTaskAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    List<Object> sortTasks(List <Object> tasks){
+
+        List<Object> sortedTasks = new ArrayList<Object>();
+        List<Object> myTasks = new ArrayList<Object>();
+        List<Object> othersTasks = new ArrayList<Object>();
+        List<Object> dueTasks = new ArrayList<Object>();
+
+        // add tasks to the appropriate list
+        for (Object object:tasks){
+
+            if (object instanceof Task){
+                Task task = (Task)object;
+
+                int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
+                boolean isPastDue = isPastDue(dueDate);
+                boolean isComplete = task.getComplete();
+                boolean isAssignedToMe = isAssignedToCurrentUser(task);
+
+                if (isComplete && isPastDue) {
+                    dueTasks.add(task);
+                }else {
+
+                    if (isAssignedToMe) {
+                        myTasks.add(task);
+                    } else {
+                        othersTasks.add(task);
+                    }
+                }
+            }
+
+        }
+
+        if (myTasks.size() != 0) {
+            sortedTasks.add("Your Tasks");
+            sortedTasks.addAll(myTasks);
+        }
+        if (othersTasks.size() != 0) {
+            sortedTasks.add("Team-mate's tasks");
+            sortedTasks.addAll(othersTasks);
+        }
+        if (dueTasks.size() != 0) {
+            sortedTasks.add("Completed Tasks");
+            sortedTasks.addAll(dueTasks);
+        }
+
+        return sortedTasks;
+    }
+
+    /**
+     *
+     * @param task
+     * @return true if the task is assigned to the current user. relies on UserManager.
+     */
+    public static boolean isAssignedToCurrentUser(Task task){
+        return task.getAssignee().equals(UserManager.sharedInstance().getCurrentUser().getUsername());
+    }
+
+    /**
+     * @param date
+     * @return
+     * True if date is later than now, depends on dateIsLater(...) and uses the same date format
+     */
+    public static boolean isPastDue(int[] date){
+
+        int[] nowDateArray = {0,0,0};
+        DateTime now = DateTime.now();
+        nowDateArray[0] = now.getYear();
+        nowDateArray[1] = now.getMonthOfYear();
+        nowDateArray[2] = now.getDayOfMonth();
+        return dateIsLater(nowDateArray,date);
+    }
+
+    /**
+     * Returns true if thisDate is later or equal to thatDate
+     * @param thisDate
+     * size must equal 3, index 0 is year, 1 is month, 2 is day.
+     * @param thatDate
+     * size must equal 3, index 0 is year, 1 is month, 2 is day.
+     * @return
+     * True if thisDate is later or equal to thatDate
+     */
+    public static boolean dateIsLater(int[] thisDate, int[] thatDate){
+
+        if (thisDate[0] > thatDate[0])
+            return true;
+
+        if (thisDate[0] < thatDate[0])
+            return false;
+
+        // years are equal
+        // compare months
+        if (thisDate[1] > thatDate[1])
+            return true;
+
+        if (thisDate[1] < thatDate[1])
+            return false;
+
+        // months are equal
+        // compare days
+        if (thisDate[2] > thatDate[2])
+            return true;
+
+        return !(thisDate[2] < thatDate[2]);
     }
 
 
     /**
      * When the task is pressed switch to expanded Task view
-     * @param view
+     * @param object
+     * The object representing a Task, retrieved from the mTaskAdapters list view
      */
-    public void expandTaskView(View view) {
-        View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.task_name);
-        String taskName = String.valueOf(taskTextView.getText());
-        Intent intent = new Intent(getActivity(), expand_task.class);
-        intent.putExtra("taskName", taskName);
-        startActivity(intent);
+    public void expandTaskView(Object object) {
+
+        if (object instanceof Task) {
+            Task task = (Task) object;
+            Intent intent = new Intent(getActivity(), expand_task.class);
+            intent.putExtra("taskName", task.getName());
+            startActivity(intent);
+        }
     }
 
     /**
@@ -221,11 +329,10 @@ public class TasksFragment extends Fragment
             return tasks;
         }
         for(int i = 0; i < tasks.size()-1; i++){
-            if ((tasks.get(i).getComplete()) == true && (tasks.get(i+1).getComplete()) != true) {
+            if ((tasks.get(i).getComplete()) && !(tasks.get(i+1).getComplete())) {
                 Task task = tasks.get(i);
                 tasks.set(i, tasks.get(i+1));
                 tasks.set(i+1, task);
-
             }
         }
         return tasks;
@@ -380,6 +487,21 @@ public class TasksFragment extends Fragment
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
+    /**
+     * Used to enter the project after the user taps on that project from the list.
+     * Opens the projects page.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        if (mTaskAdapter.getItemType(position) == TaskAdapter.TASK_TYPE)
+            expandTaskView(mTaskAdapter.getItem(position));
+    }
+
 
     /*
      Omar was here.
@@ -410,9 +532,8 @@ public class TasksFragment extends Fragment
     }
 
 
-
-
-
-
+    public void getCurrentDate(){
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+    }
 
 }
