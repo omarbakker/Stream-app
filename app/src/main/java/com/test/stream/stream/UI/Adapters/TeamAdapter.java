@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.test.stream.stream.Objects.Users.User;
 
 import java.util.ArrayList;
@@ -70,8 +71,13 @@ public class TeamAdapter extends ArrayAdapter<User> {
         }
 
         // Populate data into template view using data object
-        viewHolder.userName.setText(user.getName());
-        viewHolder.userEmail.setText(user.getEmail());
+        if(user.getName().equals("") && user.getEmail().equals("")){
+            viewHolder.userName.setText(user.getUsername());
+            viewHolder.userEmail.setText("Facebook");
+        } else {
+            viewHolder.userName.setText(user.getName());
+            viewHolder.userEmail.setText(user.getEmail());
+        }
 
         return convertView;
     }
