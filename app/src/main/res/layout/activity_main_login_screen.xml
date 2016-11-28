@@ -93,28 +93,6 @@ android:background="#e5e7e8"    >
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-    android:text="Forgot your password?"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="#087bb9"
-    android:id="@+id/forgotPassword"
-        android:textSize="18dp"
-        android:layout_below="@+id/login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signUp"
-        android:text="Not a user? Signup"
-        android:textSize="18dp"
-        android:textColor="#087bb9"
-        android:layout_below="@+id/forgotPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp" />
-
     <ImageView
         android:layout_width="50px"
         android:layout_height="wrap_content"
@@ -166,5 +144,16 @@ android:background="#e5e7e8"    >
         android:layout_toRightOf="@+id/imageView6"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signUp"
+        android:text="Not a user? Signup"
+        android:textSize="20dp"
+        android:textColor="#087bb9"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

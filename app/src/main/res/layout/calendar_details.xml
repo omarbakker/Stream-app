@@ -65,6 +65,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
+            app:backgroundTint="@color/background"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="deleteMeeting"
@@ -123,7 +124,6 @@
         <TextView
             android:text="TextView"
             android:textColor="@color/black_button"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/meetingTime_expanded"

@@ -40,7 +40,7 @@ public class CreateNewMeeting extends AppCompatActivity {
 
     //Create new meeting
     EditText meeting_name, meeting_location, meeting_description;
-    Button createNewMeeting;
+    TextView createNewMeeting;
     android.support.v4.app.FragmentManager manager;
 
     @Override
@@ -75,7 +75,7 @@ public class CreateNewMeeting extends AppCompatActivity {
         showTimeDialogOnButtonClick();
         this.manager = getSupportFragmentManager();
 
-        createNewMeeting = (Button) findViewById(R.id.create_new_meeting);
+        createNewMeeting = (TextView) findViewById(R.id.create_new_meeting);
         createNewMeeting.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
