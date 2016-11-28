@@ -27,6 +27,7 @@
         android:textSize="12dp"
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:id="@+id/reminderNotificationInfo"
         android:layout_below="@+id/reminderTitle"
@@ -45,6 +46,10 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="7dp"
         android:inputType="text"
         android:gravity="top|left"
         android:hint="@string/enter_message"
@@ -57,14 +62,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/rectangle_at_the_bottom" />
-
-    <CheckBox
-        android:text="Send Anonymously"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sendAnonymously"
-        android:layout_below="@+id/rectangle_at_the_bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -109,8 +109,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
 
-        Log.d(TAG, "print statements for the win");
-        Log.d(TAG, "fuck everything");
         int size = tasks.size();
         Log.d(TAG, String.valueOf(size));
         for (int i = 0; i < size; i++) {
@@ -134,8 +132,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);  //button listener
 
-        // ----- Set the text fields from information of the current task ----- //
-
 
         updateExpandedUI();
 
@@ -152,7 +148,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         sendReminderAlertTitle.setText(getString(R.string.reminder_notification_dialog_title) + task.getAssignee() + "?");
         reminderInfo = (TextView) reminderDialogView.findViewById(R.id.reminderNotificationInfo);
         reminderInfo.setText(getString(R.string.reminder_notification_info) + task.getAssignee() + getString(R.string.reminder_notification_info2));
-        sendAnonymously = (CheckBox) findViewById(R.id.sendAnonymously);
         builder = new AlertDialog.Builder(this);
         builder.setView(reminderDialogView);
         builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
@@ -331,11 +326,16 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
+    /**
+     * Reads Newly inputed information and updates the task in the database
+     * @param task
+     */
     public void editTask(Task task){
         final String name = changedTaskNameField.getText().toString();
         final String description = changedTaskDescriptionField.getText().toString();
+        final String due_date = changedtaskDateField.getText().toString();
 
+        //fill the name field with the original names
         if (name.isEmpty()){
             changedTaskNameField.setText(expandTask.getName());
             changedTaskNameField.requestFocus();
@@ -343,6 +343,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
+        //fill the description field with the original description
         if (description.isEmpty()){
             changedTaskDescriptionField.setText(expandTask.getDescription());
             changedTaskDescriptionField.requestFocus();
@@ -355,6 +356,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
+        //fill in orginal assignee
         if(changedTaskAssignee == null) {
             changedTaskAssigneeField.setText(expandTask.getAssignee());
             changedTaskAssigneeField.selectAll();
@@ -385,7 +387,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
     /**
-     * 
+     * Determines if data is valid
      * @param date
      * @return
      */
@@ -404,9 +406,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
-
+    /**
+     * Dialog for edit task
+     */
     public void showChangeTaskDialog() {
         LayoutInflater inflater = this.getLayoutInflater();
         final View v = inflater.inflate(R.layout.dialog_newtask, null);
@@ -421,9 +423,9 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         task_description.setText(expandTask.getDescription());
         EditText task_user = (EditText) v.findViewById(R.id.newTaskNewUserField);
         task_user.setText(String.valueOf(expandTask.getAssignee()));
-        //EditText task_date = (EditText) v.findViewById(R.id.newTaskNameField);
-        //task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));
-
+        EditText task_date = (EditText) v.findViewById(R.id.newTaskNameField);
+        task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));
+        Log.d(TAG, "WHY ISN'T THIS WORKING");
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         title.setTypeface(Syncopate);
 
@@ -516,8 +518,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
 
         //determines if the task has be set as complete
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
-        if (expandTask.getComplete() == true)
+        if (expandTask.getComplete() == true) {
             checkBox.setChecked(true);
+            checkBox.setText("Mark as incomplete");
+        }
     }
 
 

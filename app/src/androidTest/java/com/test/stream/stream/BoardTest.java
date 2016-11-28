@@ -29,16 +29,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static junit.framework.Assert.assertEquals;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class BoardTest {
     final String title = "title";
-    final String subtitle = "subtitle";
+    final String color = "color";
     final String description = "description";
 
     final String title2 = "title2";
-    final String subtitle2 = "subtitle2";
+    final String color2 = "color2";
     final String description2 = "description2";
 
     private List<Pin> pins = null;
@@ -128,7 +127,7 @@ public class BoardTest {
         //Check if creating a pin is successful
         int initialPinCount = pins.size();
         boolean created = BoardManager.sharedInstance()
-                .CreateMessagePin(title, subtitle, description);
+                .CreateMessagePin(title, color, description);
         assert(created);
 
 
@@ -170,7 +169,7 @@ public class BoardTest {
         int initialPinCount = pins.size();
 
         boolean created = BoardManager.sharedInstance()
-                .CreateMessagePin(title, subtitle, description);
+                .CreateMessagePin(title, color, description);
         assert(created);
 
         // assert the pin was created;
@@ -181,7 +180,7 @@ public class BoardTest {
         // Test the correctness of the details of the pin.
         assertEquals(fetchedPin.getBoardId(), ProjectManager.sharedInstance().getCurrentProject().getBoardId());
         assertEquals(fetchedPin.getDescription(), description);
-        assertEquals(fetchedPin.getSubtitle(), subtitle);
+        assertEquals(fetchedPin.getColor(), color);
         assertEquals(fetchedPin.getTitle(), title);
 
         //Delete the pin
@@ -203,7 +202,7 @@ public class BoardTest {
         int initialPinCount = pins.size();
 
         boolean created = BoardManager.sharedInstance()
-                .CreateMessagePin(title, subtitle, description);
+                .CreateMessagePin(title, color, description);
         assert(created);
 
         // assert the task was created;
@@ -213,7 +212,7 @@ public class BoardTest {
         // Modify the task details and update
         fetchedPin.setTitle(title2);
         fetchedPin.setDescription(description2);
-        fetchedPin.setSubtitle(subtitle2);
+        fetchedPin.setColor(color2);
 
         //Wait for data to change
         dataChanged.set(false);
@@ -228,7 +227,7 @@ public class BoardTest {
 
         // Test the correctness of the details of the updated task.
         assertEquals(updatedPin.getDescription(), description2);
-        assertEquals(updatedPin.getSubtitle(), subtitle2);
+        assertEquals(updatedPin.getColor(), color2);
         assertEquals(updatedPin.getTitle(), title2);
 
         //Delete the task
