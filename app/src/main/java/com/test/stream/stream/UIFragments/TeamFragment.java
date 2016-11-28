@@ -12,12 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.test.stream.stream.Objects.Users.User;
-import com.test.stream.stream.Controllers.BoardManager;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TeamManager;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
-import com.test.stream.stream.Utilities.TeamAdapter;
+import com.test.stream.stream.UI.Adapters.TeamAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

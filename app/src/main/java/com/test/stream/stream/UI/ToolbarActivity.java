@@ -1,7 +1,9 @@
 package com.test.stream.stream.UI;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +26,7 @@ import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Controllers.HomeManager;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
+import com.test.stream.stream.Listener.UndoTaskOnClickListener;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.CalendarFragment;
@@ -45,7 +48,7 @@ public class ToolbarActivity extends AppCompatActivity
     private FirebaseAuth firebase = FirebaseAuth.getInstance();
     boolean thread_running = true;
     private Toolbar toolbar;
-
+    DrawerLayout drawer;
     private FragmentManager manager;
     /**
      * On create the ToolbarActivity, all initializations
@@ -104,7 +107,7 @@ public class ToolbarActivity extends AppCompatActivity
 //            }
 //        });t.start();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -341,8 +344,19 @@ public class ToolbarActivity extends AppCompatActivity
             if(task.getName().equals(taskName)){
                 task.setComplete(true);
                 homeManager.UpdateTask(task);
-                Toast.makeText(ToolbarActivity.this, "Task marked as complete",
-                        Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(drawer, "Task Completed", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new UndoTaskOnClickListener(task, homeManager) {
+                            @Override
+                            public void onClick(View view) {
+                                Snackbar snackbar1 = Snackbar.make(drawer, "Task Restored", Snackbar.LENGTH_SHORT);
+                                getTask().setComplete(false);
+                                getHomeManager().UpdateTask(getTask());
+                                snackbar1.show();
+                            }
+                        });
+                snackbar.setActionTextColor(Color.RED);
+                snackbar.show();
             }
         }
     }

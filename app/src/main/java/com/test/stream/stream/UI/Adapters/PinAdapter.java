@@ -1,4 +1,4 @@
-package com.test.stream.stream.Utilities;
+package com.test.stream.stream.UI.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.graphics.Typeface;
+
 import com.test.stream.stream.Objects.Board.Pin;
 import com.test.stream.stream.R;
 
@@ -20,54 +21,53 @@ import java.util.ArrayList;
 public class PinAdapter extends ArrayAdapter<Pin> {
 
     private Context mContext;
+
     /**
      * Declare the elements of how the Pin should look
      */
-    public static class ViewHolder{
+    public static class ViewHolder {
         TextView title;
-        TextView subTitle;
         TextView description;
     }
 
     /**
      * Constructor for making PinAdapter
+     *
      * @param context
      * @param pins
      */
-    public PinAdapter(Context context, ArrayList<Pin> pins){
+    public PinAdapter(Context context, ArrayList<Pin> pins) {
         super(context, 0, pins);
         mContext = context;
     }
 
     /**
      * Logic for adding text to the title, subTitle and description fields of the PinMessage
+     *
      * @param position
      * @param convertView
      * @param parent
      * @return the View
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         // Get the PinMessage that is being created
         Pin pin = getItem(position);
         // Create the viewHolder that stores the Pins
         ViewHolder viewHolder;
         // if there is nothing on PinBoard, add a new viewHolder
-        if(convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            Typeface ralewayBold = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
-            Typeface raleway = Typeface.createFromAsset(mContext.getAssets(), "Raleway-Regular.ttf");
+            Typeface indieFlower = Typeface.createFromAsset(mContext.getAssets(), "IndieFlower.ttf");
             // Get the view for the pinboard
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin,parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pin, parent, false);
             // Get the TextView elements on the PinBoard
             viewHolder.title = (TextView) convertView.findViewById(R.id.item_pin_title);
-            viewHolder.subTitle = (TextView) convertView.findViewById(R.id.item_pin_subtitle);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_pin_description);
 
-            viewHolder.title.setTypeface(ralewayBold);
-            viewHolder.subTitle.setTypeface(raleway);
-            viewHolder.description.setTypeface(raleway);
+            viewHolder.title.setTypeface(indieFlower);
+            viewHolder.description.setTypeface(indieFlower);
             //Use set tag to remember viewHolder which is holding reference to widgets
             // Use the viewHolder
             convertView.setTag(viewHolder);
@@ -78,9 +78,16 @@ public class PinAdapter extends ArrayAdapter<Pin> {
 
         // Populate data into template view using data object
         viewHolder.title.setText(pin.getTitle());
-        viewHolder.subTitle.setText(pin.getSubtitle());
         viewHolder.description.setText(pin.getDescription());
 
+        // Set colors depending on the color chosen
+        if(pin.getSubtitle().equals("blue")){
+            convertView.setBackgroundColor(Color.argb(255, 167, 222, 235));
+        } else if (pin.getSubtitle().equals("yellow")) {
+            convertView.setBackgroundColor(Color.argb(255, 255, 255, 165));
+        } else if (pin.getSubtitle().equals("pink")){
+            convertView.setBackgroundColor(Color.argb(255, 244, 192, 203));
+        }
         return convertView;
     }
 }

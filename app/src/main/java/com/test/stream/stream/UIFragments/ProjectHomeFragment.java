@@ -1,9 +1,6 @@
 package com.test.stream.stream.UIFragments;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,16 +12,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.test.stream.stream.Controllers.HomeManager;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
-import com.test.stream.stream.Utilities.TaskAdapter;
+import com.test.stream.stream.UI.Adapters.HomeTaskAdapter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ProjectHomeFragment extends Fragment {
@@ -35,7 +30,7 @@ public class ProjectHomeFragment extends Fragment {
     private static final String TAG = "Home Fragment";
 
     ArrayList<Task> taskMessages = new ArrayList<>();
-    private TaskAdapter taskAdapter;
+    private HomeTaskAdapter homeTaskAdapter;
 
     private HomeManager homeManager;
 
@@ -108,34 +103,17 @@ public class ProjectHomeFragment extends Fragment {
                 tasks.add(currentTask);
             }
         }
-        if (taskAdapter == null) {
-            taskAdapter = new TaskAdapter(getActivity(), taskMessages);
-            listView.setAdapter(taskAdapter);
+        if (homeTaskAdapter == null) {
+            homeTaskAdapter = new HomeTaskAdapter(getActivity(), taskMessages);
+            listView.setAdapter(homeTaskAdapter);
         }
-        taskAdapter.clear();
-        taskAdapter.addAll(tasks);
-        taskAdapter.notifyDataSetChanged();
+        homeTaskAdapter.clear();
+        homeTaskAdapter.addAll(tasks);
+        homeTaskAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
 
-        updateProgress(teamProgress, 90);
+        updateProgress(teamProgress, homeManager.getTeamProgress());
         updateProgress(userProgress, homeManager.getUserProgress());
-    }
-
-    /**
-     * Creates a task with pre-set values
-     *
-     * @return Task
-     */
-    private Task createTask() {
-        Task newTask = new Task();
-
-        newTask.setDueDay(10);
-        newTask.setDueMonth(10);
-        newTask.setDueYear(1990);
-
-        newTask.setDescription("Task Description");
-        newTask.setName("Task name");
-        return newTask;
     }
 
     /****
