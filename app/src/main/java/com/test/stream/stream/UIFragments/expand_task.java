@@ -424,8 +424,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         EditText task_user = (EditText) v.findViewById(R.id.newTaskNewUserField);
         task_user.setText(String.valueOf(expandTask.getAssignee()));
         EditText task_date = (EditText) v.findViewById(R.id.newTaskNameField);
-        task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));
-        Log.d(TAG, "WHY ISN'T THIS WORKING");
+        //task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));;
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         title.setTypeface(Syncopate);
 
@@ -499,10 +498,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         Log.d(TAG, String.valueOf(task_name));
         task_name.setText(expandTask.getName());
-        //int colour = expandTask.getAssignee().length() * -1500;
-        //Log.d(TAG, String.valueOf(colour));
-        //task_name.setBackgroundColor(colour);
-        //description
         TextView task_description = (TextView) findViewById(R.id.description_expanded);
         task_description.setText(expandTask.getDescription());
         Log.d(TAG, expandTask.getDescription());
