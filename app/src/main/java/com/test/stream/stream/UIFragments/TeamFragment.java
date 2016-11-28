@@ -82,10 +82,7 @@ public class TeamFragment extends Fragment {
         mPinListView = (ListView) getView().findViewById(R.id.list_team);
         teamAdapter = new TeamAdapter(getActivity(), users);
         mPinListView.setAdapter(teamAdapter);
-        // Set font of text tile
-        titleText = (TextView) getView().findViewById(R.id.team_text);
-        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Regular.ttf");
-        titleText.setTypeface(Syncopate);
+
         assert ProjectManager.sharedInstance().getCurrentProject() != null; //If we are in the project, the project should not be null.
         mTeamManager.Initialize(dataListener);
 

@@ -157,7 +157,7 @@
     <ImageView
         android:layout_width="50px"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/user_icon"
+        app:srcCompat="@drawable/user_icon_gray"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="3dp"
         android:id="@+id/imageView5"

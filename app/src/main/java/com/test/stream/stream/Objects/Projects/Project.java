@@ -33,7 +33,6 @@ public class Project {
     //endregion
 
     //region Getters and setters
-
     public int getDueDay() { return dueDay; }
     public int getDueMonth() { return dueMonth; }
     public int getDueYear() { return dueYear; }
@@ -45,6 +44,7 @@ public class Project {
     public String getChatId() { return chatId; }
     public String getCalendarId() { return calendarId; }
     public String getTaskGroupId() { return taskGroupId; }
+
 
     public void setDueDay(int dueDay) { this.dueDay = dueDay; }
     public void setDueMonth(int dueMonth) { this.dueMonth = dueMonth; }

@@ -4,22 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/team_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/holo_blue_dark"
-        android:elevation="@dimen/small_padding"
-        android:gravity="center"
-        android:text="Team Members"
-        android:textColor="@color/white"
-        android:textSize="30dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/team_text"
+        android:layout_alignParentTop="true"
         android:paddingTop="@dimen/small_padding"
         android:layout_marginEnd="@dimen/small_padding"
         android:layout_marginLeft="@dimen/small_padding"
