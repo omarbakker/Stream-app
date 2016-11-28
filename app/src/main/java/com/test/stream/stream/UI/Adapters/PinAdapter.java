@@ -80,14 +80,13 @@ public class PinAdapter extends ArrayAdapter<Pin> {
         viewHolder.title.setText(pin.getTitle());
         viewHolder.description.setText(pin.getDescription());
 
-        if (position % 3 == 0) {
+        if(pin.getSubtitle().equals("blue")){
             convertView.setBackgroundColor(Color.argb(255, 167, 222, 235));
-        } else if (position % 2 == 0) {
+        } else if (pin.getSubtitle().equals("yellow")) {
             convertView.setBackgroundColor(Color.argb(255, 255, 255, 165));
-        } else {
+        } else if (pin.getSubtitle().equals("pink")){
             convertView.setBackgroundColor(Color.argb(255, 244, 192, 203));
         }
-
         return convertView;
     }
 }
