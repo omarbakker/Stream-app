@@ -1,6 +1,8 @@
 package com.test.stream.stream.UIFragments;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -36,14 +38,26 @@ public class BoardFragment extends Fragment implements
     private PinAdapter pinAdapter;
     private TextView mPinTextView;
     private Pin mCurrentPin;
-
+    // variables for colors
+    private TextView mAddPinTitleTextView;
+    GradientDrawable blueUnselected;
+    GradientDrawable blueSelected;
+    GradientDrawable yellowUnselected;
+    GradientDrawable yellowSelected;
+    GradientDrawable pinkUnselected;
+    GradientDrawable pinkSelected;
+    private ImageButton blueButton;
+    private ImageButton yellowButton;
+    private ImageButton pinkButton;
+    private boolean blueIsSelected = false;
+    private boolean yellowIsSelected = false;
+    private boolean pinkIsSelected = false;
     //fields for new task input
     EditText titleText;
-    EditText subtitleText;
     EditText descriptionText;
 
+
     EditText titleEditText;
-    EditText subtitleEditText;
     EditText descriptionEditText;
     ImageButton floatButton;
     private DataEventListener dataListener = new DataEventListener() {
@@ -132,6 +146,37 @@ public class BoardFragment extends Fragment implements
 
         mPinGridView = (GridView) getView().findViewById(R.id.list_pin);
         pinAdapter = new PinAdapter(getActivity(), pins);
+        // set blue color
+        blueUnselected = new GradientDrawable();
+        blueUnselected.setShape(GradientDrawable.OVAL);
+        blueUnselected.setColor(Color.parseColor("#A7DEEB"));
+        blueUnselected.setSize(100, 100);
+        blueSelected = new GradientDrawable();
+        blueSelected.setShape(GradientDrawable.OVAL);
+        blueSelected.setColor(Color.parseColor("#A7DEEB"));
+        blueSelected.setSize(115, 115);
+        blueSelected.setStroke(15, Color.parseColor("#D2D1D2"));
+        // set yellow color
+        yellowUnselected = new GradientDrawable();
+        yellowUnselected.setShape(GradientDrawable.OVAL);
+        yellowUnselected.setColor(Color.parseColor("#FFFFA5"));
+        yellowUnselected.setSize(100, 100);
+        yellowSelected = new GradientDrawable();
+        yellowSelected.setShape(GradientDrawable.OVAL);
+        yellowSelected.setColor(Color.parseColor("#FFFFA5"));
+        yellowSelected.setSize(115, 115);
+        yellowSelected.setStroke(15, Color.parseColor("#D2D1D2"));
+        // set pink color
+        pinkUnselected = new GradientDrawable();
+        pinkUnselected.setShape(GradientDrawable.OVAL);
+        pinkUnselected.setColor(Color.parseColor("#F4C0CB"));
+        pinkUnselected.setSize(100, 100);
+        pinkSelected = new GradientDrawable();
+        pinkSelected.setShape(GradientDrawable.OVAL);
+        pinkSelected.setColor(Color.parseColor("#F4C0CB"));
+        pinkSelected.setSize(115, 115);
+        pinkSelected.setStroke(15, Color.parseColor("#D2D1D2"));
+
         mPinGridView.setAdapter(pinAdapter);
         //Set fonts
         mPinTextView = (TextView) getView().findViewById(R.id.text_board);
@@ -158,22 +203,21 @@ public class BoardFragment extends Fragment implements
 
     }
 
+    // pop up dialog to edit pins
     public void showEditPinDialog(Pin pin) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.edit_pin_dialog, null);
         newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
 
         titleText = (EditText) view.findViewById(R.id.dialog_edit_title);
-        subtitleText = (EditText) view.findViewById(R.id.dialog_edit_subtitle);
         descriptionText = (EditText) view.findViewById(R.id.dialog_edit_description);
-
+        // get the title and description
         titleText.setText(pin.getTitle());
-        subtitleText.setText(pin.getSubtitle());
         descriptionText.setText(pin.getDescription());
         mCurrentPin = pin;
         Button delete = (Button) view.findViewById(R.id.delete_pin);
         Button cancel = (Button) view.findViewById(R.id.CancelDeletePin);
-
+        //set listeners
         delete.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
@@ -181,34 +225,59 @@ public class BoardFragment extends Fragment implements
     }
 
     public void showNewPinDialog() {
+        blueIsSelected = false;
+        yellowIsSelected = false;
+        pinkIsSelected = false;
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.add_pin_dialog, null);
         newPinDialog = new AlertDialog.Builder(getActivity()).setView(view).create();
-
+        mAddPinTitleTextView = (TextView) view.findViewById(R.id.dialog_add_pin_title);
         titleText = (EditText) view.findViewById(R.id.dialog_title);
-        subtitleText = (EditText) view.findViewById(R.id.dialog_subtitle);
         descriptionText = (EditText) view.findViewById(R.id.dialog_description);
 
+        // Find color buttons and set drawable
+        blueButton = (ImageButton) view.findViewById(R.id.blue_button);
+        yellowButton = (ImageButton) view.findViewById(R.id.yellow_button);
+        pinkButton = (ImageButton) view.findViewById(R.id.pink_button);
+        blueButton.setImageDrawable(blueUnselected);
+        yellowButton.setImageDrawable(yellowUnselected);
+        pinkButton.setImageDrawable(pinkUnselected);
 
         Button done = (Button) view.findViewById(R.id.doneAddingPin);
         Button cancel = (Button) view.findViewById(R.id.CancelAddingPin);
 
+        // set listeners
         done.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        blueButton.setOnClickListener(this);
+        yellowButton.setOnClickListener(this);
+        pinkButton.setOnClickListener(this);
 
         newPinDialog.show();
     }
 
     public void createPin(){
         String title = titleText.getText().toString();
-        String subtitle = subtitleText.getText().toString();
         String description = descriptionText.getText().toString();
-        if(title.equals("") || subtitle.equals("") || description.equals("")){
-            Toast.makeText(getActivity(), "Title, subtitle or description is empty. Please fill in fields.", Toast.LENGTH_LONG).show();
+        if(title.equals("") || description.equals("") || (blueIsSelected == false && yellowIsSelected == false
+                && pinkIsSelected == false) ){
+            Toast.makeText(getActivity(), "Title or description is empty or color is not selected. Please fill in fields.", Toast.LENGTH_LONG).show();
         } else {
-            pins.add(new Pin(title, subtitle, description));
-            // Add the PinMessage details to the database
-            BoardManager.sharedInstance().CreateMessagePin(title, subtitle, description);
+            if(blueIsSelected){
+                pins.add(new Pin(title, "blue", description));
+                // Add the PinMessage details to the database
+                BoardManager.sharedInstance().CreateMessagePin(title, "blue", description);
+            }
+            else if(pinkIsSelected){
+                pins.add(new Pin(title, "pink", description));
+                // Add the PinMessage details to the database
+                BoardManager.sharedInstance().CreateMessagePin(title, "pink", description);
+            }
+            else{
+                pins.add(new Pin(title, "yellow", description));
+                // Add the PinMessage details to the database
+                BoardManager.sharedInstance().CreateMessagePin(title, "yellow", description);
+            }
             newPinDialog.dismiss();
         }
 
@@ -216,18 +285,52 @@ public class BoardFragment extends Fragment implements
     @Override
     public void onClick(View v){
         switch (v.getId()){
+            // create new pin
             case R.id.doneAddingPin:
                 createPin();
                 break;
+            // cancel dialog
             case R.id.CancelAddingPin:
                 newPinDialog.dismiss();
                 break;
+            // delete pin
             case R.id.delete_pin:
                 BoardManager.sharedInstance().RemovePin(mCurrentPin);
                 newPinDialog.dismiss();
                 break;
+            // cancel dialog
             case R.id.CancelDeletePin:
                 newPinDialog.dismiss();
+                break;
+            // if blue is selected
+            case R.id.blue_button:
+                blueButton.setImageDrawable(blueSelected);
+                yellowButton.setImageDrawable(yellowUnselected);
+                pinkButton.setImageDrawable(pinkUnselected);
+                blueIsSelected = true;
+                yellowIsSelected = false;
+                pinkIsSelected = false;
+                mAddPinTitleTextView.setBackgroundColor(Color.parseColor("#A7DEEB"));
+                break;
+            // if yellow is selected
+            case R.id.yellow_button:
+                yellowButton.setImageDrawable(yellowSelected);
+                blueButton.setImageDrawable(blueUnselected);
+                pinkButton.setImageDrawable(pinkUnselected);
+                blueIsSelected = false;
+                yellowIsSelected = true;
+                pinkIsSelected = false;
+                mAddPinTitleTextView.setBackgroundColor(Color.parseColor("#FFFFA5"));
+                break;
+            // if pink is selected
+            case R.id.pink_button:
+                pinkButton.setImageDrawable(pinkSelected);
+                yellowButton.setImageDrawable(yellowUnselected);
+                blueButton.setImageDrawable(blueUnselected);
+                blueIsSelected = false;
+                yellowIsSelected = false;
+                pinkIsSelected = true;
+                mAddPinTitleTextView.setBackgroundColor(Color.parseColor("#F4C0CB"));
                 break;
             default:
                 break;

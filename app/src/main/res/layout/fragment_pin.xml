@@ -4,7 +4,7 @@
     android:id="@+id/tasks_pin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="#e5e7e8"
     android:paddingRight="30dp"
     android:paddingLeft="30dp">
 
@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:paddingTop="10dp"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
         android:stretchMode="columnWidth"
         android:numColumns="2"/>
 
