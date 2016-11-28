@@ -1,6 +1,7 @@
 package com.test.stream.stream.UIFragments;
 
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +9,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -98,26 +102,55 @@ public class TeamFragment extends Fragment {
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                /*System.out.println("USER FIELD" + addUserField.getText());
-                ArrayList<User> userList = mTeamManager.GetUsers();
-                for(int i = 0; i < userList.size(); i++){
-                    System.out.println("uSER: " + userList.get(i).getName());
-                }*/
-                /*for(User user: userList){
-                    if(user.getName().equals(addUserField.getText())){
-                        System.out.println("ADDING USER");
-                        users.add(user);
-                        mTeamManager.AddMemberToCurrentProject(user, false);
-                    }
-                }*/
-
+                String name = addUserField.getText().toString();
+                handleEnteredUser(name);
                 addUserField.getText().clear();
+                hideKeyboard();
             }
         });
 
         assert ProjectManager.sharedInstance().getCurrentProject() != null; //If we are in the project, the project should not be null.
         mTeamManager.Initialize(dataListener);
 
+    }
+
+    /**
+     * Call to hide the android soft keyboard
+     */
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
+    /**
+     * Checks if the string passed represents a valid user in the database.
+     * Updates UI accordingly.
+     * Updates users list accordingly.
+     * @param uDescription
+     * The description entered by the user
+     */
+    private void handleEnteredUser(final String uDescription){
+        ReadDataCallback userResult = new ReadDataCallback() {
+            @Override
+            public void onDataRetrieved(DataSnapshot result) {
+
+                if (result.exists()){
+
+                    GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
+                    Map <String,User> resultMap = result.getValue(genericTypeIndicator);
+
+                    String id = (String) resultMap.keySet().toArray()[0];
+                    User user = resultMap.get(id);
+
+                    mTeamManager.AddMemberToCurrentProject(user,false);
+                }else{
+                    // user is invalid and cannot be added to the project as a collaborator
+                    String userInvalidHelp = uDescription + " - User not found";
+                    Toast.makeText(getActivity(), userInvalidHelp, Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
     @Override
