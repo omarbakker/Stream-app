@@ -204,23 +204,32 @@ public class TaskAdapter extends BaseAdapter{
                 infoTextView.setTypeface(raleway);
                 dueDateTextView.setTypeface(raleway);
 
-                if (TasksFragment.isAssignedToCurrentUser(task)){
-                    convertView.setBackgroundColor(Color.argb(235,232,255,245));
-                }else{
-                    convertView.setBackgroundColor(Color.argb(255,225,237,255));
-                }
+                convertView.setBackgroundColor(getColorForDueTask(task));
 
-                // red for past due and not complete
-                int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
-                if (TasksFragment.isPastDue(dueDate) && !task.getComplete()){
-                    convertView.setBackgroundColor(Color.argb(235,255,230,230));
-                }else if (task.getComplete()){
-                    convertView.setBackgroundColor(Color.argb(235,220,220,220));
-                }
 
                 return convertView;
         }
 
+    }
+
+    public static int getColorForDueTask(Task task){
+
+        int color;
+        if (TasksFragment.isAssignedToCurrentUser(task)){
+            color = Color.argb(235,232,255,245);
+        }else{
+            color = Color.argb(255,225,237,255);
+        }
+
+        // red for past due and not complete
+        int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
+        if (TasksFragment.isPastDue(dueDate) && !task.getComplete()){
+            color = Color.argb(235,255,220,220);
+        }else if (task.getComplete()){
+            color = Color.argb(235,220,220,220);
+        }
+
+        return color;
     }
 
     private static class ViewHolder {
