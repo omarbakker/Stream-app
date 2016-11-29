@@ -12,4 +12,5 @@
     <color name="background">#aaede8</color>
     <color name = "background2">#7caaede8</color>
     <color name="donut_unfinished">#FFFFFF</color>
+    <color name="grey_toast_background">#8b8b8b</color>
 </resources>

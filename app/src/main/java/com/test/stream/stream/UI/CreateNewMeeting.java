@@ -7,12 +7,17 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.test.stream.stream.Controllers.CalendarManager;
@@ -48,9 +53,18 @@ public class CreateNewMeeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_meeting);
 
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
+        Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+
         meeting_name = (EditText) findViewById(R.id.new_meeting_name);
         meeting_description = (EditText) findViewById(R.id.new_meeting_description);
         meeting_location = (EditText) findViewById(R.id.new_meeting_location);
+
+        meeting_name.setTypeface(Raleway);
+        meeting_description.setTypeface(Raleway);
+        meeting_location.setTypeface(Raleway);
+
+        meeting_name.requestFocus();
 
         final Calendar cal = Calendar.getInstance();
         year_x = cal.get(Calendar.YEAR);
@@ -60,7 +74,6 @@ public class CreateNewMeeting extends AppCompatActivity {
         minute_x = cal.get(Calendar.MINUTE);
         dayOfWeek = getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK));
 
-        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
 
         datePicker = (TextView) findViewById(R.id.new_meeting_date);
         datePicker.setText(getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK)) + ", " + cal.get(Calendar.DAY_OF_MONTH) + " " + getMonthString(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR));
@@ -77,19 +90,12 @@ public class CreateNewMeeting extends AppCompatActivity {
         this.manager = getSupportFragmentManager();
 
         createNewMeeting = (TextView) findViewById(R.id.create_new_meeting);
+        createNewMeeting.setTypeface(RalewayBold);
         createNewMeeting.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        System.out.println("Time to create new activity");
-                        CalendarManager.sharedInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
-                                meeting_location.getText().toString(), adjustHour(hour_x), minute_x,
-                                day_x,  month_x, year_x, getMonthString(month_x-1),
-                                dayOfWeek, getAmPm(hour_x));
-
-                        System.out.println("GET AMPM WHY ISN'T THIS WORKING" + getAmPmInitial(cal.get(Calendar.AM_PM)));
-                        
-                        finish();
+                        checkValidInputs();
                     }
                 });
     }
@@ -204,5 +210,73 @@ public class CreateNewMeeting extends AppCompatActivity {
             return "PM";
         else
             return "AM";
+    }
+
+    public boolean isNameValid() {
+        if (meeting_name.getText().toString().isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isLocationValid() {
+        if (meeting_location.getText().toString().isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isDescriptionValid() {
+        if (meeting_description.getText().toString().isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    public void checkValidInputs() {
+        //Toast toast;
+        if (!isNameValid()) {
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+            TextView text = (TextView) layout.findViewById(R.id.text);
+            text.setText("Enter in a meeting name");
+
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+        }
+        else if (!isDescriptionValid()) {
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+            TextView text = (TextView) layout.findViewById(R.id.text);
+            text.setText("Enter in a meeting description");
+
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+        }
+        else if (!isLocationValid())  {
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast,
+                    (ViewGroup) findViewById(R.id.toast_layout_root));
+            TextView text = (TextView) layout.findViewById(R.id.text);
+            text.setText("Enter in a meeting location");
+
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+        }
+        else {
+            CalendarManager.sharedInstance().CreateMeeting(meeting_name.getText().toString(), meeting_description.getText().toString(),
+                    meeting_location.getText().toString(), adjustHour(hour_x), minute_x,
+                    day_x,  month_x, year_x, getMonthString(month_x-1),
+                    dayOfWeek, getAmPm(hour_x));
+            finish();
+        }
     }
 }

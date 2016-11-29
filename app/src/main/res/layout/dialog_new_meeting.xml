@@ -7,39 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.test.stream.stream.UIFragments.CalendarFragment">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#087bb9"
-        android:id="@+id/view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#e5e7e8"
-        android:layout_below="@+id/view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/view2" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:gravity="center"
-        android:hint="Meeting Name"
-        android:background="@null"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:id="@+id/new_meeting_name"
-        android:layout_alignBottom="@+id/view2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -75,42 +42,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="60px"
-        app:srcCompat="@drawable/calendar_gray"
-        android:id="@+id/imageView2"
-        android:layout_below="@+id/view5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:id="@+id/new_meeting_date"
-        android:layout_below="@+id/view5"
-        android:layout_marginTop="20dp"
-        android:layout_alignLeft="@+id/view5"
-        android:layout_alignStart="@+id/view5" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="50px"
-        android:inputType="textMultiLine"
-        android:gravity="top|left"
-        android:hint="Description"
-        android:ems="10"
-        android:background="@null"
-        android:id="@+id/new_meeting_description"
-        android:layout_alignLeft="@+id/new_meeting_location"
-        android:layout_alignStart="@+id/new_meeting_location"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/view2" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="60px"
         app:srcCompat="@drawable/location_icon_gray"
         android:id="@+id/imageView3"
         android:layout_below="@+id/view3"
@@ -132,18 +63,28 @@
         android:layout_toRightOf="@+id/imageView3"
         android:layout_toEndOf="@+id/imageView3" />
 
-    <TextView
-        android:text="New meeting"
-        android:textSize="24dp"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
+        android:inputType="textMultiLine"
+        android:hint="Description"
+        android:ems="10"
+        android:background="@null"
+        android:minHeight="50px"
+        android:id="@+id/new_meeting_description"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/new_meeting_name"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="60px"
+        app:srcCompat="@drawable/calendar_gray"
+        android:id="@+id/imageView2"
+        android:layout_alignTop="@+id/new_meeting_date"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -153,12 +94,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/new_meeting_time"
         android:textSize="16dp"
-        android:layout_alignBaseline="@+id/new_meeting_date"
-        android:layout_alignBottom="@+id/new_meeting_date"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="26dp"
-        android:layout_marginEnd="26dp" />
+        android:layout_below="@+id/imageView2"
+        android:layout_alignLeft="@+id/new_meeting_date"
+        android:layout_alignStart="@+id/new_meeting_date"
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:text="Create Meeting"
@@ -166,8 +105,54 @@
         android:layout_height="wrap_content"
         android:id="@+id/create_new_meeting"
         android:textColor="#087bb9"
-        android:textSize="18dp"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/imageView2"
+        android:textStyle="normal|bold"
+        android:textSize="20dp"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/new_meeting_time"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:id="@+id/new_meeting_date"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/view5"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="New meeting"
+        android:textSize="24dp"
+        android:textColor="#FFFFFF"
+        android:background="#087bb9"
+        android:gravity="center"
+        android:elevation="@dimen/small_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="150px"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:gravity="center"
+        android:hint="Meeting Name"
+        android:background="@null"
+        android:textSize="24dp"
+        android:ems="10"
+        android:id="@+id/new_meeting_name"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

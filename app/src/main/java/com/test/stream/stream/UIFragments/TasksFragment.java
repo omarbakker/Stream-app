@@ -57,7 +57,6 @@ import java.util.Objects;
 import static android.R.attr.name;
 import static android.R.id.input;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static com.test.stream.stream.R.id.view;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -152,8 +151,8 @@ public class TasksFragment extends Fragment
         newTaskDialog = new AlertDialog.Builder(getActivity()).setView(v).create();
         //set view and text type
         TextView title = (TextView) v.findViewById(R.id.newTaskPageTitle);
-        Typeface Syncopate = Typeface.createFromAsset(getActivity().getAssets(), "Syncopate-Bold.ttf");
-        title.setTypeface(Syncopate);
+        Typeface RalewayBold = Typeface.createFromAsset(getActivity().getAssets(), "Raleway-Bold.ttf");
+        title.setTypeface(RalewayBold);
 
         //sets buttons
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
