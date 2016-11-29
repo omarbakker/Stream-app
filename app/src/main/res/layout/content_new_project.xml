@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
+            android:maxLength="15"
             android:id="@+id/Project_name_Field"
             android:hint="@string/new_project_name_hint"
             android:textSize="24sp" />
