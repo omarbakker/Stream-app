@@ -198,7 +198,7 @@ public class TasksFragment extends Fragment
         List<Object> sortedTaskLists = sortTasks(tasks);
 
             if (mTaskAdapter == null) {
-                welcome.setText(R.string.no_meetings);
+                welcome.setText(R.string.no_tasks);
                 welcome.setVisibility(View.VISIBLE);
                 mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
                 myTaskListView.setAdapter(mTaskAdapter);
