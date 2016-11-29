@@ -109,7 +109,7 @@ public class NotificationService {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody body = new FormBody.Builder()
-                    .add("Usernames", notification.getUsers()[0])
+                    .add("Usernames",getToString(notification.getUsers()))
                     .add("Title", notification.getTitle())
                     .add("Message", notification.getMessage())
                     .build();
@@ -177,6 +177,17 @@ public class NotificationService {
                 }
             });
         }
+    }
+
+    public String getToString(String[] arrayData) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0 ; i < arrayData.length; i++) {
+            stringBuilder.append(arrayData[i]);
+            if (i < arrayData.length - 1) {
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }
