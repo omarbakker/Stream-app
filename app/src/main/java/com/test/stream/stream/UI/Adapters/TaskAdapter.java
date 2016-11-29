@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
 import com.test.stream.stream.UIFragments.TasksFragment;
+import com.test.stream.stream.Utilities.DateUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +223,7 @@ public class TaskAdapter extends BaseAdapter{
 
         // red for past due and not complete
         int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
-        if (TasksFragment.isPastDue(dueDate) && !task.getComplete()){
+        if (DateUtility.isPastDue(dueDate) && !task.getComplete()){
             color = Color.argb(235,255,220,220);
         }else if (task.getComplete()){
             color = Color.argb(235,220,220,220);
