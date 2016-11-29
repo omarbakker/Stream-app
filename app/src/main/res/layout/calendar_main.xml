@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#e9e9e9"
     tools:context="com.test.stream.stream.UIFragments.CalendarFragment">
 
     <!--<TextView-->
@@ -22,17 +23,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="11dp"
         android:id="@+id/create_new_meeting"
-        android:tint="@color/background"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        app:backgroundTint="@color/colorAccent" />
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:rippleColor="?attr/colorBackgroundFloating"
+        android:tint="@android:color/background_light"
+        app:elevation="2dp"
+        android:elevation="@dimen/small_padding"/>
 
     <TextView
         android:id="@+id/text_calendar"
@@ -46,7 +50,7 @@
     <ListView
         android:id="@+id/list_calendar"
         android:dividerHeight="2dp"
-        android:divider="#EEEEEE"
+        android:divider="#e9e9e9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

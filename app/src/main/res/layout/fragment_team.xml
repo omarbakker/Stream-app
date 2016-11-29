@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#e9e9e9">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,15 +38,17 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/NewTeamMemberWrapper"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/small_padding"
                 android:layout_marginRight="@dimen/small_padding"
                 android:layout_marginBottom="@dimen/small_padding"
+                android:layout_weight="2"
                 android:layout_marginTop="@dimen/small_padding">
 
                 <EditText
-                    android:id="@+id/newUserField"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/newTeamUserField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -54,6 +57,20 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <Button
+                android:text="@string/new_project_add_user_button_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:layout_weight="0.7"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:id="@+id/newProjectUserButton"
+                android:background="@android:color/holo_green_light"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
         <ListView
@@ -61,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:divider="#EEEEEE"
+            android:divider="#e9e9e9"
             android:dividerHeight="@dimen/small_padding" />
 
     </LinearLayout>
