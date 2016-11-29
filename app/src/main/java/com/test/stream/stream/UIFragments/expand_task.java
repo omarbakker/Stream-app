@@ -423,13 +423,14 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         task_description.setText(expandTask.getDescription());
         EditText task_user = (EditText) v.findViewById(R.id.newTaskNewUserField);
         task_user.setText(String.valueOf(expandTask.getAssignee()));
-        EditText task_date = (EditText) v.findViewById(R.id.newTaskNameField);
-        //task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));;
+        TextView task_date = (TextView) v.findViewById(R.id.newTaskDueDateField);
+        task_date.setText(String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear()));;
         Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
         title.setTypeface(Syncopate);
 
         //sets buttons
         Button done = (Button) v.findViewById(R.id.doneAddingTask);
+        done.setText("Done");
         Button cancel = (Button) v.findViewById(R.id.CancelAddingTask);
         Button addUser = (Button) v.findViewById(R.id.newTaskAddUserButton);
 
