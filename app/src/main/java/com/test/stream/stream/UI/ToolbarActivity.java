@@ -225,12 +225,11 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             // If Projects clicked, Launch Projects page
             case R.id.nav_projects:
-                HomeManager.sharedInstance().Destroy();
-                CalendarManager.sharedInstance().Destroy();
-                BoardManager.sharedInstance().Destroy();
+                clearProjectInstance();
                 finish();
                 break;
             case R.id.nav_logout:
+                clearProjectInstance();
                 com.test.stream.stream.Controllers.UserManager
                         .sharedInstance().logout();
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
@@ -242,6 +241,14 @@ public class ToolbarActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void clearProjectInstance()
+    {
+        HomeManager.sharedInstance().Destroy();
+        CalendarManager.sharedInstance().Destroy();
+        BoardManager.sharedInstance().Destroy();
+    }
+
 
     /**
      * Launches a fragment based on the id given.
