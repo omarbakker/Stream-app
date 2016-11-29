@@ -163,7 +163,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             return valid;
         }
 
-        //showProgressDialog();
+        //Disable the button if we are creating a user.
+        continueSignUp.setEnabled(false);
 
         // [START create_user_with_email] firebase users
         System.out.println(email + " " + password);
@@ -171,7 +172,6 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        continueSignUp.setEnabled(false);
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
