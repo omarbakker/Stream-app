@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -562,6 +563,15 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
             }
         };
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
+    }
+
+
+    /**
+     * Hides the keyboard
+     */
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)changedTaskAssigneeField.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(changedTaskAssigneeField.getWindowToken(),0);
     }
 
 }

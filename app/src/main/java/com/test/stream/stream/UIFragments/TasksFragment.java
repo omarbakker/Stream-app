@@ -189,24 +189,25 @@ public class TasksFragment extends Fragment
 
         getCurrentDate();
         List<Object> tasks = new ArrayList<Object>(TaskManager.sharedInstance().GetTasksInProject());
-//        if(tasks == null){
-//
-//        }else {
-//
-//        }
+        if(tasks.size() == 0){
+            Log.d(TAG, "THERE ARE NO TASKS");
+            welcome.setVisibility(View.VISIBLE);
+            welcome.setText(R.string.no_tasks);
+
+        }else {
+            welcome.setText(R.string.empty);
+            welcome.setVisibility(View.GONE);
+        }
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         List<Object> sortedTaskLists = sortTasks(tasks);
 
             if (mTaskAdapter == null) {
-                welcome.setText(R.string.no_tasks);
-                welcome.setVisibility(View.VISIBLE);
                 mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
                 myTaskListView.setAdapter(mTaskAdapter);
 
 
             } else {
-                welcome.setText(R.string.empty);
-                welcome.setVisibility(View.GONE);
+
                 mTaskAdapter.updateData(sortedTaskLists);
                 mTaskAdapter.notifyDataSetChanged();
             }
