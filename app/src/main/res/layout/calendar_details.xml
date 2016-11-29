@@ -27,16 +27,16 @@
 
         <TextView
             android:text="@string/meeting_description"
-            android:layout_width="wrap_content"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:id="@+id/meeting_description_expanded"
             android:gravity ="left"
             android:layout_alignTop="@+id/meetingDescInfoIcon"
             android:layout_alignBottom="@+id/meetingDescInfoIcon"
             android:textColor="@color/black_button"
+            android:layout_toLeftOf="@+id/sendMeetingReminderNotification"
             android:layout_toRightOf="@+id/meetingDescInfoIcon"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_toEndOf="@+id/meetingDescInfoIcon" />
 
         <TextView
             android:text="@string/meeting_time"
@@ -46,8 +46,8 @@
             android:textColor="@color/black_button"
             android:layout_alignTop="@+id/meetingLocationIcon"
             android:layout_toRightOf="@+id/meetingLocationIcon"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignRight="@+id/meeting_description_expanded"
+            android:layout_alignEnd="@+id/meeting_description_expanded" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
 
         <TextView
             android:text="@string/meeting_location"
-            android:layout_width="wrap_content"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:id="@+id/meetingLocation_expanded"
@@ -86,8 +86,8 @@
             android:layout_alignTop="@+id/meetingTimeIcon"
             android:layout_alignLeft="@+id/meetingTime_expanded"
             android:layout_alignStart="@+id/meetingTime_expanded"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignRight="@+id/meeting_description_expanded"
+            android:layout_alignEnd="@+id/meeting_description_expanded" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -129,8 +129,8 @@
             android:layout_below="@+id/meetingTime_expanded"
             android:layout_toRightOf="@+id/meetingLocationIcon"
             android:id="@+id/expanded_meeting_time"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignRight="@+id/meetingTime_expanded"
+            android:layout_alignEnd="@+id/meetingTime_expanded" />
 
     </RelativeLayout>
 
