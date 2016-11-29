@@ -15,7 +15,7 @@
         android:textColor="@color/white"
         android:gravity="center"
         android:scaleType="centerInside"
-        android:text="@string/pin_edit_name"
+        android:text="@string/pin_view_name"
         android:textSize="30dp"
         android:textStyle="bold" />
 
