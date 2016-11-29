@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
+            android:maxLength="10"
             android:id="@+id/newTaskNameField"
             android:hint="Name"
             android:textSize="18sp" />
@@ -58,6 +59,7 @@
             android:ems="10"
             android:id="@+id/newTaskDescriptionField"
             android:hint="Description"
+            android:maxLength="150"
             android:textSize="18sp"
             android:textColor="#7f7f7f" />
 
