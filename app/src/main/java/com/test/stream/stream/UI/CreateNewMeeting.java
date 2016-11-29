@@ -58,6 +58,7 @@ public class CreateNewMeeting extends AppCompatActivity {
         day_x = cal.get(Calendar.DAY_OF_MONTH);
         hour_x = cal.get(Calendar.HOUR);
         minute_x = cal.get(Calendar.MINUTE);
+        dayOfWeek = getDayOfWeekInitial(cal.get(Calendar.DAY_OF_WEEK));
 
         Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
 
@@ -171,6 +172,8 @@ public class CreateNewMeeting extends AppCompatActivity {
     public int adjustHour(int hour) {
         if (hour > 12)
             return hour - 12;
+        else if (hour == 0)
+            return 12;
         else
             return hour;
     }
