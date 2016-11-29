@@ -45,10 +45,13 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.Adapters.TaskAdapter;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+
+import static com.test.stream.stream.R.string.task_description;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
@@ -85,7 +88,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     TextInputEditText changedTaskAssigneeField;
     User changedTaskAssignee;
     int[] DueDate = {0,0,0};
-
 
     /**
      * Set up the new view of the expanded task
@@ -132,12 +134,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);  //button listener
 
-
         updateExpandedUI();
 
         //------------------------------------REMINDERS--------------------------------------------------------------------------//
         //-----------------------------------------------------------------------------------------------------------------------//
-
         Task task = tasks.get(current_task);
 
         //initializes views for reminder alert dialog
@@ -495,28 +495,37 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * Fill in all of the data task details with their given information
      */
     public void updateExpandedUI() {
+        Typeface ralewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-ExtraBold.ttf");
+        Typeface raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+
         Log.d(TAG, "BEGINNING EXPANDING TASK");
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         Log.d(TAG, String.valueOf(task_name));
         task_name.setText(expandTask.getName());
+        task_name.setTypeface(ralewayBold);
+        task_name.setBackgroundColor(TaskAdapter.getColorForDueTask(expandTask));
         TextView task_description = (TextView) findViewById(R.id.description_expanded);
         task_description.setText(expandTask.getDescription());
+        task_description.setTypeface(raleway);
         Log.d(TAG, expandTask.getDescription());
         task_description.setVisibility(View.VISIBLE);
         //user
         TextView user = (TextView) findViewById(R.id.user_expanded);
+        user.setTypeface(raleway);
         user.setText(String.valueOf(expandTask.getAssignee()));
 
         //due_date
         TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
         String due = String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear());
         dueDate.setText(due);
+        dueDate.setTypeface(raleway);
 
         //determines if the task has be set as complete
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         if (expandTask.getComplete() == true) {
             checkBox.setChecked(true);
             checkBox.setText("Mark as incomplete");
+            checkBox.setTypeface(raleway);
         }
     }
 
@@ -563,5 +572,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         };
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
+
+
 
 }
