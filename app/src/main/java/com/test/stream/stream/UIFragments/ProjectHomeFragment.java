@@ -139,9 +139,10 @@ public class ProjectHomeFragment extends Fragment
         });
 
         // initialize both progresses to 0
-        int blueColor = Color.argb(255, 225, 237, 255);
+        int blueColor = Color.parseColor("#aaede8");
+        int greenColor = Color.parseColor("#ff99cc00");
         userProgress.setFinishedStrokeColor(blueColor);
-        teamProgress.setFinishedStrokeColor(blueColor);
+        teamProgress.setFinishedStrokeColor(greenColor);
         userProgress.setProgress(0);
         teamProgress.setProgress(0);
     }
