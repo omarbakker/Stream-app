@@ -37,10 +37,12 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DateUtility;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.UI.Adapters.HomeTaskAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +157,7 @@ public class ProjectHomeFragment extends Fragment
             listView.setAdapter(homeTaskAdapter);
         }
         homeTaskAdapter.clear();
+        DateUtility.sortTasksByDueDate(tasks);
         homeTaskAdapter.addAll(tasks);
         homeTaskAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
