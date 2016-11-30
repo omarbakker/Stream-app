@@ -132,32 +132,40 @@ public class ProjectManager{
      * Result will be delivered in this callback.
      */
     public void fetchCurrentUserProjects(final FetchUserProjectsCallback callback) {
-        User currentUser = UserManager.sharedInstance().getCurrentUser();
 
-        final List<Project> projects = new ArrayList<Project>();
-        final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
-        final int numOfProjectsToFetch = currentUser.getProjects().size();
-        for (String id : currentUser.getProjects().keySet()) {
+        UserManager.sharedInstance().updateCurrentUser(new Runnable() {
+            @Override
+            public void run() {
 
-            DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Projects, id, new ReadDataCallback() {
-                @Override
-                public void onDataRetrieved(DataSnapshot result) {
+                User currentUser = UserManager.sharedInstance().getCurrentUser();
+                final List<Project> projects = new ArrayList<Project>();
+                final AtomicInteger numOfProjectsFetched = new AtomicInteger(0);
+                final int numOfProjectsToFetch = currentUser.getProjects().size();
 
-                    if (result.exists()) {
-                        Project project = null;
-                        for (DataSnapshot snapshot : result.getChildren())
-                            project = snapshot.getValue(Project.class);
-                        if (project != null)
-                            projects.add(project);
-                    }
+                for (String id : currentUser.getProjects().keySet()) {
 
-                    // if done fetching all projects, callback
-                    if (numOfProjectsToFetch == numOfProjectsFetched.incrementAndGet())
-                        callback.onUserProjectsListRetrieved(projects);
+                    DatabaseManager.getInstance().fetchObjectByKey(DatabaseFolders.Projects, id, new ReadDataCallback() {
+                        @Override
+                        public void onDataRetrieved(DataSnapshot result) {
 
+                            if (result.exists()) {
+                                Project project = null;
+                                for (DataSnapshot snapshot : result.getChildren())
+                                    project = snapshot.getValue(Project.class);
+                                if (project != null)
+                                    projects.add(project);
+                            }
+
+                            // if done fetching all projects, callback
+                            if (numOfProjectsToFetch == numOfProjectsFetched.incrementAndGet())
+                                callback.onUserProjectsListRetrieved(projects);
+
+                        }
+                    });
                 }
-            });
-        }
+
+            }
+        });
     }
 
     /**
