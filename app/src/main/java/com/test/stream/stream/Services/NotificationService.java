@@ -100,7 +100,7 @@ public class NotificationService {
      * @param notification
      * @throws IOException
      */
-    public void sendNotificationTo(final NotificationObject notification){
+    public void sendNotificationTo(final NotificationObject notification) throws IOException{
         Log.d(TAG,"sending notification: " + notification.getTitle());
 
         Thread t = new Thread(new Runnable(){

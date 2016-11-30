@@ -52,8 +52,6 @@ public class TeamManager extends DataManager {
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Users, user.getUid(), user);
     }
 
-
-
     /**
     * Add a user to the project
     *
