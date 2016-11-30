@@ -40,11 +40,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
@@ -55,6 +57,8 @@ import com.test.stream.stream.Utilities.DatabaseManager;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.test.stream.stream.Controllers.UserManager.createUserIfNotExist;
 
@@ -177,7 +181,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.login:
                 attemptLogin();
-                //startActivity(new Intent(MainLoginScreen.this, SignUpScreen.class));
                 break;
         }
     }
@@ -208,8 +211,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         boolean cancel = false;
         View focusView = null;
         // Store values at the time of the login attempt.
-        String email = enterEmail.getText().toString();
-        String password = enterPassword.getText().toString();
+        final String email = enterEmail.getText().toString();
+        final String password = enterPassword.getText().toString();
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -225,12 +228,39 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
             cancel = true;
         }
 
-        else if (!isEmailValid(email)) {
-            enterEmail.setError("This email or username is invalid");
-            focusView = enterEmail;
-            cancel = true;
+        else if (!isEmailValid( email)) {
+            UserManager.sharedInstance().fetchUserByUserName(email,new ReadDataCallback() {
+                @Override
+                public void onDataRetrieved(DataSnapshot result) {
+
+                    if (result.exists()){
+                        GenericTypeIndicator<Map<String, User>> genericTypeIndicator = new GenericTypeIndicator<Map<String, User>>() {};
+                        Map <String,User> resultMap = result.getValue(genericTypeIndicator);
+                        User resultUser = resultMap.get(resultMap.keySet().toArray()[0]);
+                        mAuthSignInWrapper(resultUser.getEmail(),password);
+                    }
+                    else{
+                        Toast.makeText(MainLoginScreen.this, R.string.error_invalid_email,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
+        else{
+            mAuthSignInWrapper(email,password);
         }
 
+        if(cancel) {
+            focusView.requestFocus();
+        }
+        else {
+            showProgress(true);
+        }
+
+    }
+
+    public void mAuthSignInWrapper(String email, String password){
         // Attempts login with firebase authentication (email+password)
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -258,22 +288,8 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                             Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
                             startActivity(intent);
                         }
-
-                        // [START_EXCLUDE]
-//                        if (!task.isSuccessful()) {
-//                            mStatusTextView.setText(R.string.auth_failed);
-//                        }
-                        //hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-
-        if(cancel) {
-            focusView.requestFocus();
-        }
-        else {
-            showProgress(true);
-        }
 
     }
 
@@ -287,32 +303,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
         // the progress spinner.
         // WE AREN'T ACTUALLY USING ANY OF THIS AT THIS MOMENT, SO THIS WILL BE COMMENTED OUT AS TIME BEING
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-//
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mProgressView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//                }
-//            });
-//        } else {
-//            // The ViewPropertyAnimator APIs are not available, so simply show
-//            // and hide the relevant UI components.
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//        }
     }
 
 
@@ -345,32 +335,4 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
-//    private void createUser()
-//    {
-//        FirebaseUser mUser = FirebaseAuth.sharedInstance().getCurrentUser();
-//        User user = new User(mUser.getUid(), mUser.getDisplayName());
-//        DatabaseManager.sharedInstance().writeObject(DatabaseFolders.Users, user);
-//    }
-
-    /**
-     * Checks to see if the user has already been created and exists
-     * @param uid UserID
-     */
-    private void getUser(String uid){
-        DatabaseManager.getInstance().fetchObjectByChild(DatabaseFolders.Users, "uid", uid, new ReadDataCallback() {
-            @Override
-            public void onDataRetrieved(DataSnapshot result) {
-                if(!result.exists())
-                {
-                    //createUser();
-                }
-                else
-                {
-                    Toast.makeText(MainLoginScreen.this, "User already exists",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
 }

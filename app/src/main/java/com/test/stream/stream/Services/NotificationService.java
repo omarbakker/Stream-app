@@ -1,5 +1,6 @@
 package com.test.stream.stream.Services;
 
+import android.content.pm.LauncherApps;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -10,7 +11,10 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -23,7 +27,7 @@ import okhttp3.Response;
 public class NotificationService {
     public static final String TAG = "NotificationService";
     public static NotificationService instance = null;
-
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     /**
      * prevents outside initiation
@@ -91,6 +95,11 @@ public class NotificationService {
 
     }
 
+    /**
+     * builds http request for notification sending, queries heliohost database
+     * @param notification
+     * @throws IOException
+     */
     public void sendNotificationTo(final NotificationObject notification){
         Log.d(TAG,"sending notification: " + notification.getTitle());
 
@@ -139,5 +148,54 @@ public class NotificationService {
         });t.start();
     }
 
+    /**
+     * drops row with device token
+     */
+    public void deleteDeviceTokenFromDatabse(){
+        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Deleting Token: " + deviceToken);
+        if (deviceToken != null) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("Token", deviceToken)
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://stream.heliohost.org/fcm/delete_token.php")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(final Call call, IOException e) {
+                    e.printStackTrace();
+
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //do some toast shit
+//                        }
+//                    });
+                }
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException{
+                    String res = response.body().string();
+                    Log.d(TAG,res);
+                }
+            });
+        }
+    }
+
+    public String getToString(String[] arrayData) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0 ; i < arrayData.length; i++) {
+            stringBuilder.append(arrayData[i]);
+            if (i < arrayData.length - 1) {
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.toString();
+    }
 
 }

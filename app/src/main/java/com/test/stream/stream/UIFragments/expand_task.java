@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +48,13 @@ import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.*;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.UI.Adapters.TaskAdapter;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+
+import static com.test.stream.stream.R.string.task_description;
 
 public class expand_task extends AppCompatActivity implements View.OnClickListener {
 
@@ -86,7 +91,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
     TextInputEditText changedTaskAssigneeField;
     User changedTaskAssignee;
     int[] DueDate = {0,0,0};
-
 
     /**
      * Set up the new view of the expanded task
@@ -133,12 +137,10 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         FloatingActionButton sendNotification = (FloatingActionButton) findViewById(R.id.sendTaskNotification);
         sendNotification.setOnClickListener(this);  //button listener
 
-
         updateExpandedUI();
 
         //------------------------------------REMINDERS--------------------------------------------------------------------------//
         //-----------------------------------------------------------------------------------------------------------------------//
-
         Task task = tasks.get(current_task);
 
         //initializes views for reminder alert dialog
@@ -216,17 +218,6 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param message
      */
     public void getReminderNotification(String message) {
-//        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-//        nBuilder.setContentTitle(getString(R.string.reminder_notification_title));
-//        nBuilder.setContentText(message);
-//        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-//        Notification notification = nBuilder.build();
-//        NotificationService notificationManager = (NotificationService) getSystemService(NOTIFICATION_SERVICE);
-//        notificationManager.notify(1, notification);
-//
-//        //Clear contents of the EditText
-//        messageToSend.setText("");
-
         Task task = tasks.get(current_task);
         //Currenlty only one person per task, so array always just one name
 //        ArrayList<String> usernames =new ArrayList<>();
@@ -235,12 +226,15 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         Log.d(TAG,usernames[0]);
         //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
         NotificationObject reminder = new NotificationObject();
-        reminder.setTitle("Friendly Reminder");
+        reminder.setTitle(getString(R.string.reminder_notification_title));
         reminder.setMessage(message);
         reminder.setUsers(usernames);
         Log.d(TAG,reminder.getUsers().toString());
-        NotificationService.sharedInstance().sendNotificationTo(reminder);
-
+        try {
+            NotificationService.sharedInstance().sendNotificationTo(reminder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -248,16 +242,23 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * @param message
      */
     public void getReviewNotification(String message) {
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setContentTitle(getString(R.string.review_notification_title));
-        nBuilder.setContentText(message);
-        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-        Notification notification = nBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
-
-        //Clear contents of the EditText
-        reviewMessageToSend.setText("");
+        Task task = tasks.get(current_task);
+        //Currenlty only one person per task, so array always just one name
+//        ArrayList<String> usernames =new ArrayList<>();
+//        usernames.add(task.getAssignee());
+        String[] usernames = {task.getAssignee()};
+        Log.d(TAG,usernames[0]);
+        //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
+        NotificationObject review = new NotificationObject();
+        review.setTitle(getString(R.string.review_notification_title));
+        review.setMessage(message);
+        review.setUsers(usernames);
+        Log.d(TAG,review.getUsers().toString());
+        try {
+            NotificationService.sharedInstance().sendNotificationTo(review);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -496,28 +497,37 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
      * Fill in all of the data task details with their given information
      */
     public void updateExpandedUI() {
+        Typeface ralewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-ExtraBold.ttf");
+        Typeface raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+
         Log.d(TAG, "BEGINNING EXPANDING TASK");
         TextView task_name = (TextView) findViewById(R.id.task_name_expanded);
         Log.d(TAG, String.valueOf(task_name));
         task_name.setText(expandTask.getName());
+        task_name.setTypeface(ralewayBold);
+        task_name.setBackgroundColor(TaskAdapter.getColorForDueTask(expandTask));
         TextView task_description = (TextView) findViewById(R.id.description_expanded);
         task_description.setText(expandTask.getDescription());
+        task_description.setTypeface(raleway);
         Log.d(TAG, expandTask.getDescription());
         task_description.setVisibility(View.VISIBLE);
         //user
         TextView user = (TextView) findViewById(R.id.user_expanded);
+        user.setTypeface(raleway);
         user.setText(String.valueOf(expandTask.getAssignee()));
 
         //due_date
         TextView dueDate = (TextView) findViewById(R.id.due_date_expanded);
         String due = String.valueOf(expandTask.getDueDay()) + "/" + String.valueOf(expandTask.getDueMonth()) + "/" + String.valueOf(expandTask.getDueYear());
         dueDate.setText(due);
+        dueDate.setTypeface(raleway);
 
         //determines if the task has be set as complete
         final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
         if (expandTask.getComplete() == true) {
             checkBox.setChecked(true);
             checkBox.setText("Mark as incomplete");
+            checkBox.setTypeface(raleway);
         }
     }
 
@@ -565,13 +575,5 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
-
-    /**
-     * Hides the keyboard
-     */
-    private void hideKeyboard(){
-        InputMethodManager inputManager = (InputMethodManager)changedTaskAssigneeField.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(changedTaskAssigneeField.getWindowToken(),0);
-    }
 
 }

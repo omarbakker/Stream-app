@@ -34,6 +34,7 @@
         android:background="@null"
         android:layout_marginBottom="10dp"
         android:ems="10"
+        android:maxLength = "15"
         android:id="@+id/new_meeting_name"
         android:layout_alignBottom="@+id/view2"
         android:layout_alignParentLeft="true"
@@ -99,15 +100,15 @@
         android:inputType="textMultiLine"
         android:gravity="top|left"
         android:hint="Description"
+        android:maxLength = "20"
         android:ems="10"
         android:background="@null"
         android:id="@+id/new_meeting_description"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/view2"
         android:layout_alignLeft="@+id/new_meeting_location"
         android:layout_alignStart="@+id/new_meeting_location"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/view2" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -126,6 +127,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/new_meeting_location"
+        android:maxLength = "15"
         android:hint="Location"
         android:layout_alignTop="@+id/imageView3"
         android:layout_alignParentRight="true"
