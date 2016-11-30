@@ -31,6 +31,7 @@ import com.test.stream.stream.UI.Adapters.CalendarAdapter;
 import com.test.stream.stream.UI.CreateNewMeeting;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.DateUtility;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.ArrayList;
@@ -128,6 +129,8 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
 
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
 
+        // Omar was here, is this not needed ?
+        /*
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {
@@ -137,13 +140,15 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
             }
 
             i--;
-        }
+        }*/
 
         if (mAdapter == null) {
+            DateUtility.sortMeetingsByDueDate(meetings);
             mAdapter = new CalendarAdapter(getActivity(), R.layout.calendar_listview, meetings);
             mCalendarListView.setAdapter(mAdapter);
         }
         else {
+            DateUtility.sortMeetingsByDueDate(meetings);
             mAdapter.clear();
             mAdapter.addAll(meetings);
             mAdapter.notifyDataSetChanged();

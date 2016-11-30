@@ -19,6 +19,7 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.ProjectsAdapter;
 import com.test.stream.stream.Utilities.Callbacks.FetchUserProjectsCallback;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DateUtility;
 
 import java.util.List;
 
@@ -121,6 +122,7 @@ public class ProjectsActivity extends AppCompatActivity
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
+                DateUtility.sortProjectsByDueDate(projects);
                 mAdapter.updateData(projects);
             }
         });
