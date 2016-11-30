@@ -45,7 +45,8 @@ public class CreateNewMeeting extends AppCompatActivity {
 
     //Create new meeting
     EditText meeting_name, meeting_location, meeting_description;
-    TextView createNewMeeting;
+    TextView createNewMeetingTitle;
+    Button createNewMeeting;
     android.support.v4.app.FragmentManager manager;
 
     @Override
@@ -53,16 +54,18 @@ public class CreateNewMeeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_meeting);
 
-        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-Bold.ttf");
+        Typeface RalewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-ExtraBold.ttf");
         Typeface Raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
 
         meeting_name = (EditText) findViewById(R.id.new_meeting_name);
         meeting_description = (EditText) findViewById(R.id.new_meeting_description);
         meeting_location = (EditText) findViewById(R.id.new_meeting_location);
+        createNewMeetingTitle = (TextView) findViewById(R.id.textView);
 
         meeting_name.setTypeface(Raleway);
         meeting_description.setTypeface(Raleway);
         meeting_location.setTypeface(Raleway);
+        createNewMeetingTitle.setTypeface(RalewayBold);
 
         meeting_name.requestFocus();
 
@@ -89,8 +92,8 @@ public class CreateNewMeeting extends AppCompatActivity {
         showTimeDialogOnButtonClick();
         this.manager = getSupportFragmentManager();
 
-        createNewMeeting = (TextView) findViewById(R.id.create_new_meeting);
-        createNewMeeting.setTypeface(RalewayBold);
+        createNewMeeting = (Button) findViewById(R.id.create_new_meeting);
+        createNewMeeting.setTypeface(Raleway);
         createNewMeeting.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

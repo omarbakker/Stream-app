@@ -56,7 +56,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/new_meeting_location"
-        android:maxLength = "15"
+        android:maxLength = "30"
         android:hint="Location"
         android:layout_alignTop="@+id/imageView3"
         android:layout_alignParentRight="true"
@@ -70,6 +70,7 @@
         android:inputType="textMultiLine"
         android:hint="Description"
         android:ems="10"
+        android:maxLength = "30"
         android:background="@null"
         android:minHeight="50px"
         android:id="@+id/new_meeting_description"
@@ -101,18 +102,6 @@
         android:layout_marginTop="16dp" />
 
     <TextView
-        android:text="Create Meeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_new_meeting"
-        android:textColor="#087bb9"
-        android:textStyle="normal|bold"
-        android:textSize="20dp"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/new_meeting_time"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,13 +115,16 @@
 
     <TextView
         android:text="New meeting"
-        android:textSize="24dp"
+        android:textSize="28sp"
         android:textColor="#FFFFFF"
-        android:background="#087bb9"
+        android:background="@android:color/holo_blue_dark"
+        android:textStyle="normal|bold"
+        android:paddingTop="@dimen/small_padding"
+        android:paddingBottom="@dimen/small_padding"
         android:gravity="center"
         android:elevation="@dimen/small_padding"
         android:layout_width="wrap_content"
-        android:layout_height="150px"
+        android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -146,6 +138,7 @@
         android:inputType="textPersonName"
         android:gravity="center"
         android:hint="Meeting Name"
+        android:maxLength = "28"
         android:background="@null"
         android:textSize="24dp"
         android:ems="10"
@@ -156,4 +149,21 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Create Meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_new_meeting"
+        android:textColor="#FFFFFF"
+        android:background="@android:color/holo_blue_dark"
+        android:textSize="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

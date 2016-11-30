@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -141,32 +142,56 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         }
 
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
+        List<Meeting> allMeetingSorted = sortMeetings(meetings);
 
-        // Omar was here, is this not needed ?
-        /*
-        ArrayList<String> meetingList = new ArrayList<>();
-        int i = meetings.size() - 1;
-        while(i >= 0) {
-            Meeting meeting = meetings.get(i);
-            if(meeting != null) {
-                meetingList.add(meeting.getName());
-            }
-
-            i--;
-        }*/
 
         if (mAdapter == null) {
-            DateUtility.sortMeetingsByDueDate(meetings);
-            mAdapter = new CalendarAdapter(getActivity(), R.layout.calendar_listview, meetings);
+            mAdapter = new CalendarAdapter(getActivity(), R.layout.calendar_listview, allMeetingSorted);
             mCalendarListView.setAdapter(mAdapter);
         }
         else {
-            DateUtility.sortMeetingsByDueDate(meetings);
             mAdapter.clear();
-            mAdapter.addAll(meetings);
+            mAdapter.addAll(allMeetingSorted);
             mAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    List<Meeting> sortMeetings(List<Meeting> meetingsToSort) {
+        List<Meeting> sortedMeetings = new ArrayList<Meeting>();
+        List<Meeting> currentMeetings = new ArrayList<Meeting>();
+        List<Meeting> passedMeetings = new ArrayList<Meeting>();
+
+        //add meetings to the appropriate list
+        for(Meeting meeting: meetingsToSort) {
+            int[] meetingDate = {meeting.getYear(), meeting.getNumberMonth(), meeting.getDay()};
+            boolean isPast = DateUtility.isPastDue(meetingDate);
+            boolean isCurrent = !isPast;
+
+            if (isPast) {
+                System.out.println("THIS MEETING ALREADY PASSED" + meeting.getName());
+                passedMeetings.add(meeting);
+            }
+            else {
+                System.out.println("THIS MEETING IS CURRENT" + meeting.getName());
+                currentMeetings.add(meeting);
+            }
+        }
+
+        if (currentMeetings.size() != 0) {
+            //sortedMeetings.add("Future Meetings");
+            DateUtility.sortMeetingsByDueDate(currentMeetings);
+            for(int i = 0; i < currentMeetings.size(); i++)
+                sortedMeetings.add(currentMeetings.get(i));
+        }
+        if (passedMeetings.size() != 0) {
+            //sortedMeetings.add("Past Meetings");
+            DateUtility.sortMeetingsByDueDate(passedMeetings);
+            for(int i = 0; i < passedMeetings.size(); i++)
+                sortedMeetings.add(passedMeetings.get(i));
+        }
+
+        return sortedMeetings;
     }
 
     @Override
