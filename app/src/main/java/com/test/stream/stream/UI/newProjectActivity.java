@@ -69,6 +69,7 @@ public class newProjectActivity extends AppCompatActivity
         doneButton.setOnClickListener(this);
         addUserButton = (Button) findViewById(R.id.newProjectAddUserButton);
         addUserButton.setOnClickListener(this);
+        projectNameField.clearFocus();
 
         // Initialize list for new users, set its adapter to an instance of newProjectUsersAdapter
         newUsersAdapter = new newProjectUsersAdapter(this);
@@ -84,7 +85,7 @@ public class newProjectActivity extends AppCompatActivity
         }
 
         // set font
-        setSyncopateFont();
+        setFont();
     }
 
 
@@ -280,15 +281,17 @@ public class newProjectActivity extends AppCompatActivity
     }
 
     /**
-     * Changes title, and buttons font to Syncopate
+     * Changes title, and buttons font to Raleway
      */
-    private void setSyncopateFont(){
+    private void setFont(){
         //Changing font to Syncopate
-        Typeface Syncopate = Typeface.createFromAsset(this.getAssets(), "Syncopate-Regular.ttf");
-        Typeface SyncopateBold = Typeface.createFromAsset(this.getAssets(), "Syncopate-Bold.ttf");
-        titleText.setTypeface(SyncopateBold);
-        doneButton.setTypeface(Syncopate);
-        addUserButton.setTypeface(Syncopate);
+        Typeface ralewayBold = Typeface.createFromAsset(this.getAssets(), "Raleway-ExtraBold.ttf");
+        Typeface raleway = Typeface.createFromAsset(this.getAssets(), "Raleway-Regular.ttf");
+        titleText.setTypeface(ralewayBold);
+        doneButton.setTypeface(raleway);
+        projectNameField.setTypeface(raleway);
+        projectDateField.setTypeface(raleway);
+        addUserButton.setTypeface(raleway);
     }
 
 
@@ -297,7 +300,9 @@ public class newProjectActivity extends AppCompatActivity
      * @param s
      */
     @Override
-    public void afterTextChanged(Editable s) {}
+    public void afterTextChanged(Editable s) {
+
+    }
 
     /**
      * Required by textWatcher, unused
