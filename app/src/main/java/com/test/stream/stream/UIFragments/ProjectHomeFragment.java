@@ -94,28 +94,6 @@ public class ProjectHomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-//        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
-//
-//        /*
-//        * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
-//        * performs a swipe-to-refresh gesture.
-//        */
-//        swipeRefreshLayout.setOnRefreshListener(
-//                new SwipeRefreshLayout.OnRefreshListener() {
-//                    @Override
-//                    public void onRefresh() {
-//                        //Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
-//
-//                        Log.d(TAG, "REFRESHING MOFOS");
-//                        // This method performs the actual data-refresh operation.
-//                        // The method calls setRefreshing(false) when it's finished.
-//                        updateUI();
-//                    }
-//                }
-//        );
-
         return inflater.inflate(R.layout.fragment_project_home, container, false);
     }
 

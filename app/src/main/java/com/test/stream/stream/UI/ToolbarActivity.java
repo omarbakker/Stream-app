@@ -314,7 +314,7 @@ public class ToolbarActivity extends AppCompatActivity
                                 snackbar1.show();
                             }
                         });
-                snackbar.setActionTextColor(Color.RED);
+                snackbar.setActionTextColor(Color.WHITE);
                 snackbar.show();
             }
         }
