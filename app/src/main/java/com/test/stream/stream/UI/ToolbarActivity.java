@@ -25,6 +25,7 @@ import com.test.stream.stream.Controllers.HomeManager;
 import com.test.stream.stream.Listener.UndoTaskOnClickListener;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.TeamFragment;
@@ -63,43 +64,6 @@ public class ToolbarActivity extends AppCompatActivity
         //register device token
         FirebaseMessaging.getInstance().subscribeToTopic("test");
         FirebaseInstanceId.getInstance().getToken();
-        //Log.d(TAG, firebase.getCurrentUser().getDisplayName());
-//
-//        Thread t = new Thread(new Runnable(){
-//            @Override
-//            public void run(){
-//                while(thread_running){
-//                    String deviceToken = FirebaseInstanceId.sharedInstance().getToken();
-//                    if(deviceToken != null){
-//                        OkHttpClient client = new OkHttpClient();
-//                        RequestBody body = new FormBody.Builder()
-//                                .add("Token",  deviceToken)
-//                                .build();
-//                        Request request = new Request.Builder()
-//                                //.url("http://128.189.196.101/fcm/register.php")
-//                                .url("http://128.189.196.101/fcm/register.php")
-//                                .post(body)
-//                                .build();
-//                        Response response = null;
-//                        try {
-////            response = client.newCall(request).execute();
-//                            response = client.newCall(request).execute();
-////            System.out.println(response.body().string());
-//                            Log.d(TAG, response.body().string());
-//
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        thread_running = false;
-//                    }
-//                    try{
-//                        Thread.sleep(1000);
-//                    } catch(InterruptedException e){
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });t.start();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -110,6 +74,7 @@ public class ToolbarActivity extends AppCompatActivity
         // Show the details of the navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         this.manager = getSupportFragmentManager();
         String intentFragment;
@@ -230,8 +195,10 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             case R.id.nav_logout:
                 clearProjectInstance();
+                NotificationService.sharedInstance().deleteDeviceTokenFromDatabse();
                 com.test.stream.stream.Controllers.UserManager
                         .sharedInstance().logout();
+
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
                 this.finish();

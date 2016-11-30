@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +23,31 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
 import com.test.stream.stream.Controllers.CalendarManager;
 import com.test.stream.stream.Controllers.ProjectManager;
+import com.test.stream.stream.Controllers.TeamManager;
+import com.test.stream.stream.Controllers.UserManager;
 import com.test.stream.stream.Objects.Calendar.Meeting;
+import com.test.stream.stream.Objects.Notifications.NotificationObject;
 import com.test.stream.stream.Objects.Projects.Project;
+import com.test.stream.stream.Objects.Tasks.Task;
+import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.UI.Adapters.CalendarAdapter;
 import com.test.stream.stream.UI.CreateNewMeeting;
+import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.DateUtility;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -52,6 +65,7 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
     List<Meeting> meetings = new ArrayList<>();
     AlertDialog.Builder meetingReminderBuilder;
     final Context context = this.getActivity();
+    private static final String TAG = CalendarFragment.class.getSimpleName();
 
     private AlertDialog popupDialog;
 
@@ -128,6 +142,8 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
 
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
 
+        // Omar was here, is this not needed ?
+        /*
         ArrayList<String> meetingList = new ArrayList<>();
         int i = meetings.size() - 1;
         while(i >= 0) {
@@ -137,13 +153,15 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
             }
 
             i--;
-        }
+        }*/
 
         if (mAdapter == null) {
+            DateUtility.sortMeetingsByDueDate(meetings);
             mAdapter = new CalendarAdapter(getActivity(), R.layout.calendar_listview, meetings);
             mCalendarListView.setAdapter(mAdapter);
         }
         else {
+            DateUtility.sortMeetingsByDueDate(meetings);
             mAdapter.clear();
             mAdapter.addAll(meetings);
             mAdapter.notifyDataSetChanged();
@@ -293,14 +311,77 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         DatabaseManager.getInstance().updateObject(DatabaseFolders.Projects,currentProject.getId(),currentProject);
     }
 
-    public void getMeetingReminderNotification(String message) {
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context);
-        nBuilder.setContentTitle(getString(R.string.meeting_reminder_notification_title_send));
-        nBuilder.setContentText(message);
-        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
-        Notification notification = nBuilder.build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
+    public void getMeetingReminderNotification(final String message) {
+//        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context);
+//        nBuilder.setContentTitle(getString(R.string.meeting_reminder_notification_title_send));
+//        nBuilder.setContentText(message);
+//        nBuilder.setSmallIcon(R.drawable.com_facebook_button_icon);
+//        Notification notification = nBuilder.build();
+//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.notify(1, notification);
+
+//        Meeting meeting = meetings.get(current_meeting);
+        final ArrayList<String> usernameSet = new ArrayList<>();
+        final TeamManager mTeamManager = new TeamManager();
+        mTeamManager.Initialize(new DataEventListener() {
+            @Override
+            public void onDataChanged() {
+                for(User user: mTeamManager.GetUsers())
+                {
+                    usernameSet.add(user.getUsername());
+                }
+                String[] usernames = new String[usernameSet.size()];
+                for(int i = 0; i < usernames.length; i++){
+                    usernames[i] = usernameSet.get(i);
+                    Log.d(TAG,usernames[i]);
+                }
+                Log.d(TAG, Integer.toString(usernameSet.size()));
+                //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
+                NotificationObject reminder = new NotificationObject();
+                reminder.setTitle("Meeting Reminder");
+                reminder.setMessage(message);
+                reminder.setUsers(usernames);
+                try {
+                    NotificationService.sharedInstance().sendNotificationTo(reminder);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+//        Set<String> members = ProjectManager.sharedInstance().getCurrentProject().getMembers().keySet();
+//        final ArrayList<String> usernameSet = new ArrayList<>();
+//        for(String member : members){
+//            UserManager.sharedInstance().fetchUserByUid(member, new ReadDataCallback() {
+//                @Override
+//                public void onDataRetrieved(DataSnapshot result) {
+//                    String username = result.getValue(User.class).getUsername();
+//                    usernameSet.add(username);
+//                    Log.d(TAG,"user: " + username);
+//
+//                }
+//            });
+//
+//        }
+//        String[] usernames = new String[usernameSet.size()];
+//        for(int i = 0; i < usernameSet.size(); i++){
+//            usernames[i] = usernameSet.get(i);
+//        }
+//        Log.d(TAG, Integer.toString(usernameSet.size()));
+//        //NotificationObject reminder = new NotificationObject("Here's a friendly reminder for you to complete your task!",message,usernames);
+//        NotificationObject reminder = new NotificationObject();
+//        reminder.setTitle("Meeting Reminder");
+//        reminder.setMessage(message);
+//        reminder.setUsers(usernames);
+//        Log.d(TAG,reminder.getUsers().toString());
+//        try {
+//            NotificationService.sharedInstance().sendNotificationTo(reminder);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        //Currenlty only one person per task, so array always just one name
+//        ArrayList<String> usernames =new ArrayList<>();
+//        usernames.add(task.getAssignee());
+
     }
 
 }

@@ -163,7 +163,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
             return valid;
         }
 
-        //showProgressDialog();
+        //Disable the button if we are creating a user.
+        continueSignUp.setEnabled(false);
 
         // [START create_user_with_email] firebase users
         System.out.println(email + " " + password);

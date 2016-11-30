@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,10 +39,12 @@ import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DateUtility;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.UI.Adapters.HomeTaskAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +55,7 @@ public class ProjectHomeFragment extends Fragment
 
     private DonutProgress teamProgress;
     private DonutProgress userProgress;
+
 
     private static final String TAG = "Home Fragment";
 
@@ -65,6 +70,9 @@ public class ProjectHomeFragment extends Fragment
             updateUI();
         }
     };
+
+
+
     private ListView listView;
     int[] DueDate = {0,0,0};
     private AlertDialog newTaskDialog;
@@ -86,12 +94,35 @@ public class ProjectHomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
+//        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
+//
+//        /*
+//        * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+//        * performs a swipe-to-refresh gesture.
+//        */
+//        swipeRefreshLayout.setOnRefreshListener(
+//                new SwipeRefreshLayout.OnRefreshListener() {
+//                    @Override
+//                    public void onRefresh() {
+//                        //Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
+//
+//                        Log.d(TAG, "REFRESHING MOFOS");
+//                        // This method performs the actual data-refresh operation.
+//                        // The method calls setRefreshing(false) when it's finished.
+//                        updateUI();
+//                    }
+//                }
+//        );
+
         return inflater.inflate(R.layout.fragment_project_home, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
+
 
         teamProgress = (DonutProgress) getView().findViewById(R.id.team_progress);
         userProgress = (DonutProgress) getView().findViewById(R.id.user_progress);
@@ -137,7 +168,7 @@ public class ProjectHomeFragment extends Fragment
      * Function that updates the Adapter of the ListFragment
      */
     public void updateUI() {
-
+        Log.d(TAG, "FRESHING THE THINGS");
         // Get all user tasks from the database
         List<Task> allTasks = homeManager.getUserTasks();
 
@@ -155,12 +186,15 @@ public class ProjectHomeFragment extends Fragment
             listView.setAdapter(homeTaskAdapter);
         }
         homeTaskAdapter.clear();
+        DateUtility.sortTasksByDueDate(tasks);
         homeTaskAdapter.addAll(tasks);
         homeTaskAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
 
         updateProgress(teamProgress, homeManager.getTeamProgress());
         updateProgress(userProgress, homeManager.getUserProgress());
+
+
     }
 
     /****
@@ -393,7 +427,6 @@ public class ProjectHomeFragment extends Fragment
         }
         return true;
     }
-
 
 
     private void hideKeyboard(){

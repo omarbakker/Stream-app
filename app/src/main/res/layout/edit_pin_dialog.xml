@@ -27,6 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"
+        android:maxLength= "8"
         android:hint="@string/dialog_title" />
 
     <EditText
@@ -37,6 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"
+        android:maxLength= "15"
         android:hint="@string/dialog_description" />
 
     <LinearLayout

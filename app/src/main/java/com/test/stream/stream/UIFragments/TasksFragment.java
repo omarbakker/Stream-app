@@ -1,9 +1,6 @@
 package com.test.stream.stream.UIFragments;
 
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +30,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TaskManager;
 import com.test.stream.stream.Controllers.UserManager;
-import com.test.stream.stream.Objects.Calendar.Calendar;
 import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.Objects.Users.User;
@@ -43,20 +38,21 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.UI.Adapters.TaskAdapter;
 
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
+import com.test.stream.stream.Utilities.DateUtility;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
-
-import org.joda.time.DateTime;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import java.util.Objects;
 
 import static android.R.attr.name;
 import static android.R.id.input;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -188,8 +184,8 @@ public class TasksFragment extends Fragment
 
         getCurrentDate();
         List<Object> tasks = new ArrayList<Object>(TaskManager.sharedInstance().GetTasksInProject());
+        //creating a welcome message for when there are no tasks
         if(tasks.size() == 0){
-            Log.d(TAG, "THERE ARE NO TASKS");
             welcome.setVisibility(View.VISIBLE);
             welcome.setText(R.string.no_tasks);
 
@@ -200,16 +196,13 @@ public class TasksFragment extends Fragment
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         List<Object> sortedTaskLists = sortTasks(tasks);
 
-            if (mTaskAdapter == null) {
-                mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
-                myTaskListView.setAdapter(mTaskAdapter);
-
-
-            } else {
-
-                mTaskAdapter.updateData(sortedTaskLists);
-                mTaskAdapter.notifyDataSetChanged();
-            }
+        if (mTaskAdapter == null) {
+            mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
+            myTaskListView.setAdapter(mTaskAdapter);
+        } else {
+            mTaskAdapter.updateData(sortedTaskLists);
+            mTaskAdapter.notifyDataSetChanged();
+        }
     }
 
     List<Object> sortTasks(List <Object> tasks){
@@ -226,7 +219,7 @@ public class TasksFragment extends Fragment
                 Task task = (Task)object;
 
                 int[] dueDate = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
-                boolean isPastDue = isPastDue(dueDate);
+                boolean isPastDue = DateUtility.isPastDue(dueDate);
                 boolean isComplete = task.getComplete();
                 boolean isAssignedToMe = isAssignedToCurrentUser(task);
 
@@ -246,14 +239,17 @@ public class TasksFragment extends Fragment
 
         if (myTasks.size() != 0) {
             sortedTasks.add("Your Tasks");
+            DateUtility.sortTaskObjectsByDueDate(myTasks);
             sortedTasks.addAll(myTasks);
         }
         if (othersTasks.size() != 0) {
             sortedTasks.add("Team-mate's tasks");
+            DateUtility.sortTaskObjectsByDueDate(othersTasks);
             sortedTasks.addAll(othersTasks);
         }
         if (dueTasks.size() != 0) {
             sortedTasks.add("Completed Tasks");
+            DateUtility.sortTaskObjectsByDueDate(dueTasks);
             sortedTasks.addAll(dueTasks);
         }
 
@@ -267,54 +263,6 @@ public class TasksFragment extends Fragment
      */
     public static boolean isAssignedToCurrentUser(Task task){
         return task.getAssignee().equals(UserManager.sharedInstance().getCurrentUser().getUsername());
-    }
-
-    /**
-     * @param date
-     * @return
-     * True if date is later than now, depends on dateIsLater(...) and uses the same date format
-     */
-    public static boolean isPastDue(int[] date){
-
-        int[] nowDateArray = {0,0,0};
-        DateTime now = DateTime.now();
-        nowDateArray[0] = now.getYear();
-        nowDateArray[1] = now.getMonthOfYear();
-        nowDateArray[2] = now.getDayOfMonth();
-        return dateIsLater(nowDateArray,date);
-    }
-
-    /**
-     * Returns true if thisDate is later or equal to thatDate
-     * @param thisDate
-     * size must equal 3, index 0 is year, 1 is month, 2 is day.
-     * @param thatDate
-     * size must equal 3, index 0 is year, 1 is month, 2 is day.
-     * @return
-     * True if thisDate is later or equal to thatDate
-     */
-    public static boolean dateIsLater(int[] thisDate, int[] thatDate){
-
-        if (thisDate[0] > thatDate[0])
-            return true;
-
-        if (thisDate[0] < thatDate[0])
-            return false;
-
-        // years are equal
-        // compare months
-        if (thisDate[1] > thatDate[1])
-            return true;
-
-        if (thisDate[1] < thatDate[1])
-            return false;
-
-        // months are equal
-        // compare days
-        if (thisDate[2] > thatDate[2])
-            return true;
-
-        return !(thisDate[2] < thatDate[2]);
     }
 
 
@@ -497,6 +445,7 @@ public class TasksFragment extends Fragment
                 }
             }
         };
+        hideKeyboard();
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 

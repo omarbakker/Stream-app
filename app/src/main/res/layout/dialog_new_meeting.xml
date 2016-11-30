@@ -56,6 +56,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/new_meeting_location"
+        android:maxLength = "15"
         android:hint="Location"
         android:layout_alignTop="@+id/imageView3"
         android:layout_alignParentRight="true"
