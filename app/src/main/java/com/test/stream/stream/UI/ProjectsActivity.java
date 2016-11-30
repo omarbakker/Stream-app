@@ -180,7 +180,7 @@ public class ProjectsActivity extends AppCompatActivity
             Intent intent = new Intent(this,ToolbarActivity.class);
             intent.putExtra("frgToLoad", "HOME");
             startActivity(intent);
-            this.finish();
+            finish();
         }
 
     }
@@ -191,6 +191,7 @@ public class ProjectsActivity extends AppCompatActivity
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
 
