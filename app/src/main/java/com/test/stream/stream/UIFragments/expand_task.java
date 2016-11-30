@@ -490,6 +490,7 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                 }
             }
         });
+        hideKeyboard();
         changedTaskDialog.show();
     }
 
@@ -572,8 +573,14 @@ public class expand_task extends AppCompatActivity implements View.OnClickListen
                 }
             }
         };
+        hideKeyboard();
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
+
+    private void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)changedTaskAssigneeField.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(changedTaskAssigneeField.getWindowToken(),0);
+    }
 
 }

@@ -438,6 +438,7 @@ public class TasksFragment extends Fragment
                 }
             }
         };
+        hideKeyboard();
         UserManager.sharedInstance().fetchUserByUserName(uDescription,userResult);
     }
 
