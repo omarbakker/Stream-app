@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,12 +31,12 @@ public class ProjectsActivity extends AppCompatActivity
         ListView.OnItemClickListener{
     private static final String TAG = "ProjectsActivity";
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView titleText;
     private ListView mProjectsListView;
     private TextView mProjectsTextView;
     private ProjectsAdapter mAdapter;
 
-    boolean thread_running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,12 +74,26 @@ public class ProjectsActivity extends AppCompatActivity
             });
         }
 
-        // Register user - device pair to heliohost server
-//        try {
-//            NotificationService.sharedInstance().registerUserDevice();
-//        }catch(NullPointerException e){
-//            e.printStackTrace();
-//        }
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+
+        /*
+        * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+        * performs a swipe-to-refresh gesture.
+        */
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        //Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
+
+                        Log.d(TAG, "REFRESHING MOFOS");
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        updateUI();
+                    }
+                }
+        );
+
     }
 
     /**
@@ -108,6 +124,7 @@ public class ProjectsActivity extends AppCompatActivity
      * updates the list view to reflect changes in the project list fetched from ProjectManager.
      */
     public void updateUI() {
+        Log.d(TAG, "REFRESH WAS CALLED");
         if (!ProjectManager.sharedInstance().hasProjects()) {
             mProjectsTextView.setText(R.string.no_projects);
             mProjectsTextView.setVisibility(View.VISIBLE);
@@ -117,13 +134,17 @@ public class ProjectsActivity extends AppCompatActivity
             mProjectsTextView.setText(R.string.empty);
             mProjectsTextView.setVisibility(View.GONE);
         }
-
+        Log.d(TAG, "GOT HERE");
         ProjectManager.sharedInstance().fetchCurrentUserProjects(new FetchUserProjectsCallback() {
             @Override
             public void onUserProjectsListRetrieved(List<Project> projects) {
                 mAdapter.updateData(projects);
+                Log.d(TAG, "CALLED UPDATE DATA");
+                swipeRefreshLayout.setRefreshing(false);
+                Log.d(TAG, "DONE REFRESHING");
             }
         });
+
 
     }
 

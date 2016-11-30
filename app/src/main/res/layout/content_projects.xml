@@ -20,18 +20,18 @@
         android:background="@android:color/holo_blue_dark"
         android:elevation="@dimen/small_padding">
 
-    <TextView
-        android:text="@string/Projects_activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/yourProjectsTitle"
-        android:layout_marginTop="@dimen/small_padding"
-        android:layout_marginBottom="@dimen/small_padding"
-        android:fontFamily="sans-serif"
-        android:textSize="22sp"
-        android:textAlignment="center"
-        android:maxLines="1"
-        android:textColor="@android:color/white" />
+        <TextView
+            android:text="@string/Projects_activity_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/yourProjectsTitle"
+            android:layout_marginTop="@dimen/small_padding"
+            android:layout_marginBottom="@dimen/small_padding"
+            android:fontFamily="sans-serif"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
@@ -45,6 +45,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50sp">
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,6 +63,9 @@
         android:id="@+id/ProjectsList"
         android:divider="#e9e9e9"
         android:dividerHeight="5dp" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
