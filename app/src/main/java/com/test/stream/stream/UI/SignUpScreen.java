@@ -255,7 +255,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
 
         String username = enterNewUsername.getText().toString();
         //TODO: Enforce username duplicate error
-        if (TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(username)) {
             enterNewUsername.setError("Required.");
             valid = false;
         } else {
