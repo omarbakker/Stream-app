@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.test.stream.stream.Controllers.UserManager;
+import com.test.stream.stream.Objects.Projects.Project;
 import com.test.stream.stream.Objects.Users.User;
 import com.test.stream.stream.Controllers.ProjectManager;
 import com.test.stream.stream.Controllers.TeamManager;
@@ -142,6 +143,7 @@ public class TeamFragment extends Fragment {
                     String id = (String) resultMap.keySet().toArray()[0];
                     User user = resultMap.get(id);
 
+                    ProjectManager.sharedInstance().getCurrentProject().addMember(user,false);
                     mTeamManager.AddMemberToCurrentProject(user,false);
                 }else{
                     // user is invalid and cannot be added to the project as a collaborator

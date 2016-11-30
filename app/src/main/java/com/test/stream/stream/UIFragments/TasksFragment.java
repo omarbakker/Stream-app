@@ -177,8 +177,8 @@ public class TasksFragment extends Fragment
 
         getCurrentDate();
         List<Object> tasks = new ArrayList<Object>(TaskManager.sharedInstance().GetTasksInProject());
+        //creating a welcome message for when there are no tasks
         if(tasks.size() == 0){
-            Log.d(TAG, "THERE ARE NO TASKS");
             welcome.setVisibility(View.VISIBLE);
             welcome.setText(R.string.no_tasks);
 
@@ -189,16 +189,13 @@ public class TasksFragment extends Fragment
         Project currentProject = ProjectManager.sharedInstance().getCurrentProject();
         List<Object> sortedTaskLists = sortTasks(tasks);
 
-            if (mTaskAdapter == null) {
-                mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
-                myTaskListView.setAdapter(mTaskAdapter);
-
-
-            } else {
-
-                mTaskAdapter.updateData(sortedTaskLists);
-                mTaskAdapter.notifyDataSetChanged();
-            }
+        if (mTaskAdapter == null) {
+            mTaskAdapter = new TaskAdapter(this.getContext(), sortedTaskLists);
+            myTaskListView.setAdapter(mTaskAdapter);
+        } else {
+            mTaskAdapter.updateData(sortedTaskLists);
+            mTaskAdapter.notifyDataSetChanged();
+        }
     }
 
     List<Object> sortTasks(List <Object> tasks){

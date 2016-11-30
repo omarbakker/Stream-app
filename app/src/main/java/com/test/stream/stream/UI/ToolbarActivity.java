@@ -25,6 +25,7 @@ import com.test.stream.stream.Controllers.HomeManager;
 import com.test.stream.stream.Listener.UndoTaskOnClickListener;
 import com.test.stream.stream.Objects.Tasks.Task;
 import com.test.stream.stream.R;
+import com.test.stream.stream.Services.NotificationService;
 import com.test.stream.stream.UIFragments.CalendarFragment;
 import com.test.stream.stream.UIFragments.ProjectHomeFragment;
 import com.test.stream.stream.UIFragments.TeamFragment;
@@ -194,8 +195,10 @@ public class ToolbarActivity extends AppCompatActivity
                 break;
             case R.id.nav_logout:
                 clearProjectInstance();
+                NotificationService.sharedInstance().deleteDeviceTokenFromDatabse();
                 com.test.stream.stream.Controllers.UserManager
                         .sharedInstance().logout();
+
                 Intent intent = new Intent(ToolbarActivity.this, MainLoginScreen.class);
                 startActivity(intent);
                 this.finish();
