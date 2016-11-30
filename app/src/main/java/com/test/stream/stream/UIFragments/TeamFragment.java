@@ -84,7 +84,7 @@ public class TeamFragment extends Fragment {
             addUser = (TextInputLayout) getView().findViewById(R.id.NewTeamMemberWrapper);
             addUser.setMinimumHeight(250);
         }
-
+git sta
         // Reverse User order to show newly created on top
         Collections.reverse(users);
         if (teamAdapter == null) {
