@@ -328,6 +328,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                     System.out.println("CHANGE SCREEN TO PROJECTS PAGE");
                                     Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }});
 
                         }
