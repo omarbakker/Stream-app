@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -324,9 +325,19 @@ public class newProjectActivity extends AppCompatActivity
      */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if ((s.length() == 2 || s.length() == 5) && count > 0) {
-            projectDateField.append("/");
+        if ((s.length() == 2 || s.length() == 5)) {
+            if(count > 0){
+                projectDateField.append("/");
+            }
+            else
+            {
+                projectDateField.setText(projectDateField.getText().toString().substring(0, s.length()-1));
+                projectDateField.setSelection(s.length()-1);
+            }
+
         }
     }
+
+
 
 }
