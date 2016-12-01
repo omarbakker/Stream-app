@@ -338,8 +338,16 @@ public class ProjectHomeFragment extends Fragment
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if ((s.length() == 2 || s.length() == 5) && count > 0) {
-            newtaskDateField.append("/");
+        if ((s.length() == 2 || s.length() == 5)) {
+            if(count > 0){
+                newtaskDateField.append("/");
+            }
+            else
+            {
+                newtaskDateField.setText(newtaskDateField.getText().toString().substring(0, s.length()-1));
+                newtaskDateField.setSelection(s.length()-1);
+            }
+
         }
     }
 
