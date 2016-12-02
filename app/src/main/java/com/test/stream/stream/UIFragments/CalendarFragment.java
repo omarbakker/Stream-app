@@ -203,16 +203,19 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent == mCalendarListView) {
             meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
-            Meeting selectedMeeting = (Meeting) mAdapter.getItem(position);
-            int size = meetings.size();
-            for(int i = 0; i < size; i++) {
-                Meeting meeting = meetings.get(i);
-                if(selectedMeeting.getName().equals(meeting.getName())) {
-                    current_meeting = i;
-                    break;
+            if (mAdapter.getItem(position)  instanceof Meeting) {
+                Meeting selectedMeeting = (Meeting) mAdapter.getItem(position);
+                int size = meetings.size();
+                for(int i = 0; i < size; i++) {
+                    Meeting meeting = meetings.get(i);
+                    if(selectedMeeting.getName().equals(meeting.getName())) {
+                        current_meeting = i;
+                        break;
+                    }
                 }
+                expandMeetingDetailsPopup(view, selectedMeeting);
             }
-            expandMeetingDetailsPopup(view, selectedMeeting);
+
         }
 
     }

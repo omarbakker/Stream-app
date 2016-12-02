@@ -12,6 +12,7 @@
         <TextView
             android:text="@string/meeting_name"
             android:textColor="#000000"
+            android:elevation="10px"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:id="@+id/meeting_name_expanded"

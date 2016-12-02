@@ -83,9 +83,9 @@ public class CreateNewMeeting extends AppCompatActivity {
         datePicker.setTypeface(RalewayBold);
         timePicker = (TextView) findViewById(R.id.new_meeting_time);
         if(cal.get(Calendar.MINUTE)<10)
-            timePicker.setText(cal.get(Calendar.HOUR) + ":" + "0" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
+            timePicker.setText(adjustHour(cal.get(Calendar.HOUR)) + ":" + "0" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
         else
-            timePicker.setText(cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
+            timePicker.setText(adjustHour(cal.get(Calendar.HOUR)) + ":" + cal.get(Calendar.MINUTE) + " " + getAmPmInitial(cal.get(Calendar.AM_PM)));
         timePicker.setTypeface(RalewayBold);
 
         showDialogOnButtonClick();
