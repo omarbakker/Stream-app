@@ -184,7 +184,7 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         }
         if (passedMeetings.size() != 0) {
             //sortedMeetings.add("Past Meetings");
-            DateUtility.sortMeetingsByDueDate(passedMeetings);
+            DateUtility.sortMeetingsByDueDateReverse(passedMeetings);
             for(int i = 0; i < passedMeetings.size(); i++)
                 sortedMeetings.add(passedMeetings.get(i));
         }

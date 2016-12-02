@@ -55,6 +55,16 @@ public class DateUtility {
     }
 
     /**
+     * Given a list of type Meeting
+     * Sorts the list in descending order by duedate
+     *
+     * @param array
+     */
+    public static void sortMeetingsByDueDateReverse(List<Meeting> array) {
+        Collections.sort(array, new meetingDateSortReverse());
+    }
+
+    /**
      * Given a list of type Object, where each object is an instance od type Task.
      * Sorts the list in ascending order by duedate
      *
@@ -192,26 +202,31 @@ public class DateUtility {
     public static boolean meetingDateIsLater(int[] thisDate, int[] thatDate) {
         if (dateIsLater(thisDate, thatDate)) {
             return true;
-        } else {
-
+        } else if (dateIsLater(thatDate, thisDate))
+                return false;
+        else {
             // compare am/pm
-            if (thisDate[3] > thatDate[3])
+            if (thisDate[3] > thatDate[3]) {
                 return true;
+            }
 
-            if (thisDate[3] < thatDate[3])
+            if (thisDate[3] < thatDate[3]) {
                 return false;
+            }
 
 
-            if (thisDate[4] > thatDate[4])
+            if (thisDate[4] > thatDate[4]) {
+
                 return true;
+            }
 
-            if (thisDate[4] < thatDate[4])
+            if (thisDate[4] < thatDate[4]) {
                 return false;
+            }
 
-            // months are equal
-            // compare days
-            if (thisDate[5] > thatDate[5])
+            if (thisDate[5] > thatDate[5]) {
                 return true;
+            }
 
             return !(thisDate[5] < thatDate[5]);
 
@@ -252,6 +267,27 @@ public class DateUtility {
                 return 1;
             } else {
                 return -1;
+            }
+        }
+    }
+
+
+    /**
+     * Pass a new meetingDateSort() as a comparator to the collections.sort to sort in reverse chronological order by duedate for meetings
+     */
+    private static class meetingDateSortReverse implements Comparator<Meeting> {
+        public int compare(Meeting s1, Meeting s2) {
+            StreamDate d1 = new StreamDate();
+            int am_pm1 = s1.getAmPm().equalsIgnoreCase("AM") ? 0 : 1;
+            d1.date = getMeetingDateArray(s1.getYear(), s1.getNumberMonth(), s1.getDay(), am_pm1, s1.getHour(), s1.getMinute());
+            int am_pm2 = s2.getAmPm().equalsIgnoreCase("AM") ? 0 : 1;
+            StreamDate d2 = new StreamDate();
+            d2.date = getMeetingDateArray(s2.getYear(), s2.getNumberMonth(), s2.getDay(), am_pm2, s2.getHour(), s2.getMinute());
+
+            if (meetingDateIsLater(d1.date, d2.date)) {
+                return -1;
+            } else {
+                return 1;
             }
         }
     }
