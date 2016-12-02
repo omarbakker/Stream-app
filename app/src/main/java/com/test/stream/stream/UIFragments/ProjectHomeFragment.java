@@ -94,28 +94,6 @@ public class ProjectHomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-//        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swiperefresh);
-//
-//        /*
-//        * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
-//        * performs a swipe-to-refresh gesture.
-//        */
-//        swipeRefreshLayout.setOnRefreshListener(
-//                new SwipeRefreshLayout.OnRefreshListener() {
-//                    @Override
-//                    public void onRefresh() {
-//                        //Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
-//
-//                        Log.d(TAG, "REFRESHING MOFOS");
-//                        // This method performs the actual data-refresh operation.
-//                        // The method calls setRefreshing(false) when it's finished.
-//                        updateUI();
-//                    }
-//                }
-//        );
-
         return inflater.inflate(R.layout.fragment_project_home, container, false);
     }
 
@@ -139,9 +117,10 @@ public class ProjectHomeFragment extends Fragment
         });
 
         // initialize both progresses to 0
-        int blueColor = Color.argb(255, 225, 237, 255);
+        int blueColor = Color.parseColor("#aaede8");
+        int greenColor = Color.parseColor("#ff99cc00");
         userProgress.setFinishedStrokeColor(blueColor);
-        teamProgress.setFinishedStrokeColor(blueColor);
+        teamProgress.setFinishedStrokeColor(greenColor);
         userProgress.setProgress(0);
         teamProgress.setProgress(0);
     }
@@ -359,8 +338,16 @@ public class ProjectHomeFragment extends Fragment
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if ((s.length() == 2 || s.length() == 5) && count > 0) {
-            newtaskDateField.append("/");
+        if ((s.length() == 2 || s.length() == 5)) {
+            if(count > 0){
+                newtaskDateField.append("/");
+            }
+            else
+            {
+                newtaskDateField.setText(newtaskDateField.getText().toString().substring(0, s.length()-1));
+                newtaskDateField.setSelection(s.length()-1);
+            }
+
         }
     }
 

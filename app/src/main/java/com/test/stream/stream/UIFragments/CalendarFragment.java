@@ -150,8 +150,9 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
             mCalendarListView.setAdapter(mAdapter);
         }
         else {
-            mAdapter.clear();
-            mAdapter.addAll(allMeetingSorted);
+            //mAdapter.clear();
+            //mAdapter.addAll(allMeetingSorted);
+            mAdapter.updateData(allMeetingSorted);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -166,14 +167,11 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         for(Meeting meeting: meetingsToSort) {
             int[] meetingDate = {meeting.getYear(), meeting.getNumberMonth(), meeting.getDay()};
             boolean isPast = DateUtility.isPastDue(meetingDate);
-            boolean isCurrent = !isPast;
 
             if (isPast) {
-                System.out.println("THIS MEETING ALREADY PASSED" + meeting.getName());
                 passedMeetings.add(meeting);
             }
             else {
-                System.out.println("THIS MEETING IS CURRENT" + meeting.getName());
                 currentMeetings.add(meeting);
             }
         }

@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="normal"
+        android:layout_marginBottom="@dimen/big_padding"
         app:srcCompat="@android:drawable/ic_input_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -40,6 +41,6 @@
         app:backgroundTint="@android:color/holo_blue_dark"
         app:rippleColor="?attr/colorBackgroundFloating"
         android:tint="@android:color/background_light"
-        app:elevation="2dp" />
+        app:elevation="@dimen/small_padding" />
 
 </RelativeLayout>

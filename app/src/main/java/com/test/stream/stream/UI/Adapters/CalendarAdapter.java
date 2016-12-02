@@ -22,9 +22,9 @@ import java.util.List;
 
 public class CalendarAdapter extends ArrayAdapter<Meeting> {
 
-    private final Context context;
-    private final List<Meeting> data;
-    private final int layoutResourceId;
+    private  Context context;
+    private  List<Meeting> data;
+    private  int layoutResourceId;
 
     public CalendarAdapter(Context context, int layoutResourceId, List<Meeting> data) {
         super(context, layoutResourceId, data);
@@ -91,5 +91,9 @@ public class CalendarAdapter extends ArrayAdapter<Meeting> {
             data.add(datas.get(i));
         }
 
+    }
+    public void updateData(List<Meeting> updatedList){
+        data = updatedList;
+        this.notifyDataSetChanged();
     }
 }

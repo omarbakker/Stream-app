@@ -6,30 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.test.stream.stream.UI.newProjectActivity"
     tools:showIn="@layout/activity_new_project">
 
     <TextView
         android:text="@string/new_project_activity_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/newProjectPageTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="28sp"
+        android:background="@android:color/holo_blue_dark"
+        android:paddingTop="@dimen/small_padding"
+        android:paddingBottom="@dimen/small_padding"
+        android:textAlignment="center"
+        android:elevation="@dimen/small_padding"
         android:textStyle="normal|bold" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/projectNameWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/big_padding"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/big_padding"
         android:layout_below="@+id/newProjectPageTitle"
         android:layout_centerHorizontal="true">
 
@@ -41,7 +47,7 @@
             android:maxLength="15"
             android:id="@+id/Project_name_Field"
             android:hint="@string/new_project_name_hint"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -49,6 +55,10 @@
         android:id="@+id/projectDueDateWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/big_padding"
         android:layout_below="@+id/projectNameWrapper"
         android:layout_centerHorizontal="true">
 
@@ -57,9 +67,10 @@
             android:layout_height="wrap_content"
             android:inputType="datetime"
             android:ems="10"
+            android:maxLength="10"
             android:hint="@string/new_project_due_date_hint"
             android:id="@+id/newProjectDueDateField"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -71,6 +82,10 @@
         android:id="@+id/Add_collaborator_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="18sp"
+        android:layout_marginLeft="@dimen/small_padding"
+        android:layout_marginStart="@dimen/small_padding"
+        android:layout_marginRight="@dimen/small_padding"
+        android:layout_marginEnd="@dimen/small_padding"
         android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/projectDueDateWrapper"
@@ -83,7 +98,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/big_padding"
         android:layout_below="@+id/Add_collaborator_description"
+        android:layout_above="@+id/doneAddingProject"
         android:layout_centerHorizontal="true"
         android:id="@+id/addProjectAddNewUserslinearLayout">
 
@@ -103,7 +123,7 @@
                     android:inputType="textEmailAddress"
                     android:ems="10"
                     android:id="@+id/newUserField"
-                    android:hint="@string/new_project_add_user_hint" />
+                    android:hint="@string/new_project_add_user_hint"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -130,6 +150,10 @@
 
     <Button
         android:text="@string/new_project_create_project_button_title"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/big_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/doneAddingProject"

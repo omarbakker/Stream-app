@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,8 @@ import com.test.stream.stream.R;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 import com.test.stream.stream.UI.Adapters.TeamAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +77,14 @@ public class TeamFragment extends Fragment {
         for (User currentUser : allUsers) {
             users.add(currentUser);
         }
+
+        //sets add user input at set height if listview goes scrollable
+        if(users.size() > 4){
+            TextInputLayout addUser = new TextInputLayout(getActivity());
+            addUser = (TextInputLayout) getView().findViewById(R.id.NewTeamMemberWrapper);
+            addUser.setMinimumHeight(250);
+        }
+
         // Reverse User order to show newly created on top
         Collections.reverse(users);
         if (teamAdapter == null) {

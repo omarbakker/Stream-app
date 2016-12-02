@@ -41,8 +41,10 @@ import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.test.stream.stream.Utilities.Listeners.DataEventListener;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.test.stream.stream.Controllers.UserManager.createUserIfNotExist;
 
@@ -145,24 +147,38 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
      * Creates a new user using the information that the user has inputted
-     * @param email email that the user has entered for creating their new account
+     *
+     * @param email    email that the user has entered for creating their new account
      * @param password password that the user has entered for creating their new account
-     * @param name the name of the user
+     * @param name     the name of the user
      * @param username username that the user has entered for creating their new account
      * @return flag that the user was successfully created
      */
-    private boolean createAccount(final String email, String password, final String name, final String username) {
-        boolean valid = false;
+    private void createAccount(final String email, final String password, final String name, final String username) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return valid;
-        }
+        final AtomicBoolean valid = new AtomicBoolean(false);
+        validateForm(valid, new DataEventListener() {
+            @Override
+            public void onDataChanged() {
+                if(!valid.get())
+                {
+                    return;
+                }
+                else
+                {
+                    createUser(email, password, username, name);
+                }
+            }
+        });
+    }
 
+    private void createUser(final String email, final String password, final String username, final String name)
+    {
         //Disable the button if we are creating a user.
         continueSignUp.setEnabled(false);
 
@@ -206,33 +222,22 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-        
-
-
-        // [START_EXCLUDE]
-        //hideProgressDialog();
-        // [END_EXCLUDE]
-        //     }
-        //});
-
-        valid = true;
-        //TODO: in the future a callback function from writeObject must be used to check validity of write
-
-        return valid;
 
     }
 
     /**
      * Checks to see that all of the sign-up fields are valid and not empty
+     *
      * @return flag indicated that all of the information is valid
      */
-    private boolean validateForm() {
-        boolean valid = true;
+    private void validateForm(final AtomicBoolean valid, final DataEventListener listener) {
+        valid.set(true);
 
         String email = enterNewEmail.getText().toString();
         if (TextUtils.isEmpty(email)) {
             enterNewEmail.setError("Required.");
-            valid = false;
+            valid.set(false);
+            listener.onDataChanged();
         } else {
             enterNewEmail.setError(null);
         }
@@ -240,7 +245,8 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         String password = enterNewPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
             enterNewPassword.setError("Required.");
-            valid = false;
+            valid.set(false);
+            listener.onDataChanged();
         } else {
             enterNewPassword.setError(null);
         }
@@ -248,22 +254,37 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
         String name = enterNewName.getText().toString();
         if (TextUtils.isEmpty(name)) {
             enterNewName.setError("Required.");
-            valid = false;
+            valid.set(false);
+            listener.onDataChanged();
         } else {
             enterNewName.setError(null);
         }
 
         String username = enterNewUsername.getText().toString();
+
         //TODO: Enforce username duplicate error
         if (TextUtils.isEmpty(username)) {
             enterNewUsername.setError("Required.");
-            valid = false;
+            valid.set(false);
+            listener.onDataChanged();
         } else {
-            enterNewUsername.setError(null);
-        }
+            UserManager.sharedInstance().fetchUserByUserName(username, new ReadDataCallback() {
+                @Override
+                public void onDataRetrieved(DataSnapshot result) {
+                    if (result.exists()) {
+                        enterNewUsername.setError("Username already exists.");
+                        valid.set(false);
+                    } else {
+                        enterNewUsername.setError(null);
+                    }
 
-        return valid;
+                    listener.onDataChanged();
+                }
+            });
+        }
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -307,6 +328,7 @@ public class SignUpScreen extends AppCompatActivity implements View.OnClickListe
                                     System.out.println("CHANGE SCREEN TO PROJECTS PAGE");
                                     Intent intent = new Intent(SignUpScreen.this, ProjectsActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }});
 
                         }

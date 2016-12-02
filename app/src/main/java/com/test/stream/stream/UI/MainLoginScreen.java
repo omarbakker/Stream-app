@@ -283,10 +283,6 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                             } catch(Exception e) {
                                 Log.e(TAG, e.getMessage());
                             }
-                        } else if (task.isSuccessful()) {
-                            Log.d("login","successfully logged in with email");
-                            Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                            startActivity(intent);
                         }
                     }
                 });
@@ -325,8 +321,7 @@ public class MainLoginScreen extends AppCompatActivity implements View.OnClickLi
                             UserManager.createUserIfNotExist(new FetchUserCallback() {
                                 @Override
                                 public void onDataRetrieved(User result) {
-                                    Intent intent = new Intent(MainLoginScreen.this, ProjectsActivity.class);
-                                    startActivity(intent);
+                               //No need to change intent here since a change in authentication will log the user in.
                                 }
                             });
 
