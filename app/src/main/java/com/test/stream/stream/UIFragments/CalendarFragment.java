@@ -142,7 +142,7 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         }
 
         List<Meeting> meetings = CalendarManager.sharedInstance().GetMeetingsInProject();
-        List<Meeting> allMeetingSorted = sortMeetings(meetings);
+        List<Object> allMeetingSorted = sortMeetings(meetings);
 
 
         if (mAdapter == null) {
@@ -158,10 +158,10 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
 
     }
 
-    List<Meeting> sortMeetings(List<Meeting> meetingsToSort) {
-        List<Meeting> sortedMeetings = new ArrayList<Meeting>();
-        List<Meeting> currentMeetings = new ArrayList<Meeting>();
-        List<Meeting> passedMeetings = new ArrayList<Meeting>();
+    List<Object> sortMeetings(List<Meeting> meetingsToSort) {
+        List<Object> sortedMeetings = new ArrayList<Object>();
+        List<Object> currentMeetings = new ArrayList<Object>();
+        List<Object> passedMeetings = new ArrayList<Object>();
 
         //add meetings to the appropriate list
         for(Meeting meeting: meetingsToSort) {
@@ -177,13 +177,13 @@ public class CalendarFragment extends Fragment implements ListView.OnItemClickLi
         }
 
         if (currentMeetings.size() != 0) {
-            //sortedMeetings.add("Future Meetings");
+            sortedMeetings.add("Future Meetings");
             DateUtility.sortMeetingsByDueDate(currentMeetings);
             for(int i = 0; i < currentMeetings.size(); i++)
                 sortedMeetings.add(currentMeetings.get(i));
         }
         if (passedMeetings.size() != 0) {
-            //sortedMeetings.add("Past Meetings");
+            sortedMeetings.add("Past Meetings");
             DateUtility.sortMeetingsByDueDateReverse(passedMeetings);
             for(int i = 0; i < passedMeetings.size(); i++)
                 sortedMeetings.add(passedMeetings.get(i));

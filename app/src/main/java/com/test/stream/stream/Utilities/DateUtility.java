@@ -50,7 +50,7 @@ public class DateUtility {
      *
      * @param array
      */
-    public static void sortMeetingsByDueDate(List<Meeting> array) {
+    public static void sortMeetingsByDueDate(List<Object> array) {
         Collections.sort(array, new meetingDateSort());
     }
 
@@ -60,7 +60,7 @@ public class DateUtility {
      *
      * @param array
      */
-    public static void sortMeetingsByDueDateReverse(List<Meeting> array) {
+    public static void sortMeetingsByDueDateReverse(List<Object> array) {
         Collections.sort(array, new meetingDateSortReverse());
     }
 
@@ -254,8 +254,10 @@ public class DateUtility {
     /**
      * Pass a new meetingDateSort() as a comparator to the collections.sort to sort by duedate for meetings
      */
-    private static class meetingDateSort implements Comparator<Meeting> {
-        public int compare(Meeting s1, Meeting s2) {
+    private static class meetingDateSort implements Comparator<Object> {
+        public int compare(Object m1, Object m2) {
+            Meeting s1 = (Meeting) m1;
+            Meeting s2 = (Meeting) m2;
             StreamDate d1 = new StreamDate();
             int am_pm1 = s1.getAmPm().equalsIgnoreCase("AM") ? 0 : 1;
             d1.date = getMeetingDateArray(s1.getYear(), s1.getNumberMonth(), s1.getDay(), am_pm1, s1.getHour(), s1.getMinute());
@@ -275,8 +277,11 @@ public class DateUtility {
     /**
      * Pass a new meetingDateSort() as a comparator to the collections.sort to sort in reverse chronological order by duedate for meetings
      */
-    private static class meetingDateSortReverse implements Comparator<Meeting> {
-        public int compare(Meeting s1, Meeting s2) {
+    private static class meetingDateSortReverse implements Comparator<Object> {
+        public int compare(Object m1, Object m2) {
+            Meeting s1 = (Meeting) m1;
+            Meeting s2 = (Meeting) m2;
+
             StreamDate d1 = new StreamDate();
             int am_pm1 = s1.getAmPm().equalsIgnoreCase("AM") ? 0 : 1;
             d1.date = getMeetingDateArray(s1.getYear(), s1.getNumberMonth(), s1.getDay(), am_pm1, s1.getHour(), s1.getMinute());
