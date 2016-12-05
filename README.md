@@ -26,11 +26,11 @@ We are an Android application aimed to help students work efficiently and effect
 - All source code is located in the directory app/src/main: https://github.com/omarbakker/Stream-app/tree/master/app/src/main/
 
 # How to check out source code and run project
-1. Install Android Studio on computer
+1. Install Android Studio on the computer
 2. Set up Emulator or have an Android Device
 3. Clone the repository from GitHub by: git clone https://github.com/omarbakker/Stream-app on Terminal/ Git Bash
 4. Open the project on Android Studio and wait for Gradle to sync
-5. Run the Android app on emulator or plug in Android Device and run app on device
+5. Run the Android app on emulator or plug in Android Device and run app on device by clicking the Run button (green play button). All dependencies are handled by Gradle and the application can be run straight from cloning this repository
 
 # How to run tests
 1. Clone the repo from GitHub by: git clone https://github.com/omarbakker/Stream-app on Terminal/ Git Bash
