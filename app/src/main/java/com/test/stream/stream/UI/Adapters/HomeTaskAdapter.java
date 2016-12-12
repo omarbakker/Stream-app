@@ -52,7 +52,7 @@ public class HomeTaskAdapter extends ArrayAdapter<Task> {
 
         textTitle.setText(task.getName());
         textDescription.setText(task.getDescription());
-        String dueTime = new String(task.getDueMonth() + "/" + task.getDueDay() + "/" + task.getDueYear());
+        String dueTime = new String(task.getDueDay() + "/" + task.getDueMonth() + "/" + task.getDueYear());
         textDueDate.setText(dueTime);
 
         return convertView;
