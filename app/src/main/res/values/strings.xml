@@ -82,6 +82,8 @@
     <string name="title_activity_new_project">newProjectActivity</string>
     <string name="task_markAsComplete">Done?</string>
     <string name='task_unmark'>Press to mark as incomplete</string>
+    <string name='dismiss'>Dismiss</string>
+    <string name='go'>Go To</string>
 
     <!-- Pin String -->
     <!-- TODO: Remove or change this placeholder text -->

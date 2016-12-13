@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.R.drawable;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.test.stream.stream.R;
@@ -68,7 +69,12 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .setSmallIcon(R.mipmap.stream_logo)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(new long[] { 1000, 1000 })
-                .setLights(Color.RED, 3000, 3000);
+                .setLights(Color.RED, 3000, 3000)
+                /*sets the big view style*/
+                .setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(message));
+//                .addAction(drawable.ic_delete,
+//                        getString(R.string.dismiss), piDismiss);
 
 //        notificationBuilder;
 //        if (Build.VERSION.SDK_INT >= 21) notificationBuilder.setVibrate(new long[0]);
