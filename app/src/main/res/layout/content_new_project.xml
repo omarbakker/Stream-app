@@ -67,7 +67,6 @@
             android:layout_height="wrap_content"
             android:inputType="datetime"
             android:ems="10"
-            android:maxLength="10"
             android:hint="@string/new_project_due_date_hint"
             android:id="@+id/newProjectDueDateField"
             android:textSize="24sp"/>

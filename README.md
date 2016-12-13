@@ -39,6 +39,7 @@ We are an Android application aimed to help students work efficiently and effect
 4. Go to directory app/src/androidTest/java/com/test/stream/stream to see all Unit Tests
 5. Open the Unit Test file e.g. ProjectsTest.java
 6. Right click on the class name and click Run. For instance if you are trying to run ProjectsTest.java right click ProjectsTest and click "Run ProjectsTest"
+7. Note that UserTests must be run separately from other tests to pass.
 
 # Structure of source code directory
 - app/src/main/assets folder includes all fonts used for the project

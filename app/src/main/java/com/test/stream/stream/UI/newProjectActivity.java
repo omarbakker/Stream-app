@@ -26,6 +26,7 @@ import com.test.stream.stream.UI.Adapters.newProjectUsersAdapter;
 import com.test.stream.stream.Utilities.Callbacks.ReadDataCallback;
 import com.test.stream.stream.Utilities.DatabaseFolders;
 import com.test.stream.stream.Utilities.DatabaseManager;
+import com.test.stream.stream.Utilities.DateUtility;
 
 import java.util.Map;
 
@@ -100,7 +101,7 @@ public class newProjectActivity extends AppCompatActivity
                 if (projectNameField.getText().toString().isEmpty()){
                     handleInvalidName();
                     projectNameField.requestFocus();
-                }else if (newProject.getDueYear() == 0 && !getValidDate(projectDateField.getText().toString())){
+                }else if (newProject.getDueYear() == 0 && (!getValidDate(projectDateField.getText().toString()) || DateUtility.isPastDue(newProject))){
                     handleInvalidDate();
                     projectDateField.requestFocus();
                 }else{
@@ -169,7 +170,8 @@ public class newProjectActivity extends AppCompatActivity
                 break;
 
             case R.id.newProjectDueDateField:
-                if (!getValidDate(projectDateField.getText().toString())){
+
+                if (!getValidDate(projectDateField.getText().toString()) || DateUtility.isPastDue(newProject)){
                     handleInvalidDate();
                     break;
                 }

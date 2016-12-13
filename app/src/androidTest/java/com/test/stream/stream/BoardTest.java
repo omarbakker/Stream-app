@@ -91,8 +91,11 @@ public class BoardTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setId("-KWajQa24etXw8G_OkpN");
-        project.setBoardId("-KWajQa6MtgOdRK2GLdK");
+        project.setName("test");
+        project.setId("-KYpp1pjb3fIHtp3MhdP");
+        project.setTaskGroupId("-KYpp1q-omA_l9JPxYtU");
+        project.setCalendarId("-KYpp1q47YMWqm5OAOkL");
+        project.setBoardId("-KYpp1proK9j4ciRBQB_");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
