@@ -62,22 +62,29 @@ public class NotificationService {
                 while(thread_running){
                     String deviceToken = FirebaseInstanceId.getInstance().getToken();
                     String username = UserManager.sharedInstance().getCurrentUser().getUsername();
+                    String uid = UserManager.sharedInstance().getCurrentUser().getUid();
                     Log.d(TAG, "device: " + deviceToken + " " + "username: " + username + "...");
                     if(deviceToken != null){
                         OkHttpClient client = new OkHttpClient();
                         RequestBody body = new FormBody.Builder()
-                                .add("Token",  deviceToken)
+                                .add("DeviceToken",  deviceToken)
                                 .add("Username", username)
+                                .add("Uid", uid)
                                 .build();
                         Request request = new Request.Builder()
-                                //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://stream.heliohost.org/fcm/register.php")
+                                .url("http://stream.xsquaredcoding.com/register.php")
                                 .post(body)
                                 .build();
-                        Response response = null;
+                        Response response;
                         try {
+
                             response = client.newCall(request).execute();
-                            Log.d(TAG, response.body().string());
+                            if(response != null) {
+                                Log.d(TAG, response.body().string());
+                            }
+                            else{
+                                Log.d(TAG,"Something Wrong! http response sent, but did not reach host");
+                            }
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -112,26 +119,29 @@ public class NotificationService {
                     Log.d(TAG, "device: " + deviceToken);
                     if(deviceToken != null){
                         OkHttpClient client = new OkHttpClient();
-                        //Code for if more than one user -- don't delete yet
-//                        JSONArray username_json = new JSONArray();
-//                        for(String uid : notification.getUsers()){
-//                            username_json.put(uid);
-//                            Log.d(TAG,"username: " + uid);
-//                        }
+                        JSONArray usernmaes = new JSONArray();
+                        for(String user : notification.getUsers()){
+                            usernmaes.put(user);
+                        }
                         RequestBody body = new FormBody.Builder()
-                                .add("Usernames", notification.getUsers()[0])
+                                .add("Usernames", usernmaes.toString())
                                 .add("Title", notification.getTitle())
                                 .add("Message", notification.getMessage())
                                 .build();
                         Request request = new Request.Builder()
                                 //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://stream.heliohost.org/fcm/send_notification.php")
+                                .url("http://stream.xsquaredcoding.com/push_notification.php")
                                 .post(body)
                                 .build();
-                        Response response = null;
+                        Response response;
                         try {
                             response = client.newCall(request).execute();
-                            Log.d(TAG, response.body().string());
+                            if(response != null) {
+                                Log.d(TAG, response.body().string());
+                            }
+                            else{
+                                Log.d(TAG,"Something Wrong! http response sent, but did not reach host");
+                            }
 
                         } catch (IOException e) {
                             e.printStackTrace();
