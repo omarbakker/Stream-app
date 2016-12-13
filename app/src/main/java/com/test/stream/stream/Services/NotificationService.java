@@ -100,54 +100,46 @@ public class NotificationService {
      * @param notification
      * @throws IOException
      */
-    public void sendNotificationTo(final NotificationObject notification){
-        Log.d(TAG,"sending notification: " + notification.getTitle());
+    public void sendNotificationTo(final NotificationObject notification) throws IOException{
+        Log.d(TAG, "sending notification: " + notification.getTitle());
 
-        Thread t = new Thread(new Runnable(){
-            boolean thread_running = true;
-            @Override
-            public void run(){
-                while(thread_running){
-                    String deviceToken = FirebaseInstanceId.getInstance().getToken();
-                    Log.d(TAG, "device: " + deviceToken);
-                    if(deviceToken != null){
-                        OkHttpClient client = new OkHttpClient();
-                        //Code for if more than one user -- don't delete yet
-//                        JSONArray username_json = new JSONArray();
-//                        for(String uid : notification.getUsers()){
-//                            username_json.put(uid);
-//                            Log.d(TAG,"username: " + uid);
+        String deviceToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "device: " + deviceToken);
+        if (deviceToken != null) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("Usernames",getToString(notification.getUsers()))
+                    .add("Title", notification.getTitle())
+                    .add("Message", notification.getMessage())
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://stream.heliohost.org/fcm/send_notification.php")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(final Call call, IOException e) {
+                    e.printStackTrace();
+
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //do some toast shit
 //                        }
-                        RequestBody body = new FormBody.Builder()
-                                .add("Usernames", notification.getUsers()[0])
-                                .add("Title", notification.getTitle())
-                                .add("Message", notification.getMessage())
-                                .build();
-                        Request request = new Request.Builder()
-                                //.url("http://128.189.196.101/fcm/register.php")
-                                .url("http://stream.heliohost.org/fcm/send_notification.php")
-                                .post(body)
-                                .build();
-                        Response response = null;
-                        try {
-                            response = client.newCall(request).execute();
-                            Log.d(TAG, response.body().string());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        thread_running = false;
-                    }
-                    try{
-                        Thread.sleep(1000);
-                    } catch(InterruptedException e){
-                        e.printStackTrace();
-                    }
+//                    });
                 }
-            }
-        });t.start();
-    }
 
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException{
+                    String res = response.body().string();
+                    Log.d(TAG,res);
+                }
+            });
+        }
+    }
+    
     /**
      * drops row with device token
      */
