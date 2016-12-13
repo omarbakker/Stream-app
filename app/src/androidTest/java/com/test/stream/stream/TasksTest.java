@@ -102,11 +102,11 @@ public class TasksTest {
     public void setProject()
     {
         Project project = new Project();
-        project.setName("tasktest");
-        project.setId("-KWfxqsLbZW-0ROkhVMR");
-        project.setTaskGroupId("-KWfxqsShX1zpFghWY8U");
-        project.setCalendarId("-KWfxqsWkNIaUGRj24B6");
-        project.setBoardId("-KWfxqsQwa84ZR1eVQsa");
+        project.setName("test");
+        project.setId("-KYpp1pjb3fIHtp3MhdP");
+        project.setTaskGroupId("-KYpp1q-omA_l9JPxYtU");
+        project.setCalendarId("-KYpp1q47YMWqm5OAOkL");
+        project.setBoardId("-KYpp1proK9j4ciRBQB_");
         ProjectManager.sharedInstance().setCurrentProject(project);
     }
 
@@ -132,7 +132,7 @@ public class TasksTest {
         user.setName("unit");
         user.setEmail("unit@test.com");
         user.setUsername("unit");
-        user.setUid("g1tnS1lCYtcBvCHjnzgSBApLG082");
+        user.setUid("S6Lu1lHCl5Zhtj5hTjfDx4h8aDO2");
 
         return user;
     }
