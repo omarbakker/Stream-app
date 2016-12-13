@@ -117,6 +117,36 @@ public class DateUtility {
     }
 
     /**
+     * @param project
+     * @return True if date is later than now, depends on dateIsLater(...) and uses the same date format
+     */
+    public static boolean isPastDue(Project project) {
+
+        int date[] = {project.getDueYear(),project.getDueMonth(),project.getDueDay()};
+        return isPastDue(date);
+    }
+
+    /**
+     * @param task
+     * @return True if date is later than now, depends on dateIsLater(...) and uses the same date format
+     */
+    public static boolean isPastDue(Task task) {
+
+        int date[] = {task.getDueYear(),task.getDueMonth(),task.getDueDay()};
+        return isPastDue(date);
+    }
+
+    /**
+     * @param meeting
+     * @return True if date is later than now, depends on dateIsLater(...) and uses the same date format
+     */
+    public static boolean isPastDue(Meeting meeting) {
+
+        int date[] = {meeting.getYear(),meeting.getNumberMonth(),meeting.getDay()};
+        return isPastDue(date);
+    }
+
+    /**
      * Returns the amount of days from today to the dueDate
      *
      * @param dueDate size must equal 3, index 0 is year, 1 is month, 2 is day.
